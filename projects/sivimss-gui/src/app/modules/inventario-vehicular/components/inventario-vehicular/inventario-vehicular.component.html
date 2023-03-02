@@ -1,0 +1,38 @@
+<app-titulo-principal titulo="Administrar inventario vehicular"></app-titulo-principal>
+<div class="border-panel">
+    <form [formGroup]="filtroForm">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="nivel">Nivel:</label>
+                <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="niveles"
+                    placeholder="Selecciona nivel">
+                </p-dropdown>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="delegacion">Delegación:</label>
+                <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="delegaciones"
+                    placeholder="Selecciona delegación">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="velatorio">Velatorio:</label>
+                <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorios"
+                    placeholder="Selecciona velatorio">
+                </p-dropdown>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="vehiculo">Vehiculo:</label>
+                <input id="vehiculo" class="form-control" formControlName="vehiculo"
+                       placeholder="Ingresa nombre del vehiculo">
+            </div>
+        </div>
+        <div class="row mt-6">
+            <div class="col-md-12 flex justify-content-end">
+                <button type="button" class="btn btn-default btn-md" (click)="limpiarFiltros()">Limpiar</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+            </div>
+        </div>
+    </form>
+</div>
