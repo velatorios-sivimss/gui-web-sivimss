@@ -13,7 +13,8 @@ import { Vehiculo } from '../../models/vehiculo.interface';
 @Component({
   selector: 'app-inventario-vehicular',
   templateUrl: './inventario-vehicular.component.html',
-  styleUrls: ['./inventario-vehicular.component.scss']
+  styleUrls: ['./inventario-vehicular.component.scss'],
+  providers: []
 })
 export class InventarioVehicularComponent implements OnInit {
 
@@ -59,7 +60,37 @@ export class InventarioVehicularComponent implements OnInit {
 
   buscar(): void { }
 
-  paginar(event: LazyLoadEvent): void { }
+  paginar(event: LazyLoadEvent): void {
+    setTimeout(() => {
+      this.vehiculos = [
+        {
+          id: 1,
+          velatorio: "No. 14 San Luis Potosí y CD Valles",
+          uso: "Utilitario administrativo",
+          responsable: "Alberto Lima Dorantes",
+          tipoVehiculo: "Carrosa con detalles religiosos",
+          estatus: true
+        },
+        {
+          id: 2,
+          velatorio: "No. 14 San Luis Potosí y CD Valles",
+          uso: "Utilitario administrativo",
+          responsable: "Alberto Lima Dorantes",
+          tipoVehiculo: "Carrosa con detalles religiosos",
+          estatus: false
+        },
+        {
+          id: 3,
+          velatorio: "No. 14 San Luis Potosí y CD Valles",
+          uso: "Utilitario administrativo",
+          responsable: "Alberto Lima Dorantes",
+          tipoVehiculo: "Carrosa con detalles religiosos",
+          estatus: true
+        }
+      ];
+      this.totalElementos = this.vehiculos.length;
+    }, 0);
+  }
 
   abrirPanel(event: MouseEvent, vehiculoSeleccionado: Vehiculo): void {
     // this.capillaSeleccionada = capillaSeleccionada;

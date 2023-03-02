@@ -60,7 +60,7 @@
                 <td>{{vehiculo.id}}</td>
                 <td>{{vehiculo.velatorio}}</td>
                 <td>{{vehiculo.uso}}</td>
-                <td>{{vehiculo.responable}}</td>
+                <td>{{vehiculo.responsable}}</td>
                 <td>{{vehiculo.tipoVehiculo}}</td>
                 <td>
                     <div class="contenedor-inputswitch">
@@ -87,7 +87,7 @@
                 <th colspan="7" class="p-2 text-center font-bold text-xl">
                     No hay elementos que coincidan con los parámetros seleccionados
                 </th>
-            </tr> 
+            </tr>
         </ng-template>
         <ng-template pTemplate="paginatorleft">
             <div class="paginator-template">
@@ -107,3 +107,11 @@
         </ng-template>
     </p-table>
 </section>
+
+<p-overlayPanel #overlayPanel>
+    <ng-template pTemplate="content">
+        <app-overlay-panel-opciones>
+            <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
+        </app-overlay-panel-opciones>
+    </ng-template>
+</p-overlayPanel>
