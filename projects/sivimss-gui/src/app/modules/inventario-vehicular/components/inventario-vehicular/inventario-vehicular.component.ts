@@ -1,8 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+
+import { LazyLoadEvent } from 'primeng-lts/api';
 import { DropdownItem } from 'primeng-lts/dropdown';
+import { OverlayPanel } from 'primeng-lts/overlaypanel';
+
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
+import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { INVENTARIO_VEHICULAR_BREADCRUMB } from '../../constants/breadcrumb';
+import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
   selector: 'app-inventario-vehicular',
@@ -11,10 +17,19 @@ import { INVENTARIO_VEHICULAR_BREADCRUMB } from '../../constants/breadcrumb';
 })
 export class InventarioVehicularComponent implements OnInit {
 
+  @ViewChild(OverlayPanel)
+  overlayPanel: OverlayPanel;
+
   filtroForm: FormGroup;
   velatorios: DropdownItem[] = [];
   niveles: DropdownItem[] = [];
   delegaciones: DropdownItem[] = [];
+
+  numPaginaActual: number = 0;
+  cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
+  totalElementos: number = 0;
+
+  vehiculos: Vehiculo[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -43,5 +58,14 @@ export class InventarioVehicularComponent implements OnInit {
   }
 
   buscar(): void { }
+
+  paginar(event: LazyLoadEvent): void { }
+
+  abrirPanel(event: MouseEvent, vehiculoSeleccionado: Vehiculo): void {
+    // this.capillaSeleccionada = capillaSeleccionada;
+    this.overlayPanel.toggle(event);
+  }
+
+  abrirModalDetalleVehiculo(vehiculoSeleccionado: Vehiculo): void { }
 
 }

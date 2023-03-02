@@ -6,6 +6,7 @@ import { InventarioVehicularComponent } from './components/inventario-vehicular/
 import { TituloPrincipalModule } from '../../shared/titulo-principal/titulo-principal.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng-lts/dropdown';
+import { TableModule } from 'primeng-lts/table';
 
 @NgModule({
   declarations: [
@@ -13,11 +14,12 @@ import { DropdownModule } from 'primeng-lts/dropdown';
   ],
   imports: [
     CommonModule,
+    DropdownModule,
     FormsModule,
     InventarioVehicularRoutingModule,
     ReactiveFormsModule,
     TituloPrincipalModule,
-    DropdownModule
+    TableModule
   ],
   providers: [InventarioVehicularService]
 })
