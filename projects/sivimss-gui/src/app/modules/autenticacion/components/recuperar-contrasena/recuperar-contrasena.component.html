@@ -1,0 +1,22 @@
+<div class="recuperar-contrasena">
+    <form [formGroup]="form" (ngSubmit)="recuperarContrasena()">
+        <p-card>
+            <a class="recuperar-contrasena-header" routerLink="../">
+                <!-- <app-btn-regresar></app-btn-regresar> <a>Regresar</a> -->
+            </a>
+            <h1>Recuperar contraseña</h1>
+            <!-- <p>Se enviará un enlace para cambio de contraseña al correo
+                asociado a la matrícula</p> -->
+            <div class="form-group">
+                <label class="control-label" for="matricula">Matrícula<span class="req">*</span>:</label>
+                <input class="form-control" id="matricula" formControlName="matricula" placeholder="Ingresar matrícula" type="text" numbersOnly>
+            </div>
+            <div class="mt-2">
+                <span class="req">* Campos obligatorios:</span>
+            </div>
+            <div class="flex justify-content-end align-items-center mt-8">
+                <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Enviar</button>
+            </div>
+        </p-card>
+    </form>
+</div>

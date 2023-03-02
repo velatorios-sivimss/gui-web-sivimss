@@ -1,0 +1,17 @@
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+
+
+  &.sidebar-activo {
+    grid-template-columns: 320px 1fr;
+  }
+
+  main {
+    padding: 0 3rem;
+  }
+
+
+}
+
+
