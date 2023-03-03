@@ -1,13 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { LazyLoadEvent } from 'primeng-lts/api';
+import { LazyLoadEvent, MenuItem } from 'primeng-lts/api';
 import { DropdownItem } from 'primeng-lts/dropdown';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
 
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { INVENTARIO_VEHICULAR_BREADCRUMB } from '../../constants/breadcrumb';
+import { MENU_STEPPER } from '../../constants/menu-stepper';
 import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
@@ -31,6 +32,7 @@ export class InventarioVehicularComponent implements OnInit {
   totalElementos: number = 0;
 
   vehiculos: Vehiculo[] = [];
+  items: MenuItem[] = MENU_STEPPER;
 
   constructor(
     private breadcrumbService: BreadcrumbService,

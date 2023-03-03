@@ -13,6 +13,7 @@ import { InventarioVehicularComponent } from './components/inventario-vehicular/
 import { OverlayPanelOpcionesModule } from '../../shared/overlay-panel-opciones/overlay-panel-opciones.module';
 import { TituloPrincipalModule } from '../../shared/titulo-principal/titulo-principal.module';
 import { TablePanelModule } from '../../shared/table-panel/table-panel.module';
+import { StepperModule } from '../../shared/stepper/stepper.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TablePanelModule } from '../../shared/table-panel/table-panel.module';
     TableModule,
     TablePanelModule,
     TituloPrincipalModule,
+    StepperModule
   ],
   providers: [InventarioVehicularService]
 })
