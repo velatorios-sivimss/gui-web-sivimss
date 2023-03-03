@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MenuItem } from 'primeng-lts/api';
 
 @Component({
@@ -9,15 +9,12 @@ import { MenuItem } from 'primeng-lts/api';
 export class StepperComponent implements OnInit {
 
   @Input() items: MenuItem[] = [];
-  @Input() readonly: boolean = false;
   @Input() checked: boolean = false;
+  @Input() index: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  ngAfterViewInit(): void {
     if (this.checked) {
       this.colocarCheck();
     }
