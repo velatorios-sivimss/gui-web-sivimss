@@ -22,7 +22,7 @@ export class InventarioVehicularComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel: OverlayPanel;
 
-  filtroForm: FormGroup;
+  filtroForm!: FormGroup;
   velatorios: DropdownItem[] = [];
   niveles: DropdownItem[] = [];
   delegaciones: DropdownItem[] = [];
@@ -33,6 +33,9 @@ export class InventarioVehicularComponent implements OnInit {
 
   vehiculos: Vehiculo[] = [];
   items: MenuItem[] = MENU_STEPPER;
+  mostrarModalDetalleVehiculo: boolean = false;
+  vehiculoSeleccionado!: Vehiculo;
+  propiedad = false;
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -71,7 +74,31 @@ export class InventarioVehicularComponent implements OnInit {
           uso: "Utilitario administrativo",
           responsable: "Alberto Lima Dorantes",
           tipoVehiculo: "Carrosa con detalles religiosos",
-          estatus: true
+          estatus: true,
+          usuario: "Araceli Ortega Benancio",
+          tipoContrato: "HEANZ780713HDFCCD00",
+          fechaVigenciaInicio: new Date(),
+          fechaVigenciaFin: new Date(),
+          marca: "Nissan",
+          modelo: "NP300 Chasis TM",
+          placas: "A001AAA",
+          noMotor: "B10S2511Z20KC2",
+          noCilindros: 6,
+          transmision: "Automática",
+          descripcionTransmision: "Vehículo con capacidad de transportar cargas pesadas",
+          combustible: "150 lt.",
+          descripcionCombustible: "Vehículo con capacidad de transportar cargas pesadas",
+          noTarjeta: "201856789012",
+          vigenciaTarjeta: new Date(),
+          noSerie: "Miguel Alemán Barcenas",
+          fechaAdquisicion: new Date(),
+          vigenciaDocumentacion: "3 años",
+          costoTotal: 430000.50,
+          aseguradora: "MAPFRE",
+          riesgosPoliza: "D0000000001726354",
+          vigenciaSeguro: "3 años",
+          importePrima: 430000.50,
+          riesgos: "Riesgos generales de auto nuevo de agencia",
         },
         {
           id: 2,
@@ -99,6 +126,9 @@ export class InventarioVehicularComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  abrirModalDetalleVehiculo(vehiculoSeleccionado: Vehiculo): void { }
+  abrirModalDetalleVehiculo(vehiculoSeleccionado: Vehiculo): void {
+    this.vehiculoSeleccionado = vehiculoSeleccionado;
+    this.mostrarModalDetalleVehiculo = true;
+  }
 
 }

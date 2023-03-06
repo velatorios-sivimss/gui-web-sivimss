@@ -14,13 +14,16 @@ export class StepperComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
+
+  ngAfterViewInit(): void {
     if (this.checked) {
       this.colocarCheck();
     }
   }
 
   colocarCheck(): void {
+    // renderer2 
     const spans = document.querySelectorAll(".p-steps-number");
     spans.forEach((span) => {
       span.classList.add('pi')

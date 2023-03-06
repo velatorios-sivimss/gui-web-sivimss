@@ -14,13 +14,22 @@ import { OverlayPanelOpcionesModule } from '../../shared/overlay-panel-opciones/
 import { TituloPrincipalModule } from '../../shared/titulo-principal/titulo-principal.module';
 import { TablePanelModule } from '../../shared/table-panel/table-panel.module';
 import { StepperModule } from '../../shared/stepper/stepper.module';
+import { DialogModule } from 'primeng-lts/dialog';
+import { StepsModule } from 'primeng-lts/steps';
+import { AgregarVehiculoComponent } from './components/agregar-vehiculo/agregar-vehiculo.component';
+import { ModificarVehiculoComponent } from './components/modificar-vehiculo/modificar-vehiculo.component';
+import { VerDetalleVehiculoComponent } from './components/ver-detalle-vehiculo/ver-detalle-vehiculo.component';
 
 @NgModule({
   declarations: [
-    InventarioVehicularComponent
+    InventarioVehicularComponent,
+    AgregarVehiculoComponent,
+    ModificarVehiculoComponent,
+    VerDetalleVehiculoComponent
   ],
   imports: [
     CommonModule,
+    DialogModule,
     DropdownModule,
     FormsModule,
     InputSwitchModule,
@@ -31,7 +40,8 @@ import { StepperModule } from '../../shared/stepper/stepper.module';
     TableModule,
     TablePanelModule,
     TituloPrincipalModule,
-    StepperModule
+    // StepperModule,
+    StepsModule
   ],
   providers: [InventarioVehicularService]
 })
