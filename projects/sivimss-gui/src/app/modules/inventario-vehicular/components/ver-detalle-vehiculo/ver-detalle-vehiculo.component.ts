@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
   selector: 'app-ver-detalle-vehiculo',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerDetalleVehiculoComponent implements OnInit {
 
-  constructor() { }
+  vehiculoSeleccionado!: Vehiculo;
+
+  constructor(public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig) {
+    console.log(this.config.data)
+    this.vehiculoSeleccionado = this.config.data;
+  }
 
   ngOnInit(): void {
+
+  }
+
+  cerrarDialogo() {
+    this.ref.close( {
+      respuesta: 'Ok'
+    });
   }
 
 }

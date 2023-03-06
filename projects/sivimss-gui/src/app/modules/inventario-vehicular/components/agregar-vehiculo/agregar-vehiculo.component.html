@@ -1,1 +1,41 @@
-<p>agregar-vehiculo works!</p>
+<p-steps [model]="menuStep" [activeIndex]="indice"></p-steps>
+<ng-container *ngIf="indice === 0">
+    <form [formGroup]="datosGeneralesForm" (submit)="paginaSiguiente()">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="id">ID:</label>
+                <input id="id" class="form-control" formControlName="id">
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="velatorio">Velatorio:</label>
+                <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorios"
+                    placeholder="Selecciona velatorio">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="uso">Uso:</label>
+                <p-dropdown id="uso" class="form-control" formControlName="uso" [options]="usos"
+                    placeholder="Selecciona uso">
+                </p-dropdown>            
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="responsable">Responsable:</label>
+                <p-dropdown id="responsable" class="form-control" formControlName="responsable" [options]="responsables"
+                    placeholder="Selecciona responsable">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="tipoVehiculo">Tipo Vehiculo:</label>
+                <p-dropdown id="tipoVehiculo" class="form-control" formControlName="tipoVehiculo" [options]="tiposVehiculo"
+                    placeholder="Selecciona tipo de vehiculo">
+                </p-dropdown>            
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </form>
+</ng-container>

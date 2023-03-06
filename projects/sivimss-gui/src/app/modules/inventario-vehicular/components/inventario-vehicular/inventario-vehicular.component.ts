@@ -1,21 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { LazyLoadEvent, MenuItem } from 'primeng-lts/api';
+import { LazyLoadEvent } from 'primeng-lts/api';
 import { DropdownItem } from 'primeng-lts/dropdown';
+import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
 
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { INVENTARIO_VEHICULAR_BREADCRUMB } from '../../constants/breadcrumb';
-import { MENU_STEPPER } from '../../constants/menu-stepper';
 import { Vehiculo } from '../../models/vehiculo.interface';
+import { AgregarVehiculoComponent } from '../agregar-vehiculo/agregar-vehiculo.component';
+import { VerDetalleVehiculoComponent } from '../ver-detalle-vehiculo/ver-detalle-vehiculo.component';
 
 @Component({
   selector: 'app-inventario-vehicular',
   templateUrl: './inventario-vehicular.component.html',
   styleUrls: ['./inventario-vehicular.component.scss'],
-  providers: []
+  providers: [DialogService]
 })
 export class InventarioVehicularComponent implements OnInit {
 
@@ -32,13 +34,16 @@ export class InventarioVehicularComponent implements OnInit {
   totalElementos: number = 0;
 
   vehiculos: Vehiculo[] = [];
-  items: MenuItem[] = MENU_STEPPER;
   mostrarModalDetalleVehiculo: boolean = false;
-  vehiculoSeleccionado!: Vehiculo;
   propiedad = false;
+
+  creacionRef: DynamicDialogRef
+  detalleRef: DynamicDialogRef;
+  modificacionRef: DynamicDialogRef;
 
   constructor(
     private breadcrumbService: BreadcrumbService,
+    public dialogService: DialogService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -122,13 +127,35 @@ export class InventarioVehicularComponent implements OnInit {
   }
 
   abrirPanel(event: MouseEvent, vehiculoSeleccionado: Vehiculo): void {
-    // this.capillaSeleccionada = capillaSeleccionada;
     this.overlayPanel.toggle(event);
   }
 
   abrirModalDetalleVehiculo(vehiculoSeleccionado: Vehiculo): void {
-    this.vehiculoSeleccionado = vehiculoSeleccionado;
-    this.mostrarModalDetalleVehiculo = true;
+    this.detalleRef = this.dialogService.open(VerDetalleVehiculoComponent, {
+      data: vehiculoSeleccionado,
+      header: "Ver Detalle",
+      width: "920px"
+    });
+
+  }
+
+  abrirModalCreacionVehiculo(): void {
+    this.creacionRef = this.dialogService.open(AgregarVehiculoComponent, {
+      header: "Agregar vehiculo",
+      width: "920px"
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.creacionRef) {
+      this.creacionRef.destroy();
+    }
+    if (this.detalleRef) {
+      this.detalleRef.destroy();
+    }
+    if (this.modificacionRef) {
+      this.modificacionRef.destroy();
+    }
   }
 
 }
