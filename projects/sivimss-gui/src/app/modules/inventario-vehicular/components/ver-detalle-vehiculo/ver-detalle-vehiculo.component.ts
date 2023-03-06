@@ -13,7 +13,6 @@ export class VerDetalleVehiculoComponent implements OnInit {
 
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig) {
-    console.log(this.config.data)
     this.vehiculoSeleccionado = this.config.data;
   }
 

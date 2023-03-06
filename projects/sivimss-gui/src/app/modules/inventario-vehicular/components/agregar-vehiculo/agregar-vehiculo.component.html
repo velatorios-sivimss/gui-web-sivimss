@@ -1,6 +1,6 @@
 <p-steps [model]="menuStep" [activeIndex]="indice"></p-steps>
 <ng-container *ngIf="indice === 0">
-    <form [formGroup]="datosGeneralesForm" (submit)="paginaSiguiente()">
+    <form [formGroup]="datosGeneralesForm" (submit)="adelantarPagina()">
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="control-label" for="id">ID:</label>
@@ -18,7 +18,7 @@
                 <label class="control-label" for="uso">Uso:</label>
                 <p-dropdown id="uso" class="form-control" formControlName="uso" [options]="usos"
                     placeholder="Selecciona uso">
-                </p-dropdown>            
+                </p-dropdown>
             </div>
             <div class="col-md-6">
                 <label class="control-label" for="responsable">Responsable:</label>
@@ -30,11 +30,112 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="control-label" for="tipoVehiculo">Tipo Vehiculo:</label>
-                <p-dropdown id="tipoVehiculo" class="form-control" formControlName="tipoVehiculo" [options]="tiposVehiculo"
-                    placeholder="Selecciona tipo de vehiculo">
-                </p-dropdown>            
+                <p-dropdown id="tipoVehiculo" class="form-control" formControlName="tipoVehiculo"
+                    [options]="tiposVehiculo" placeholder="Selecciona tipo de vehiculo">
+                </p-dropdown>
             </div>
             <div class="col-md-6">
+            </div>
+        </div>
+        <div class="row subtitulo">
+            Especificaciones
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="control-label" for="marca">Marca:</label>
+                <input id="marca" class="form-control" formControlName="marca" placeholder="Ingresa Marca">
+            </div>
+            <div class="col-md-4">
+                <label class="control-label" for="submarca">Submarca:</label>
+                <input id="submarca" class="form-control" formControlName="submarca" placeholder="Ingresar Submarca">
+            </div>
+            <div class="col-md-4">
+                <label class="control-label" for="modelo">Modelo:</label>
+                <input id="modelo" class="form-control" formControlName="modelo" placeholder="Ingresar Modelo">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="control-label" for="placas">Placas:</label>
+                <input id="placas" class="form-control" formControlName="placas" placeholder="Ingresa Placas">
+            </div>
+            <div class="col-md-4">
+                <label class="control-label" for="noMotor">No. de motor:</label>
+                <input id="noMotor" class="form-control" formControlName="noMotor" placeholder="Ingresar No. de motor">
+            </div>
+            <div class="col-md-4">
+                <label class="control-label" for="noCilindros">No. de cilindros:</label>
+                <input id="noCilindros" class="form-control" formControlName="noCilindros"
+                    placeholder="Ingresar No. de cilindros">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="transmision">Transmisión:</label>
+                <input id="transmision" class="form-control" formControlName="transmision"
+                    placeholder="Selecciona transmisión">
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="desTransmision">Descripción:</label>
+                <input id="desTransmision" class="form-control" formControlName="desTransmision"
+                    placeholder="Selecciona descripción">
+            </div>
+        </div>
+        <div class="row mb-6">
+            <div class="col-md-6">
+                <label class="control-label" for="combustible">Combustible:</label>
+                <input id="combustible" class="form-control" formControlName="combustible"
+                    placeholder="Selecciona combustible">
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="desCombustible">Descripción:</label>
+                <input id="desCombustible" class="form-control" formControlName="desCombustible"
+                    placeholder="Selecciona descripción">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-12 flex justify-content-end">
+                <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
+                <!-- <button type="submit" class="btn btn-primary btn-md ml-5"
+                    [disabled]="datosGeneralesForm.invalid">Siguiente</button> -->
+                <button type="submit" class="btn btn-primary btn-md ml-5">Siguiente</button>
+            </div>
+        </div>
+    </form>
+</ng-container>
+<ng-container *ngIf="indice === 1">
+    <form [formGroup]="datosGeneralesForm">
+        <div class="row mb-3">
+            <div class="col-md-6"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6"></div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row subtitulo">
+            Datos del Seguro
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-3"></div>
+            <div class="col-md-3"></div>
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6"></div>
+        </div>
+        <div class="row mb-3"></div>
+        <div class="row mb-3">
+            <div class="col-md-12 flex justify-content-end">
+                <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
+                <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5">Siguiente</button>
             </div>
         </div>
     </form>

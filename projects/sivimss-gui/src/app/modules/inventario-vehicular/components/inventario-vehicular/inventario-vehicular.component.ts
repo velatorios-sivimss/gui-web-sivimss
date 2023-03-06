@@ -10,7 +10,9 @@ import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrum
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { INVENTARIO_VEHICULAR_BREADCRUMB } from '../../constants/breadcrumb';
 import { Vehiculo } from '../../models/vehiculo.interface';
+
 import { AgregarVehiculoComponent } from '../agregar-vehiculo/agregar-vehiculo.component';
+import { ModificarVehiculoComponent } from '../modificar-vehiculo/modificar-vehiculo.component';
 import { VerDetalleVehiculoComponent } from '../ver-detalle-vehiculo/ver-detalle-vehiculo.component';
 
 @Component({
@@ -34,6 +36,7 @@ export class InventarioVehicularComponent implements OnInit {
   totalElementos: number = 0;
 
   vehiculos: Vehiculo[] = [];
+  vehiculoSeleccionado!: Vehiculo;
   mostrarModalDetalleVehiculo: boolean = false;
   propiedad = false;
 
@@ -127,6 +130,7 @@ export class InventarioVehicularComponent implements OnInit {
   }
 
   abrirPanel(event: MouseEvent, vehiculoSeleccionado: Vehiculo): void {
+    this.vehiculoSeleccionado = vehiculoSeleccionado;
     this.overlayPanel.toggle(event);
   }
 
@@ -141,9 +145,17 @@ export class InventarioVehicularComponent implements OnInit {
 
   abrirModalCreacionVehiculo(): void {
     this.creacionRef = this.dialogService.open(AgregarVehiculoComponent, {
-      header: "Agregar vehiculo",
+      header: "Agregar vehículo",
       width: "920px"
     });
+  }
+
+  abrirModalModificacionVehiculo(): void {
+    this.creacionRef = this.dialogService.open(ModificarVehiculoComponent, {
+      data: this.vehiculoSeleccionado,
+      header: "Modificar vehículo",
+      width: "920px"
+    })
   }
 
   ngOnDestroy() {

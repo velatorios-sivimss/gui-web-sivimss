@@ -21,12 +21,14 @@ export class AgregarVehiculoComponent implements OnInit {
   velatorios: DropdownItem[] = [];
 
   datosGeneralesForm!: FormGroup;
+  datosDocumentacionForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
     public ref: DynamicDialogRef) { }
 
   ngOnInit(): void {
     this.inicializarFormDatosGenerales();
+    this.inicializarFormDatosDocumentacion();
   }
 
   inicializarFormDatosGenerales(): void {
@@ -37,6 +39,7 @@ export class AgregarVehiculoComponent implements OnInit {
       responsable: [{ value: null, disabled: false }, [Validators.required]],
       tipoVehiculo: [{ value: null, disabled: false }, [Validators.required]],
       marca: [{ value: null, disabled: false }, [Validators.required]],
+      submarca: [{ value: null, disabled: false }, [Validators.required]],
       modelo: [{ value: null, disabled: false }, [Validators.required]],
       placas: [{ value: null, disabled: false }, [Validators.required]],
       noMotor: [{ value: null, disabled: false }, [Validators.required]],
@@ -48,12 +51,32 @@ export class AgregarVehiculoComponent implements OnInit {
     });
   }
 
-  paginaSiguiente(): void {
-    this.indice = this.indice++;
+  inicializarFormDatosDocumentacion(): void {
+    this.datosDocumentacionForm = this.formBuilder.group({
+      tarjetaCirculacion: [{ value: null, disabled: false }],
+      vigenciaTarjetaInicio: [{ value: null, disabled: false }],
+      vigenciaTarjetaFin: [{ value: null, disabled: false }],
+      noSerie: [{ value: null, disabled: false }],
+      fechaAdquisicion: [{ value: null, disabled: false }],
+      vigenciaAdquisicionInicio: [{ value: null, disabled: false }],
+      vigenciaAdquisicionFin: [{ value: null, disabled: false }],
+      costoTotal: [{ value: null, disabled: false }],
+      aseguradora: [{ value: null, disabled: false }],
+      poliza: [{ value: null, disabled: false }],
+      vigenciapolizaInicio: [{ value: null, disabled: false }],
+      vigenciapolizaFin: [{ value: null, disabled: false }],
+      riesgos: [{ value: null, disabled: false }],
+      importePrima: [{ value: null, disabled: false }],
+      estatus: [{ value: null, disabled: false }],
+    })
   }
 
-  paginaAnterior(): void {
-    this.indice = this.indice--;
+  adelantarPagina(): void {
+    this.indice = ++this.indice;
+  }
+
+  regresarPagina(): void {
+    this.indice = --this.indice;
   }
 
   cancelar(): void {
