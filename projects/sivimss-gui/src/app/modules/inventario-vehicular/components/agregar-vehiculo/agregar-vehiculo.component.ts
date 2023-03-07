@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng-lts/api';
 import { MENU_STEPPER } from '../../constants/menu-stepper';
 import { DropdownItem } from 'primeng-lts/dropdown';
 import { DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
   selector: 'app-agregar-vehiculo',
@@ -23,6 +24,7 @@ export class AgregarVehiculoComponent implements OnInit {
 
   datosGeneralesForm!: FormGroup;
   datosDocumentacionForm!: FormGroup;
+  nuevoVehiculo: Vehiculo;
 
   constructor(private formBuilder: FormBuilder,
     public ref: DynamicDialogRef) { }
@@ -74,6 +76,9 @@ export class AgregarVehiculoComponent implements OnInit {
 
   adelantarPagina(): void {
     this.indice++;
+    if (this.indice === this.menuStep.length) {
+      this.crearResumenVehiculo();
+    }
   }
 
   regresarPagina(): void {
@@ -82,6 +87,15 @@ export class AgregarVehiculoComponent implements OnInit {
 
   cancelar(): void {
     this.ref.close()
+  }
+
+  crearResumenVehiculo(): void {
+    this.nuevoVehiculo = {
+      id: null,
+      ...this.datosDocumentacionForm.value,
+      ...this.datosGeneralesForm.value
+    }
+    console.log(this.nuevoVehiculo)
   }
 
   get fdg() {

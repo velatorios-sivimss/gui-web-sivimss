@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
   selector: 'app-detalle-vehiculo',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetalleVehiculoComponent implements OnInit {
 
+  @Input() vehiculoSeleccionado: Vehiculo;
+
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

@@ -16,9 +16,7 @@ export class VerDetalleVehiculoComponent implements OnInit {
     this.vehiculoSeleccionado = this.config.data;
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void { }
 
   cerrarDialogo() {
     this.ref.close( {

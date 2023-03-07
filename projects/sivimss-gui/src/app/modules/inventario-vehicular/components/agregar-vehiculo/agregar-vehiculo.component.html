@@ -340,6 +340,12 @@
 </ng-container>
 <ng-container *ngIf="indice === menuStep.length">
     <div class="row mb-3">
+        <div class="col-md-12">
+            <app-detalle-vehiculo [vehiculoSeleccionado]="nuevoVehiculo">
+            </app-detalle-vehiculo>
+        </div>
+    </div>
+    <div class="row mb-3">
         <div class="col-md-12 flex justify-content-end">
             <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
             <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
