@@ -1,4 +1,4 @@
-<ng-container *ngIf="indice > menuStep.length">
+<ng-container *ngIf="indice < menuStep.length">
     <p-steps [model]="menuStep" [activeIndex]="indice"></p-steps>
 </ng-container>
 <ng-container *ngIf="indice === 0">
@@ -160,6 +160,9 @@
                         class="req">*</span>:</label>
                 <input id="tarjetaCirculacion" class="form-control" formControlName="tarjetaCirculacion"
                     placeholder="Ingresa la tarjeta de circulación">
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.tarjetaCirculacion?.errors?.required && (fdd.tarjetaCirculacion?.dirty || fdd.tarjetaCirculacion?.touched)">
+                    Campo obligatorio</span>
             </div>
             <div class="col-md-6">
                 <div class="row">
@@ -173,12 +176,18 @@
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha desde" dateFormat="dd/mm/yy"
                             [maxDate]="fdd?.vigenciaTarjetaFin?.value">
                         </p-calendar>
+                        <span class="campo-obligatorio"
+                            *ngIf="fdd.vigenciaTarjetaInicio?.errors?.required && (fdd.vigenciaTarjetaInicio?.dirty || fdd.vigenciaTarjetaInicio?.touched)">
+                            Campo obligatorio</span>
                     </div>
                     <div class="col-md-6">
                         <p-calendar id="vigenciaTarjetaFin" formControlName="vigenciaTarjetaFin"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
                             [minDate]="fdd?.vigenciaTarjetaInicio?.value">
                         </p-calendar>
+                        <span class="campo-obligatorio"
+                            *ngIf="fdd.vigenciaTarjetaFin?.errors?.required && (fdd.vigenciaTarjetaFin?.dirty || fdd.vigenciaTarjetaFin?.touched)">
+                            Campo obligatorio</span>
                     </div>
                 </div>
             </div>
@@ -189,6 +198,9 @@
                 <p-dropdown id="noSerie" class="form-control" formControlName="noSerie" [options]="numerosSerie"
                     placeholder="Selecciona No. de serie">
                 </p-dropdown>
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.noSerie?.errors?.required && (fdd.noSerie?.dirty || fdd.noSerie?.touched)">
+                    Campo obligatorio</span>
             </div>
             <div class="col-md-6">
                 <label class="control-label" for="fechaAdquisicion">
@@ -197,6 +209,9 @@
                 <p-calendar id="fechaAdquisicion" formControlName="fechaAdquisicion" styleClass="form-control"
                     [showIcon]="true" placeholder="Selecciona fecha" dateFormat="dd/mm/yy">
                 </p-calendar>
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.fechaAdquisicion?.errors?.required && (fdd.fechaAdquisicion?.dirty || fdd.fechaAdquisicion?.touched)">
+                    Campo obligatorio</span>
             </div>
         </div>
         <div class="row mb-3">
@@ -212,12 +227,18 @@
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha desde" dateFormat="dd/mm/yy"
                             [maxDate]="fdd?.vigenciaAdquisicionFin?.value">
                         </p-calendar>
+                        <span class="campo-obligatorio"
+                            *ngIf="fdd.vigenciaAdquisicionInicio?.errors?.required && (fdd.vigenciaAdquisicionInicio?.dirty || fdd.vigenciaAdquisicionInicio?.touched)">
+                            Campo obligatorio</span>
                     </div>
                     <div class="col-md-6">
                         <p-calendar id="vigenciaAdquisicionFin" formControlName="vigenciaAdquisicionFin"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
                             [minDate]="fdd?.vigenciaAdquisicionInicio?.value">
                         </p-calendar>
+                        <span class="campo-obligatorio"
+                            *ngIf="fdd.vigenciaAdquisicionFin?.errors?.required && (fdd.vigenciaAdquisicionFin?.dirty || fdd.vigenciaAdquisicionFin?.touched)">
+                            Campo obligatorio</span>
                     </div>
                 </div>
             </div>
@@ -226,6 +247,9 @@
                         class="req">*</span>:</label>
                 <input id="costoTotal" class="form-control" formControlName="costoTotal"
                     placeholder="Ingresa el costo total">
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.costoTotal?.errors?.required && (fdd.costoTotal?.dirty || fdd.costoTotal?.touched)">
+                    Campo obligatorio</span>
             </div>
         </div>
         <div class="row subtitulo mb-3">
@@ -236,10 +260,16 @@
                 <label class="control-label" for="aseguradora">Aseguradora<span class="req">*</span>:</label>
                 <input id="aseguradora" class="form-control" formControlName="aseguradora"
                     placeholder="Ingresa la aseguradora">
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.aseguradora?.errors?.required && (fdd.aseguradora?.dirty || fdd.aseguradora?.touched)">
+                    Campo obligatorio</span>
             </div>
             <div class="col-md-6">
                 <label class="control-label" for="poliza">Poliza<span class="req">*</span>:</label>
                 <input id="poliza" class="form-control" formControlName="poliza" placeholder="Ingresa la poliza">
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.poliza?.errors?.required && (fdd.poliza?.dirty || fdd.poliza?.touched)">
+                    Campo obligatorio</span>
             </div>
         </div>
         <div class="row mb-3">
@@ -255,18 +285,27 @@
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha desde" dateFormat="dd/mm/yy"
                             [maxDate]="fdd?.vigenciapolizaFin?.value">
                         </p-calendar>
+                        <span class="campo-obligatorio"
+                            *ngIf="fdd.vigenciapolizaInicio?.errors?.required && (fdd.vigenciapolizaInicio?.dirty || fdd.vigenciapolizaInicio?.touched)">
+                            Campo obligatorio</span>
                     </div>
                     <div class="col-md-6">
                         <p-calendar id="vigenciapolizaFin" formControlName="vigenciapolizaFin" styleClass="form-control"
                             [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
                             [minDate]="fdd?.vigenciapolizaInicio?.value">
                         </p-calendar>
+                        <span class="campo-obligatorio"
+                            *ngIf="fdd.vigenciapolizaFin?.errors?.required && (fdd.vigenciapolizaFin?.dirty || fdd.vigenciapolizaFin?.touched)">
+                            Campo obligatorio</span>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
                 <label class="control-label" for="riesgos">Riesgos (Poliza)<span class="req">*</span>:</label>
                 <input id="riesgos" class="form-control" formControlName="riesgos" placeholder="Ingresa los riesgos">
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.riesgos?.errors?.required && (fdd.riesgos?.dirty || fdd.riesgos?.touched)">
+                    Campo obligatorio</span>
             </div>
         </div>
         <div class="row mb-3">
@@ -274,6 +313,9 @@
                 <label class="control-label" for="importePrima">Importe Prima<span class="req">*</span>:</label>
                 <input id="importePrima" class="form-control" formControlName="importePrima"
                     placeholder="Ingresa el importe prima">
+                <span class="campo-obligatorio"
+                    *ngIf="fdd.importePrima?.errors?.required && (fdd.importePrima?.dirty || fdd.importePrima?.touched)">
+                    Campo obligatorio</span>
             </div>
         </div>
         <div class="row mb-3">
@@ -291,8 +333,17 @@
             <div class="col-md-12 flex justify-content-end">
                 <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
                 <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
-                <button type="submit" class="btn btn-primary btn-md ml-5">Siguiente</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5" (click)="adelantarPagina()">Siguiente</button>
             </div>
         </div>
     </form>
+</ng-container>
+<ng-container *ngIf="indice === menuStep.length">
+    <div class="row mb-3">
+        <div class="col-md-12 flex justify-content-end">
+            <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
+            <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
+            <button type="submit" class="btn btn-primary btn-md ml-5">Aceptar</button>
+        </div>
+    </div>
 </ng-container>

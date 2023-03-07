@@ -20,13 +20,15 @@ import { AgregarVehiculoComponent } from './components/agregar-vehiculo/agregar-
 import { ModificarVehiculoComponent } from './components/modificar-vehiculo/modificar-vehiculo.component';
 import { VerDetalleVehiculoComponent } from './components/ver-detalle-vehiculo/ver-detalle-vehiculo.component';
 import { CalendarModule } from 'primeng-lts/calendar';
+import { DetalleVehiculoComponent } from './components/detalle-vehiculo/detalle-vehiculo.component';
 
 @NgModule({
   declarations: [
     InventarioVehicularComponent,
     AgregarVehiculoComponent,
     ModificarVehiculoComponent,
-    VerDetalleVehiculoComponent
+    VerDetalleVehiculoComponent,
+    DetalleVehiculoComponent
   ],
   imports: [
     CalendarModule,
