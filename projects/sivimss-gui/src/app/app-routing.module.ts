@@ -35,6 +35,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule)
   },
   {
+    path: 'servicios',
+    loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
