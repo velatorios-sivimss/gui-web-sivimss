@@ -55,8 +55,9 @@ body {
 }
 
 .contenedor-inputswitch {
-  display: flex;
   align-items: center;
+  display: inline-block;
+  margin-left: 10px;
 
   & > *:not(span) {
     transform: translateY(3px);
@@ -169,4 +170,8 @@ body {
     }
   }
 
+}
+
+.rectangle-row {
+  border: 1px solid #DEE2E6;
 }
