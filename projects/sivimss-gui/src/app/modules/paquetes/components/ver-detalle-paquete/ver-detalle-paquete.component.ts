@@ -32,34 +32,12 @@ export class VerDetallePaqueteComponent implements OnInit {
 
   paginar(event: LazyLoadEvent): void {
     setTimeout(() => {
-      this.servicios = [
-        {
-          servicio: 'Traslado',
-          costo: '$1,500.00',
-          precio: '$25,000.00',
-        },
-        {
-          servicio: 'Cremación',
-          costo: '$4,700.00',
-          precio: '$25,000.00',
-        },
-      ];
+      this.servicios =  this.paqueteSeleccionado.servicios;
       this.totalElementosServicios = this.servicios.length;
     }, 0);
 
     setTimeout(() => {
-      this.articulos = [
-        {
-          articulo: 'Velas con estampados religiosos',
-          costo: '$1,500.00',
-          precio: '$25,000.00',
-        },
-        {
-          articulo: 'Sillas de acero para velatorios',
-          costo: '$4,700.00',
-          precio: '$25,000.00',
-        },
-      ];
+      this.articulos = this.paqueteSeleccionado.articulos;
       this.totalElementosArticulos = this.articulos.length;
     }, 0);
   }

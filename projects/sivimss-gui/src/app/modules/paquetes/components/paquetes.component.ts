@@ -9,6 +9,8 @@ import { Paquete } from "../models/paquetes.interface";
 import { LazyLoadEvent } from "primeng-lts/api";
 import { ActivatedRoute, Router } from '@angular/router';
 import { VerDetallePaqueteComponent } from './ver-detalle-paquete/ver-detalle-paquete.component';
+import { Servicio } from '../models/servicios.interface';
+import { Articulo } from '../models/articulos.interface';
 
 @Component({
   selector: 'app-paquetes',
@@ -38,6 +40,31 @@ export class PaquetesComponent implements OnInit {
       label: 'Opción 3',
       value: 2,
     }
+  ];
+  servicios: Servicio[] = [
+    {
+      servicio: 'Traslado a nivel nacional',
+      costo: '$25,100.00',
+      precio: '$25,100.00'
+    },
+    {
+      servicio: 'Cremación',
+      costo: '$3,200.00',
+      precio: '$3,200.00'
+    },
+  ];
+
+  articulos: Articulo[] = [
+    {
+      articulo: 'Traslado a nivel nacional',
+      costo: '$25,100.00',
+      precio: '$25,100.00'
+    },
+    {
+      articulo: 'Cremación',
+      costo: '$3,200.00',
+      precio: '$3,200.00'
+    },
   ];
 
   paquetes: Paquete[] = [];
@@ -82,19 +109,40 @@ export class PaquetesComponent implements OnInit {
           id: '1',
           nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
           descripcion: 'Paquete todo incluido con cremación servicios completos',
-          estatus: true
+          estatus: true,
+          costoInicial: '$34,200.00',
+          costo: '$45,000.00',
+          precio: '$65,000.00',
+          region: 'Nacional',
+          clave: '00000000000000000',
+          servicios: this.servicios,
+          articulos: this.articulos,
         },
         {
           id: '2',
           nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
           descripcion: 'Paquete todo incluido con cremación servicios completos',
-          estatus: true
+          estatus: true,
+          costoInicial: '$34,200.00',
+          costo: '$45,000.00',
+          precio: '$65,000.00',
+          region: 'Nacional',
+          clave: '00000000000000000',
+          servicios: this.servicios,
+          articulos: this.articulos,
         },
         {
           id: '3',
           nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
           descripcion: 'Paquete todo incluido con cremación servicios completos',
-          estatus: true
+          estatus: true,
+          costoInicial: '$34,200.00',
+          costo: '$45,000.00',
+          precio: '$65,000.00',
+          region: 'Nacional',
+          clave: '00000000000000000',
+          servicios: this.servicios,
+          articulos: this.articulos,
         }
       ];
       this.totalElementos = this.paquetes.length;
@@ -111,9 +159,6 @@ export class PaquetesComponent implements OnInit {
   }
 
   abrirModalAgregarPaquete(): void {
-    // this.inicializarAgregarPaqueteForm();
-    // this.mostrarModalAgregarPaquete = true;
-    // this.router.navigate(['/agregar-paquete', ""], { relativeTo: this.activatedRoute });
     const queryParams = { titulo: 'ADMINISTRAR PAQUETES' };
     this.router.navigate(['agregar-paquete'], {
       relativeTo: this.activatedRoute,
@@ -127,6 +172,10 @@ export class PaquetesComponent implements OnInit {
       header: "Ver detalle",
       width: "920px"
     });
+
+    // this.detalleRef.onClose.subscribe((result: unknown) => {
+    //   console.log(result);
+    // });
   }
 
   abrirPanel(event: MouseEvent, paqueteSeleccionada: Paquete): void {

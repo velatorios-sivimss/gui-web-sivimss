@@ -1,7 +1,7 @@
 <app-table-panel>
     <ng-template appCustomTemplate="left-header">
         <div class="table-panel-header-column">
-            <span class="font-bold">ID <span class="active-text-color">1</span>
+            <span class="font-bold">ID <span class="active-text-color">{{paqueteSeleccionado?.id}}</span>
             </span>
         </div>
     </ng-template>
@@ -11,9 +11,16 @@
                 <span>Estatus</span>
                 <div class="contenedor-inputswitch">
                     <p-inputSwitch [(ngModel)]="paqueteSeleccionado.estatus"></p-inputSwitch>
-                    <span class="activo" *ngIf="paqueteSeleccionado.estatus">Activo</span>
-                    <span class="inactivo" *ngIf="!paqueteSeleccionado.estatus">Inactivo</span>
+                    <span class="activo" *ngIf="paqueteSeleccionado?.estatus">Activo</span>
+                    <span class="inactivo" *ngIf="!paqueteSeleccionado?.estatus">Inactivo</span>
                 </div>
+            </div>
+            <div class="flex flex-column ml-5">
+                <a>
+                    <img
+                      src="assets/images/imagen-icono-barras-horizontales.svg"
+                      alt="icono barras horizontales">
+                  </a>
             </div>
         </div>
     </ng-template>
@@ -21,7 +28,7 @@
         <div class="col-md-12">
             <div class="table-panel-column">
                 <label>Paquete</label>
-                <span>{{paqueteSeleccionado.nombrePaquete}}</span>
+                <span>{{paqueteSeleccionado?.nombrePaquete}}</span>
             </div>
         </div>
     </div>
@@ -29,7 +36,7 @@
         <div class="col-md-12">
             <div class="table-panel-column">
                 <label>Descripción</label>
-                <span>{{paqueteSeleccionado.descripcion}}</span>
+                <span>{{paqueteSeleccionado?.descripcion}}</span>
             </div>
         </div>
     </div>
@@ -87,19 +94,19 @@
         <div class="col-md-4">
             <div class="table-panel-column">
                 <label>Costo inicial</label>
-                <span>{{paqueteSeleccionado.costoInicial}}</span>
+                <span>{{paqueteSeleccionado?.costoInicial}}</span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="table-panel-column">
                 <label>Costo</label>
-                <span>{{paqueteSeleccionado.costo}}</span>
+                <span>{{paqueteSeleccionado?.costo}}</span>
             </div>
         </div>
         <div class="col-md-4">
             <div class="table-panel-column">
                 <label>Precio</label>
-                <span>{{paqueteSeleccionado.precio}}</span>
+                <span>{{paqueteSeleccionado?.precio}}</span>
             </div>
         </div>
     </div>
@@ -107,14 +114,19 @@
         <div class="col-md-4">
             <div class="table-panel-column">
                 <label>Región</label>
-                <span>{{paqueteSeleccionado.region}}</span>
+                <span>{{paqueteSeleccionado?.region}}</span>
             </div>
         </div>
         <div class="col-md-8">
             <div class="table-panel-column">
                 <label>Clave SAT</label>
-                <span>{{paqueteSeleccionado.clave}}</span>
+                <span>{{paqueteSeleccionado?.clave}}</span>
             </div>
         </div>
     </div>
 </app-table-panel>
+
+
+<div class="flex justify-content-end mt-5">
+    <button class="ml-4 btn btn-primary btn-md" (click)="ref.close();">Aceptar</button>
+</div>
