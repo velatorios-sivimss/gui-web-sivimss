@@ -1,0 +1,50 @@
+.sentrar{
+  padding-left: 15px;
+}
+
+.subtituloModal{
+  margin-left: 29px;
+  font-size: 16px
+}
+.subtituloSubModal{
+  margin-left: 15px;
+  font-size: 16px
+}
+
+.separador{
+  margin-top:70px;
+}
+
+.btnspace{
+  margin-right: 20px;
+}
+
+
+.button-align {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.count-title {
+  color: #158B70;
+  font-size: 14px;
+}
+
+.ecco-label {
+  font-size: 14px;
+}
+
+h4.subtitulo {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  color: #bc955c;
+  margin: 5px 0 10px 0px;
+}
+
+:host::ng-deep .p-divider-solid.p-divider-vertical:before {
+  border-color: #bc955c;
+}
