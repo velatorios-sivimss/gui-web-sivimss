@@ -124,7 +124,7 @@ export class PaquetesComponent implements OnInit {
   abrirModalDetallePaquete(paqueteSeleccionado: Paquete) {
     this.detalleRef = this.dialogService.open(VerDetallePaqueteComponent, {
       data: paqueteSeleccionado,
-      header: "Ver Detalle",
+      header: "Ver detalle",
       width: "920px"
     });
   }

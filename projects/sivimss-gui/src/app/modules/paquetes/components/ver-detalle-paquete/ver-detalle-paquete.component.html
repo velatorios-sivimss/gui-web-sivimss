@@ -1,7 +1,8 @@
 <app-table-panel>
     <ng-template appCustomTemplate="left-header">
         <div class="table-panel-header-column">
-            <span class="font-bold">ID 1</span>
+            <span class="font-bold">ID <span class="active-text-color">1</span>
+            </span>
         </div>
     </ng-template>
     <ng-template appCustomTemplate="right-header">
@@ -35,14 +36,50 @@
     <div class="row table-panel-row">
         <div class="col-md-12">
             <div class="table-panel-column">
-                <h4>Servicios del paquete</h4>
+                <span>Servicios del paquete</span>
+                <p-table styleClass="mt-5 mb-8 last-sticky-column custom-table" [value]="servicios" [paginator]="servicios.length > 0"
+                        [rows]="cantElementosPorPagina"
+                        [lazy]="true" [totalRecords]="totalElementosServicios" [pageLinks]="3" [(first)]="numPaginaActual"
+                        (onLazyLoad)="paginar($event)">
+                    <ng-template pTemplate="header">
+                        <tr class="custom-header">
+                            <th>Servicio</th>
+                            <th>Precio</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-servicio>
+                        <tr>
+                            <td>{{servicio.servicio}}</td>
+                            <td>{{servicio.precio}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft"></ng-template>
+                </p-table>
             </div>
         </div>
     </div>
     <div class="row table-panel-row">
         <div class="col-md-12">
             <div class="table-panel-column">
-                <h4>Artículos del paquete</h4>
+                <span>Artículos del paquete</span>
+                <p-table styleClass="mt-5 mb-8 last-sticky-column custom-table" [value]="articulos" [paginator]="articulos.length > 0"
+                    [rows]="cantElementosPorPagina"
+                    [lazy]="true" [totalRecords]="totalElementosArticulos" [pageLinks]="3" [(first)]="numPaginaActual"
+                    (onLazyLoad)="paginar($event)">
+                    <ng-template pTemplate="header">
+                        <tr class="custom-header">
+                            <th>Artículo</th>
+                            <th>Precio</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-articulo>
+                        <tr>
+                            <td>{{articulo.articulo}}</td>
+                            <td>{{articulo.precio}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="paginatorleft"></ng-template>
+                </p-table>
             </div>
         </div>
     </div>
