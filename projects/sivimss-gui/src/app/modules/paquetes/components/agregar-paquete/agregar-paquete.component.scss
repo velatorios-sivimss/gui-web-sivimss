@@ -1,0 +1,19 @@
+.empty-table-label {
+    background: white;
+    border: 1px solid #DDDDDD;
+    height: 100px;
+    position: relative;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 96%;
+    -ms-transform: translateY(-50%);
+}
+
+.leyenda-seccion {
+    color: #9d2449;
+}
