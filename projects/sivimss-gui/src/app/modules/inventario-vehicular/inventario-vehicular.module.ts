@@ -19,6 +19,7 @@ import { StepsModule } from 'primeng-lts/steps';
 import { AgregarVehiculoComponent } from './components/agregar-vehiculo/agregar-vehiculo.component';
 import { ModificarVehiculoComponent } from './components/modificar-vehiculo/modificar-vehiculo.component';
 import { VerDetalleVehiculoComponent } from './components/ver-detalle-vehiculo/ver-detalle-vehiculo.component';
+import { CalendarModule } from 'primeng-lts/calendar';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { VerDetalleVehiculoComponent } from './components/ver-detalle-vehiculo/v
     VerDetalleVehiculoComponent
   ],
   imports: [
+    CalendarModule,
     CommonModule,
     DialogModule,
     DropdownModule,

@@ -19,6 +19,7 @@ export class AgregarVehiculoComponent implements OnInit {
   tiposVehiculo: DropdownItem[] = [];
   usos: DropdownItem[] = [];
   velatorios: DropdownItem[] = [];
+  numerosSerie: DropdownItem[] = [];
 
   datosGeneralesForm!: FormGroup;
   datosDocumentacionForm!: FormGroup;
@@ -53,34 +54,42 @@ export class AgregarVehiculoComponent implements OnInit {
 
   inicializarFormDatosDocumentacion(): void {
     this.datosDocumentacionForm = this.formBuilder.group({
-      tarjetaCirculacion: [{ value: null, disabled: false }],
-      vigenciaTarjetaInicio: [{ value: null, disabled: false }],
-      vigenciaTarjetaFin: [{ value: null, disabled: false }],
-      noSerie: [{ value: null, disabled: false }],
-      fechaAdquisicion: [{ value: null, disabled: false }],
-      vigenciaAdquisicionInicio: [{ value: null, disabled: false }],
-      vigenciaAdquisicionFin: [{ value: null, disabled: false }],
-      costoTotal: [{ value: null, disabled: false }],
-      aseguradora: [{ value: null, disabled: false }],
-      poliza: [{ value: null, disabled: false }],
-      vigenciapolizaInicio: [{ value: null, disabled: false }],
-      vigenciapolizaFin: [{ value: null, disabled: false }],
-      riesgos: [{ value: null, disabled: false }],
-      importePrima: [{ value: null, disabled: false }],
-      estatus: [{ value: null, disabled: false }],
+      tarjetaCirculacion: [{ value: null, disabled: false }, [Validators.required]],
+      vigenciaTarjetaInicio: [{ value: null, disabled: false }, [Validators.required]],
+      vigenciaTarjetaFin: [{ value: null, disabled: false }, [Validators.required]],
+      noSerie: [{ value: null, disabled: false }, [Validators.required]],
+      fechaAdquisicion: [{ value: null, disabled: false }, [Validators.required]],
+      vigenciaAdquisicionInicio: [{ value: null, disabled: false }, [Validators.required]],
+      vigenciaAdquisicionFin: [{ value: null, disabled: false }, [Validators.required]],
+      costoTotal: [{ value: null, disabled: false }, [Validators.required]],
+      aseguradora: [{ value: null, disabled: false }, [Validators.required]],
+      poliza: [{ value: null, disabled: false }, [Validators.required]],
+      vigenciapolizaInicio: [{ value: null, disabled: false }, [Validators.required]],
+      vigenciapolizaFin: [{ value: null, disabled: false }, [Validators.required]],
+      riesgos: [{ value: null, disabled: false }, [Validators.required]],
+      importePrima: [{ value: null, disabled: false }, [Validators.required]],
+      estatus: [{ value: true, disabled: false }, [Validators.required]],
     })
   }
 
   adelantarPagina(): void {
-    this.indice = ++this.indice;
+    this.indice++;
   }
 
   regresarPagina(): void {
-    this.indice = --this.indice;
+    this.indice--;
   }
 
   cancelar(): void {
     this.ref.close()
+  }
+
+  get fdg() {
+    return this.datosGeneralesForm.controls;
+  }
+
+  get fdd() {
+    return this.datosDocumentacionForm.controls;
   }
 
 }

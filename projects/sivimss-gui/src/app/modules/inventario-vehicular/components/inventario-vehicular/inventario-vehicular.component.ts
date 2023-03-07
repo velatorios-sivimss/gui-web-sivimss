@@ -140,7 +140,6 @@ export class InventarioVehicularComponent implements OnInit {
       header: "Ver Detalle",
       width: "920px"
     });
-
   }
 
   abrirModalCreacionVehiculo(): void {
