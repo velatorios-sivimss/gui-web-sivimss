@@ -1,16 +1,28 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import {AlertaService,TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
-import {OverlayPanel} from "primeng-lts/overlaypanel";
-import {Servicio} from "../../models/servicio.interface";
+import {FormBuilder, FormGroup} from "@angular/forms";
+
 import { LazyLoadEvent } from "primeng-lts/api";
+import {OverlayPanel} from "primeng-lts/overlaypanel";
+
+import {AlertaService,TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
+
+import {Servicio} from "../../models/servicio.interface";
+
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
+
+import {SERVICIO_BREADCRUMB} from "../constants/breadcrumb";
+import {DynamicDialogRef,DialogService} from "primeng-lts/dynamicdialog";
+import {AgregarServicioComponent} from "../agregar-servicio/agregar-servicio.component";
+import {ModificarServicioComponent} from "../modificar-servicio/modificar-servicio.component";
+import {DetalleServicioComponent} from "../detalle-servicio/detalle-servicio.component";
+
 
 @Component({
   selector: 'app-servicios',
   templateUrl: './servicios.component.html',
-  styleUrls: ['./servicios.component.scss']
+  styleUrls: ['./servicios.component.scss'],
+  providers: [DialogService]
 })
 export class ServiciosComponent implements OnInit {
 
@@ -27,13 +39,17 @@ export class ServiciosComponent implements OnInit {
   servicioSeleccionado:Servicio = null;
 
   filtroForm: FormGroup;
-  agregarServicioForm: FormGroup;
+  // agregarServicioForm: FormGroup;
   modificarServicioForm: FormGroup;
 
-  mostrarModalAgregarServicio: boolean = false;
+  // mostrarModalAgregarServicio: boolean = false;
   mostrarModalModificarServicio: boolean = false;
   mostrarModalDetalleServicio: boolean = false;
   mostrarModalEstatusServicio: boolean = false;
+
+  creacionRef: DynamicDialogRef;
+  detalleRef:DynamicDialogRef;
+  modificacionRef:DynamicDialogRef;
 
   /**
    * INICIO VARIABLES DOOMY PARA USO DE MAQUETADO
@@ -80,21 +96,18 @@ export class ServiciosComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    public dialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
-    this.breadcrumbService.actualizar([
-      {
-        icono: 'imagen-icono-operacion-sivimss.svg',
-        titulo: 'Administración de catálogos'
-      },
-      {
-        icono: '',
-        titulo: 'Administración de servicios'
-      }
-    ]);
+  this.actualizarBreadcrumb();
     this.inicializarFiltroForm();
+  }
+
+
+  actualizarBreadcrumb(): void{
+    this.breadcrumbService.actualizar(SERVICIO_BREADCRUMB);
   }
 
   inicializarFiltroForm(){
@@ -105,48 +118,26 @@ export class ServiciosComponent implements OnInit {
     });
   }
 
-  inicializarAgregarServicioForm():void{
-    this.agregarServicioForm = this.formBuilder.group({
-      id: [{value:null, disabled:true}],
-      servicio: [{value:null,disabled:false},[Validators.required]],
-      descripcion: [{value:null,disabled:false},[Validators.required]],
-      tipoServicio: [{value:null,disabled:false},[Validators.required]],
-      partidaPresupuestal: [{value:null,disabled:false},[Validators.required]],
-      cuentaContable: [{value:null,disabled:false},[Validators.required]],
-      observaciones: [{value:null,disabled:false},[Validators.required]],
-      estatus: [{value:true,disabled:false},[Validators.required]],
-      claveSAT: [{value:null,disabled:false},[Validators.required]],
-    });
-  }
-
-  inicializarModificarServicioForm(): void{
-    this.modificarServicioForm = this.formBuilder.group({
-      // id: [{value:null, disabled:true},[Validators.required]],
-      servicio: [{value:null,disabled:false},[Validators.required]],
-      descripcion: [{value:null,disabled:false},[Validators.required]],
-      tipoServicio: [{value:null,disabled:false},[Validators.required]],
-      partidaPresupuestal: [{value:null,disabled:false},[Validators.required]],
-      cuentaContable: [{value:null,disabled:false},[Validators.required]],
-      observaciones: [{value:null,disabled:false},[Validators.required]],
-      estatus: [{value:true,disabled:false},[Validators.required]],
-      claveSAT: [{value:null,disabled:false},[Validators.required]],
-    });
-  }
-
   abrirModalAgregarServicio(): void {
-    this.inicializarAgregarServicioForm();
-    this.mostrarModalAgregarServicio = true;
+    this.creacionRef = this.dialogService.open(AgregarServicioComponent,{
+      header:"Agregar servicio",
+      width:"920px"
+    });
   }
 
   abrirModalModificarServicio(): void {
-    this.inicializarModificarServicioForm();
-    this.mostrarModalModificarServicio = true;
+    this.creacionRef = this.dialogService.open(ModificarServicioComponent, {
+      header:"Modificar servicio",
+      width:"920px",
+    })
   }
 
   abrirModalDetalleCapilla(servicio:Servicio){
-    this.servicioSeleccionado = {...servicio};
-    this.mostrarModalDetalleServicio = true;
-    // return 0;
+    this.creacionRef = this.dialogService.open(DetalleServicioComponent, {
+      header:"Detalle",
+      width:"920px",
+      data: {servicio:servicio, origen: "detalle"},
+    })
   }
 
   abrirPanel(event:MouseEvent,servicioSeleccionado:Servicio):void{
@@ -155,6 +146,7 @@ export class ServiciosComponent implements OnInit {
   }
 
   paginar(event: LazyLoadEvent): void{
+    console.log(event);
     setTimeout(() =>{
       this.servicios = [
         {
@@ -204,11 +196,6 @@ export class ServiciosComponent implements OnInit {
     },0)
   }
 
-  agregarServicio(): void {
-    this.mostrarModalAgregarServicio = false;
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio agregado correctamente');
-  }
-
   modificarServicio(): void{
     this.mostrarModalModificarServicio = false;
     this.mostrarModalDetalleServicio = false;
@@ -236,6 +223,7 @@ export class ServiciosComponent implements OnInit {
 
   consultaServicioEspecifico():void{
     const servicio = this.filtroForm.get("servicio").value;
+    console.log(servicio);
   }
 
   limpiar(): void {
@@ -244,13 +232,5 @@ export class ServiciosComponent implements OnInit {
 
   get f(){
     return this.filtroForm.controls;
-  }
-
-  get fas(){
-    return this.agregarServicioForm.controls;
-  }
-
-  get fms(){
-    return this.modificarServicioForm.controls;
   }
 }
