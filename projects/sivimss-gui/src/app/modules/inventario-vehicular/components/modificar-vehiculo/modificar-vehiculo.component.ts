@@ -16,6 +16,7 @@ export class ModificarVehiculoComponent implements OnInit {
 
   menuStep: MenuItem[] = MENU_STEPPER;
   indice: number = 0;
+  id: string = '';
 
   responsables: DropdownItem[] = [];
   tiposVehiculo: DropdownItem[] = [];
@@ -31,6 +32,7 @@ export class ModificarVehiculoComponent implements OnInit {
     public config: DynamicDialogConfig,
     private formBuilder: FormBuilder) {
     const vehiculoSeleccionado = this.config.data;
+    this.id = vehiculoSeleccionado.id;
     this.inicializarFormDatosGenerales(vehiculoSeleccionado);
     this.inicializarFormDatosDocumentacion(vehiculoSeleccionado);
   }
@@ -60,20 +62,20 @@ export class ModificarVehiculoComponent implements OnInit {
 
   inicializarFormDatosDocumentacion(vehiculoSeleccionado: Vehiculo): void {
     this.datosDocumentacionForm = this.formBuilder.group({
-      tarjetaCirculacion: [{ value: null, disabled: false }, [Validators.required]],
-      vigenciaTarjetaInicio: [{ value: null, disabled: false }, [Validators.required]],
-      vigenciaTarjetaFin: [{ value: null, disabled: false }, [Validators.required]],
-      noSerie: [{ value: null, disabled: false }, [Validators.required]],
-      fechaAdquisicion: [{ value: null, disabled: false }, [Validators.required]],
-      vigenciaAdquisicionInicio: [{ value: null, disabled: false }, [Validators.required]],
-      vigenciaAdquisicionFin: [{ value: null, disabled: false }, [Validators.required]],
-      costoTotal: [{ value: null, disabled: false }, [Validators.required]],
-      aseguradora: [{ value: null, disabled: false }, [Validators.required]],
-      poliza: [{ value: null, disabled: false }, [Validators.required]],
-      vigenciapolizaInicio: [{ value: null, disabled: false }, [Validators.required]],
-      vigenciapolizaFin: [{ value: null, disabled: false }, [Validators.required]],
-      riesgos: [{ value: null, disabled: false }, [Validators.required]],
-      importePrima: [{ value: null, disabled: false }, [Validators.required]],
+      tarjetaCirculacion: [{ value: vehiculoSeleccionado.tarjetaCirculacion, disabled: false }, [Validators.required]],
+      vigenciaTarjetaInicio: [{ value: vehiculoSeleccionado.vigenciaTarjetaInicio, disabled: false }, [Validators.required]],
+      vigenciaTarjetaFin: [{ value: vehiculoSeleccionado.vigenciaTarjetaFin, disabled: false }, [Validators.required]],
+      noSerie: [{ value: vehiculoSeleccionado.noSerie, disabled: false }, [Validators.required]],
+      fechaAdquisicion: [{ value: vehiculoSeleccionado.fechaAdquisicion, disabled: false }, [Validators.required]],
+      vigenciaAdquisicionInicio: [{ value: vehiculoSeleccionado.fechaVigenciaInicio, disabled: false }, [Validators.required]],
+      vigenciaAdquisicionFin: [{ value: vehiculoSeleccionado.fechaVigenciaFin, disabled: false }, [Validators.required]],
+      costoTotal: [{ value: vehiculoSeleccionado.costoTotal, disabled: false }, [Validators.required]],
+      aseguradora: [{ value: vehiculoSeleccionado.aseguradora, disabled: false }, [Validators.required]],
+      poliza: [{ value: vehiculoSeleccionado.poliza, disabled: false }, [Validators.required]],
+      vigenciapolizaInicio: [{ value: vehiculoSeleccionado.vigenciapolizaInicio, disabled: false }, [Validators.required]],
+      vigenciapolizaFin: [{ value: vehiculoSeleccionado.vigenciapolizaFin, disabled: false }, [Validators.required]],
+      riesgos: [{ value: vehiculoSeleccionado.riesgos, disabled: false }, [Validators.required]],
+      importePrima: [{ value: vehiculoSeleccionado.importePrima, disabled: false }, [Validators.required]],
       estatus: [{ value: vehiculoSeleccionado.estatus, disabled: false }, [Validators.required]],
     })
   }
@@ -81,7 +83,7 @@ export class ModificarVehiculoComponent implements OnInit {
   adelantarPagina(): void {
     this.indice++;
     if (this.indice === this.menuStep.length) {
-      // this.crearResumenVehiculo();
+      this.crearResumenVehiculo();
     }
   }
 

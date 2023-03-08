@@ -1,7 +1,8 @@
 <app-table-panel *ngIf="indice < menuStep.length">
     <ng-template appCustomTemplate="left-header">
         <div class="table-panel-header-column">
-            <span class="font-bold">ID</span>
+            <span class="font-bold mr-2">ID</span>
+            <span class="activo">{{ id }}</span>
         </div>
     </ng-template>
     <ng-template appCustomTemplate="right-header">
