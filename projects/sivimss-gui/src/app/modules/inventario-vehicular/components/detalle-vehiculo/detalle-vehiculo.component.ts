@@ -9,6 +9,7 @@ import { Vehiculo } from '../../models/vehiculo.interface';
 export class DetalleVehiculoComponent implements OnInit {
 
   @Input() vehiculoSeleccionado: Vehiculo;
+  @Input() estatus: boolean = false;
 
   constructor() { }
 

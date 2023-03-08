@@ -87,7 +87,7 @@
             </div>
             <div class="col-md-4">
                 <label class="control-label" for="noMotor">No. de motor<span class="req">*</span>:</label>
-                <input id="noMotor" class="form-control" formControlName="noMotor" placeholder="Ingresa no. de motor">
+                <input id="noMotor" class="form-control" formControlName="noMotor" placeholder="Ingresa No. de motor">
                 <span class="campo-obligatorio"
                     *ngIf="fdg.noMotor?.errors?.required && (fdg.noMotor?.dirty || fdg.noMotor?.touched)">
                     Campo obligatorio</span>
@@ -95,7 +95,7 @@
             <div class="col-md-4">
                 <label class="control-label" for="noCilindros">No. de cilindros<span class="req">*</span>:</label>
                 <input id="noCilindros" class="form-control" formControlName="noCilindros"
-                    placeholder="Ingresa no. de cilindros">
+                    placeholder="Ingresa No. de cilindros">
                 <span class="campo-obligatorio"
                     *ngIf="fdg.noCilindros?.errors?.required && (fdg.noCilindros?.dirty || fdg.noCilindros?.touched)">
                     Campo obligatorio</span>
@@ -146,7 +146,7 @@
             <div class="col-md-12 flex justify-content-end">
                 <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
                 <button type="submit" class="btn btn-primary btn-md ml-5"
-                    [disabled]="datosGeneralesForm.invalid">Siguiente</button>
+                    >Siguiente</button>
             </div>
         </div>
     </form>
@@ -333,7 +333,7 @@
                 <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
                 <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
                 <button type="submit" class="btn btn-primary btn-md ml-5" (click)="adelantarPagina()"
-                    [disabled]="this.datosDocumentacionForm.invalid">Siguiente</button>
+                    >Siguiente</button>
             </div>
         </div>
     </form>

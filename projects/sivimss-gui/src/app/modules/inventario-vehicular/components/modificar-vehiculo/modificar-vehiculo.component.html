@@ -1,1 +1,40 @@
-<p>modificar-vehiculo works!</p>
+<app-table-panel *ngIf="indice < menuStep.length">
+    <ng-template appCustomTemplate="left-header">
+        <div class="table-panel-header-column">
+            <span class="font-bold">ID</span>
+        </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+        <div class="table-panel-header-column">
+            <div class="flex flex-column">
+                <span>Estatus</span>
+                <div class="contenedor-inputswitch">
+                    <span class="activo" *ngIf="vehiculoSeleccionado?.estatus">Activo</span>
+                    <span class="inactivo" *ngIf="!vehiculoSeleccionado?.estatus">Inactivo</span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</app-table-panel>
+<ng-container *ngIf="indice < menuStep.length">
+    <p-steps [model]="menuStep" [activeIndex]="indice" [styleClass]="'mt-5'" class="mostrar-check"></p-steps>
+</ng-container>
+<ng-container *ngIf="indice === 0">
+</ng-container>
+<ng-container *ngIf="indice === 1">
+</ng-container>
+<ng-container *ngIf="indice === menuStep.length">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <!-- <app-detalle-vehiculo [vehiculoSeleccionado]="vehiculoModificado">
+            </app-detalle-vehiculo> -->
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-12 flex justify-content-end">
+            <!-- <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
+            <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button> -->
+            <button type="submit" class="btn btn-primary btn-md ml-5">Aceptar</button>
+        </div>
+    </div>
+</ng-container>
