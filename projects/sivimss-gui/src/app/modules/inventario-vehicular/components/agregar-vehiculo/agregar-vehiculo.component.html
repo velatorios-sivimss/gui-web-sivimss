@@ -1,5 +1,11 @@
 <ng-container *ngIf="indice < menuStep.length">
-    <p-steps [model]="menuStep" [activeIndex]="indice"></p-steps>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <p-steps [model]="menuStep" [activeIndex]="indice"></p-steps>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
 </ng-container>
 <ng-container *ngIf="indice === 0">
     <form [formGroup]="datosGeneralesForm" (submit)="adelantarPagina()">
@@ -146,7 +152,7 @@
             <div class="col-md-12 flex justify-content-end">
                 <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
                 <button type="submit" class="btn btn-primary btn-md ml-5"
-                [disabled]="datosGeneralesForm.invalid">Siguiente</button>
+                    [disabled]="datosGeneralesForm.invalid">Siguiente</button>
             </div>
         </div>
     </form>
@@ -333,7 +339,7 @@
                 <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
                 <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
                 <button type="submit" class="btn btn-primary btn-md ml-5" (click)="adelantarPagina()"
-                [disabled]="datosDocumentacionForm.invalid">Siguiente</button>
+                    [disabled]="datosDocumentacionForm.invalid">Siguiente</button>
             </div>
         </div>
     </form>
