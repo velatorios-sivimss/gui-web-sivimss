@@ -305,8 +305,8 @@
   </ng-template>
 </p-dialog>
 
-<!-- MODAL ELIMINAR SERVICIO/ARTICULO -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar" [(visible)]="mostrarModalEliminar"
+<!-- MODAL ELIMINAR SERVICIO -->
+<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar" [(visible)]="mostrarModalEliminarServicio"
           [modal]="true"
           [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
@@ -314,15 +314,39 @@
       <div class="col-md-12">
         <div class="table-panel-column">
             <label>Servicio</label>
-            <span>Traslado oficial</span>
+            <span>{{servicioSeleccionado.servicio}}</span>
         </div>
       </div>
     </div>
   </ng-template>
   <ng-template pTemplate="footer">
     <div class="flex justify-content-end">
-      <button class="btn btn-default btn-md" (click)="mostrarModalEliminar = false">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md" (click)="eliminarServicioArticulo()">
+      <button class="btn btn-default btn-md" (click)="mostrarModalEliminarServicio = false">Cancelar</button>
+      <button class="ml-4 btn btn-primary btn-md" (click)="eliminarServicio()">
+        Aceptar
+      </button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<!-- MODAL ELIMINAR ARTICULO -->
+<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar" [(visible)]="mostrarModalEliminarArticulo"
+          [modal]="true"
+          [draggable]="false" [resizable]="false">
+  <ng-template pTemplate="content">
+    <div class="row rectangle-row m-2">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+            <label>Artículo</label>
+            <span>{{articuloSeleccionado.articulo}}</span>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end">
+      <button class="btn btn-default btn-md" (click)="mostrarModalEliminarArticulo = false">Cancelar</button>
+      <button class="ml-4 btn btn-primary btn-md" (click)="eliminarArticulo()">
         Aceptar
       </button>
     </div>

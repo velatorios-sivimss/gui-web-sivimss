@@ -66,7 +66,8 @@ export class AgregarPaqueteComponent implements OnInit {
 
   mostrarModalAgregarServicio: boolean = false;
   mostrarModalAgregarArticulo: boolean = false;
-  mostrarModalEliminar: boolean = false;
+  mostrarModalEliminarServicio: boolean = false;
+  mostrarModalEliminarArticulo: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -266,17 +267,27 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   abrirModalEliminarServicio(servicio: Servicio): void {
-    this.mostrarModalEliminar = true;
+    this.servicioSeleccionado = servicio;
+    this.mostrarModalEliminarServicio = true;
     this.tituloEliminar = 'Eliminar servicio al paquete';
   }
 
   abrirModalEliminarArticulo(articulo: Articulo): void {
-    this.mostrarModalEliminar = true;
+    this.articuloSeleccionado = articulo;
+    this.mostrarModalEliminarArticulo = true;
     this.tituloEliminar = 'Eliminar artículo al paquete';
   }
 
-  eliminarServicioArticulo(): void {
-    this.mostrarModalEliminar = false;
+  eliminarServicio(): void {
+    const foundIndex = this.servicios.findIndex((item: Servicio) => item.id === this.servicioSeleccionado.id);    
+    this.servicios.splice(foundIndex, 1);
+    this.mostrarModalEliminarServicio = false;
+  }
+
+  eliminarArticulo(): void {
+    const foundIndex = this.articulos.findIndex((item: Servicio) => item.id === this.articuloSeleccionado.id);    
+    this.articulos.splice(foundIndex, 1);
+    this.mostrarModalEliminarArticulo = false;
   }
 
   get f() {
