@@ -12,8 +12,8 @@ import {Servicio} from "../../models/servicio.interface";
 })
 export class ModificarServicioComponent implements OnInit {
 
-  modificarServicioForm: FormGroup;
-  servicio: Servicio;
+  modificarServicioForm!: FormGroup;
+  servicio: Servicio = {};
 
   opciones: any[] = [
     {

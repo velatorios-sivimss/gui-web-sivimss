@@ -10,12 +10,12 @@ import {OverlayPanel} from "primeng-lts/overlaypanel";
 })
 export class DetalleServicioComponent implements OnInit {
 
-  @Input() servicioSeleccionado:Servicio;
-  @Input() origen: string;
+  @Input() servicioSeleccionado!: Servicio;
+  @Input() origen!: string;
   @Output() confirmacionAgregarServicio = new EventEmitter<boolean>();
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel: OverlayPanel | undefined;
 
   constructor(public ref: DynamicDialogRef,
               public config: DynamicDialogConfig) { }
@@ -26,7 +26,6 @@ export class DetalleServicioComponent implements OnInit {
       this.origen = "detalle";
     }
 
-    this.servicioSeleccionado;
 
   }
 
@@ -46,9 +45,7 @@ export class DetalleServicioComponent implements OnInit {
   }
 
   cerrar(): void {
-    if(this.origen == "detalle"){
-      this.ref.close();
-    }
-    this.confirmacionAgregarServicio.emit(false);
+    this.ref.close();
+    // this.confirmacionAgregarServicio.emit(false);
   }
 }

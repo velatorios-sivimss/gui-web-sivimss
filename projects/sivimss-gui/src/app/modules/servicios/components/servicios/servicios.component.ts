@@ -27,7 +27,7 @@ import {DetalleServicioComponent} from "../detalle-servicio/detalle-servicio.com
 export class ServiciosComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -36,20 +36,19 @@ export class ServiciosComponent implements OnInit {
   encabezadoEstatusServicio:String = "";
 
   servicios:Servicio[] = [];
-  servicioSeleccionado:Servicio = null;
+  servicioSeleccionado:Servicio = {};
 
-  filtroForm: FormGroup;
-  // agregarServicioForm: FormGroup;
-  modificarServicioForm: FormGroup;
+  filtroForm!: FormGroup;
 
-  // mostrarModalAgregarServicio: boolean = false;
+  modificarServicioForm!: FormGroup;
+
   mostrarModalModificarServicio: boolean = false;
   mostrarModalDetalleServicio: boolean = false;
   mostrarModalEstatusServicio: boolean = false;
 
-  creacionRef: DynamicDialogRef;
-  detalleRef:DynamicDialogRef;
-  modificacionRef:DynamicDialogRef;
+  creacionRef!: DynamicDialogRef;
+  detalleRef!:DynamicDialogRef;
+  modificacionRef!:DynamicDialogRef;
 
   /**
    * INICIO VARIABLES DOOMY PARA USO DE MAQUETADO
@@ -101,7 +100,7 @@ export class ServiciosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-  this.actualizarBreadcrumb();
+    this.actualizarBreadcrumb();
     this.inicializarFiltroForm();
   }
 
@@ -123,6 +122,11 @@ export class ServiciosComponent implements OnInit {
       header:"Agregar servicio",
       width:"920px"
     });
+    this.creacionRef.onClose.subscribe((estatus:any) => {
+      if(estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio agregado correctamente');
+      }
+    })
   }
 
   abrirModalModificarServicio(): void {
@@ -218,12 +222,11 @@ export class ServiciosComponent implements OnInit {
     }else{
       servicio.estatus = !servicio.estatus;
     }
-    this.paginar(null);
+    this.paginar({first:0});
   }
 
   consultaServicioEspecifico():void{
-    const servicio = this.filtroForm.get("servicio").value;
-    console.log(servicio);
+
   }
 
   limpiar(): void {
@@ -231,6 +234,6 @@ export class ServiciosComponent implements OnInit {
   }
 
   get f(){
-    return this.filtroForm.controls;
+    return this.filtroForm?.controls;
   }
 }

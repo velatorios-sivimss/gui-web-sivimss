@@ -1,15 +1,15 @@
 export interface Servicio {
-  id: number;
-  servicio: string;
-  descripcionServicio: string;
-  tipoServicio: number;
+  id?: number;
+  servicio?: string;
+  descripcionServicio?: string;
+  tipoServicio?: number;
   descTipoServicio?: string;
-  partidaPresupuestal: number;
+  partidaPresupuestal?: number;
   descPartidaPresupuestal?: string;
-  cuentaContable: number;
+  cuentaContable?: number;
   descCuentaContable?: string;
-  observaciones: string;
-  estatus: boolean;
+  observaciones?: string;
+  estatus?: boolean;
   claveSAT?:string;
 }
 

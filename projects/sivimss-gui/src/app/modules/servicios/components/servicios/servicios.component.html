@@ -39,7 +39,7 @@
 
   <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="servicios" [paginator]="servicios.length > 0"
            [rows]="cantElementosPorPagina"
-           [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual" [columns]=""
+           [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">
 
     <ng-template pTemplate="header">

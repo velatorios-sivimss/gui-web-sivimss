@@ -13,9 +13,9 @@ import {Servicio} from "../../models/servicio.interface";
 })
 export class AgregarServicioComponent implements OnInit {
 
-  agregarServicioForm: FormGroup;
+  agregarServicioForm!: FormGroup;
 
-  servicio:Servicio;
+  servicio:Servicio = {};
 
 
   confirmacionAgregarServicio: boolean = false;
@@ -65,18 +65,18 @@ export class AgregarServicioComponent implements OnInit {
     * Se mandará solo texto para que el detalle solo lo imprim por lo que se deben llenar las variables
     * que son 'desc'*/
     this.servicio = {
-      id: this.agregarServicioForm.get("id").value,
-      servicio: this.agregarServicioForm.get("servicio").value,
-      descripcionServicio:this.agregarServicioForm.get("descripcion").value,
-      tipoServicio: this.agregarServicioForm.get("tipoServicio").value,
+      id: this.agregarServicioForm.get("id")?.value,
+      servicio: this.agregarServicioForm.get("servicio")?.value,
+      descripcionServicio:this.agregarServicioForm.get("descripcion")?.value,
+      tipoServicio: this.agregarServicioForm.get("tipoServicio")?.value,
       descTipoServicio: "Campo dummy",
-      partidaPresupuestal: this.agregarServicioForm.get("partidaPresupuestal").value,
+      partidaPresupuestal: this.agregarServicioForm.get("partidaPresupuestal")?.value,
       descPartidaPresupuestal: "Campo dummy",
-      cuentaContable: this.agregarServicioForm.get("cuentaContable").value,
+      cuentaContable: this.agregarServicioForm.get("cuentaContable")?.value,
       descCuentaContable: "Campo dummy",
-      observaciones: this.agregarServicioForm.get("observaciones").value,
-      estatus: this.agregarServicioForm.get("estatus").value,
-      claveSAT:this.agregarServicioForm.get("claveSAT").value
+      observaciones: this.agregarServicioForm.get("observaciones")?.value,
+      estatus: this.agregarServicioForm.get("estatus")?.value,
+      claveSAT:this.agregarServicioForm.get("claveSAT")?.value
     };
   }
 
@@ -85,12 +85,7 @@ export class AgregarServicioComponent implements OnInit {
       this.confirmacionAgregarServicio = false;
       return;
     }
-    this.ref.close();
-  }
-
-  cerrarModal(event:boolean):void{
-    console.log(event);
-    this.ref.close();
+    this.ref.close({ "estatus":true});
   }
 
   get fas(){
