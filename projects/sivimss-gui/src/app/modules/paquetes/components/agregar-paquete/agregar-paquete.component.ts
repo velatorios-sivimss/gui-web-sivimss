@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
+import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
@@ -9,11 +10,13 @@ import { Servicio } from '../../models/servicios.interface';
 import { LazyLoadEvent } from "primeng-lts/api";
 import { Articulo } from '../../models/articulos.interface';
 import { ListaVelatorios } from '../../models/lista-velatorios.interface';
+import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-paquete.component';
 
 @Component({
   selector: 'app-agregar-paquete',
   templateUrl: './agregar-paquete.component.html',
-  styleUrls: ['./agregar-paquete.component.scss']
+  styleUrls: ['./agregar-paquete.component.scss'],
+  providers: [DialogService]
 })
 export class AgregarPaqueteComponent implements OnInit {
 
@@ -52,7 +55,6 @@ export class AgregarPaqueteComponent implements OnInit {
   agregarServicioForm: FormGroup;
   agregarArticuloForm: FormGroup;
 
-  mostrarModalDetalleAgregarPaquete: boolean = false;
   mostrarModalAgregarServicio: boolean = false;
   mostrarModalAgregarArticulo: boolean = false;
   mostrarModalEliminar: boolean = false;
@@ -60,6 +62,7 @@ export class AgregarPaqueteComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
+    public dialogService: DialogService,
     private alertaService: AlertaService,
     private route: ActivatedRoute,
   ) {
@@ -196,7 +199,15 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   verDetalleGuardarPaquete(): void {
-    this.mostrarModalDetalleAgregarPaquete = true;
+    const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaqueteComponent, {
+      data: this.agregarPaqueteForm.value,
+      header: "Agregar paquete",
+      width: "920px"
+    });
+
+    // this.detalleRef.onClose.subscribe((result: unknown) => {
+    //   console.log(result);
+    // });
   }
 
   abrirModalAgregarServicio(): void {

@@ -68,7 +68,7 @@ export class PaquetesComponent implements OnInit {
   ];
 
   paquetes: Paquete[] = [];
-  paqueteSeleccionada: Paquete = null;
+  paqueteSeleccionado: Paquete = null;
   detalleRef: DynamicDialogRef;
   filtroForm: FormGroup;
   agregarPaqueteForm: FormGroup;
@@ -171,15 +171,15 @@ export class PaquetesComponent implements OnInit {
       data: paqueteSeleccionado,
       header: "Ver detalle",
       width: "920px"
-    });
+      });
 
     // this.detalleRef.onClose.subscribe((result: unknown) => {
     //   console.log(result);
     // });
   }
 
-  abrirPanel(event: MouseEvent, paqueteSeleccionada: Paquete): void {
-    this.paqueteSeleccionada = paqueteSeleccionada;
+  abrirPanel(event: MouseEvent, paqueteSeleccionado: Paquete): void {
+    this.paqueteSeleccionado = paqueteSeleccionado;
     this.overlayPanel.toggle(event);
   }
 
