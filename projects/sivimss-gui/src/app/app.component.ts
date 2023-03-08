@@ -10,7 +10,7 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  rutaActual: string;
+  rutaActual!: string;
 
   constructor(
     private primengConfig: PrimeNGConfig,

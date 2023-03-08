@@ -13,8 +13,8 @@ import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/a
 export class InicioSesionComponent implements OnInit {
 
   form!: FormGroup;
-  formRestContraUsuario: FormGroup;
-  formRestContraCodigo:FormGroup;
+  formRestContraUsuario!: FormGroup;
+  formRestContraCodigo!:FormGroup;
 
   modales = {
     cambiarContrasena: false,
@@ -26,7 +26,7 @@ export class InicioSesionComponent implements OnInit {
 
   pasoRestablecerContrasena: number = 1;
 
-  usuarioRestablecer: string;
+  usuarioRestablecer!: string;
 
   constructor(
     private formBuilder: FormBuilder,

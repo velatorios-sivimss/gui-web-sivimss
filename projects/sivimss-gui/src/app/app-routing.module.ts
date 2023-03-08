@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes, UrlSerializer} from '@angular/router';
-import {PaginaNoEncontradaComponent} from './components/pagina-no-encontrada/pagina-no-encontrada.component';
-import {BloqueaUsuarioLogueadoGuard} from './services/security/bloquea-usuario-logueado.guard';
-import {PermiteUsuarioLogueadoGuard} from './services/security/permite-usuario-logueado.guard';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
+import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
+import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
+import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
 
 const routes: Routes = [
   {
@@ -33,6 +33,10 @@ const routes: Routes = [
   {
     path: 'capillas',
     loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule)
+  },
+  {
+    path: 'ordenes-de-servicio',
+    loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
   },
   {
     path: '**',
