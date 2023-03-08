@@ -26,7 +26,7 @@ export class ModificarVehiculoComponent implements OnInit {
 
   datosGeneralesForm!: FormGroup;
   datosDocumentacionForm!: FormGroup;
-  vehiculoModificado: Vehiculo;
+  vehiculoModificado!: Vehiculo;
 
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,

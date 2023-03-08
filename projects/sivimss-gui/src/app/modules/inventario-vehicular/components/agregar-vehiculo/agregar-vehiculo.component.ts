@@ -24,7 +24,7 @@ export class AgregarVehiculoComponent implements OnInit {
 
   datosGeneralesForm!: FormGroup;
   datosDocumentacionForm!: FormGroup;
-  nuevoVehiculo: Vehiculo;
+  nuevoVehiculo!: Vehiculo;
 
   constructor(private formBuilder: FormBuilder,
     public ref: DynamicDialogRef) { }

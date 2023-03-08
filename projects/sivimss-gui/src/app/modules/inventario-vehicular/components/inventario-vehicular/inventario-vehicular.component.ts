@@ -24,7 +24,7 @@ import { VerDetalleVehiculoComponent } from '../ver-detalle-vehiculo/ver-detalle
 export class InventarioVehicularComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   filtroForm!: FormGroup;
   velatorios: DropdownItem[] = [];
@@ -40,9 +40,9 @@ export class InventarioVehicularComponent implements OnInit {
   mostrarModalDetalleVehiculo: boolean = false;
   propiedad = false;
 
-  creacionRef: DynamicDialogRef
-  detalleRef: DynamicDialogRef;
-  modificacionRef: DynamicDialogRef;
+  creacionRef!: DynamicDialogRef
+  detalleRef!: DynamicDialogRef;
+  modificacionRef!: DynamicDialogRef;
 
   constructor(
     private breadcrumbService: BreadcrumbService,
