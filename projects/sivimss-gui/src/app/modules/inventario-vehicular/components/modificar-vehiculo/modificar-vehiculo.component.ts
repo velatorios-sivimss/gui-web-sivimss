@@ -1,3 +1,4 @@
+// TODO: Revisar si el figma esta mal o se hace un stepper arriba en el 0 y uno abajo en el 1
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng-lts/api';
@@ -13,7 +14,6 @@ import { Vehiculo } from '../../models/vehiculo.interface';
 })
 export class ModificarVehiculoComponent implements OnInit {
 
-  estatus: boolean = false;
   menuStep: MenuItem[] = MENU_STEPPER;
   indice: number = 0;
 
@@ -31,7 +31,6 @@ export class ModificarVehiculoComponent implements OnInit {
     public config: DynamicDialogConfig,
     private formBuilder: FormBuilder) {
     const vehiculoSeleccionado = this.config.data;
-    this.estatus = vehiculoSeleccionado.estatus;
     this.inicializarFormDatosGenerales(vehiculoSeleccionado);
     this.inicializarFormDatosDocumentacion(vehiculoSeleccionado);
   }
@@ -39,22 +38,23 @@ export class ModificarVehiculoComponent implements OnInit {
   ngOnInit(): void { }
 
   inicializarFormDatosGenerales(vehiculoSeleccionado: Vehiculo): void {
+    // TODO: Al implementar verificar que descripcion es la que se carga 
     this.datosGeneralesForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }],
-      velatorio: [{ value: null, disabled: false }, [Validators.required]],
-      uso: [{ value: null, disabled: false }, [Validators.required]],
-      responsable: [{ value: null, disabled: false }, [Validators.required]],
-      tipoVehiculo: [{ value: null, disabled: false }, [Validators.required]],
-      marca: [{ value: null, disabled: false }, [Validators.required]],
-      submarca: [{ value: null, disabled: false }, [Validators.required]],
-      modelo: [{ value: null, disabled: false }, [Validators.required]],
-      placas: [{ value: null, disabled: false }, [Validators.required]],
-      noMotor: [{ value: null, disabled: false }, [Validators.required]],
-      noCilindros: [{ value: null, disabled: false }, [Validators.required]],
-      transmision: [{ value: null, disabled: false }, [Validators.required]],
-      desTransmision: [{ value: null, disabled: false }, [Validators.required]],
-      combustible: [{ value: null, disabled: false }, [Validators.required]],
-      desCombustible: [{ value: null, disabled: false }, [Validators.required]],
+      id: [{ value: vehiculoSeleccionado.id, disabled: true }],
+      velatorio: [{ value: vehiculoSeleccionado.velatorio, disabled: false }, [Validators.required]],
+      uso: [{ value: vehiculoSeleccionado.uso, disabled: false }, [Validators.required]],
+      responsable: [{ value: vehiculoSeleccionado.responsable, disabled: false }, [Validators.required]],
+      tipoVehiculo: [{ value: vehiculoSeleccionado.tipoVehiculo, disabled: false }, [Validators.required]],
+      marca: [{ value: vehiculoSeleccionado.marca, disabled: false }, [Validators.required]],
+      submarca: [{ value: vehiculoSeleccionado.submarca, disabled: false }, [Validators.required]],
+      modelo: [{ value: vehiculoSeleccionado.modelo, disabled: false }, [Validators.required]],
+      placas: [{ value: vehiculoSeleccionado.placas, disabled: false }, [Validators.required]],
+      noMotor: [{ value: vehiculoSeleccionado.noMotor, disabled: false }, [Validators.required]],
+      noCilindros: [{ value: vehiculoSeleccionado.noCilindros, disabled: false }, [Validators.required]],
+      transmision: [{ value: vehiculoSeleccionado.transmision, disabled: false }, [Validators.required]],
+      desTransmision: [{ value: vehiculoSeleccionado.desTransmision, disabled: false }, [Validators.required]],
+      combustible: [{ value: vehiculoSeleccionado.combustible, disabled: false }, [Validators.required]],
+      desCombustible: [{ value: vehiculoSeleccionado.desCombustible, disabled: false }, [Validators.required]],
     });
   }
 
@@ -74,7 +74,7 @@ export class ModificarVehiculoComponent implements OnInit {
       vigenciapolizaFin: [{ value: null, disabled: false }, [Validators.required]],
       riesgos: [{ value: null, disabled: false }, [Validators.required]],
       importePrima: [{ value: null, disabled: false }, [Validators.required]],
-      estatus: [{ value: true, disabled: false }, [Validators.required]],
+      estatus: [{ value: vehiculoSeleccionado.estatus, disabled: false }, [Validators.required]],
     })
   }
 

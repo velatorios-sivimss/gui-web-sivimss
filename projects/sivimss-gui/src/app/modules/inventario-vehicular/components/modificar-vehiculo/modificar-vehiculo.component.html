@@ -9,8 +9,8 @@
             <div class="flex flex-column">
                 <span>Estatus</span>
                 <div class="contenedor-inputswitch">
-                    <span class="activo" *ngIf="estatus">Activo</span>
-                    <span class="inactivo" *ngIf="!estatus">Inactivo</span>
+                    <span class="activo" *ngIf="fdd.estatus?.value">Activo</span>
+                    <span class="inactivo" *ngIf="!fdd.estatus?.value">Inactivo</span>
                 </div>
             </div>
         </div>
