@@ -1,10 +1,12 @@
+// TODO: En implementación eliminar catalogos dummies
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng-lts/api';
 import { MENU_STEPPER } from '../../constants/menu-stepper';
-import { DropdownItem } from 'primeng-lts/dropdown';
 import { DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { Vehiculo } from '../../models/vehiculo.interface';
+import { TipoDropdown } from '../../../../models/tipo-dropdown';
+import { CATALOGOS_DUMMIES } from '../../constants/dummies';
 
 @Component({
   selector: 'app-agregar-vehiculo',
@@ -16,11 +18,11 @@ export class AgregarVehiculoComponent implements OnInit {
   menuStep: MenuItem[] = MENU_STEPPER;
   indice: number = 0;
 
-  responsables: DropdownItem[] = [];
-  tiposVehiculo: DropdownItem[] = [];
-  usos: DropdownItem[] = [];
-  velatorios: DropdownItem[] = [];
-  numerosSerie: DropdownItem[] = [];
+  responsables: TipoDropdown[] = CATALOGOS_DUMMIES;
+  tiposVehiculo: TipoDropdown[] = CATALOGOS_DUMMIES;
+  usos: TipoDropdown[] = CATALOGOS_DUMMIES;
+  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
+  numerosSerie: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   datosGeneralesForm!: FormGroup;
   datosDocumentacionForm!: FormGroup;

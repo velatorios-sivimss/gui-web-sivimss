@@ -1,11 +1,13 @@
 // TODO: Revisar si el figma esta mal o se hace un stepper arriba en el 0 y uno abajo en el 1
+// Eliminar catalogos dummies
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng-lts/api';
-import { DropdownItem } from 'primeng-lts/dropdown';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { MENU_STEPPER } from '../../constants/menu-stepper';
 import { Vehiculo } from '../../models/vehiculo.interface';
+import { TipoDropdown } from '../../../../models/tipo-dropdown';
+import { CATALOGOS_DUMMIES } from '../../constants/dummies';
 
 @Component({
   selector: 'app-modificar-vehiculo',
@@ -18,11 +20,11 @@ export class ModificarVehiculoComponent implements OnInit {
   indice: number = 0;
   id: string = '';
 
-  responsables: DropdownItem[] = [];
-  tiposVehiculo: DropdownItem[] = [];
-  usos: DropdownItem[] = [];
-  velatorios: DropdownItem[] = [];
-  numerosSerie: DropdownItem[] = [];
+  responsables: TipoDropdown[] = CATALOGOS_DUMMIES;
+  tiposVehiculo: TipoDropdown[] = CATALOGOS_DUMMIES;
+  usos: TipoDropdown[] = CATALOGOS_DUMMIES;
+  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
+  numerosSerie: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   datosGeneralesForm!: FormGroup;
   datosDocumentacionForm!: FormGroup;

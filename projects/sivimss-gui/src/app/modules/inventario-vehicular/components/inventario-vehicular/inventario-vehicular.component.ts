@@ -1,10 +1,11 @@
+// TODO: Retirar Catalogos Dummies
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { LazyLoadEvent } from 'primeng-lts/api';
-import { DropdownItem } from 'primeng-lts/dropdown';
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
+import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
@@ -14,6 +15,7 @@ import { Vehiculo } from '../../models/vehiculo.interface';
 import { AgregarVehiculoComponent } from '../agregar-vehiculo/agregar-vehiculo.component';
 import { ModificarVehiculoComponent } from '../modificar-vehiculo/modificar-vehiculo.component';
 import { VerDetalleVehiculoComponent } from '../ver-detalle-vehiculo/ver-detalle-vehiculo.component';
+import { CATALOGOS_DUMMIES } from '../../constants/dummies';
 
 @Component({
   selector: 'app-inventario-vehicular',
@@ -27,9 +29,9 @@ export class InventarioVehicularComponent implements OnInit {
   overlayPanel!: OverlayPanel;
 
   filtroForm!: FormGroup;
-  velatorios: DropdownItem[] = [];
-  niveles: DropdownItem[] = [];
-  delegaciones: DropdownItem[] = [];
+  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
+  niveles: TipoDropdown[] = CATALOGOS_DUMMIES;
+  delegaciones: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
