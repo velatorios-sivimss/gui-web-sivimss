@@ -18,10 +18,8 @@ export class VerDetalleVehiculoComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  cerrarDialogo() {
-    this.ref.close( {
-      respuesta: 'Ok'
-    });
+  cerrarDialogo(modificar: boolean = false) {
+    this.ref.close( { modificar });
   }
 
 }

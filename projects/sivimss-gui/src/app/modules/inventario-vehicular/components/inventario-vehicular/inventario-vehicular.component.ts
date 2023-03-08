@@ -135,11 +135,18 @@ export class InventarioVehicularComponent implements OnInit {
   }
 
   abrirModalDetalleVehiculo(vehiculoSeleccionado: Vehiculo): void {
+    this.vehiculoSeleccionado = vehiculoSeleccionado;
     this.detalleRef = this.dialogService.open(VerDetalleVehiculoComponent, {
       data: vehiculoSeleccionado,
       header: "Ver Detalle",
       width: "920px"
     });
+
+    this.detalleRef.onClose.subscribe((respuesta) => {
+      if (respuesta.modificar) {
+        this.abrirModalModificacionVehiculo();
+      }
+    })
   }
 
   abrirModalCreacionVehiculo(): void {
