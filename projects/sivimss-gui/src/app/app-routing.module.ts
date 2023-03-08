@@ -35,6 +35,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule)
   },
   {
+    path: 'ordenes-de-servicio',
+    loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
+  },
+  {
     path: 'servicios',
     loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
   },

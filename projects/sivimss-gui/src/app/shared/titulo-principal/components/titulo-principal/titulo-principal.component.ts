@@ -10,10 +10,10 @@ export class TituloPrincipalComponent implements OnInit {
   private _style: any = {};
 
   @Input()
-  styleClass: string;
+  styleClass!: string;
 
   @Input()
-  titulo: string;
+  titulo!: string;
 
   constructor() {
   }

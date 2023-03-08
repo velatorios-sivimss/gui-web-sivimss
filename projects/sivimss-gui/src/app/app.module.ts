@@ -5,6 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BnNgIdleService} from 'bn-ng-idle';
+import { MenuSidebarModule } from "projects/sivimss-gui/src/app/shared/menu-sidebar/menu-sidebar.module";
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AutenticacionInterceptor} from './services/security/autenticacion.interceptor';
@@ -17,7 +18,6 @@ import {HeaderImssPublicoComponent} from './components/header-imss-publico/heade
 import {LoaderModule} from './shared/loader/loader.module';
 import {AlertaModule} from './shared/alerta/alerta.module';
 import {SubHeaderPrivadoComponent} from './components/sub-header-privado/sub-header-privado.component';
-import {MenuSidebarComponent} from './components/menu-sidebar/menu-sidebar.component';
 import {BreadcrumbModule} from "./shared/breadcrumb/breadcrumb.module";
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -29,8 +29,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppComponent,
     PaginaNoEncontradaComponent,
     HeaderImssPublicoComponent,
-    SubHeaderPrivadoComponent,
-    MenuSidebarComponent
+    SubHeaderPrivadoComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +44,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    MenuSidebarModule,
     BreadcrumbModule,
     LoaderModule,
     AlertaModule

@@ -8,13 +8,13 @@ import { CustomTemplateDirective } from "../../../custom-template/directives/cus
 })
 export class TablePanelComponent implements OnInit, AfterContentInit {
 
-  @ContentChildren(CustomTemplateDirective) templates: QueryList<any> = null;
+  @ContentChildren(CustomTemplateDirective) templates!: QueryList<any>;
 
-  leftTemplate: TemplateRef<any> = null;
+  leftTemplate!: TemplateRef<any>;
 
-  rightTemplate: TemplateRef<any> = null;
+  rightTemplate!: TemplateRef<any>;
 
-  contentTemplate: TemplateRef<any> = null;
+  contentTemplate!: TemplateRef<any>;
 
   constructor() {
   }
