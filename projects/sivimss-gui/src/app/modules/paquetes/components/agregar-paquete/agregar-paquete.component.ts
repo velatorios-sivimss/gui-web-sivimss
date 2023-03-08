@@ -21,7 +21,7 @@ import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-p
 export class AgregarPaqueteComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -44,16 +44,16 @@ export class AgregarPaqueteComponent implements OnInit {
   ];
 
   servicios: Servicio[] = [];
-  servicioSeleccionado: Servicio = null;
+  servicioSeleccionado!: Servicio;
   articulos: Articulo[] = [];
-  articuloSeleccionado: Articulo = null;
+  articuloSeleccionado!: Articulo;
   velatorios: ListaVelatorios[] = [];
   tituloEliminar: string = '';
   tituloPrincipal: string = 'ADMINISTRAR PAQUETES';
 
-  agregarPaqueteForm: FormGroup;
-  agregarServicioForm: FormGroup;
-  agregarArticuloForm: FormGroup;
+  agregarPaqueteForm!: FormGroup;
+  agregarServicioForm!: FormGroup;
+  agregarArticuloForm!: FormGroup;
 
   mostrarModalAgregarServicio: boolean = false;
   mostrarModalAgregarArticulo: boolean = false;

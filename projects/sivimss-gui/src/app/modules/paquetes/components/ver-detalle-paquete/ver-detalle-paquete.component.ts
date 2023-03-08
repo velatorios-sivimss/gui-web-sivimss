@@ -32,12 +32,12 @@ export class VerDetallePaqueteComponent implements OnInit {
 
   paginar(event: LazyLoadEvent): void {
     setTimeout(() => {
-      this.servicios =  this.paqueteSeleccionado.servicios;
+      this.servicios =  this.paqueteSeleccionado.servicios || [];
       this.totalElementosServicios = this.servicios.length;
     }, 0);
 
     setTimeout(() => {
-      this.articulos = this.paqueteSeleccionado.articulos;
+      this.articulos = this.paqueteSeleccionado.articulos || [];
       this.totalElementosArticulos = this.articulos.length;
     }, 0);
   }

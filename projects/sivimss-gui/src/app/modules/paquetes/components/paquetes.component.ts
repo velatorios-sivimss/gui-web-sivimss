@@ -21,7 +21,7 @@ import { Articulo } from '../models/articulos.interface';
 export class PaquetesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -68,11 +68,11 @@ export class PaquetesComponent implements OnInit {
   ];
 
   paquetes: Paquete[] = [];
-  paqueteSeleccionado: Paquete = null;
-  detalleRef: DynamicDialogRef;
-  filtroForm: FormGroup;
-  agregarPaqueteForm: FormGroup;
-  modificarPaqueteForm: FormGroup;
+  paqueteSeleccionado!: Paquete;
+  detalleRef!: DynamicDialogRef;
+  filtroForm!: FormGroup;
+  agregarPaqueteForm!: FormGroup;
+  modificarPaqueteForm!: FormGroup;
 
   mostrarModalAgregarPaquete: boolean = false;
   mostrarModalModificarPaquete: boolean = false;
