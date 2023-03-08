@@ -22,7 +22,7 @@ const routes: Routes = [
     path: 'agregar-paquete', component: AgregarPaqueteComponent,
   },
   {
-    path: 'modificar-paquete', component: AgregarPaqueteComponent,
+    path: 'modificar-paquete/:id', component: AgregarPaqueteComponent,
   }
 ];
 

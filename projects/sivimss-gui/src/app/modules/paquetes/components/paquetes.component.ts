@@ -12,6 +12,10 @@ import { VerDetallePaqueteComponent } from './ver-detalle-paquete/ver-detalle-pa
 import { Servicio } from '../models/servicios.interface';
 import { Articulo } from '../models/articulos.interface';
 
+interface HttpResponse {
+  respuesta: string;
+  paquete: Paquete;
+}
 @Component({
   selector: 'app-paquetes',
   templateUrl: './paquetes.component.html',
@@ -26,6 +30,8 @@ export class PaquetesComponent implements OnInit {
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
+
+  modo: 'crear' | 'actualizar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   opciones: any[] = [
     {
@@ -106,12 +112,12 @@ export class PaquetesComponent implements OnInit {
     setTimeout(() => {
       this.paquetes = [
         {
-          id: '1',
+          id: 1,
           nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
           descripcion: 'Paquete todo incluido con cremación servicios completos',
           estatus: true,
           costoInicial: '$34,200.00',
-          costo: '$45,000.00',
+          costoReferencia: '$45,000.00',
           precio: '$65,000.00',
           region: 'Nacional',
           clave: '00000000000000000',
@@ -119,12 +125,12 @@ export class PaquetesComponent implements OnInit {
           articulos: this.articulos,
         },
         {
-          id: '2',
+          id: 2,
           nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
           descripcion: 'Paquete todo incluido con cremación servicios completos',
           estatus: true,
           costoInicial: '$34,200.00',
-          costo: '$45,000.00',
+          costoReferencia: '$45,000.00',
           precio: '$65,000.00',
           region: 'Nacional',
           clave: '00000000000000000',
@@ -132,12 +138,12 @@ export class PaquetesComponent implements OnInit {
           articulos: this.articulos,
         },
         {
-          id: '3',
+          id: 3,
           nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
           descripcion: 'Paquete todo incluido con cremación servicios completos',
           estatus: true,
           costoInicial: '$34,200.00',
-          costo: '$45,000.00',
+          costoReferencia: '$45,000.00',
           precio: '$65,000.00',
           region: 'Nacional',
           clave: '00000000000000000',
@@ -166,12 +172,12 @@ export class PaquetesComponent implements OnInit {
     });
   }
 
-  abrirModalDetallePaquete(paqueteSeleccionado: Paquete) {
+  abrirModalDetallePaquete(paquete: Paquete) {
     this.detalleRef = this.dialogService.open(VerDetallePaqueteComponent, {
-      data: paqueteSeleccionado,
+      data: { paquete, modo: this.modo = 'detalle' },
       header: "Ver detalle",
       width: "920px"
-      });
+    });
 
     // this.detalleRef.onClose.subscribe((result: unknown) => {
     //   console.log(result);
@@ -184,35 +190,69 @@ export class PaquetesComponent implements OnInit {
   }
 
   abrirModalModificarPaquete() {
-    this.inicializarModificarPaqueteForm();
+    // this.inicializarModificarPaqueteForm();
     this.mostrarModalModificarPaquete = true;
     const queryParams = { titulo: 'MODIFICAR PAQUETES' };
-    this.router.navigate(['modificar-paquete'], {
+    this.router.navigate(['modificar-paquete', this.paqueteSeleccionado.id], {
       relativeTo: this.activatedRoute,
       queryParams,
     });
   }
 
-  inicializarAgregarPaqueteForm() {
-    this.agregarPaqueteForm = this.formBuilder.group({
-      nivel: [{ value: null, disabled: false }, [Validators.required]],
-      delegacion: [{ value: null, disabled: false }, [Validators.required]],
-      velatorio: [{ value: null, disabled: false }, [Validators.required]],
-      nombrePaquete: [{ value: null, disabled: false }, [Validators.required]],
-    });
-  }
+  // inicializarAgregarPaqueteForm() {
+  //   this.agregarPaqueteForm = this.formBuilder.group({
+  //     nivel: [{ value: null, disabled: false }, [Validators.required]],
+  //     delegacion: [{ value: null, disabled: false }, [Validators.required]],
+  //     velatorio: [{ value: null, disabled: false }, [Validators.required]],
+  //     nombrePaquete: [{ value: null, disabled: false }, [Validators.required]],
+  //   });
+  // }
 
-  inicializarModificarPaqueteForm() {
-    this.modificarPaqueteForm = this.formBuilder.group({
-      nivel: [{ value: null, disabled: false }, [Validators.required]],
-      delegacion: [{ value: null, disabled: false }, [Validators.required]],
-      velatorio: [{ value: null, disabled: false }, [Validators.required]],
-      nombrePaquete: [{ value: null, disabled: false }, [Validators.required]],
-    });
-  }
+  // inicializarModificarPaqueteForm() {
+  //   this.modificarPaqueteForm = this.formBuilder.group({
+  //     nivel: [{ value: null, disabled: false }, [Validators.required]],
+  //     delegacion: [{ value: null, disabled: false }, [Validators.required]],
+  //     velatorio: [{ value: null, disabled: false }, [Validators.required]],
+  //     nombrePaquete: [{ value: null, disabled: false }, [Validators.required]],
+  //   });
+  // }
 
   agregarPaquete(): void {
     this.alertaService.mostrar(TipoAlerta.Exito, 'Usuario guardado');
+  }
+
+  limpiarFormBusqueda() {
+    this.filtroForm.reset();
+  }
+
+  buscarPaquete() {
+    // De acuerdo a CU al menos un campo con información a buscar
+    if (this.validarAlMenosUnCampoConValor(this.filtroForm)) {
+      // TO DO llamada a servicio para realizar búsqueda
+      console.log('Datos a buscar', this.filtroForm.value);
+    }
+  }
+
+  validarAlMenosUnCampoConValor(group: FormGroup) {
+    if (!Object.values(group.value).find(value => value !== '' && value !== null)) {
+      return false;
+    }
+    return true;
+  }
+
+  cambiarEstatus(paquete: Paquete) {
+    this.modo = paquete.estatus ? 'desactivar' : 'activar';
+    this.detalleRef = this.dialogService.open(VerDetallePaqueteComponent, {
+      data: { paquete, modo: this.modo },
+      header: "Ver detalle",
+      width: "920px"
+    });
+    this.detalleRef.onClose.subscribe((res: HttpResponse) => {
+      if (res && res.respuesta === 'Ok') {
+        const foundIndex = this.paquetes.findIndex((item: Paquete) => item.id === paquete.id);
+        this.paquetes[foundIndex] = res.paquete;
+      }
+    });
   }
 
   get f() {

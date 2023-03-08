@@ -5,13 +5,13 @@
       <div class="col-md-6">
         <label class="control-label" for="nivel">Nivel:</label>
         <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones"
-                    placeholder="Selecciona el nivel">
+          placeholder="Selecciona el nivel">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="delegacion">Delegación:</label>
         <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones"
-                    placeholder="Selecciona la delegación">
+          placeholder="Selecciona la delegación">
         </p-dropdown>
       </div>
     </div>
@@ -19,19 +19,19 @@
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
         <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
-                    placeholder="Selecciona el velatorio">
+          placeholder="Selecciona el velatorio">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="nombrePaquete">Nombre:</label>
         <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete"
-               placeholder="Ingresa el nombre del paquete">
+          placeholder="Ingresa el nombre del paquete">
       </div>
     </div>
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
-        <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+        <button type="submit" class="btn btn-default btn-md" (click)="limpiarFormBusqueda();">Limpiar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5" (click)="buscarPaquete();">Buscar</button>
       </div>
     </div>
   </form>
@@ -42,9 +42,8 @@
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarPaquete()">Agregar paquete</button>
   </div>
   <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="paquetes" [paginator]="paquetes.length > 0"
-           [rows]="cantElementosPorPagina"
-           [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-           (onLazyLoad)="paginar($event)">
+    [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3"
+    [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -61,7 +60,10 @@
         <td>{{paquete.descripcion}}</td>
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="paquete.estatus"></p-inputSwitch>
+            <p-inputSwitch
+              [(ngModel)]="paquete.estatus"
+              (click)="paquete.estatus = !paquete.estatus; cambiarEstatus(paquete);">
+            </p-inputSwitch>
             <span class="activo" *ngIf="paquete.estatus">Activo</span>
             <span class="inactivo" *ngIf="!paquete.estatus">Inactivo</span>
           </div>
@@ -72,9 +74,7 @@
               <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
             </a>
             <a (click)="abrirPanel($event,paquete)">
-              <img
-                src="assets/images/imagen-icono-barras-horizontales.svg"
-                alt="icono barras horizontales">
+              <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
             </a>
           </div>
         </td>
@@ -91,8 +91,7 @@
           <span class="export-table-text">Exportar tabla</span>
           <div class="export-table-icons">
             <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
-            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg"
-                 alt="exportar excel">
+            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel">
           </div>
         </div>
       </div>
@@ -109,26 +108,25 @@
 </p-overlayPanel>
 
 <!-- MODAL AGREGAR PAQUETE -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar paquete" [(visible)]="mostrarModalAgregarPaquete"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
+<!-- <p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar paquete" [(visible)]="mostrarModalAgregarPaquete"
+  [modal]="true" [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
     <form [formGroup]="agregarPaqueteForm">
       <div class="row mb-3">
         <div class="col-md-8">
           <label class="control-label" for="idAgregar">ID<span class="req">*</span>:</label>
           <input id="idAgregar" class="form-control" formControlName="id" placeholder="ID">
-          <span class="campo-obligatorio"
-                *ngIf="fac.id?.errors?.required && (fac.id?.dirty || fac.id?.touched)">Campo obligatorio</span>
+          <span class="campo-obligatorio" *ngIf="fac.id?.errors?.required && (fac.id?.dirty || fac.id?.touched)">Campo
+            obligatorio</span>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-12">
           <label class="control-label" for="nombreAgregar">Nombre<span class="req">*</span>:</label>
           <input id="nombreAgregar" class="form-control" formControlName="nombre"
-                 placeholder="Ingresa el nombre del paquete ">
+            placeholder="Ingresa el nombre del paquete ">
           <span class="campo-obligatorio"
-                *ngIf="fac.nombre?.errors?.required && (fac.nombre?.dirty || fac.nombre?.touched)">Campo obligatorio</span>
+            *ngIf="fac.nombre?.errors?.required && (fac.nombre?.dirty || fac.nombre?.touched)">Campo obligatorio</span>
         </div>
 
       </div>
@@ -136,41 +134,40 @@
         <div class="col-md-6">
           <label class="control-label" for="capacidadAgregar">Capacidad<span class="req">*</span>:</label>
           <input id="capacidadAgregar" class="form-control" formControlName="capacidad"
-                 placeholder="Ingresa la capacidad">
+            placeholder="Ingresa la capacidad">
           <span class="campo-obligatorio"
-                *ngIf="fac.capacidad?.errors?.required && (fac.capacidad?.dirty || fac.capacidad?.touched)">Campo obligatorio</span>
+            *ngIf="fac.capacidad?.errors?.required && (fac.capacidad?.dirty || fac.capacidad?.touched)">Campo
+            obligatorio</span>
         </div>
         <div class="col-md-6">
           <label class="control-label" for="velatorioAgregar">Velatorio<span class="req">*</span></label>
           <p-dropdown appendTo="body" id="velatorioAgregar" class="form-control" formControlName="velatorio"
-                      [options]="opciones"
-                      placeholder="Seleccione el velatorio">
+            [options]="opciones" placeholder="Seleccione el velatorio">
           </p-dropdown>
           <span class="campo-obligatorio"
-                *ngIf="fac.velatorio?.errors?.required && (fac.velatorio?.dirty || fac.velatorio?.touched)">Campo obligatorio</span>
+            *ngIf="fac.velatorio?.errors?.required && (fac.velatorio?.dirty || fac.velatorio?.touched)">Campo
+            obligatorio</span>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-4">
           <label class="control-label" for="largoAgregar">Largo<span class="req">*</span>:</label>
-          <input id="largoAgregar" class="form-control" formControlName="largo"
-                 placeholder="Ingresa el largo">
+          <input id="largoAgregar" class="form-control" formControlName="largo" placeholder="Ingresa el largo">
           <span class="campo-obligatorio"
-                *ngIf="fac.largo?.errors?.required && (fac.largo?.dirty || fac.largo?.touched)">Campo obligatorio</span>
+            *ngIf="fac.largo?.errors?.required && (fac.largo?.dirty || fac.largo?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
           <label class="control-label" for="anchoAgregar">Ancho<span class="req">*</span>:</label>
-          <input id="anchoAgregar" class="form-control" formControlName="ancho"
-                 placeholder="Ingresa el ancho">
+          <input id="anchoAgregar" class="form-control" formControlName="ancho" placeholder="Ingresa el ancho">
           <span class="campo-obligatorio"
-                *ngIf="fac.ancho?.errors?.required && (fac.ancho?.dirty || fac.ancho?.touched)">Campo obligatorio</span>
+            *ngIf="fac.ancho?.errors?.required && (fac.ancho?.dirty || fac.ancho?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
           <label class="control-label" for="areaTotalAgregar">Área total<span class="req">*</span>:</label>
-          <input id="areaTotalAgregar" class="form-control" formControlName="areaTotal"
-                 placeholder="Ingresa el área">
+          <input id="areaTotalAgregar" class="form-control" formControlName="areaTotal" placeholder="Ingresa el área">
           <span class="campo-obligatorio"
-                *ngIf="fac.areaTotal?.errors?.required && (fac.areaTotal?.dirty || fac.areaTotal?.touched)">Campo obligatorio</span>
+            *ngIf="fac.areaTotal?.errors?.required && (fac.areaTotal?.dirty || fac.areaTotal?.touched)">Campo
+            obligatorio</span>
         </div>
       </div>
       <div class="row mb-2">
@@ -188,4 +185,4 @@
       </button>
     </div>
   </ng-template>
-</p-dialog>
+</p-dialog> -->

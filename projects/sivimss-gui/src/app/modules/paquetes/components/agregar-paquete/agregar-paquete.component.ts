@@ -11,6 +11,12 @@ import { LazyLoadEvent } from "primeng-lts/api";
 import { Articulo } from '../../models/articulos.interface';
 import { ListaVelatorios } from '../../models/lista-velatorios.interface';
 import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-paquete.component';
+import { Paquete } from '../../models/paquetes.interface';
+
+interface HttpResponse {
+  respuesta: string;
+  paquete: Paquete;
+}
 
 @Component({
   selector: 'app-agregar-paquete',
@@ -22,6 +28,8 @@ export class AgregarPaqueteComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
+
+  modo: 'crear' | 'actualizar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -50,6 +58,7 @@ export class AgregarPaqueteComponent implements OnInit {
   velatorios: ListaVelatorios[] = [];
   tituloEliminar: string = '';
   tituloPrincipal: string = 'ADMINISTRAR PAQUETES';
+  intentoPorGuardar: boolean = false;
 
   agregarPaqueteForm!: FormGroup;
   agregarServicioForm!: FormGroup;
@@ -91,37 +100,37 @@ export class AgregarPaqueteComponent implements OnInit {
 
 
   paginar(event: LazyLoadEvent): void {
-    setTimeout(() => {
-      this.servicios = [
-        {
-          servicio: 'Traslado',
-          costo: '$1,500.00',
-          precio: '$25,000.00',
-        },
-        {
-          servicio: 'Cremación',
-          costo: '$4,700.00',
-          precio: '$25,000.00',
-        },
-      ];
-      this.totalElementosServicios = this.servicios.length;
-    }, 0);
+    // setTimeout(() => {
+    //   this.servicios = [
+    //     {
+    //       servicio: 'Traslado',
+    //       costo: '$1,500.00',
+    //       precio: '$25,000.00',
+    //     },
+    //     {
+    //       servicio: 'Cremación',
+    //       costo: '$4,700.00',
+    //       precio: '$25,000.00',
+    //     },
+    //   ];
+    //   this.totalElementosServicios = this.servicios.length;
+    // }, 0);
 
-    setTimeout(() => {
-      this.articulos = [
-        {
-          articulo: 'Velas con estampados religiosos',
-          costo: '$1,500.00',
-          precio: '$25,000.00',
-        },
-        {
-          articulo: 'Sillas de acero para velatorios',
-          costo: '$4,700.00',
-          precio: '$25,000.00',
-        },
-      ];
-      this.totalElementosArticulos = this.articulos.length;
-    }, 0);
+    // setTimeout(() => {
+    //   this.articulos = [
+    //     {
+    //       articulo: 'Velas con estampados religiosos',
+    //       costo: '$1,500.00',
+    //       precio: '$25,000.00',
+    //     },
+    //     {
+    //       articulo: 'Sillas de acero para velatorios',
+    //       costo: '$4,700.00',
+    //       precio: '$25,000.00',
+    //     },
+    //   ];
+    //   this.totalElementosArticulos = this.articulos.length;
+    // }, 0);
   }
 
   obtenerVelatorio() {
@@ -150,14 +159,14 @@ export class AgregarPaqueteComponent implements OnInit {
   inicializarAgregarPaqueteForm() {
     this.agregarPaqueteForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }, Validators.required],
-      paquete: [{ value: null, disabled: false }, Validators.required],
+      nombrePaquete: [{ value: null, disabled: false }, Validators.required],
       descripcion: [{ value: null, disabled: false }, Validators.required],
       region: [{ value: null, disabled: false }, Validators.required],
       clave: [{ value: null, disabled: false }, Validators.required],
       costoInicial: [{ value: null, disabled: false }, Validators.required],
       costoReferencia: [{ value: null, disabled: false }, Validators.required],
       precio: [{ value: null, disabled: true }, Validators.required],
-      estatus: [{ value: null, disabled: false }, Validators.required],
+      estatus: [{ value: true, disabled: false }, Validators.required],
     });
   }
 
@@ -189,25 +198,61 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   agregarServicio(): void {
+    this.servicios.push({
+      id: 1,
+      idServicio: 1,
+      idTipoServicio: 1,
+      tipoServicio: this.fas.tipoServicio.value,
+      servicio: this.fas.servicio.value,
+      costo: '$10,000',
+      precio: '$10,100',
+    });
+    this.totalElementosServicios = this.servicios.length;
     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio agregado al paquete');
     this.mostrarModalAgregarServicio = false;
   }
 
   agregarArticulo(): void {
+    this.articulos.push({
+      id: 1,
+      idArticulo: 1,
+      idTipoArticulo: 1,
+      tipoArticulo: this.faa.tipoArticulo.value,
+      articulo: this.faa.articulo.value,
+      costo: '$20,000',
+      precio: '$20,200',
+    });
+    this.totalElementosArticulos = this.articulos.length;
     this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo agregado al paquete');
     this.mostrarModalAgregarArticulo = false;
   }
 
   verDetalleGuardarPaquete(): void {
-    const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaqueteComponent, {
-      data: this.agregarPaqueteForm.value,
-      header: "Agregar paquete",
-      width: "920px"
-    });
+    this.intentoPorGuardar = true;
+    this.agregarPaqueteForm.markAllAsTouched();
 
-    // this.detalleRef.onClose.subscribe((result: unknown) => {
-    //   console.log(result);
-    // });
+    if (this.agregarPaqueteForm.valid) {
+      const values = this.agregarPaqueteForm.getRawValue();
+      const nuevoPaquete: Paquete = {
+        ...values,
+        id: 1,
+        precio: '$999,000',
+        servicios: this.servicios,
+        articulos: this.articulos,
+      };
+      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaqueteComponent, {
+        data: { paquete: nuevoPaquete, modo: this.modo },
+        header: "Agregar paquete",
+        width: "920px"
+      });
+
+      // detalleRef.onClose.subscribe((res: HttpResponse) => {
+      //   if (res && res.respuesta === 'Ok') {
+      //     const foundIndex = this.paquetes.findIndex((item: Paquete) => item.id === paquete.id);
+      //     this.paquetes[foundIndex] = res.paquete;
+      //   }
+      // });
+    }
   }
 
   abrirModalAgregarServicio(): void {

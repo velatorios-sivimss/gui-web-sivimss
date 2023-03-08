@@ -40,6 +40,12 @@ body {
   color: #E10000;
 }
 
+.listado-obligatorio-recuadro {
+  font-style: normal;
+  font-weight: 600;
+  color: #E10000;
+}
+
 .subtitulo {
   font-style: normal;
   font-weight: 600;
@@ -59,7 +65,7 @@ body {
   display: inline-block;
   margin-left: 10px;
 
-  & > *:not(span) {
+  &>*:not(span) {
     transform: translateY(3px);
   }
 
@@ -92,7 +98,7 @@ body {
     cursor: pointer;
   }
 
-  a + a {
+  a+a {
     margin-left: 1rem;
   }
 }

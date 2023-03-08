@@ -2,12 +2,12 @@ import { Articulo } from "./articulos.interface";
 import { Servicio } from "./servicios.interface";
 
 export interface Paquete {
-  id?: string;
+  id?: number;
   nombrePaquete?: string;
   descripcion?: string;
   estatus?: boolean;
   costoInicial?: string;
-  costo?: string;
+  costoReferencia?: string;
   precio?: string;
   region?: string;
   clave?: string;

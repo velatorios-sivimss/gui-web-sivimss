@@ -1,5 +1,9 @@
 export interface Servicio {
-  servicio: string;
-  costo: string;
-  precio: string;
+  id?: number;
+  idTipoServicio?: number;
+  idServicio?: number;
+  tipoServicio?: string;
+  servicio?: string;
+  costo?: string;
+  precio?: string;
 }

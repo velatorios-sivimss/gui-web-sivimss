@@ -1,5 +1,9 @@
 export interface Articulo {
-  articulo: string;
-  costo: string;
-  precio: string;
+  id?: number;
+  idTipoArticulo?: number;
+  idArticulo?: number;
+  tipoArticulo?: string;
+  articulo?: string;
+  costo?: string;
+  precio?: string;
 }

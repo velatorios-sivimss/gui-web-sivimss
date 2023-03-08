@@ -1,7 +1,8 @@
 <app-table-panel>
     <ng-template appCustomTemplate="left-header">
         <div class="table-panel-header-column">
-            <span class="font-bold">ID <span class="active-text-color">{{paqueteSeleccionado?.id}}</span>
+            <span class="font-bold">
+                ID <span [ngClass]="paqueteSeleccionado?.estatus ? 'activo' : 'inactivo'">{{paqueteSeleccionado?.id}}</span>
             </span>
         </div>
     </ng-template>
@@ -9,8 +10,7 @@
         <div class="table-panel-header-column">
             <div class="flex flex-column">
                 <span>Estatus</span>
-                <div class="contenedor-inputswitch">
-                    <p-inputSwitch [(ngModel)]="paqueteSeleccionado.estatus"></p-inputSwitch>
+                <div>
                     <span class="activo" *ngIf="paqueteSeleccionado?.estatus">Activo</span>
                     <span class="inactivo" *ngIf="!paqueteSeleccionado?.estatus">Inactivo</span>
                 </div>
@@ -100,7 +100,7 @@
         <div class="col-md-4">
             <div class="table-panel-column">
                 <label>Costo</label>
-                <span>{{paqueteSeleccionado?.costo}}</span>
+                <span>{{paqueteSeleccionado?.costoReferencia}}</span>
             </div>
         </div>
         <div class="col-md-4">
@@ -127,6 +127,26 @@
 </app-table-panel>
 
 
-<div class="flex justify-content-end mt-5">
-    <button class="ml-4 btn btn-primary btn-md" (click)="ref.close();">Aceptar</button>
+<div class="flex justify-content-end mt-5" *ngIf="modo === 'detalle'">
+    <button class="ml-4 btn btn-primary btn-md" (click)="cerrarDialogo();">Aceptar</button>
+</div>
+
+<div *ngIf="modo === 'crear'">
+    <div class="m-4 flex flex-column align-items-center justify-content-center">
+        <span>{{preguntaConfirmacion}}</span>
+    </div>
+    <div class="flex justify-content-end mt-5">
+        <button class="btn btn-default btn-md" (click)="cerrarDialogo();">Cancelar</button>
+        <button class="ml-4 btn btn-primary btn-md" (click)="agregarPaquete();">Aceptar</button>
+    </div>
+</div>
+
+<div *ngIf="modo === 'activar' || modo === 'desactivar'">
+    <div class="m-4 flex flex-column align-items-center justify-content-center">
+        <span>{{preguntaConfirmacion}}</span>
+    </div>
+    <div class="flex justify-content-end mt-5">
+        <button class="btn btn-default btn-md" (click)="cerrarDialogo();">Cancelar</button>
+        <button class="ml-4 btn btn-primary btn-md" (click)="cambiarEstatusPaquete();">Aceptar</button>
+    </div>
 </div>
