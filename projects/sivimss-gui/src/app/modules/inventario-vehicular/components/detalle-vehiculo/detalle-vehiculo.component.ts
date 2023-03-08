@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
@@ -10,9 +10,16 @@ export class DetalleVehiculoComponent implements OnInit {
 
   @Input() vehiculoSeleccionado: Vehiculo;
   @Input() estatus: boolean = false;
+  @Input() overlay: boolean = false;
+  @Input() tipoEstatus: 'texto' | 'switch' = 'texto';
+  @Output() modificar: EventEmitter<boolean> = new EventEmitter()
 
   constructor() { }
 
   ngOnInit(): void { }
+
+  abrirModalModificacionVehiculo() {
+    this.modificar.emit(true)
+  }
 
 }

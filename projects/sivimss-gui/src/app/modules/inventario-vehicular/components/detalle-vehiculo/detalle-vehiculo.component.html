@@ -9,11 +9,19 @@
         <div class="table-panel-header-column" *ngIf="estatus">
             <div class="flex flex-column">
                 <span>Estatus</span>
-                <div class="contenedor-inputswitch">
+                <div class="contenedor-inputswitch" *ngIf="tipoEstatus === 'texto'">
                     <span class="activo" *ngIf="vehiculoSeleccionado?.estatus">Activo</span>
                     <span class="inactivo" *ngIf="!vehiculoSeleccionado?.estatus">Inactivo</span>
                 </div>
+                <div class="contenedor-inputswitch" *ngIf="tipoEstatus === 'switch'">
+                    <p-inputSwitch [(ngModel)]="vehiculoSeleccionado.estatus"></p-inputSwitch>
+                    <span class="activo" *ngIf="vehiculoSeleccionado.estatus">Activo</span>
+                    <span class="inactivo" *ngIf="!vehiculoSeleccionado.estatus">Inactivo</span>
+                </div>
             </div>
+            <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
+                <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
+            </a>
         </div>
     </ng-template>
     <div class="row table-panel-row">
@@ -194,3 +202,11 @@
         </div>
     </div>
 </app-table-panel>
+<p-overlayPanel #overlayPanel>
+    <ng-template pTemplate="content">
+        <app-overlay-panel-opciones>
+            <app-overlay-panel-opcion titulo="Modificar"
+                (click)="abrirModalModificacionVehiculo()"></app-overlay-panel-opcion>
+        </app-overlay-panel-opciones>
+    </ng-template>
+</p-overlayPanel>
