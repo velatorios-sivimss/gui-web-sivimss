@@ -95,7 +95,6 @@ export class AgregarVehiculoComponent implements OnInit {
       ...this.datosDocumentacionForm.value,
       ...this.datosGeneralesForm.value
     }
-    console.log(this.nuevoVehiculo)
   }
 
   get fdg() {
