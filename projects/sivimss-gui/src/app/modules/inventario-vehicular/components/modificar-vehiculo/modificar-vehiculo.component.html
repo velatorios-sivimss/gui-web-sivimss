@@ -156,7 +156,8 @@
         <div class="row mb-3">
             <div class="col-md-12 flex justify-content-end">
                 <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
-                <button type="submit" class="btn btn-primary btn-md ml-5">Siguiente</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5"
+                [disabled]="datosGeneralesForm.invalid">Siguiente</button>
             </div>
         </div>
     </form>
@@ -183,7 +184,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciaTarjetaInicio" formControlName="vigenciaTarjetaInicio"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha desde" dateFormat="dd/mm/yy"
-                            [maxDate]="fdd?.vigenciaTarjetaFin?.value">
+                            [maxDate]="fdd!.vigenciaTarjetaFin!.value">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciaTarjetaInicio?.errors?.required && (fdd.vigenciaTarjetaInicio?.dirty || fdd.vigenciaTarjetaInicio?.touched)">
@@ -192,7 +193,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciaTarjetaFin" formControlName="vigenciaTarjetaFin"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
-                            [minDate]="fdd?.vigenciaTarjetaInicio?.value">
+                            [minDate]="fdd!.vigenciaTarjetaInicio!.value">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciaTarjetaFin?.errors?.required && (fdd.vigenciaTarjetaFin?.dirty || fdd.vigenciaTarjetaFin?.touched)">
@@ -234,7 +235,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciaAdquisicionInicio" formControlName="vigenciaAdquisicionInicio"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha desde" dateFormat="dd/mm/yy"
-                            [maxDate]="fdd?.vigenciaAdquisicionFin?.value">
+                            [maxDate]="fdd!.vigenciaAdquisicionFin!.value">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciaAdquisicionInicio?.errors?.required && (fdd.vigenciaAdquisicionInicio?.dirty || fdd.vigenciaAdquisicionInicio?.touched)">
@@ -243,7 +244,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciaAdquisicionFin" formControlName="vigenciaAdquisicionFin"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
-                            [minDate]="fdd?.vigenciaAdquisicionInicio?.value">
+                            [minDate]="fdd!.vigenciaAdquisicionInicio!.value">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciaAdquisicionFin?.errors?.required && (fdd.vigenciaAdquisicionFin?.dirty || fdd.vigenciaAdquisicionFin?.touched)">
@@ -292,7 +293,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciapolizaInicio" formControlName="vigenciapolizaInicio"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha desde" dateFormat="dd/mm/yy"
-                            [maxDate]="fdd?.vigenciapolizaFin?.value">
+                            [maxDate]="fdd!.vigenciapolizaFin!.value">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciapolizaInicio?.errors?.required && (fdd.vigenciapolizaInicio?.dirty || fdd.vigenciapolizaInicio?.touched)">
@@ -301,7 +302,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciapolizaFin" formControlName="vigenciapolizaFin" styleClass="form-control"
                             [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
-                            [minDate]="fdd?.vigenciapolizaInicio?.value">
+                            [minDate]="fdd!.vigenciapolizaInicio!.value">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciapolizaFin?.errors?.required && (fdd.vigenciapolizaFin?.dirty || fdd.vigenciapolizaFin?.touched)">
@@ -342,7 +343,8 @@
             <div class="col-md-12 flex justify-content-end">
                 <button type="button" class="btn btn-default btn-md" (click)="regresarPagina()">Regresar</button>
                 <button type="button" class="btn btn-default btn-md ml-5" (click)="cancelar()">Cancelar</button>
-                <button type="submit" class="btn btn-primary btn-md ml-5" (click)="adelantarPagina()">Siguiente</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5" (click)="adelantarPagina()"
+                [disabled]="datosDocumentacionForm.invalid">Siguiente</button>
             </div>
         </div>
     </form>
