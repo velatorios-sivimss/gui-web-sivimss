@@ -1,4 +1,4 @@
-<ng-container *ngIf="!confirmacionAgregarServicio">
+<ng-container *ngIf="!ventanaConfirmacion">
   <form [formGroup]="agregarServicioForm">
     <div class="row mb-3">
       <div class="col-md-6">
@@ -26,7 +26,7 @@
       <div class="col-md-6">
         <label class="control-label" for="tipoServicioAgregar">Tipo de servicio<span class="req">*</span></label>
         <p-dropdown appendTo="body" id="tipoServicioAgregar" class="form-control" formControlName="tipoServicio"
-                    [options]="opciones"
+                    [options]="tipoServicio"
                     placeholder="Selecciona el tipo de servicio">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -35,7 +35,7 @@
       <div class="col-md-6">
         <label class="control-label" for="cuentaContableAgregar">Cuenta contable<span class="req">*</span></label>
         <p-dropdown appendTo="body" id="cuentaContableAgregar" class="form-control" formControlName="cuentaContable"
-                    [options]="opciones"
+                    [options]="cuentaContable"
                     placeholder="Selecciona la cuenta contable">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -46,7 +46,7 @@
       <div class="col-md-12">
         <label class="control-label" for="partidaPresupuestalAgregar">Partida presupuestal<span class="req">*</span></label>
         <p-dropdown appendTo="body" id="partidaPresupuestalAgregar" class="form-control" formControlName="partidaPresupuestal"
-                    [options]="opciones"
+                    [options]="partidaPresupuestalD"
                     placeholder="Selecciona la partida presupuestal">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -65,7 +65,7 @@
       <div class="col-md-12">
         <label class="control-label" for="claveSATAgregar">Clave de artículo SAT<span class="req">*</span></label>
         <p-dropdown appendTo="body" id="claveSATAgregar" class="form-control" formControlName="claveSAT"
-                    [options]="opciones"
+                    [options]="claveSAT"
                     placeholder="Selecciona la clave de artículo SAT">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -96,6 +96,7 @@
   </div>
 </ng-container>
 
-<ng-container *ngIf="confirmacionAgregarServicio">
-  <app-detalle-servicio [servicioSeleccionado]="this.servicio" [origen]="'agregar'" (confirmacionAgregarServicio)="cerrar($event)"  ></app-detalle-servicio>
+<ng-container *ngIf="ventanaConfirmacion">
+  <app-detalle-servicio [servicioSeleccionado]="this.servicio" [origen]="'agregar'"
+                        (confirmacionAceptar)="cerrar($event)"  ></app-detalle-servicio>
 </ng-container>

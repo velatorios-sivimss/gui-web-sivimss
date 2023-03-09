@@ -10,12 +10,14 @@ import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcru
 import {Servicio} from "../../models/servicio.interface";
 
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
 
 import {SERVICIO_BREADCRUMB} from "../constants/breadcrumb";
 import {DynamicDialogRef,DialogService} from "primeng-lts/dynamicdialog";
 import {AgregarServicioComponent} from "../agregar-servicio/agregar-servicio.component";
 import {ModificarServicioComponent} from "../modificar-servicio/modificar-servicio.component";
 import {DetalleServicioComponent} from "../detalle-servicio/detalle-servicio.component";
+import {CATALOGOS_DUMMIES} from "../constants/dummies";
 
 
 @Component({
@@ -50,47 +52,12 @@ export class ServiciosComponent implements OnInit {
   detalleRef!:DynamicDialogRef;
   modificacionRef!:DynamicDialogRef;
 
-  /**
-   * INICIO VARIABLES DOOMY PARA USO DE MAQUETADO
-   */
-
-  opciones: any[] = [
-    {
-      label: 'Opción 1',
-      value: 0,
-    },
-    {
-      label: 'Opción 2',
-      value: 1,
-    },
-    {
-      label: 'Opción 3',
-      value: 2,
-    }
-  ];
-
-  tipoServicio:any[] = [
-    {id: 1,descripcion: "Renta de capilla"},
-    {id: 2,descripcion: "Renta de equipo para velación en domicilio"},
-    {id: 3,descripcion: "Cremación"},
-    {id: 4,descripcion: "Traslado"},
-    {id: 5,descripcion: "Embalsamiento"},
-    {id: 6,descripcion: "Arreglo"},
-    {id: 7,descripcion: "Apoyo para trámites funerarios"},
-    {id: 8,descripcion: "Otros"}
-  ];
-
-  partidaPresupuestal: any[] = [
-    {id: 31101, descripcion: 31101},
-    {id: 34301, descripcion: 34301},
-    {id: 37201, descripcion: 37201},
-    {id: 37504, descripcion: 37504},
-    {id: 31801, descripcion: 31801}
-  ];
-
-  cuentaContable: any[] = [
-    {id:1,descripcion: "258964"}
-  ];
+  opciones:TipoDropdown[] = CATALOGOS_DUMMIES;
+  tipoServicio:TipoDropdown[] = CATALOGOS_DUMMIES;
+  partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES;
+  cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES;
+  niveles: TipoDropdown[] = CATALOGOS_DUMMIES;
+  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -103,7 +70,6 @@ export class ServiciosComponent implements OnInit {
     this.actualizarBreadcrumb();
     this.inicializarFiltroForm();
   }
-
 
   actualizarBreadcrumb(): void{
     this.breadcrumbService.actualizar(SERVICIO_BREADCRUMB);
@@ -122,7 +88,7 @@ export class ServiciosComponent implements OnInit {
       header:"Agregar servicio",
       width:"920px"
     });
-    this.creacionRef.onClose.subscribe((estatus:any) => {
+    this.creacionRef.onClose.subscribe((estatus:boolean) => {
       if(estatus){
         this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio agregado correctamente');
       }
@@ -134,6 +100,12 @@ export class ServiciosComponent implements OnInit {
       header:"Modificar servicio",
       width:"920px",
     })
+
+    this.creacionRef.onClose.subscribe((estatus:boolean) => {
+      if(estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
+      }
+    })
   }
 
   abrirModalDetalleCapilla(servicio:Servicio){
@@ -142,6 +114,26 @@ export class ServiciosComponent implements OnInit {
       width:"920px",
       data: {servicio:servicio, origen: "detalle"},
     })
+  }
+
+  abrirModalCambioEstatus(servicio:Servicio){
+    /*Preguntar si se puede usar 'let'*/
+    let header:string = "" ;
+    servicio.estatus?header="Activar servicio":header="Desactivar servicio";
+    this.creacionRef = this.dialogService.open(DetalleServicioComponent, {
+      header:header,
+      width:"920px",
+      data: {servicio:servicio, origen: "estatus"},
+    })
+
+    this.creacionRef.onClose.subscribe((servicio:Servicio) => {
+      if(servicio.estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio activado correctamente');
+      }else{
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
+      }
+    })
+
   }
 
   abrirPanel(event:MouseEvent,servicioSeleccionado:Servicio):void{
@@ -157,12 +149,12 @@ export class ServiciosComponent implements OnInit {
           id: 1,
           servicio: "Transporte de ataúdes",
           descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
-          tipoServicio: this.tipoServicio[0].id,
-          descTipoServicio : this.tipoServicio[0].descripcion,
-          partidaPresupuestal: this.partidaPresupuestal[0].id,
-          descPartidaPresupuestal: this.partidaPresupuestal[0].descripcion,
-          cuentaContable: this.cuentaContable[0].id,
-          descCuentaContable: this.cuentaContable[0].descripcion,
+          tipoServicio: 1,
+          descTipoServicio : this.tipoServicio[0].label,
+          partidaPresupuestal: 1,
+          descPartidaPresupuestal: this.partidaPresupuestal[0].label,
+          cuentaContable: 1,
+          descCuentaContable: this.cuentaContable[0].label,
           observaciones: "Sin observaciones",
           claveSAT:"111111",
           estatus: true,
@@ -171,12 +163,12 @@ export class ServiciosComponent implements OnInit {
           id: 2,
           servicio: "Transporte de ataúdes",
           descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
-          tipoServicio: this.tipoServicio[1].id,
-          descTipoServicio : this.tipoServicio[1].descripcion,
-          partidaPresupuestal: this.partidaPresupuestal[1].id,
-          descPartidaPresupuestal: this.partidaPresupuestal[1].descripcion,
-          cuentaContable: this.cuentaContable[0].id,
-          descCuentaContable: this.cuentaContable[0].descripcion,
+          tipoServicio: 1,
+          descTipoServicio : this.tipoServicio[1].label,
+          partidaPresupuestal: 1,
+          descPartidaPresupuestal: this.partidaPresupuestal[1].label,
+          cuentaContable: 1,
+          descCuentaContable: this.cuentaContable[1].label,
           observaciones: "Sin observaciones",
           claveSAT:"2222",
           estatus: true,
@@ -185,12 +177,12 @@ export class ServiciosComponent implements OnInit {
           id: 3,
           servicio: "Transporte de ataúdes",
           descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
-          tipoServicio: this.tipoServicio[2].id,
-          descTipoServicio : this.tipoServicio[2].descripcion,
-          partidaPresupuestal: this.partidaPresupuestal[2].id,
-          descPartidaPresupuestal: this.partidaPresupuestal[2].descripcion,
-          cuentaContable: this.cuentaContable[0].id,
-          descCuentaContable: this.cuentaContable[0].descripcion,
+          tipoServicio: 1,
+          descTipoServicio : this.tipoServicio[2].label,
+          partidaPresupuestal: 1,
+          descPartidaPresupuestal: this.partidaPresupuestal[2].label,
+          cuentaContable: 1,
+          descCuentaContable: this.cuentaContable[2].label,
           observaciones: "Sin observaciones",
           claveSAT:"3333",
           estatus: false,
@@ -200,33 +192,8 @@ export class ServiciosComponent implements OnInit {
     },0)
   }
 
-  modificarServicio(): void{
-    this.mostrarModalModificarServicio = false;
-    this.mostrarModalDetalleServicio = false;
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
-  }
-
-  seleccionarEstatus(event:MouseEvent,servicioSeleccionado:Servicio):void{
-    this.mostrarModalEstatusServicio = true;
-    this.servicioSeleccionado = {...servicioSeleccionado};
-    servicioSeleccionado.estatus?this.encabezadoEstatusServicio = "Desactivar servicio":this.encabezadoEstatusServicio = "Activar servicio";
-  }
-
-  cambiarEstatus(servicio:Servicio, estatus: boolean): void {
-    /**
-     * Validar con el equipo si cuando se da cancelar se manda a llamar al paginar()
-     */
-    this.mostrarModalEstatusServicio = false;
-    if(estatus){
-      this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
-    }else{
-      servicio.estatus = !servicio.estatus;
-    }
-    this.paginar({first:0});
-  }
-
-  consultaServicioEspecifico():void{
-
+  consultaServicioEspecifico():string{
+    return "";
   }
 
   limpiar(): void {

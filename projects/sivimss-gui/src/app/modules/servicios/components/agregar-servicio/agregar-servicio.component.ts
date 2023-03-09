@@ -3,7 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {Servicio} from "../../models/servicio.interface";
+import {Servicio,ConfirmacionServicio} from "../../models/servicio.interface";
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {CATALOGOS_DUMMIES} from "../constants/dummies";
 
 @Component({
   selector: 'app-agregar-servicio',
@@ -18,22 +20,13 @@ export class AgregarServicioComponent implements OnInit {
   servicio:Servicio = {};
 
 
-  confirmacionAgregarServicio: boolean = false;
+  ventanaConfirmacion: boolean = false;
 
-  opciones: any[] = [
-    {
-      label: 'Opción 1',
-      value: 0,
-    },
-    {
-      label: 'Opción 2',
-      value: 1,
-    },
-    {
-      label: 'Opción 3',
-      value: 2,
-    }
-  ];
+  opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
+  tipoServicio: TipoDropdown[] = CATALOGOS_DUMMIES;
+  cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES;
+  partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES;
+  claveSAT: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -60,7 +53,7 @@ export class AgregarServicioComponent implements OnInit {
   }
 
   confirmarAgregarServicio(): void {
-    this.confirmacionAgregarServicio = true;
+    this.ventanaConfirmacion = true;
     /*
     * Se mandará solo texto para que el detalle solo lo imprim por lo que se deben llenar las variables
     * que son 'desc'*/
@@ -80,12 +73,27 @@ export class AgregarServicioComponent implements OnInit {
     };
   }
 
-  cerrar(event?:boolean): void {
-    if(event){
-      this.confirmacionAgregarServicio = false;
+  cerrar(event?:ConfirmacionServicio): void {
+    debugger;
+    //Selección cancelar pantalla agregar
+    if(event && event.origen == "agregar"){
+      this.ventanaConfirmacion = false;
+      this.ref.close(true);
       return;
     }
-    this.ref.close({ "estatus":true});
+
+    if(event && event.origen == "regresar") {
+      this.ventanaConfirmacion = false;
+      return;
+    }
+
+    if(event && event.origen == "cancelar"){
+      this.ventanaConfirmacion = false;
+      return;
+    }
+
+    this.ref.close(false);
+
   }
 
   get fas(){

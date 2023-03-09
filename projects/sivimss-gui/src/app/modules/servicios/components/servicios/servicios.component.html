@@ -4,13 +4,13 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones"
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="niveles"
                     placeholder="Seleccionar el nivel">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorios"
                     placeholder="Seleccionar el velatorio">
         </p-dropdown>
       </div>
@@ -52,6 +52,7 @@
         <th scope="col">Cuenta contable</th>
         <th scope="col">Observaciones</th>
         <th scope="col">Estatus</th>
+        <th scope="col"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-servicio>
@@ -65,7 +66,7 @@
         <td> {{servicio.observaciones}} </td>
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="servicio.estatus" (onChange)="seleccionarEstatus($event,servicio)"></p-inputSwitch>
+            <p-inputSwitch [(ngModel)]="servicio.estatus" (onChange)="abrirModalCambioEstatus(servicio)"></p-inputSwitch>
             <span class="activo" *ngIf="servicio.estatus">Activo</span>
             <span class="inactivo" *ngIf="!servicio.estatus">Inactivo</span>
           </div>
@@ -114,97 +115,3 @@
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
-
-<!--Estatus servicio-->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header=" {{encabezadoEstatusServicio}} "
-          [(visible)]="mostrarModalEstatusServicio"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-
-  <ng-template pTemplate="content">
-    <app-table-panel>
-      <ng-template appCustomTemplate="left-header">
-        <div class="table-panel-header-column">
-          <span class="font-bold">ID {{servicioSeleccionado.id}}</span>
-        </div>
-      </ng-template>
-      <ng-template appCustomTemplate="right-header">
-        <div class="table-panel-header-column">
-          <div class="flex flex-column">
-            <span>Estatus</span>
-            <div class="contenedor-inputswitch">
-              <span class="activo" *ngIf="servicioSeleccionado.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!servicioSeleccionado.estatus">Inactivo</span>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-      <div class="row table-panel-row">
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Servicio</label>
-            <span> {{servicioSeleccionado.servicio}} </span>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div class="table-panel-column">
-            <label>Descripci&oacute;n del servicio</label>
-            <span> {{servicioSeleccionado.descripcionServicio}} </span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Tipo de servicio</label>
-            <span> {{servicioSeleccionado.descTipoServicio}} </span>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Partida presupuestal</label>
-            <span> {{servicioSeleccionado.descPartidaPresupuestal}} </span>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Cuenta contable</label>
-            <span> {{servicioSeleccionado.descCuentaContable}} </span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-12">
-          <div class="table-panel-column">
-            <label>Observaciones</label>
-            <span> {{servicioSeleccionado.observaciones}} </span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-12">
-          <div class="table-panel-column">
-            <label>Clave de artículo SAT</label>
-            <span> {{servicioSeleccionado.claveSAT}} </span>
-          </div>
-        </div>
-      </div>
-    </app-table-panel>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="row mt-3 mb-3 flex justify-content-center">
-      <div class="row mt-3 mb-3 flex justify-content-center" *ngIf="servicioSeleccionado.estatus" >
-        ¿Estás seguro que deseas activar este servicio?
-      </div>
-      <div class="row mt-3 mb-3 flex justify-content-center" *ngIf="!servicioSeleccionado.estatus">
-        ¿Estás seguro que deseas desactivar este servicio?
-      </div>
-    </div>
-    <div class="flex justify-content-end">
-      <button class="btn btn-default btn-md" (click)="cambiarEstatus(servicioSeleccionado,false)">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md"  (click)="cambiarEstatus(servicioSeleccionado,true)">
-        Aceptar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>

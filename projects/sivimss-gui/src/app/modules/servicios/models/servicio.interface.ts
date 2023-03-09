@@ -13,6 +13,11 @@ export interface Servicio {
   claveSAT?:string;
 }
 
+export interface ConfirmacionServicio {
+  estatus?: boolean;
+  origen?: string;
+}
+
 
 
 
