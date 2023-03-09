@@ -47,7 +47,6 @@ const routes: Routes = [
     path: 'operadores-por-velatorio',
     loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
   },
-
   {
     path: '**',
     component: PaginaNoEncontradaComponent,

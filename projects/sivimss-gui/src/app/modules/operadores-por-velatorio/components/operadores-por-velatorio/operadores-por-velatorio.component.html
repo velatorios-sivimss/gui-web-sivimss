@@ -1,1 +1,101 @@
-<p>operadores-por-velatorio works!</p>
+<app-titulo-principal titulo="Administrar operadores por velatorio"></app-titulo-principal>
+<div class="border-panel">
+  <form [formGroup]="filtroForm">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="nivel">Nivel:</label>
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="nivel"
+                    placeholder="Seleccionar el nivel">
+        </p-dropdown>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="delegacion">Delegación:</label>
+        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="delegacion"
+                    placeholder="Seleccionar delegación">
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="velatorio">Velatorio:</label>
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorio"
+                    placeholder="Seleccionar velatorio">
+        </p-dropdown>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="operador">Operador:</label>
+        <input id="operador" class="form-control" formControlName="operador"
+               placeholder="Ingresa operador" (keyup)="consultaOperadorEspecifico()">
+      </div>
+    </div>
+    <div class="row mt-6">
+      <div class="col-md-12 flex justify-content-end">
+        <button type="submit" class="btn btn-default btn-md" (click)="limpiar()" >Limpiar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<section class="mt-5">
+  <div class="flex justify-content-between align-items-center">
+    <h2 class="subtitulo">Operadores</h2>
+    <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarOperador()">Agregar operador</button>
+  </div>
+</section>
+
+<p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="operadoresPorVelatorio" [paginator]="operadoresPorVelatorio.length > 0"
+         [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos"
+         [scrollable]="true" scrollDirection="horizontal"
+         [pageLinks]="3" [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">No. de empleado</th>
+        <th scope="col">Matrícula</th>
+        <th scope="col">CURP</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Primer apellido</th>
+        <th scope="col">Segundo apellido</th>
+        <th scope="col">Fecha de nacimiento</th>
+        <th scope="col">Fecha ingreso</th>
+        <th scope="col">Fecha de baja</th>
+        <th scope="col">Sueldo base</th>
+        <th scope="col">Velatorio</th>
+        <th scope="col">Días de descanso</th>
+        <th scope="col">Antigüedad</th>
+        <th scope="col">Correo electrónico</th>
+        <th scope="col">Puesto</th>
+        <th scope="col">Categoría</th>
+        <th scope="col">Estatus</th>
+        <th scope="col"></th>
+      </tr>
+    </ng-template>
+  <ng-template pTemplate="body" let-operadoresPorVelatorio>
+    <tr>
+      <td> {{operadoresPorVelatorio.id}} </td>
+      <td> {{operadoresPorVelatorio.numeroEmpleado}} </td>
+      <td> {{operadoresPorVelatorio.matricula}} </td>
+      <td> {{operadoresPorVelatorio.curp}} </td>
+      <td> {{operadoresPorVelatorio.nombre}} </td>
+      <td> {{operadoresPorVelatorio.primerApellido}} </td>
+      <td> {{operadoresPorVelatorio.segundoApellido}} </td>
+      <td> {{operadoresPorVelatorio.fechaNaciemiento}} </td>
+      <td> {{operadoresPorVelatorio.fechaIngreso}} </td>
+      <td> {{operadoresPorVelatorio.sueldoBase}} </td>
+      <td> {{operadoresPorVelatorio.descVelatorio}} </td>
+      <td> {{operadoresPorVelatorio.descDiasDescanso}} </td>
+      <td> {{operadoresPorVelatorio.descAntiguedad}} </td>
+      <td> {{operadoresPorVelatorio.correoElectronico}} </td>
+      <td> {{operadoresPorVelatorio.puesto}} </td>
+      <td>
+        <div class="contenedor-inputSwitch">
+          <p-inputSwitch [(ngModel)]="operadoresPorVelatorio.estatus"></p-inputSwitch>
+          <span class="activo" *ngIf="operadoresPorVelatorio.estatus">Activo</span>
+          <span class="inactivo" *ngIf="operadoresPorVelatorio.estatus">Inactivo</span>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
