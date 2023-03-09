@@ -4,6 +4,4 @@ export interface Articulo {
   idArticulo?: number;
   tipoArticulo?: string;
   articulo?: string;
-  costo?: string;
-  precio?: string;
 }

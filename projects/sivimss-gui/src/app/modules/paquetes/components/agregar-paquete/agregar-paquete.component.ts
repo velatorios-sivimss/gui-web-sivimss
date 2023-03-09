@@ -51,6 +51,49 @@ export class AgregarPaqueteComponent implements OnInit {
     }
   ];
 
+  regiones: any[] = [
+    {
+      label: 'Nacional',
+      value: 0,
+    },
+    {
+      label: 'Delegacional',
+      value: 1,
+    },
+    {
+      label: 'Velatorio',
+      value: 2,
+    }
+  ];
+
+  catalogoArticulos: any[] = [
+    {
+      label: 'Ataúd',
+      value: 0,
+    },
+    {
+      label: 'Urna',
+      value: 1,
+    },
+    {
+      label: 'Cartucho',
+      value: 2,
+    },
+    {
+      label: 'Empaques traslado aéreo',
+      value: 3,
+    },
+    {
+      label: 'Bolsa para cadáver',
+      value: 4,
+    },
+    {
+      label: 'Otro',
+      value: 5,
+    },
+  ];
+
+  tipoArticulos: any[] = [];
   servicios: Servicio[] = [];
   servicioSeleccionado!: Servicio;
   articulos: Articulo[] = [];
@@ -59,6 +102,7 @@ export class AgregarPaqueteComponent implements OnInit {
   tituloEliminar: string = '';
   tituloPrincipal: string = 'REGISTRAR PAQUETES';
   intentoPorGuardar: boolean = false;
+  mostrarVelatorios: boolean = false;
 
   agregarPaqueteForm!: FormGroup;
   agregarServicioForm!: FormGroup;
@@ -160,13 +204,13 @@ export class AgregarPaqueteComponent implements OnInit {
   inicializarAgregarPaqueteForm() {
     this.agregarPaqueteForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }, Validators.required],
-      nombrePaquete: [{ value: null, disabled: false }, Validators.required],
-      descripcion: [{ value: null, disabled: false }, Validators.required],
+      nombrePaquete: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
+      descripcion: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
       region: [{ value: null, disabled: false }, Validators.required],
       clave: [{ value: null, disabled: false }, Validators.required],
-      costoInicial: [{ value: null, disabled: false }, Validators.required],
-      costoReferencia: [{ value: null, disabled: false }, Validators.required],
-      precio: [{ value: null, disabled: true }, Validators.required],
+      costoInicial: [{ value: '$0.00', disabled: true }, []],
+      costoReferencia: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
+      precio: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
       estatus: [{ value: true, disabled: false }, Validators.required],
     });
     this.f.nombrePaquete?.errors
@@ -181,8 +225,8 @@ export class AgregarPaqueteComponent implements OnInit {
 
   inicializarAgregarArticuloForm() {
     this.agregarArticuloForm = this.formBuilder.group({
-      tipoArticulo: [{ value: null, disabled: false }, [Validators.required]],
       articulo: [{ value: null, disabled: false }, [Validators.required]],
+      tipoArticulo: [{ value: null, disabled: false }, []],
     });
   }
 
@@ -200,7 +244,7 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   agregarServicio(): void {
-    // TO DO Aplicar logica para no repetir Items
+    // TO DO Aplicar logica para no repetir Items y aplicar sumatoria para el campo Costo inicial
     this.servicios.push({
       id: 1,
       idServicio: 1,
@@ -216,15 +260,13 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   agregarArticulo(): void {
-    // TO DO Aplicar logica para no repetir Items
+    // TO DO Aplicar logica para no repetir Items y aplicar sumatoria para el campo Costo inicial
     this.articulos.push({
       id: 1,
       idArticulo: 1,
       idTipoArticulo: 1,
       tipoArticulo: this.faa.tipoArticulo.value,
       articulo: this.faa.articulo.value,
-      costo: '$20,000',
-      precio: '$20,200',
     });
     this.totalElementosArticulos = this.articulos.length;
     this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo agregado al paquete');
@@ -291,6 +333,39 @@ export class AgregarPaqueteComponent implements OnInit {
     const foundIndex = this.articulos.findIndex((item: Servicio) => item.id === this.articuloSeleccionado.id);
     this.articulos.splice(foundIndex, 1);
     this.mostrarModalEliminarArticulo = false;
+  }
+
+  handleChangeRegion() {
+    if (this.f.region.value === 2) {
+      this.mostrarVelatorios = true;
+    } else {
+      this.mostrarVelatorios = false;
+    }
+  }
+
+  handleChangeCatArticulo() {
+    this.faa.tipoArticulo.reset();
+    if (this.faa.articulo.value === 'Ataúd') {
+      this.tipoArticulos = [
+        {
+          label: 'Económico',
+          value: 0,
+        },
+        {
+          label: 'Donado',
+          value: 1,
+        },
+        {
+          label: 'Consignado',
+          value: 2,
+        },
+      ];
+      this.faa.tipoArticulo.setValidators(Validators.required);
+    } else {
+      this.tipoArticulos = [];
+      this.faa.tipoArticulo.clearValidators();
+    }
+    this.faa.tipoArticulo.updateValueAndValidity();
   }
 
   get f() {

@@ -17,15 +17,15 @@
     </div>
     <div class="col-md-4">
       <label class="control-label" for="nombrePaquete">Paquete *:</label>
-      <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete"
+      <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete" maxlength="70"
              placeholder="Ingresa el nombre del paquete" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.nombrePaquete?.errors?.required && (f.nombrePaquete?.dirty || f.nombrePaquete?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-4">
       <label class="control-label" for="descripcion">Descripción *:</label>
-      <input id="descripcion" class="form-control" formControlName="descripcion"
-             placeholder="Ingresa la descripción del paquete">
+      <input id="descripcion" class="form-control" formControlName="descripcion" maxlength="70"
+             placeholder="Ingresa la descripción del paquete" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.descripcion?.errors?.required && (f.descripcion?.dirty || f.descripcion?.touched)">Campo 
         obligatorio</span>
     </div>
@@ -72,7 +72,7 @@
           <td>
             <div class="contenedor-celda-iconos">
               <a (click)="abrirModalEliminarServicio(servicio)">
-                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+                <img src="assets/images/imagen-icono-eliminar.svg" alt="icono ver">
               </a>
             </div>
           </td>
@@ -114,20 +114,18 @@
       <ng-template pTemplate="header">
         <tr>
           <th>Artículo</th>
-          <th>Costo</th>
-          <th>Precio</th>
+          <th>Tipo artículo</th>
           <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-articulo>
         <tr>
           <td>{{articulo.articulo}}</td>
-          <td>{{articulo.costo}}</td>
-          <td>{{articulo.precio}}</td>
+          <td>{{articulo.tipoArticulo}}</td>
           <td>
             <div class="contenedor-celda-iconos">
               <a (click)="abrirModalEliminarArticulo(articulo)">
-                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+                <img src="assets/images/imagen-icono-eliminar.svg" alt="icono ver">
               </a>
             </div>
           </td>
@@ -144,8 +142,8 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label class="control-label" for="region">Región *:</label>
-      <p-dropdown id="region" class="form-control" formControlName="region" [options]="opciones"
-                placeholder="Selecciona la región">
+      <p-dropdown id="region" class="form-control" formControlName="region" [options]="regiones"
+                placeholder="Selecciona la región" (onChange)="handleChangeRegion();">
       </p-dropdown>
       <span class="campo-obligatorio" *ngIf="f.region?.errors?.required && (f.region?.dirty || f.region?.touched)">Campo 
         obligatorio</span>
@@ -165,24 +163,22 @@
       <label class="control-label" for="costoInicial">Costo inicial *:</label>
       <input id="costoInicial" class="form-control" formControlName="costoInicial"
               placeholder="Ingresa el costo inicial">
-      <span class="campo-obligatorio" *ngIf="f.costoInicial?.errors?.required && (f.costoInicial?.dirty || f.costoInicial?.touched)">Campo 
-        obligatorio</span>
     </div>
     <div class="col-md-4">
       <label class="control-label" for="costoReferencia">Costo referencia *:</label>
-      <input id="costoReferencia" class="form-control" formControlName="costoReferencia"
-            placeholder="Ingresa el costo">
+      <input id="costoReferencia" class="form-control" formControlName="costoReferencia" numbersOnly
+            placeholder="Ingresa el costo" maxlength="10">
       <span class="campo-obligatorio" *ngIf="f.costoReferencia?.errors?.required && (f.costoReferencia?.dirty || f.costoReferencia?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-4">
       <label class="control-label" for="precio">Precio *:</label>
-      <input id="precio" class="form-control" formControlName="precio"
+      <input id="precio" class="form-control" formControlName="precio" numbersOnly maxlength="10"
               placeholder="Ingresa el precio">
     </div>
   </div>
 
-  <div class="row mb-3 p-4">
+  <div class="row mb-3 p-4" *ngIf="mostrarVelatorios">
     <section>
       <div class="flex justify-content-between align-items-center">
         <h2 class="subtitulo leyenda-seccion">Selecciona los velatorios en los que se mostrará el paquete</h2>
@@ -271,21 +267,22 @@
     <form [formGroup]="agregarArticuloForm">
       <div class="row mb-3">
         <div class="col-md-6">
+          <label class="control-label" for="articulo">Artículo<span class="req">*</span></label>
+          <p-dropdown appendTo="body" id="articulo" class="form-control" formControlName="articulo"
+                      [options]="catalogoArticulos" placeholder="Seleccione el artículo" optionValue="label"
+                      (onChange)="handleChangeCatArticulo();">
+          </p-dropdown>
+          <span class="campo-obligatorio"
+                *ngIf="faa.articulo?.errors?.required && (faa.articulo?.dirty || faa.articulo?.touched)">Campo obligatorio</span>
+        </div>
+        <div class="col-md-6">
           <label class="control-label" for="tipoArticulo">Tipo de artículo<span class="req">*</span>:</label>
           <p-dropdown appendTo="body" id="tipoArticulo" class="form-control" formControlName="tipoArticulo" 
-                      [options]="opciones" placeholder="Selecciona el tipo de artículo" optionValue="label">
+                      [options]="tipoArticulos" placeholder="Selecciona el tipo de artículo" optionValue="label">
           </p-dropdown>
           <span class="campo-obligatorio"
                 *ngIf="faa.tipoArticulo?.errors?.required && (faa.tipoArticulo?.dirty || faa.tipoArticulo?.touched)">Campo obligatorio
           </span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="articulo">Artículo<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="articulo" class="form-control" formControlName="articulo"
-                      [options]="opciones" placeholder="Seleccione el artículo" optionValue="label">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="faa.articulo?.errors?.required && (faa.articulo?.dirty || faa.articulo?.touched)">Campo obligatorio</span>
         </div>
       </div>
       <div class="row mb-2">

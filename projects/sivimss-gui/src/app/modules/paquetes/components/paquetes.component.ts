@@ -63,13 +63,11 @@ export class PaquetesComponent implements OnInit {
   articulos: Articulo[] = [
     {
       articulo: 'Traslado a nivel nacional',
-      costo: '$25,100.00',
-      precio: '$25,100.00'
+      tipoArticulo: '',
     },
     {
-      articulo: 'Cremación',
-      costo: '$3,200.00',
-      precio: '$3,200.00'
+      articulo: 'Ataúd',
+      tipoArticulo: 'Donado',
     },
   ];
 
