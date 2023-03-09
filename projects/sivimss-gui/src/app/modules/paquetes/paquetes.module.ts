@@ -4,10 +4,12 @@ import {
   OverlayPanelOpcionesModule
 } from "projects/sivimss-gui/src/app/shared/overlay-panel-opciones/overlay-panel-opciones.module";
 import { TablePanelModule } from "projects/sivimss-gui/src/app/shared/table-panel/table-panel.module";
-
+import { UtileriaModule } from '../../shared/utileria/utileria.module';
+import {AutoCompleteModule} from 'primeng-lts/autocomplete';
 import { PaquetesRoutingModule } from './paquetes-routing.module';
-import { PaquetesComponent } from './components/paquetes.component';
+import { PaquetesComponent } from './components/listado-paquete/paquetes.component';
 import { AgregarPaqueteComponent } from './components/agregar-paquete/agregar-paquete.component';
+import { ActualizarPaqueteComponent } from './components/actualizar-paquete/actualizar-paquete.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TituloPrincipalModule } from "../../shared/titulo-principal/titulo-principal.module";
 import { PaqueteService } from "./services/paquetes.service";
@@ -18,13 +20,13 @@ import { DialogModule } from "primeng-lts/dialog";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { CheckboxModule } from 'primeng-lts/checkbox';
 import { VerDetallePaqueteComponent } from './components/ver-detalle-paquete/ver-detalle-paquete.component';
-import { UtileriaModule } from '../../shared/utileria/utileria.module';
 
 @NgModule({
   declarations: [
     PaquetesComponent,
     AgregarPaqueteComponent,
     VerDetallePaqueteComponent,
+    ActualizarPaqueteComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { UtileriaModule } from '../../shared/utileria/utileria.module';
     TablePanelModule,
     CheckboxModule,
     UtileriaModule,
+    AutoCompleteModule,
   ],
   providers: [
     PaqueteService

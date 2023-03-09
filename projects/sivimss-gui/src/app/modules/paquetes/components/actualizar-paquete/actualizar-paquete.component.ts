@@ -19,17 +19,17 @@ interface HttpResponse {
 }
 
 @Component({
-  selector: 'app-agregar-paquete',
-  templateUrl: './agregar-paquete.component.html',
-  styleUrls: ['./agregar-paquete.component.scss'],
+  selector: 'app-actualizar-paquete',
+  templateUrl: './actualizar-paquete.component.html',
+  styleUrls: ['./actualizar-paquete.component.scss'],
   providers: [DialogService]
 })
-export class AgregarPaqueteComponent implements OnInit {
+export class ActualizarPaqueteComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
-  modo: 'crear' | 'actualizar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  modo: 'crear' | 'actualizar' | 'detalle' | 'activar' | 'desactivar' = 'actualizar';
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -103,7 +103,7 @@ export class AgregarPaqueteComponent implements OnInit {
   intentoPorGuardar: boolean = false;
   mostrarVelatorios: boolean = false;
 
-  agregarPaqueteForm!: FormGroup;
+  actualizarPaqueteForm!: FormGroup;
   agregarServicioForm!: FormGroup;
   agregarArticuloForm!: FormGroup;
 
@@ -132,7 +132,7 @@ export class AgregarPaqueteComponent implements OnInit {
         titulo: 'Administrar paquetes'
       }
     ]);
-    this.inicializarAgregarPaqueteForm();
+    this.inicializarActualizarPaqueteForm();
     this.obtenerVelatorio();
   }
 
@@ -194,8 +194,8 @@ export class AgregarPaqueteComponent implements OnInit {
     ];
   }
 
-  inicializarAgregarPaqueteForm() {
-    this.agregarPaqueteForm = this.formBuilder.group({
+  inicializarActualizarPaqueteForm() {
+    this.actualizarPaqueteForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }, Validators.required],
       nombrePaquete: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
       descripcion: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
@@ -232,8 +232,8 @@ export class AgregarPaqueteComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  agregarPaquete(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Paquete guardado');
+  actualizarPaquete(): void {
+    this.alertaService.mostrar(TipoAlerta.Exito, 'Paquete actualizado');
   }
 
   agregarServicio(): void {
@@ -268,11 +268,11 @@ export class AgregarPaqueteComponent implements OnInit {
 
   verDetalleGuardarPaquete(): void {
     this.intentoPorGuardar = true;
-    this.agregarPaqueteForm.markAllAsTouched();
+    this.actualizarPaqueteForm.markAllAsTouched();
 
-    if (this.agregarPaqueteForm.valid) {
-      const values = this.agregarPaqueteForm.getRawValue();
-      const nuevoPaquete: Paquete = {
+    if (this.actualizarPaqueteForm.valid) {
+      const values = this.actualizarPaqueteForm.getRawValue();
+      const paqueteActualizado: Paquete = {
         ...values,
         id: 1,
         costoInicial: '$999,000',
@@ -280,8 +280,8 @@ export class AgregarPaqueteComponent implements OnInit {
         articulos: this.articulos,
       };
       const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaqueteComponent, {
-        data: { paquete: nuevoPaquete, modo: this.modo },
-        header: "Agregar paquete",
+        data: { paquete: paqueteActualizado, modo: this.modo },
+        header: "Actualizar paquete",
         width: "920px"
       });
 
@@ -362,7 +362,7 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   get f() {
-    return this.agregarPaqueteForm.controls;
+    return this.actualizarPaqueteForm.controls;
   }
 
   get fas() {

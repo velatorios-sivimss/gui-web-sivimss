@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BreadcrumbService } from "../../../shared/breadcrumb/services/breadcrumb.service";
-import { AlertaService, TipoAlerta } from "../../../shared/alerta/services/alerta.service";
+import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
+import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../utils/constantes";
-import { Paquete } from "../models/paquetes.interface";
+import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
+import { Paquete } from "../../models/paquetes.interface";
 import { LazyLoadEvent } from "primeng-lts/api";
 import { ActivatedRoute, Router } from '@angular/router';
-import { VerDetallePaqueteComponent } from './ver-detalle-paquete/ver-detalle-paquete.component';
-import { Servicio } from '../models/servicios.interface';
-import { Articulo } from '../models/articulos.interface';
+import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-paquete.component';
+import { Servicio } from '../../models/servicios.interface';
+import { Articulo } from '../../models/articulos.interface';
 
 interface HttpResponse {
   respuesta: string;
@@ -47,6 +47,22 @@ export class PaquetesComponent implements OnInit {
       value: 2,
     }
   ];
+
+  paquetesServicio: any[] = [
+    {
+      label: 'Paquete Uno',
+      value: 0,
+    },
+    {
+      label: 'Paquete Dos',
+      value: 1,
+    },
+    {
+      label: 'Paquete Tres',
+      value: 2,
+    }
+  ];
+
   servicios: Servicio[] = [
     {
       servicio: 'Traslado a nivel nacional',
@@ -77,6 +93,7 @@ export class PaquetesComponent implements OnInit {
   filtroForm!: FormGroup;
   agregarPaqueteForm!: FormGroup;
   modificarPaqueteForm!: FormGroup;
+  paquetesServicioFiltrados: any[] = [];
 
   mostrarModalAgregarPaquete: boolean = false;
   mostrarModalModificarPaquete: boolean = false;
@@ -163,11 +180,7 @@ export class PaquetesComponent implements OnInit {
   }
 
   abrirModalAgregarPaquete(): void {
-    const queryParams = { titulo: 'REGISTRAR PAQUETES' };
-    this.router.navigate(['agregar-paquete'], {
-      relativeTo: this.activatedRoute,
-      queryParams,
-    });
+    this.router.navigate(['agregar-paquete'], { relativeTo: this.activatedRoute });
   }
 
   abrirModalDetallePaquete(paquete: Paquete) {
@@ -190,11 +203,7 @@ export class PaquetesComponent implements OnInit {
   abrirModalModificarPaquete() {
     // this.inicializarModificarPaqueteForm();
     this.mostrarModalModificarPaquete = true;
-    const queryParams = { titulo: 'MODIFICAR PAQUETES' };
-    this.router.navigate(['modificar-paquete', this.paqueteSeleccionado.id], {
-      relativeTo: this.activatedRoute,
-      queryParams,
-    });
+    this.router.navigate(['modificar-paquete', this.paqueteSeleccionado.id], { relativeTo: this.activatedRoute });
   }
 
   agregarPaquete(): void {
@@ -233,6 +242,20 @@ export class PaquetesComponent implements OnInit {
         this.paquetes[foundIndex] = res.paquete;
       }
     });
+  }
+
+  filtrarPaquetes(event: any) {
+    // TO DO En una aplicación real, realice una solicitud a una URL remota con la consulta y devuelva los resultados filtrados
+    let filtrado: any[] = [];
+    let query = event.query;
+    for (let i = 0; i < this.paquetesServicio.length; i++) {
+      let paquete = this.paquetesServicio[i];
+      if (paquete.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtrado.push(paquete);
+      }
+    }
+
+    this.paquetesServicioFiltrados = filtrado;
   }
 
   get f() {

@@ -24,8 +24,12 @@
       </div>
       <div class="col-md-6">
         <label class="control-label" for="nombrePaquete">Nombre:</label>
-        <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete"
-          placeholder="Ingresa el nombre del paquete">
+        <p-autoComplete id="nombrePaquete" class="form-control" formControlName="nombrePaquete"
+          [showEmptyMessage]="true" [suggestions]="paquetesServicioFiltrados" (completeMethod)="filtrarPaquetes($event)"
+          [style]="{'width':'100%'}" [minLength]="3" class="p-autocomplete" placeholder="Ingresa el nombre del paquete" field="label"
+          [inputStyle]="{'width' : '100%','font-style' : 'normal','font-weight' : '400','font-size' : '14px'}"
+          >
+        </p-autoComplete>
       </div>
     </div>
     <div class="row mt-6">
