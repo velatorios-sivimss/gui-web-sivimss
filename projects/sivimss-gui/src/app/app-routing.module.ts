@@ -3,6 +3,7 @@ import {RouterModule, Routes, UrlSerializer} from '@angular/router';
 import {PaginaNoEncontradaComponent} from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import {BloqueaUsuarioLogueadoGuard} from './services/security/bloquea-usuario-logueado.guard';
 import {PermiteUsuarioLogueadoGuard} from './services/security/permite-usuario-logueado.guard';
+import {OperadoresPorVelatorioModule} from "./modules/operadores-por-velatorio/operadores-por-velatorio.module";
 
 const routes: Routes = [
   {
@@ -42,6 +43,11 @@ const routes: Routes = [
     path: 'servicios',
     loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
   },
+  {
+    path: 'operadores-por-velatorio',
+    loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
+  },
+
   {
     path: '**',
     component: PaginaNoEncontradaComponent,

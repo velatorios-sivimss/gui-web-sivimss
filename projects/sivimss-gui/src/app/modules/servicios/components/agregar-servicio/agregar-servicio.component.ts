@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {Servicio,ConfirmacionServicio} from "../../models/servicio.interface";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS_DUMMIES} from "../constants/dummies";
+import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 
 @Component({
   selector: 'app-agregar-servicio',

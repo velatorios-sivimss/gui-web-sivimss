@@ -1,5 +1,5 @@
 
-import {TipoDropdown} from "../../../../models/tipo-dropdown"
+import {TipoDropdown} from "../../../models/tipo-dropdown"
 
 export const CATALOGOS_DUMMIES: TipoDropdown[] = [
   {

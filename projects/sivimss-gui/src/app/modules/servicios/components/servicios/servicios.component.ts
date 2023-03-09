@@ -12,12 +12,12 @@ import {Servicio} from "../../models/servicio.interface";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 
-import {SERVICIO_BREADCRUMB} from "../constants/breadcrumb";
+import {SERVICIO_BREADCRUMB} from "../../constants/breadcrumb";
 import {DynamicDialogRef,DialogService} from "primeng-lts/dynamicdialog";
 import {AgregarServicioComponent} from "../agregar-servicio/agregar-servicio.component";
 import {ModificarServicioComponent} from "../modificar-servicio/modificar-servicio.component";
 import {DetalleServicioComponent} from "../detalle-servicio/detalle-servicio.component";
-import {CATALOGOS_DUMMIES} from "../constants/dummies";
+import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 
 
 @Component({
