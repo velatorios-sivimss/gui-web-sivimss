@@ -199,7 +199,7 @@
                     <div class="col-md-6">
                         <p-calendar id="vigenciaTarjetaFin" formControlName="vigenciaTarjetaFin"
                             styleClass="form-control" [showIcon]="true" placeholder="Fecha hasta" dateFormat="dd/mm/yy"
-                            [minDate]="fdd!.vigenciaTarjetaInicio!.value">
+                            [minDate]="fdd!.vigenciaTarjetaInicio!.value" appendTo="body">
                         </p-calendar>
                         <span class="campo-obligatorio"
                             *ngIf="fdd.vigenciaTarjetaFin?.errors?.required && (fdd.vigenciaTarjetaFin?.dirty || fdd.vigenciaTarjetaFin?.touched)">
