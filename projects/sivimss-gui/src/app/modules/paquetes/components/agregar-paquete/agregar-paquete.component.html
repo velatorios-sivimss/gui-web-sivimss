@@ -18,7 +18,7 @@
     <div class="col-md-4">
       <label class="control-label" for="nombrePaquete">Paquete *:</label>
       <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete"
-             placeholder="Ingresa el nombre del paquete">
+             placeholder="Ingresa el nombre del paquete" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.nombrePaquete?.errors?.required && (f.nombrePaquete?.dirty || f.nombrePaquete?.touched)">Campo 
         obligatorio</span>
     </div>

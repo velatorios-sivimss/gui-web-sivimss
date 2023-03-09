@@ -57,7 +57,7 @@ export class AgregarPaqueteComponent implements OnInit {
   articuloSeleccionado!: Articulo;
   velatorios: ListaVelatorios[] = [];
   tituloEliminar: string = '';
-  tituloPrincipal: string = 'ADMINISTRAR PAQUETES';
+  tituloPrincipal: string = 'REGISTRAR PAQUETES';
   intentoPorGuardar: boolean = false;
 
   agregarPaqueteForm!: FormGroup;
@@ -169,6 +169,7 @@ export class AgregarPaqueteComponent implements OnInit {
       precio: [{ value: null, disabled: true }, Validators.required],
       estatus: [{ value: true, disabled: false }, Validators.required],
     });
+    this.f.nombrePaquete?.errors
   }
 
   inicializarAgregarServicioForm() {
@@ -199,6 +200,7 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   agregarServicio(): void {
+    // TO DO Aplicar logica para no repetir Items
     this.servicios.push({
       id: 1,
       idServicio: 1,
@@ -214,6 +216,7 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   agregarArticulo(): void {
+    // TO DO Aplicar logica para no repetir Items
     this.articulos.push({
       id: 1,
       idArticulo: 1,
@@ -279,13 +282,13 @@ export class AgregarPaqueteComponent implements OnInit {
   }
 
   eliminarServicio(): void {
-    const foundIndex = this.servicios.findIndex((item: Servicio) => item.id === this.servicioSeleccionado.id);    
+    const foundIndex = this.servicios.findIndex((item: Servicio) => item.id === this.servicioSeleccionado.id);
     this.servicios.splice(foundIndex, 1);
     this.mostrarModalEliminarServicio = false;
   }
 
   eliminarArticulo(): void {
-    const foundIndex = this.articulos.findIndex((item: Servicio) => item.id === this.articuloSeleccionado.id);    
+    const foundIndex = this.articulos.findIndex((item: Servicio) => item.id === this.articuloSeleccionado.id);
     this.articulos.splice(foundIndex, 1);
     this.mostrarModalEliminarArticulo = false;
   }

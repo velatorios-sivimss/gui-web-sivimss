@@ -165,7 +165,7 @@ export class PaquetesComponent implements OnInit {
   }
 
   abrirModalAgregarPaquete(): void {
-    const queryParams = { titulo: 'ADMINISTRAR PAQUETES' };
+    const queryParams = { titulo: 'REGISTRAR PAQUETES' };
     this.router.navigate(['agregar-paquete'], {
       relativeTo: this.activatedRoute,
       queryParams,
@@ -199,24 +199,6 @@ export class PaquetesComponent implements OnInit {
     });
   }
 
-  // inicializarAgregarPaqueteForm() {
-  //   this.agregarPaqueteForm = this.formBuilder.group({
-  //     nivel: [{ value: null, disabled: false }, [Validators.required]],
-  //     delegacion: [{ value: null, disabled: false }, [Validators.required]],
-  //     velatorio: [{ value: null, disabled: false }, [Validators.required]],
-  //     nombrePaquete: [{ value: null, disabled: false }, [Validators.required]],
-  //   });
-  // }
-
-  // inicializarModificarPaqueteForm() {
-  //   this.modificarPaqueteForm = this.formBuilder.group({
-  //     nivel: [{ value: null, disabled: false }, [Validators.required]],
-  //     delegacion: [{ value: null, disabled: false }, [Validators.required]],
-  //     velatorio: [{ value: null, disabled: false }, [Validators.required]],
-  //     nombrePaquete: [{ value: null, disabled: false }, [Validators.required]],
-  //   });
-  // }
-
   agregarPaquete(): void {
     this.alertaService.mostrar(TipoAlerta.Exito, 'Usuario guardado');
   }
@@ -248,7 +230,7 @@ export class PaquetesComponent implements OnInit {
       width: "920px"
     });
     this.detalleRef.onClose.subscribe((res: HttpResponse) => {
-      if (res && res.respuesta === 'Ok') {
+      if (res && res.respuesta === 'Ok' && res.paquete) {
         const foundIndex = this.paquetes.findIndex((item: Paquete) => item.id === paquete.id);
         this.paquetes[foundIndex] = res.paquete;
       }

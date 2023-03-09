@@ -18,6 +18,7 @@ import { DialogModule } from "primeng-lts/dialog";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { CheckboxModule } from 'primeng-lts/checkbox';
 import { VerDetallePaqueteComponent } from './components/ver-detalle-paquete/ver-detalle-paquete.component';
+import { UtileriaModule } from '../../shared/utileria/utileria.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { VerDetallePaqueteComponent } from './components/ver-detalle-paquete/ver
     OverlayPanelOpcionesModule,
     TablePanelModule,
     CheckboxModule,
+    UtileriaModule,
   ],
   providers: [
     PaqueteService
