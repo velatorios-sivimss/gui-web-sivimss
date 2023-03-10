@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import { CeldaStickyModule } from "projects/sivimss-gui/src/app/shared/celda-sticky/celda-sticky.module";
 
 import {UsuariosRoutingModule} from './usuarios-routing.module';
 import {UsuariosComponent} from './components/usuarios/usuarios.component';
@@ -33,7 +34,8 @@ import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
     CalendarModule,
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
-    TablePanelModule
+    TablePanelModule,
+    CeldaStickyModule
   ],
   providers: [
     UsuarioService

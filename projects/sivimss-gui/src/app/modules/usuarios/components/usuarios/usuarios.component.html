@@ -42,7 +42,8 @@
     <h2 class="subtitulo">Lista de usuarios</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarUsuario()">Agregar usuario</button>
   </div>
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="usuarios" [paginator]="usuarios.length > 0"
+  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="usuarios"
+           [paginator]="usuarios.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">
@@ -55,8 +56,14 @@
         <th>Nombre</th>
         <th>Primer apellido</th>
         <th>Segundo apellido</th>
+        <th>ID</th>
+        <th>CURP</th>
+        <th>Matrícula</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Primer apellido</th>
+        <th>Segundo apellido</th>
         <th>Estatus</th>
-        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-usuario>
@@ -68,23 +75,30 @@
         <td>{{usuario.nombre}}</td>
         <td>{{usuario.primerApellido}}</td>
         <td>{{usuario.segundoApellido}}</td>
+        <td>{{usuario.id}}</td>
+        <td>{{usuario.curp}}</td>
+        <td>{{usuario.matricula}}</td>
+        <td>{{usuario.usuario}}</td>
+        <td>{{usuario.nombre}}</td>
+        <td>{{usuario.primerApellido}}</td>
+        <td>{{usuario.segundoApellido}}</td>
         <td>
-          <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="usuario.estatus"></p-inputSwitch>
-            <span class="activo" *ngIf="usuario.estatus">Activo</span>
-            <span class="inactivo" *ngIf="!usuario.estatus">Inactivo</span>
-          </div>
-        <td>
-          <div class="contenedor-celda-iconos">
-            <a (click)="abrirModalDetalleUsuario(usuario)">
-              <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
-            </a>
-            <a (click)="abrirPanel($event,usuario)">
-              <img
-                src="assets/images/imagen-icono-barras-horizontales.svg"
-                alt="icono barras horizontales">
-            </a>
-
+          <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'100px 80px'}">
+            <div class="contenedor-inputswitch">
+              <p-inputSwitch [(ngModel)]="usuario.estatus"></p-inputSwitch>
+              <span class="activo" *ngIf="usuario.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!usuario.estatus">Inactivo</span>
+            </div>
+            <div class="contenedor-celda-iconos">
+              <a (click)="abrirModalDetalleUsuario(usuario)">
+                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+              </a>
+              <a (click)="abrirPanel($event,usuario)">
+                <img
+                  src="assets/images/imagen-icono-barras-horizontales.svg"
+                  alt="icono barras horizontales">
+              </a>
+            </div>
           </div>
         </td>
       </tr>

@@ -1,6 +1,7 @@
 :host {
   position: absolute;
   display: block;
+  z-index: 1;
 }
 
 :host ::ng-deep {
