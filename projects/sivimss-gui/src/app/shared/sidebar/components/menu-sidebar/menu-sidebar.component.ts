@@ -95,7 +95,7 @@ export class MenuSidebarComponent implements OnInit {
         {
           icono: '',
           texto: 'Vehicular',
-          ruta: 'vehicular',
+          ruta: 'inventario-vehicular',
           activo: false
         },
         {
