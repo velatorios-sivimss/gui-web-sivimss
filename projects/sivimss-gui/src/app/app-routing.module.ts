@@ -3,7 +3,7 @@ import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
 import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
-
+import { ProveedoresModule } from './modules/proveedores/proveedores.module';
 const routes: Routes = [
   {
     path: 'pagina-no-encontrada',
@@ -37,6 +37,10 @@ const routes: Routes = [
   {
     path: 'ordenes-de-servicio',
     loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
+  },
+  {
+    path: 'proveedores',
+    loadChildren: () => import('./modules/proveedores/proveedores.module').then(m => m.ProveedoresModule)
   },
   {
     path: '**',
