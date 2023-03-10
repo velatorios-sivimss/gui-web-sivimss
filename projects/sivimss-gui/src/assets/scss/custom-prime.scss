@@ -16,7 +16,6 @@
 .p-datatable .p-datatable-thead>tr>th {
   font-style: normal;
   font-size: 14px;
-  position: relative;
   background: #F3F3F3;
   border: 0;
   font-weight: 400;
@@ -24,6 +23,12 @@
   letter-spacing: 0.1px;
   color: #000000;
   border-bottom: 1px solid #DDDDDD;
+}
+
+.ultima-celda-sticky.p-datatable .p-datatable-thead > tr > th{
+  position: sticky;
+  right: 0;
+  border-left: 1px solid #DDDDDD;
 }
 
 .p-datatable table {
@@ -46,15 +51,10 @@
   border: 1px solid #DDDDDD;
   border-radius: 10px;
   overflow: hidden;
-  /*Pruebas para el scroll en table*/
-  //overflow: auto;
-  //max-width: 1000px;
+  overflow-x: auto;
+  width: 100%;
 }
 
-.p-datatable-table {
-  /*Pruebas para el scroll en table*/
-  //width: 100%;
-}
 
 .p-datatable .p-datatable-tbody>tr>td {
   font-style: normal;
@@ -65,6 +65,12 @@
   line-height: 20px;
   letter-spacing: 0.1px;
   color: #484848;
+}
+
+.ultima-celda-sticky.p-datatable .p-datatable-tbody > tr > td{
+  background-color: white;
+  position: sticky;
+  right: 0;
 }
 
 .p-dialog .p-dialog-header {

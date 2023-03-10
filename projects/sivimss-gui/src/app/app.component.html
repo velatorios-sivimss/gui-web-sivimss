@@ -1,15 +1,7 @@
 <app-header-imss-publico></app-header-imss-publico>
 
-
-<!--Esta implementación es temporal-->
+<!--Esta implementación es temporal hasta tener los servicios de autenticacion-->
 <ng-container [ngTemplateOutlet]="rutaActual === '/inicio-sesion' ? paginaPublica:paginaPrivada"></ng-container>
-
-<app-loader [activarLoaderNavegacionRutas]="true"></app-loader>
-<p-toast position="top-center">
-  <ng-template let-message pTemplate="message">
-    <app-alerta [mensaje]="message.detail"></app-alerta>
-  </ng-template>
-</p-toast>
 
 <ng-template #paginaPublica>
   <router-outlet></router-outlet>
@@ -17,14 +9,16 @@
 
 <ng-template #paginaPrivada>
   <app-sub-header-privado></app-sub-header-privado>
-  <div class="content sidebar-activo">
-<!--    <app-menu-sidebar></app-menu-sidebar>-->
-    <app-menu-sidebar></app-menu-sidebar>
-    <main>
-      <app-breadcrumb></app-breadcrumb>
-      <router-outlet></router-outlet>
-    </main>
-  </div>
+  <app-template-with-sidebar>
+    <app-breadcrumb></app-breadcrumb>
+    <router-outlet></router-outlet>
+  </app-template-with-sidebar>
 </ng-template>
 
+<app-loader [activarLoaderNavegacionRutas]="true"></app-loader>
 
+<p-toast position="top-center">
+  <ng-template let-message pTemplate="message">
+    <app-alerta [mensaje]="message.detail"></app-alerta>
+  </ng-template>
+</p-toast>
