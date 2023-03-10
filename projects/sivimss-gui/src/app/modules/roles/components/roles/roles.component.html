@@ -74,7 +74,8 @@
     <h2 class="subtitulo">Roles</h2>
     <button type="button" class="btn btn-primary btn-lg" routerLink="agregar-rol">Agregar rol</button>
   </div>
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="roles" [paginator]="roles.length > 0"
+  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="roles"
+           [paginator]="roles.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">
@@ -84,8 +85,19 @@
         <th>Nombre</th>
         <th>Nivel</th>
         <th>Fecha de creación</th>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Nivel</th>
+        <th>Fecha de creación</th>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Nivel</th>
+        <th>Fecha de creación</th>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Nivel</th>
+        <th>Fecha de creación</th>
         <th>Estatus</th>
-        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rol>
@@ -94,22 +106,35 @@
         <td>{{rol.nombre}}</td>
         <td>{{rol.nivel}}</td>
         <td>{{rol.fechaCreacion}}</td>
+        <td>{{rol.id}}</td>
+        <td>{{rol.nombre}}</td>
+        <td>{{rol.nivel}}</td>
+        <td>{{rol.fechaCreacion}}</td>
+        <td>{{rol.id}}</td>
+        <td>{{rol.nombre}}</td>
+        <td>{{rol.nivel}}</td>
+        <td>{{rol.fechaCreacion}}</td>
+        <td>{{rol.id}}</td>
+        <td>{{rol.nombre}}</td>
+        <td>{{rol.nivel}}</td>
+        <td>{{rol.fechaCreacion}}</td>
         <td>
-          <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="rol.estatus"></p-inputSwitch>
-            <span class="activo" *ngIf="rol.estatus">Activo</span>
-            <span class="inactivo" *ngIf="!rol.estatus">Inactivo</span>
-          </div>
-        <td>
-          <div class="contenedor-celda-iconos">
-            <a (click)="abrirModalDetalleRol(rol)">
-              <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
-            </a>
-            <a (click)="abrirPanel($event,rol)">
-              <img
-                src="assets/images/imagen-icono-barras-horizontales.svg"
-                alt="icono barras horizontales">
-            </a>
+          <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
+            <div class="contenedor-inputswitch">
+              <p-inputSwitch [(ngModel)]="rol.estatus"></p-inputSwitch>
+              <span class="activo" *ngIf="rol.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!rol.estatus">Inactivo</span>
+            </div>
+            <div class="contenedor-celda-iconos">
+              <a (click)="abrirModalDetalleRol(rol)">
+                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+              </a>
+              <a (click)="abrirPanel($event,rol)">
+                <img
+                  src="assets/images/imagen-icono-barras-horizontales.svg"
+                  alt="icono barras horizontales">
+              </a>
+            </div>
           </div>
         </td>
       </tr>
@@ -212,18 +237,18 @@
             <label>Descripción del artículo</label>
             <table class="table-panel-inner-table mt-3">
               <thead>
-              <tr>
-                <th>ID funcionalidad</th>
-                <th>Nombre</th>
-                <th>Permisos</th>
-              </tr>
+                <tr>
+                  <th>ID funcionalidad</th>
+                  <th>Nombre</th>
+                  <th>Permisos</th>
+                </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let funcionalidad of rolSeleccionado.funcionalidades">
-                <td>{{funcionalidad.id}}</td>
-                <td>{{funcionalidad.nombre}}</td>
-                <td>{{funcionalidad | cadenaPermisos}}</td>
-              </tr>
+                <tr *ngFor="let funcionalidad of rolSeleccionado.funcionalidades">
+                  <td>{{funcionalidad.id}}</td>
+                  <td>{{funcionalidad.nombre}}</td>
+                  <td>{{funcionalidad | cadenaPermisos}}</td>
+                </tr>
               </tbody>
             </table>
           </div>
