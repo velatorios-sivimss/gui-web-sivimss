@@ -48,6 +48,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
   },
   {
+    path: 'registro-otorgamiento-servicios',
+    loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

@@ -2,11 +2,11 @@ import {ElementoBreadcrumb} from "../../../shared/breadcrumb/models/elemento-bre
 
 export const SERVICIO_BREADCRUMB: ElementoBreadcrumb[] = [
   {
-    icono: '',
-    titulo: 'Administración de catálogos'
+    icono: 'imagen-icono-operacion-sivimss.svg',
+    titulo: 'Operación SIVIMSS'
   },
   {
     icono: '',
-    titulo: 'Administración de servicios'
+    titulo: 'Registro de otorgamiento de servicios'
   }
 ]
