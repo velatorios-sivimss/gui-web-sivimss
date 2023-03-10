@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Route, Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
+import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-menu-sidebar',
@@ -8,8 +10,8 @@ import { ActivatedRoute, Route, Router } from "@angular/router";
 })
 export class MenuSidebarComponent implements OnInit {
 
-  opcionAnteriorSeleccionada:any = null;
-  opcionSeleccionada: any = null;
+  opcionAnteriorSeleccionada: any = null;
+  activo$!: Observable<boolean>;
 
   menu: any[] = [
     {
@@ -142,14 +144,18 @@ export class MenuSidebarComponent implements OnInit {
     }
   ]
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private menuSidebarService: MenuSidebarService
+  ) {
   }
 
   ngOnInit(): void {
+    this.activo$ = this.menuSidebarService.menuSidebar$;
   }
 
   navegar(opcionSeleccionada: any) {
-    if(this.opcionAnteriorSeleccionada){
+    if (this.opcionAnteriorSeleccionada) {
       this.opcionAnteriorSeleccionada.activo = false;
     }
     opcionSeleccionada.activo = true;

@@ -1,6 +1,6 @@
 :host {
+  position: absolute;
   display: block;
-  padding: 0 1rem 1rem 1rem;
 }
 
 :host ::ng-deep {
@@ -20,20 +20,11 @@
     box-shadow: none;
   }
 
-  .p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
-    background-color: transparent;
-    text-decoration: none;
-    outline: none;
-    border: none;
-    box-shadow: none;
-  }
-
   .p-accordion .p-accordion-header .p-accordion-header-link {
     background-color: transparent;
     text-decoration: none;
     outline: none;
     border: 1px solid #DDDDDD;
-    //box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
   }
 
   .p-accordion-header.p-highlight {
@@ -130,15 +121,13 @@
     .menu-subtitulos {
       border: 1px solid #9D2449;
       border-top: none;
-      border-radius: 10px;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+      border-radius: 0 0 10px 10px;
     }
   }
 
   .p-accordion .p-accordion-content {
     border: none;
-    box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px 1px rgba(0, 0, 0, 0.1);
   }
 
   .p-accordion-content {
@@ -184,5 +173,13 @@
         }
       }
     }
+  }
+}
+
+
+.menu-sidebar {
+  transform: translateX(-100%);
+  &.activo {
+    transform: translateX(0);
   }
 }
