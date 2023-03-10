@@ -43,6 +43,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
+    path: 'reservar-salas',
+    loadChildren: () => import('./modules/reservar-salas/reservar-salas.module').then(m => m.ReservarSalasModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

@@ -37,6 +37,12 @@ export class MenuSidebarComponent implements OnInit {
           ruta: 'pagos',
           activo: false
         },
+        {
+          icono: '',
+          texto: 'Reservar Salas',
+          ruta: 'reservar-salas',
+          activo: false
+        }
       ]
     },
     {
