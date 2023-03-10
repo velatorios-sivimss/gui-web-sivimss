@@ -15,7 +15,7 @@ import {Usuario} from "../../models/usuario.interface";
 export class UsuariosComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -37,11 +37,11 @@ export class UsuariosComponent implements OnInit {
   ];
 
   usuarios: Usuario[] = [];
-  usuarioSeleccionado: Usuario = null;
+  usuarioSeleccionado!: Usuario;
 
-  filtroForm: FormGroup;
-  agregarUsuarioForm: FormGroup;
-  modificarUsuarioForm: FormGroup;
+  filtroForm!: FormGroup;
+  agregarUsuarioForm!: FormGroup;
+  modificarUsuarioForm!: FormGroup;
 
   mostrarModalAgregarUsuario: boolean = false;
   mostrarModalModificarUsuario: boolean = false;
