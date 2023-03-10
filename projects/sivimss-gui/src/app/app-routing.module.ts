@@ -1,9 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes, UrlSerializer} from '@angular/router';
-import {PaginaNoEncontradaComponent} from './components/pagina-no-encontrada/pagina-no-encontrada.component';
-import {BloqueaUsuarioLogueadoGuard} from './services/security/bloquea-usuario-logueado.guard';
-import {PermiteUsuarioLogueadoGuard} from './services/security/permite-usuario-logueado.guard';
-import {OperadoresPorVelatorioModule} from "./modules/operadores-por-velatorio/operadores-por-velatorio.module";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
+import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
+import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
+import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
 
 const routes: Routes = [
   {
@@ -38,6 +37,10 @@ const routes: Routes = [
   {
     path: 'ordenes-de-servicio',
     loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
+  },
+  {
+    path: 'inventario-vehicular',
+    loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
     path: 'servicios',
