@@ -74,7 +74,7 @@
     <h2 class="subtitulo">Roles</h2>
     <button type="button" class="btn btn-primary btn-lg" routerLink="agregar-rol">Agregar rol</button>
   </div>
-  <p-table  styleClass="mt-5 mb-8" [value]="roles"
+  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="roles"
            [paginator]="roles.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
