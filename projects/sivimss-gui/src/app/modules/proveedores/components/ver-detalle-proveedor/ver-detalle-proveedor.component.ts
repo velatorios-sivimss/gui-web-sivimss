@@ -1,7 +1,6 @@
 import { Proveedores } from './../../models/proveedores.interface';
 import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { Vehiculo } from '../../models/vehiculo.interface';
 
 @Component({
   selector: 'app-ver-detalle-proveedor',
