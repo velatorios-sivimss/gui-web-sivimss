@@ -7,6 +7,8 @@ import { TituloPrincipalModule } from '../../shared/titulo-principal/titulo-prin
 import { ListadoSalasComponent } from './components/listado-salas/listado-salas.component';
 import { CalendarioSalasComponent } from './components/calendario-salas/calendario-salas.component';
 import { VerActividadSalasComponent } from './components/ver-actividad-salas/ver-actividad-salas.component';
+import { SelectButtonModule } from 'primeng-lts/selectbutton';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { VerActividadSalasComponent } from './components/ver-actividad-salas/ver
   imports: [
     CommonModule,
     ReservarSalasRoutingModule,
+    SelectButtonModule,
     TituloPrincipalModule,
+    FormsModule
   ]
 })
 export class ReservarSalasModule { }
