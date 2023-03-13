@@ -4,7 +4,7 @@ import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadc
 import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
+import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from "../../../../utils/constantes";
 import { Paquete } from "../../models/paquetes.interface";
 import { LazyLoadEvent } from "primeng-lts/api";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +31,7 @@ export class PaquetesComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  // modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   opciones: any[] = [
     {
@@ -185,14 +185,10 @@ export class PaquetesComponent implements OnInit {
 
   abrirModalDetallePaquete(paquete: Paquete) {
     this.detalleRef = this.dialogService.open(VerDetallePaquetesComponent, {
-      data: { paquete, modo: this.modo = 'detalle' },
+      data: { paquete, modo: Accion.Detalle },
       header: "Ver detalle",
       width: "920px"
     });
-
-    // this.detalleRef.onClose.subscribe((result: unknown) => {
-    //   console.log(result);
-    // });
   }
 
   abrirPanel(event: MouseEvent, paqueteSeleccionado: Paquete): void {
@@ -230,9 +226,9 @@ export class PaquetesComponent implements OnInit {
   }
 
   cambiarEstatus(paquete: Paquete) {
-    this.modo = paquete.estatus ? 'desactivar' : 'activar';
+    const modo: number = paquete.estatus ? Accion.Desactivar : Accion.Activar;
     this.detalleRef = this.dialogService.open(VerDetallePaquetesComponent, {
-      data: { paquete, modo: this.modo },
+      data: { paquete, modo },
       header: "Ver detalle",
       width: "920px"
     });

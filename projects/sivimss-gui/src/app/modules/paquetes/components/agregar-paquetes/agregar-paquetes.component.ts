@@ -5,7 +5,7 @@ import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
-import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
+import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from "../../../../utils/constantes";
 import { Servicio } from '../../models/servicios.interface';
 import { LazyLoadEvent } from "primeng-lts/api";
 import { Articulo } from '../../models/articulos.interface';
@@ -28,8 +28,6 @@ export class AgregarPaquetesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
-
-  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -137,39 +135,7 @@ export class AgregarPaquetesComponent implements OnInit {
   }
 
 
-  paginar(event: LazyLoadEvent): void {
-    // setTimeout(() => {
-    //   this.servicios = [
-    //     {
-    //       servicio: 'Traslado',
-    //       costo: '$1,500.00',
-    //       precio: '$25,000.00',
-    //     },
-    //     {
-    //       servicio: 'Cremación',
-    //       costo: '$4,700.00',
-    //       precio: '$25,000.00',
-    //     },
-    //   ];
-    //   this.totalElementosServicios = this.servicios.length;
-    // }, 0);
-
-    // setTimeout(() => {
-    //   this.articulos = [
-    //     {
-    //       articulo: 'Velas con estampados religiosos',
-    //       costo: '$1,500.00',
-    //       precio: '$25,000.00',
-    //     },
-    //     {
-    //       articulo: 'Sillas de acero para velatorios',
-    //       costo: '$4,700.00',
-    //       precio: '$25,000.00',
-    //     },
-    //   ];
-    //   this.totalElementosArticulos = this.articulos.length;
-    // }, 0);
-  }
+  paginar(event: LazyLoadEvent): void { }
 
   obtenerVelatorio() {
     this.velatorios = [
@@ -280,17 +246,10 @@ export class AgregarPaquetesComponent implements OnInit {
         articulos: this.articulos,
       };
       const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaquetesComponent, {
-        data: { paquete: nuevoPaquete, modo: this.modo },
+        data: { paquete: nuevoPaquete, modo: Accion.Agregar },
         header: "Agregar paquete",
         width: "920px"
       });
-
-      // detalleRef.onClose.subscribe((res: HttpResponse) => {
-      //   if (res && res.respuesta === 'Ok') {
-      //     const foundIndex = this.paquetes.findIndex((item: Paquete) => item.id === paquete.id);
-      //     this.paquetes[foundIndex] = res.paquete;
-      //   }
-      // });
     }
   }
 

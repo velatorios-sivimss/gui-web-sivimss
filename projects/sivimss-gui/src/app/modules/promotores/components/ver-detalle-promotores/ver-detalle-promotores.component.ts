@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent } from 'primeng-lts/api/lazyloadevent';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { Promotor } from '../../models/promotores.interface';
 
 @Component({
@@ -19,7 +20,8 @@ export class VerDetallePromotoresComponent implements OnInit {
   promotorSeleccionado!: Promotor;
   preguntaConfirmacion: string = '';
   mensajeConfirmacion: string = '';
-  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  Accion = Accion;
+  accionEntrada: Accion;
 
   constructor(
     public ref: DynamicDialogRef,
@@ -28,9 +30,8 @@ export class VerDetallePromotoresComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
-    // console.log(this.config.data);
     this.promotorSeleccionado = this.config.data?.promotor;
-    this.modo = this.config.data?.modo;
+    this.accionEntrada = this.config.data?.modo;
   }
 
   ngOnInit(): void {
@@ -38,20 +39,20 @@ export class VerDetallePromotoresComponent implements OnInit {
   }
 
   inicializarModo() {
-    switch (this.modo) {
-      case 'crear':
+    switch (this.accionEntrada) {
+      case Accion.Agregar:
         this.preguntaConfirmacion = '¿Estás seguro de agregar este nuevo promotor?';
         this.mensajeConfirmacion = this.MENSAJE_PROMOTOR_AGREGADO;
         break;
-      case 'modificar':
+      case Accion.Modificar:
         this.preguntaConfirmacion = '¿Estás seguro de modificar este promotor?';
         this.mensajeConfirmacion = this.MENSAJE_PROMOTOR_MODIFICADO;
         break;
-      case 'activar':
+      case Accion.Activar:
         this.preguntaConfirmacion = '¿Estás seguro de activar este promotor?';
         this.mensajeConfirmacion = this.MENSAJE_PROMOTOR_ACTIVADO;
         break;
-      case 'desactivar':
+      case Accion.Desactivar:
         this.preguntaConfirmacion = '¿Estás seguro de desactivar este promotor?';
         this.mensajeConfirmacion = this.MENSAJE_PROMOTOR_DESACTIVADO;
         break;

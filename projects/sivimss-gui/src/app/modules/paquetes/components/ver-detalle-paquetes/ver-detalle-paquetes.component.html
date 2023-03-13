@@ -127,11 +127,11 @@
 </app-table-panel>
 
 
-<div class="flex justify-content-end mt-5" *ngIf="modo === 'detalle'">
+<div class="flex justify-content-end mt-5" *ngIf="accionEntrada === Accion.Detalle">
     <button class="ml-4 btn btn-primary btn-md" (click)="cerrarDialogo();">Aceptar</button>
 </div>
 
-<div *ngIf="modo === 'crear'">
+<div *ngIf="accionEntrada === Accion.Agregar">
     <div class="m-4 flex flex-column align-items-center justify-content-center">
         <span>{{preguntaConfirmacion}}</span>
     </div>
@@ -141,7 +141,7 @@
     </div>
 </div>
 
-<div *ngIf="modo === 'activar' || modo === 'desactivar'">
+<div *ngIf="accionEntrada === Accion.Activar || accionEntrada === Accion.Desactivar">
     <div class="m-4 flex flex-column align-items-center justify-content-center">
         <span>{{preguntaConfirmacion}}</span>
     </div>

@@ -7,6 +7,7 @@ import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/al
 import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { VerDetallePromotoresComponent } from '../ver-detalle-promotores/ver-detalle-promotores.component';
 import { Promotor } from '../../models/promotores.interface';
+import { Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
 
 interface HttpResponse {
   respuesta: string;
@@ -24,7 +25,7 @@ export class ModificarPromotoresComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
-  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  // modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   opciones: any[] = [
     {
@@ -102,7 +103,6 @@ export class ModificarPromotoresComponent implements OnInit {
 
   ngOnInit(): void {
     this.promotorSeleccionado = this.config.data?.promotor;
-    this.modo = this.config.data?.modo;
 
     this.breadcrumbService.actualizar([
       {
@@ -170,7 +170,7 @@ export class ModificarPromotoresComponent implements OnInit {
         id: 1,
       };
       const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePromotoresComponent, {
-        data: { promotor: nuevoPromotor, modo: this.modo },
+        data: { promotor: nuevoPromotor, modo: Accion.Modificar },
         header: "Modificar promotor",
         width: "920px"
       });

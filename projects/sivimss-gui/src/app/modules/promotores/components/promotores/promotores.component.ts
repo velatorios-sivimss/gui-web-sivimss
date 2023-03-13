@@ -4,7 +4,7 @@ import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadc
 import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
+import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from "../../../../utils/constantes";
 import { Promotor } from "../../models/promotores.interface";
 import { LazyLoadEvent } from "primeng-lts/api";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,7 +31,7 @@ export class PromotoresComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  // modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   opciones: any[] = [
     {
@@ -175,7 +175,6 @@ export class PromotoresComponent implements OnInit {
 
   abrirModalAgregarPromotor(): void {
     this.detalleRef = this.dialogService.open(AgregarPromotoresComponent, {
-      data: { modo: this.modo = 'crear' },
       header: "Agregar promotor",
       width: "920px"
     });
@@ -183,7 +182,7 @@ export class PromotoresComponent implements OnInit {
 
   abrirModalDetallePromotor(promotor: Promotor) {
     this.detalleRef = this.dialogService.open(VerDetallePromotoresComponent, {
-      data: { promotor, modo: this.modo = 'detalle' },
+      data: { promotor, modo: Accion.Detalle },
       header: "Ver detalle",
       width: "920px"
     });
@@ -196,7 +195,7 @@ export class PromotoresComponent implements OnInit {
 
   abrirModalModificarPromotor() {
     this.detalleRef = this.dialogService.open(ModificarPromotoresComponent, {
-      data: { promotor: this.promotorSeleccionado, modo: this.modo = 'modificar' },
+      data: { promotor: this.promotorSeleccionado },
       header: "Modificar promotor",
       width: "920px"
     });
@@ -226,9 +225,9 @@ export class PromotoresComponent implements OnInit {
   }
 
   cambiarEstatus(promotor: Promotor) {
-    this.modo = promotor.estatus ? 'desactivar' : 'activar';
+    const modo = promotor.estatus ? Accion.Desactivar : Accion.Activar;
     this.detalleRef = this.dialogService.open(VerDetallePromotoresComponent, {
-      data: { promotor, modo: this.modo },
+      data: { promotor, modo },
       header: "Ver detalle",
       width: "920px"
     });

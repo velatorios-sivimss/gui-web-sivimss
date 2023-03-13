@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent } from 'primeng-lts/api/lazyloadevent';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
+import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { Articulo } from '../../models/articulos.interface';
 import { Paquete } from '../../models/paquetes.interface';
 import { Servicio } from '../../models/servicios.interface';
@@ -28,7 +28,8 @@ export class VerDetallePaquetesComponent implements OnInit {
   articulos: Articulo[] = [];
   preguntaConfirmacion: string = '';
   mensajeConfirmacion: string = '';
-  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  Accion = Accion;
+  accionEntrada: Accion;
 
   constructor(
     public ref: DynamicDialogRef,
@@ -39,7 +40,7 @@ export class VerDetallePaquetesComponent implements OnInit {
   ) {
     // console.log(this.config.data);
     this.paqueteSeleccionado = this.config.data?.paquete;
-    this.modo = this.config.data?.modo;
+    this.accionEntrada = this.config.data?.modo;
   }
 
   ngOnInit(): void {
@@ -47,16 +48,16 @@ export class VerDetallePaquetesComponent implements OnInit {
   }
 
   inicializarModo() {
-    switch (this.modo) {
-      case 'crear':
+    switch (this.accionEntrada) {
+      case Accion.Agregar:
         this.preguntaConfirmacion = '¿Estás seguro de agregar este nuevo paquete?';
         this.mensajeConfirmacion = this.MENSAJE_PAQUETE_AGREGADO;
         break;
-      case 'activar':
+      case Accion.Activar:
         this.preguntaConfirmacion = '¿Estás seguro de activar este paquete?';
         this.mensajeConfirmacion = this.MENSAJE_PAQUETE_ACTIVADO;
         break;
-      case 'desactivar':
+      case Accion.Desactivar:
         this.preguntaConfirmacion = '¿Estás seguro de desactivar este paquete?';
         this.mensajeConfirmacion = this.MENSAJE_PAQUETE_DESACTIVADO;
         break;
