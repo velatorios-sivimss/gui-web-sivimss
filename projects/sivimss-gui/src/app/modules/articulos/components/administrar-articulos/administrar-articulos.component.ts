@@ -1,3 +1,6 @@
+import { DetalleArticulosComponent } from './../detalle-articulos/detalle-articulos.component';
+import { ModificarArticulosComponent } from './../modificar-articulos/modificar-articulos.component';
+import { AgregarArticulosComponent } from './../agregar-articulos/agregar-articulos.component';
 import { Articulos } from './../../models/articulos.interface';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
@@ -7,7 +10,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import { CATALOGOS_DUMMIES } from '../../constants/dummies';
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
-import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { LazyLoadEvent } from 'primeng-lts/api';
 import { SERVICIO_BREADCRUMB } from '../../constants/breadcrumb';
 
@@ -69,61 +72,62 @@ export class AdministrarArticulosComponent implements OnInit {
   inicializarFiltroForm(){
     this.filtroForm = this.formBuilder.group({
       nivel:[{value: null, disabled:false}],
+      delegacion:[{value: null, disabled:false}],
       velatorio:[{value: null, disabled:false}],
-      servicio:[{value: null, disabled:false}],
+      nombreArticulo:[{value: null, disabled:false}],
     });
   }
 
   abrirModalAgregarServicio(): void {
-    // this.creacionRef = this.dialogService.open(AgregarServicioComponent,{
-    //   header:"Agregar servicio",
-    //   width:"920px"
-    // });
-    // this.creacionRef.onClose.subscribe((estatus:boolean) => {
-    //   if(estatus){
-    //     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio agregado correctamente');
-    //   }
-    // })
+    this.creacionRef = this.dialogService.open(AgregarArticulosComponent,{
+      header:"Agregar artículo",
+      width:"920px"
+    });
+    this.creacionRef.onClose.subscribe((estatus:boolean) => {
+      if(estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo agregado correctamente');
+      }
+    })
   }
 
   abrirModalModificarServicio(): void {
-    // this.creacionRef = this.dialogService.open(ModificarServicioComponent, {
-    //   header:"Modificar servicio",
-    //   width:"920px",
-    // })
+     this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
+       header:"Modificar artículo",
+       width:"920px",
+     })
 
-    // this.creacionRef.onClose.subscribe((estatus:boolean) => {
-    //   if(estatus){
-    //     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
-    //   }
-    // })
+     this.creacionRef.onClose.subscribe((estatus:boolean) => {
+       if(estatus){
+         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo modificado correctamente');
+       }
+     })
   }
 
   abrirModalDetalleCapilla(servicio:Articulos){
-    // this.creacionRef = this.dialogService.open(DetalleServicioComponent, {
-    //   header:"Detalle",
-    //   width:"920px",
-    //   data: {servicio:servicio, origen: "detalle"},
-    // })
+     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
+       header:"Detalle",
+       width:"920px",
+       data: {servicio:servicio, origen: "detalle"},
+     })
   }
 
   abrirModalCambioEstatus(servicio:Articulos){
     /*Preguntar si se puede usar 'let'*/
-    // let header:string = "" ;
-    // servicio.estatus?header="Activar servicio":header="Desactivar servicio";
-    // this.creacionRef = this.dialogService.open(DetalleServicioComponent, {
-    //   header:header,
-    //   width:"920px",
-    //   data: {servicio:servicio, origen: "estatus"},
-    // })
+     let header:string = "" ;
+     servicio.estatus?header="Activar artículo":header="Desactivar artículo";
+     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
+       header:header,
+       width:"920px",
+       data: {servicio:servicio, origen: "estatus"},
+     })
 
-    // this.creacionRef.onClose.subscribe((servicio:Servicio) => {
-    //   if(servicio.estatus){
-    //     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio activado correctamente');
-    //   }else{
-    //     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
-    //   }
-    // })
+     this.creacionRef.onClose.subscribe((servicio:Articulos) => {
+       if(servicio.estatus){
+         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
+       }else{
+         this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
+       }
+     })
 
   }
 
@@ -138,45 +142,54 @@ export class AdministrarArticulosComponent implements OnInit {
       this.articulos = [
         {
           id: 1,
-          servicio: "Transporte de ataúdes",
-          descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
-          tipoServicio: 1,
-          descTipoServicio : this.tipoServicio[0].label,
-          partidaPresupuestal: 1,
-          descPartidaPresupuestal: this.partidaPresupuestal[0].label,
-          cuentaContable: 1,
-          descCuentaContable: this.cuentaContable[0].label,
-          observaciones: "Sin observaciones",
-          claveSAT:"111111",
-          estatus: true,
+          categoria:"ataúd",
+          tipoDeArticulo:"Artículo complementario",
+          tipoDeMaterial:"Madera ecológica MDF",
+          tamanio:"Tambora",
+          clasificacionDeProducto:"Intermediaria",
+          modeloDeArticulo:"Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
+          descripcionDeProducto:"Empaques contra humedad ",
+          largo:"10m",
+          ancho:"2m",
+          alto:"01m" ,
+          claveSAT:"253453453",
+          estatus: true ,
+          partidaPresupuestal: "21101",
+          cuentaContable: "12349876345687653",
         },
         {
           id: 2,
-          servicio: "Transporte de ataúdes",
-          descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
-          tipoServicio: 1,
-          descTipoServicio : this.tipoServicio[1].label,
-          partidaPresupuestal: 1,
-          descPartidaPresupuestal: this.partidaPresupuestal[1].label,
-          cuentaContable: 1,
-          descCuentaContable: this.cuentaContable[1].label,
-          observaciones: "Sin observaciones",
-          claveSAT:"2222",
-          estatus: true,
+          categoria:"ataúd",
+          tipoDeArticulo:"Artículo complementario",
+          tipoDeMaterial:"Madera ecológica MDF",
+          tamanio:"Tambora",
+          clasificacionDeProducto:"Intermediaria",
+          modeloDeArticulo:"Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
+          descripcionDeProducto:"Empaques contra humedad ",
+          largo:"10m",
+          ancho:"2m",
+          alto:"01m" ,
+          claveSAT:"253453453",
+          estatus: true ,
+          partidaPresupuestal: "21101",
+          cuentaContable: "12349876345687653",
         },
         {
           id: 3,
-          servicio: "Transporte de ataúdes",
-          descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
-          tipoServicio: 1,
-          descTipoServicio : this.tipoServicio[2].label,
-          partidaPresupuestal: 1,
-          descPartidaPresupuestal: this.partidaPresupuestal[2].label,
-          cuentaContable: 1,
-          descCuentaContable: this.cuentaContable[2].label,
-          observaciones: "Sin observaciones",
-          claveSAT:"3333",
-          estatus: false,
+          categoria:"ataúd",
+          tipoDeArticulo:"Artículo complementario",
+          tipoDeMaterial:"Madera ecológica MDF",
+          tamanio:"Tambora",
+          clasificacionDeProducto:"Intermediaria",
+          modeloDeArticulo:"Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
+          descripcionDeProducto:"Empaques contra humedad ",
+          largo:"10m",
+          ancho:"2m",
+          alto:"01m" ,
+          claveSAT:"253453453",
+          estatus: true ,
+          partidaPresupuestal: "21101",
+          cuentaContable: "12349876345687653",
         }
       ];
       this.totalElementos = this.articulos.length;

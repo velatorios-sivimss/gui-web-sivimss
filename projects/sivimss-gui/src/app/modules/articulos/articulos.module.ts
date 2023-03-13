@@ -20,11 +20,17 @@ import { AccordionModule } from 'primeng-lts/accordion';
 import { AdministrarArticulosComponent } from './components/administrar-articulos/administrar-articulos.component';
 import { ArticulosService } from './services/articulos.service';
 import { ArticulosRoutingModule } from './articulos.routing.module';
+import { AgregarArticulosComponent } from './components/agregar-articulos/agregar-articulos.component';
+import { DetalleArticulosComponent } from './components/detalle-articulos/detalle-articulos.component';
+import { ModificarArticulosComponent } from './components/modificar-articulos/modificar-articulos.component';
 
 //as
 @NgModule({
   declarations: [
     AdministrarArticulosComponent,
+    AgregarArticulosComponent,
+    DetalleArticulosComponent,
+    ModificarArticulosComponent,
     // DetalleProveedorComponent,
     // AgregarProveedorComponent,
     // VerDetalleProveedorComponent,

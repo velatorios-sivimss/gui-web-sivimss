@@ -1,16 +1,20 @@
 export interface Articulos {
-  id?: number;
-  servicio?: string;
-  descripcionServicio?: string;
-  tipoServicio?: number;
-  descTipoServicio?: string;
-  partidaPresupuestal?: number;
-  descPartidaPresupuestal?: string;
-  cuentaContable?: number;
-  descCuentaContable?: string;
-  observaciones?: string;
-  estatus?: boolean;
-  claveSAT?:string;
+id?: number;
+categoria?: string;
+tipoDeArticulo?: string;
+tipoDeMaterial?: string;
+tamanio?: string;
+clasificacionDeProducto?: string;
+modeloDeArticulo?: string;
+descripcionDeProducto?: string;
+largo?: string;
+ancho?: string;
+alto?: string;
+estatus?: boolean;
+claveSAT?:string;
+partidaPresupuestal?:string;
+cuentaClave?:string;
+cuentaContable?:string;
 }
 
 export interface ConfirmacionServicio {
