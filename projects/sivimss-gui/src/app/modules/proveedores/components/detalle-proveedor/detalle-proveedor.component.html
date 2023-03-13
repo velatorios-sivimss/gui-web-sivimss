@@ -1,16 +1,43 @@
-<ng-container>
-  <p-accordion expandIcon="pi pi-fw pi-chevron-down" collapseIcon="pi pi-fw pi-chevron-up">
-    <p-accordionTab>
-      <ng-template pTemplate="header">
-        <span class="count-title pr-4"> {{1  | number : '2.0-0' }} </span>
-        <span class="ecco-label pr-2"> Estatus: </span>
-        <span class="control-label font-normal">{{'Activo'}}</span>
-    </ng-template>
+    <app-table-panel>
+      <ng-template appCustomTemplate="left-header">
+        <div class="table-panel-header-column">
+          <span class="font-bold">ID {{proveedorSeleccionado.id}}</span>
+        </div>
+      </ng-template>
+      <ng-template *ngIf="(origen == 'detalle')" appCustomTemplate="right-header">
+        <div class="table-panel-header-column">
+          <div class="flex flex-column">
+            <span>Estatus</span>
+            <div class="contenedor-inputswitch">
+              <p-inputSwitch [(ngModel)]="proveedorSeleccionado.estatus"></p-inputSwitch>
+              <span class="activo" *ngIf="proveedorSeleccionado.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!proveedorSeleccionado.estatus">Inactivo</span>
+            </div>
+          </div>
+          <!-- (click)="overlayPanel.toggle($event)" -->
+          <a class="ml-5 cursor-pointer">
+            <img
+              src="assets/images/imagen-icono-barras-horizontales.svg"
+              alt="icono barras horizontales">
+          </a>
+        </div>
+      </ng-template>
+      <ng-template *ngIf="(origen == 'agregar' || origen == 'modificar' || origen == 'estatus')" appCustomTemplate="right-header">
+        <div class="table-panel-header-column">
+          <div class="flex flex-column">
+            <span>Estatus</span>
+            <div class="contenedor-inputswitch">
+              <span class="activo" *ngIf="proveedorSeleccionado.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!proveedorSeleccionado.estatus">Inactivo</span>
+            </div>
+          </div>
+        </div>
+      </ng-template>
       <div class="row table-panel-row">
         <div class="col-md-6">
           <div class="table-panel-column">
             <label>Nombre</label>
-            <span>{{proveedorSeleccionado?.nombre}}</span>
+            <span>{{proveedorSeleccionado.nombre}}</span>
           </div>
         </div>
       </div>
@@ -18,19 +45,19 @@
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Banco</label>
-            <span>{{proveedorSeleccionado?.banco}}</span>
+            <span>{{proveedorSeleccionado.banco}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Cuenta</label>
-            <span>{{proveedorSeleccionado?.cuenta}}</span>
+            <span>{{proveedorSeleccionado.cuenta}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Clave bancaria</label>
-            <span>{{proveedorSeleccionado?.claveBancaria}}</span>
+            <span>{{proveedorSeleccionado.claveBancaria}}</span>
           </div>
         </div>
       </div>
@@ -38,19 +65,19 @@
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Régimen</label>
-            <span>{{proveedorSeleccionado?.regimen}}</span>
+            <span>{{proveedorSeleccionado.regimen}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Representante legal</label>
-            <span>{{proveedorSeleccionado?.representanteLegal}}</span>
+            <span>{{proveedorSeleccionado.representanteLegal}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Tipo de proveedor</label>
-            <span>{{proveedorSeleccionado?.tipoProveedor}}</span>
+            <span>{{proveedorSeleccionado.tipoProveedor}}</span>
           </div>
         </div>
       </div>
@@ -58,57 +85,56 @@
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Télefono</label>
-            <span>{{proveedorSeleccionado?.telefono}}</span>
+            <span>{{proveedorSeleccionado.telefono}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Correo electrónico</label>
-            <span>{{proveedorSeleccionado?.correoElectronico}}</span>
+            <span>{{proveedorSeleccionado.correoElectronico}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>RFC</label>
-            <span>{{proveedorSeleccionado?.rfc}}</span>
+            <span>{{proveedorSeleccionado.rfc}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>CURP</label>
-            <span>{{proveedorSeleccionado?.curp}}</span>
+            <span>{{proveedorSeleccionado.curp}}</span>
           </div>
         </div>
       </div>
       <div class="row table-panel-row">
         <div class="col-md-12">
           <div class="table-panel-column">
-            <!-- <span>Dirección fiscal</span> -->
             <h2 class="subtituloSubModal">Dirección fiscal</h2>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Código postal</label>
-            <span>{{proveedorSeleccionado?.codigoPostal}}</span>
+            <span>{{proveedorSeleccionado.codigoPostal}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Calle</label>
-            <span>{{proveedorSeleccionado?.calle}}</span>
+            <span>{{proveedorSeleccionado.calle}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Num. Exterior</label>
-            <span>{{proveedorSeleccionado?.numExterior}}</span>
+            <span>{{proveedorSeleccionado.numExterior}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Num. Interior</label>
-            <span>{{proveedorSeleccionado?.numInterior}}</span>
+            <span>{{proveedorSeleccionado.numInterior}}</span>
           </div>
         </div>
       </div>
@@ -116,51 +142,50 @@
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>País</label>
-            <span>{{proveedorSeleccionado?.pais}}</span>
+            <span>{{proveedorSeleccionado.pais}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Estado</label>
-            <span>{{proveedorSeleccionado?.estado}}</span>
+            <span>{{proveedorSeleccionado.estado}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Municipio</label>
-            <span>{{proveedorSeleccionado?.municipio}}</span>
+            <span>{{proveedorSeleccionado.municipio}}</span>
           </div>
         </div>
       </div>
       <div class="row table-panel-row">
         <div class="col-md-12">
           <div class="table-panel-column">
-            <!-- <span>Dirección referencia</span> -->
             <h2 class="subtituloSubModal">Dirección de referencia</h2>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Código postal</label>
-            <span>{{proveedorSeleccionado?.codigoPostalReferencia}}</span>
+            <span>{{proveedorSeleccionado.codigoPostalReferencia}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Calle</label>
-            <span>{{proveedorSeleccionado?.calleReferencia}}</span>
+            <span>{{proveedorSeleccionado.calleReferencia}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Num. Exterior</label>
-            <span>{{proveedorSeleccionado?.numExteriorReferencia}}</span>
+            <span>{{proveedorSeleccionado.numExteriorReferencia}}</span>
           </div>
         </div>
         <div class="col-md-3">
           <div class="table-panel-column">
             <label>Num. Interior</label>
-            <span>{{proveedorSeleccionado?.numInteriorReferencia}}</span>
+            <span>{{proveedorSeleccionado.numInteriorReferencia}}</span>
           </div>
         </div>
       </div>
@@ -168,25 +193,80 @@
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>País</label>
-            <span>{{proveedorSeleccionado?.pais}}</span>
+            <span>{{proveedorSeleccionado.pais}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Estado</label>
-            <span>{{proveedorSeleccionado?.estadoReferencia}}</span>
+            <span>{{proveedorSeleccionado.estadoReferencia}}</span>
           </div>
         </div>
         <div class="col-md-4">
           <div class="table-panel-column">
             <label>Municipio</label>
-            <span>{{proveedorSeleccionado?.municipioReferencia}}</span>
+            <span>{{proveedorSeleccionado.municipioReferencia}}</span>
           </div>
         </div>
       </div>
-    </p-accordionTab>
-</p-accordion>
-</ng-container>
+    </app-table-panel>
+    <ng-container *ngIf="origen == 'agregar'">
+      <div class="flex justify-content-center">
+        <div class="mt-4 col-md-7" >
+          ¿Estás seguro que deseas agregar este nuevo proveedor?
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="origen == 'modificar'">
+      <div class="flex justify-content-center">
+        <div class="mt-4 col-md-7" >
+          ¿Estás seguro que deseas modificar este nuevo proveedor?
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="origen == 'detalle'">
+      <div class="flex justify-content-end">
+        <button class="ml-4 mt-3 btn btn-primary btn-md"  (click)="aceptar()">
+          Aceptar
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="(origen == 'agregar' || origen == 'modificar')">
+      <div class="flex mt-4 justify-content-end">
+        <button class="ml-6 mt-3 btn btn-primary btn-md"  (click)="regresar()">Regresar</button>
+        <button class="ml-6 mt-3 btn btn-danger btn-md" (click)="cerrar()">Cancelar</button>
+        <button class="ml-6 mt-3 btn btn-primary btn-md"  (click)="aceptar()">
+          Aceptar
+        </button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="(origen == 'estatus')">
+        <ng-container *ngIf="proveedorSeleccionado.estatus">
+          <div class="flex mt-4 justify-content-center">
+            <div class="col-md-6" >
+              ¿Estás seguro que deseas activar este proveedor?
+            </div>
+          </div>
+        </ng-container>
+      <ng-container *ngIf="!proveedorSeleccionado.estatus">
+        <div class="flex mt-4 justify-content-center">
+          <div class="col-md-6" >
+            ¿Estás seguro que deseas desactivar este proveedor?
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="flex mt-5 justify-content-end">
+        <button class="ml-6 mt-3 btn btn-danger btn-md" (click)="cerrar()">Cancelar</button>
+        <button class="ml-6 mt-3 btn btn-primary btn-md"  (click)="aceptar()">
+        Aceptar
+      </button>
+      </div>
+
+
 
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
@@ -196,3 +276,6 @@
       </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
+<ng-container *ngIf="abrirModificar">
+  <app-modificar-proveedor></app-modificar-proveedor>
+</ng-container>

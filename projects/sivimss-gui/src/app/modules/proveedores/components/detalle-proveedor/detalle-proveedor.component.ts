@@ -1,6 +1,9 @@
-import { Proveedores } from './../../models/proveedores.interface';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { ConfirmacionServicio, Proveedores } from './../../models/proveedores.interface';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { ModificarProveedorComponent } from '../modificar-proveedor/modificar-proveedor.component';
+import { OverlayPanel } from 'primeng-lts/overlaypanel';
 
 @Component({
   selector: 'app-detalle-proveedor',
@@ -10,21 +13,72 @@ import { DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 export class DetalleProveedorComponent implements OnInit {
 
   @Input() proveedorSeleccionado!: Proveedores;
-  @Input() estatus: boolean = false;
-  @Input() overlay: boolean = false;
-  @Input() tipoEstatus: 'texto' | 'switch' = 'texto';
-  @Output() modificar: EventEmitter<boolean> = new EventEmitter()
+  @Input() origen!: string;
+  @Output() confirmacionAceptar = new EventEmitter<ConfirmacionServicio>();
 
-  constructor( public ref: DynamicDialogRef) { }
+  creacionRef!: DynamicDialogRef;
 
-  ngOnInit(): void { }
+  @ViewChild(OverlayPanel)
+  overlayPanel: OverlayPanel | undefined;
 
-  abrirModalModificacionProveedor() {
-    this.modificar.emit(true)
+  abrirModificar: boolean = false;
+
+  constructor(public ref: DynamicDialogRef,
+              public config: DynamicDialogConfig,
+              public dialogService: DialogService,
+              private alertaService: AlertaService) { }
+
+  ngOnInit(): void {
+
+    //Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
+    if(this.config?.data){
+      this.proveedorSeleccionado = this.config.data.proveedor;
+      this.origen = this.config.data.origen;
+    }
   }
+
+  abrirModalModificarServicio():void{
+    this.creacionRef = this.dialogService.open(ModificarProveedorComponent, {
+      header:"Modificar proveedor",
+      width:"920px",
+    })
+
+    this.creacionRef.onClose.subscribe((estatus:boolean) => {
+      if(estatus){
+         this.alertaService.mostrar(TipoAlerta.Exito, 'Proveedor modificado correctamente');
+        this.ref.close();
+      }
+    })
+  }
+
+
+   abrirModalModificacionProveedor() {
+      // this.modificar.emit(true)
+   }
 
   cancelar(): void {
     this.ref.close()
+  }
+
+  regresar(): void{
+
+    this.confirmacionAceptar.emit({estatus:true,origen:"regresar"});
+  }
+
+  aceptar():void {
+    if(this.origen == "detalle"){
+      this.ref.close();
+    }
+    if(this.origen == "agregar" || this.origen == "modificar" ){
+      this.confirmacionAceptar.emit({estatus:true,origen:this.origen});
+    }
+    if(this.origen == "estatus"){
+      this.ref.close(this.proveedorSeleccionado);
+    }
+  }
+
+  cerrar(): void {
+    this.ref.close();
   }
 
 

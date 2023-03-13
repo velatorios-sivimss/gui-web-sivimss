@@ -1,3 +1,4 @@
+import { DetalleProveedorComponent } from './../detalle-proveedor/detalle-proveedor.component';
 import { Proveedores } from './../../models/proveedores.interface';
 import { ModificarProveedorComponent } from './../modificar-proveedor/modificar-proveedor.component';
 import { AgregarProveedorComponent } from './../agregar-proveedor/agregar-proveedor.component';
@@ -12,6 +13,7 @@ import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrum
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { INVENTARIO_VEHICULAR_BREADCRUMB } from '../../constants/breadcrumb';
 import { CATALOGOS_DUMMIES } from '../../constants/dummies';
+import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 
 @Component({
   selector: 'app-administrar-proveedores',
@@ -48,6 +50,7 @@ export class AdministrarProveedoresComponent implements OnInit {
   constructor(
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
+    private alertaService: AlertaService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -62,9 +65,9 @@ export class AdministrarProveedoresComponent implements OnInit {
   inicializarFiltroForm(): void {
     this.filtroForm = this.formBuilder.group({
       nivel: [{ value: null, disabled: false }],
-      delegacion: [{ value: null, disabled: false }],
+      proveedores: [{ value: null, disabled: false }],
       velatorio: [{ value: null, disabled: false }],
-      vehiculo: [{ value: null, disabled: false }]
+      proveedor: [{ value: null, disabled: false }]
     });
   }
 
@@ -84,74 +87,94 @@ export class AdministrarProveedoresComponent implements OnInit {
           responsableSanitario: 'Armando Rafaelo',
           estatus: true,
           correoElectronico: 'correo@correo.com',
-          banco: 'dqwdqwd',
-          cuenta: 'dsdasd',
-          tipoProveedor: 'asdasd',
+          banco: 'BBVA',
+          cuenta: '087334325435',
+          tipoProveedor: 'Proveedor Chico',
           rfc: 'ASSD',
-          telefono: 'dfs',
-          regimen: 'dasdasd',
-          representanteLegal: 'adfsdf',
-          claveBancaria: 'dsfsd',
-          tipoContrato: 'dasdf',
-          vigenciaDesde: 'asdasd',
-          vigenciaHasta: 'asdasd',
-          rol: 'fsdf',
+          telefono: '2311163210',
+          regimen: 'Sin regimen fiscal',
+          representanteLegal: 'Armando perez Oruña',
+          claveBancaria: '908579685645',
+          tipoContrato: 'sin fronteras',
+          vigenciaDesde: '17-2022',
+          vigenciaHasta: '19-2024',
+          rol: 'Administrador',
 
-          codigoPostal: 'string',
-          calle: 'string',
-          numExterior: 'string',
-          numInterior: 'string',
-          pais: 'string',
-          estado: 'string',
-          municipio: 'string',
+          codigoPostal: '53967',
+          calle: '7 de octubre',
+          numExterior: '161',
+          numInterior: '0',
+          pais: 'Mexico',
+          estado: 'Puebla',
+          municipio: 'Teziutlán',
 
-          codigoPostalReferencia: 'string',
-          calleReferencia: 'string',
-          numExteriorReferencia: 'string',
-          numInteriorReferencia: 'string',
-          paisReferencia: 'string',
-          estadoReferencia: 'string',
-          municipioReferencia: 'string',
+          codigoPostalReferencia: '37498',
+          calleReferencia: 'calle arminda',
+          numExteriorReferencia: '161',
+          numInteriorReferencia: '0',
+          paisReferencia: 'Uganda',
+          estadoReferencia: 'Manchester',
+          municipioReferencia: 'Manchester City',
         },
         {
-          id: 1,
+          id: 2,
           curp: 'AROER762010HDFNCOO',
           nombre: 'Armando Rafaelo',
           responsableSanitario: 'Armando Rafaelo',
           estatus: true,
           correoElectronico: 'correo@correo.com',
-          banco: 'dqwdqwd',
-          cuenta: 'dsdasd',
-          tipoProveedor: 'asdasd',
+          banco: 'BBVA',
+          cuenta: '087334325435',
+          tipoProveedor: 'Proveedor Chico',
           rfc: 'ASSD',
-          telefono: 'dfs',
-          regimen: 'dasdasd',
-          representanteLegal: 'adfsdf',
-          claveBancaria: 'dsfsd',
-          tipoContrato: 'dasdf',
-          vigenciaDesde: 'asdasd',
-          vigenciaHasta: 'asdasd',
-          rol: 'fsdf',
+          telefono: '2311163210',
+          regimen: 'Sin regimen fiscal',
+          representanteLegal: 'Armando perez Oruña',
+          claveBancaria: '908579685645',
+          tipoContrato: 'sin fronteras',
+          vigenciaDesde: '17-2022',
+          vigenciaHasta: '19-2024',
+          rol: 'Administrador',
 
-          codigoPostal: 'string',
-          calle: 'string',
-          numExterior: 'string',
-          numInterior: 'string',
-          pais: 'string',
-          estado: 'string',
-          municipio: 'string',
+          codigoPostal: '53967',
+          calle: '7 de octubre',
+          numExterior: '161',
+          numInterior: '0',
+          pais: 'Mexico',
+          estado: 'Puebla',
+          municipio: 'Teziutlán',
 
-          codigoPostalReferencia: 'string',
-          calleReferencia: 'string',
-          numExteriorReferencia: 'string',
-          numInteriorReferencia: 'string',
-          paisReferencia: 'string',
-          estadoReferencia: 'string',
-          municipioReferencia: 'string',
+          codigoPostalReferencia: '37498',
+          calleReferencia: 'calle arminda',
+          numExteriorReferencia: '161',
+          numInteriorReferencia: '0',
+          paisReferencia: 'Uganda',
+          estadoReferencia: 'Manchester',
+          municipioReferencia: 'Manchester City',
         },
       ]
       this.totalElementos = 3
     }, 0)
+  }
+
+  abrirModalCambioEstatus(proveedor:Proveedores){
+    /*Preguntar si se puede usar 'let'*/
+    let header:string = "" ;
+    proveedor.estatus?header="Activar proveedor":header="Desactivar proveedor";
+    this.creacionRef = this.dialogService.open(DetalleProveedorComponent, {
+      header:header,
+      width:"920px",
+      data: {proveedor:proveedor, origen: "estatus"},
+    })
+
+    this.creacionRef.onClose.subscribe((proveedor:Proveedores) => {
+      if(proveedor.estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Proveedor activado correctamente');
+      }else{
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Proveedor desactivado correctamente');
+      }
+    })
+
   }
 
 
@@ -160,29 +183,27 @@ export class AdministrarProveedoresComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  abrirModalDetalleProveedor(proveedorSeleccionado: Proveedores): void {
-    this.proveedorSeleccionado = proveedorSeleccionado;
-    this.detalleRef = this.dialogService.open(VerDetalleProveedorComponent, {
-      data: proveedorSeleccionado,
-      header: "Ver Detalle",
-      width: "920px"
-    });
-
-    this.detalleRef.onClose.subscribe((respuesta) => {
-      if (respuesta.modificar) {
-        this.abrirModalModificacionProveedor();
-      }
+  abrirModalDetalleProveedor(proveedorSeleccionado:Proveedores){
+    this.creacionRef = this.dialogService.open(DetalleProveedorComponent, {
+      header:"Detalle",
+      width:"920px",
+      data: {proveedor:proveedorSeleccionado, origen: "detalle"},
     })
   }
+
+
+
+
 
   abrirModalCreacionProveedor(): void {
     this.creacionRef = this.dialogService.open(AgregarProveedorComponent, {
       header: "Agregar vehículo",
-      width: "920px"
+      width: "920px",
     });
   }
 
   abrirModalModificacionProveedor(): void {
+    console.log(this.proveedorSeleccionado);
     this.creacionRef = this.dialogService.open(ModificarProveedorComponent, {
       data: this.proveedorSeleccionado,
       header: "Modificar vehículo",

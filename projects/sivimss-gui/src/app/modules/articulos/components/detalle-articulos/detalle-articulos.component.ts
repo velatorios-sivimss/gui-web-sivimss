@@ -70,7 +70,6 @@ aceptar():void {
 }
 
 regresar(): void{
-
   this.confirmacionAceptar.emit({estatus:true,origen:"regresar"});
 }
 

@@ -2,9 +2,9 @@
   <div class="row mb-3">
       <div class="col-md-2"></div>
       <div class="col-md-8">
-          <!-- <p-steps [model]="menuStep" [activeIndex]="indice"></p-steps> -->
-          <img src="../../../../../assets/images/proveedor.PNG" style="height: 71px; margin-left: 130px;" *ngIf="indice === 0">
-          <img src="../../../../../assets/images/direccion.PNG" style="height: 71px; margin-left: 130px;" *ngIf="indice === 1">
+          <p-steps [model]="menuStep" [activeIndex]="indice"></p-steps>
+          <!-- <img src="../../../../../assets/images/proveedor.PNG" style="height: 71px; margin-left: 130px;" *ngIf="indice === 0">
+          <img src="../../../../../assets/images/direccion.PNG" style="height: 71px; margin-left: 130px;" *ngIf="indice === 1"> -->
       </div>
       <div class="col-md-2"></div>
   </div>
@@ -283,11 +283,6 @@
 
 
 <ng-container *ngIf="direccionReferencia == true">
-  <!-- <div class="row mb-3">
-    <div class="col-md-12">
-        <span>Dirección de referencia</span>
-    </div>
-</div> -->
 <div class="row mb-4">
   <h2 class="subtituloSubModal">Dirección de referencia</h2>
   </div>
@@ -372,8 +367,10 @@
 <ng-container *ngIf="indice === menuStep.length">
   <div class="row mb-3">
       <div class="col-md-12">
-          <app-detalle-proveedor [proveedorSeleccionado]="nuevoProveedor">
-          </app-detalle-proveedor>
+          <!-- <app-detalle-proveedor [proveedorSeleccionado]="this.proveedor[origen]="'agregar'" (confirmacionAceptar)="cerrar($event)"
+          </app-detalle-proveedor> -->
+          <app-detalle-proveedor [proveedorSeleccionado]="this.proveedor" [origen]="'agregar'" (confirmacionAceptar)="cerrar($event)"  ></app-detalle-proveedor>
+
       </div>
   </div>
   <div class="row mb-3">

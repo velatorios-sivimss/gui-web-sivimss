@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MenuItem } from 'primeng-lts/api';
-import { DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import { CATALOGOS_DUMMIES } from '../../constants/dummies';
 import { MENU_STEPPER } from '../../constants/menu-stepper';
-import { Proveedores } from '../../models/proveedores.interface';
+import { ConfirmacionServicio, Proveedores } from '../../models/proveedores.interface';
 
 @Component({
   selector: 'app-agregar-proveedor',
@@ -29,9 +29,16 @@ export class AgregarProveedorComponent implements OnInit {
   formDireccionReferencia!: FormGroup;
 
   nuevoProveedor!: Proveedores;
+  proveedor:Proveedores = {};
 
-  constructor(private formBuilder: FormBuilder,
-    public ref: DynamicDialogRef) { }
+  ventanaConfirmacion: boolean = false;
+
+
+  constructor(
+    private formBuilder: FormBuilder,
+    public ref: DynamicDialogRef,
+    public dialogService: DialogService,
+  ) { }
 
   ngOnInit(): void {
     this.inicializarAgregarProveedorForm();
@@ -55,6 +62,7 @@ export class AgregarProveedorComponent implements OnInit {
       correoElectronico: [{value: null, disabled: false}, [Validators.required]],
       regimen: [{value: null, disabled: false}, [Validators.required]],
       representanteLegal: [{value: null, disabled: false}, [Validators.required]],
+      estatus: [{value:true,disabled:false},[Validators.required]],
     });
   }
 
@@ -82,6 +90,48 @@ export class AgregarProveedorComponent implements OnInit {
     });
   }
 
+  confirmarAgregarServicio(): void {
+    this.ventanaConfirmacion = true;
+    /*
+    * Se mandará solo texto para que el detalle solo lo imprim por lo que se deben llenar las variables
+    * que son 'desc'*/
+    this.proveedor = {
+      id: this.agregarProveedorForm.get("id")?.value,
+      nombre: this.agregarProveedorForm.get("nombre")?.value,
+      banco: this.agregarProveedorForm.get("banco")?.value,
+      cuenta: this.agregarProveedorForm.get("cuenta")?.value,
+      claveBancaria: this.agregarProveedorForm.get("claveBancaria")?.value,
+      tipoProveedor: this.agregarProveedorForm.get("tipoProveedor")?.value,
+      rfc: this.agregarProveedorForm.get("rfc")?.value,
+      curp: this.agregarProveedorForm.get("curp")?.value,
+      tipoContrato: this.agregarProveedorForm.get("tipoContrato")?.value,
+      vigenciaDesde: this.agregarProveedorForm.get("vigenciaDesde")?.value,
+      vigenciaHasta: this.agregarProveedorForm.get("vigenciaHasta")?.value,
+      telefono: this.agregarProveedorForm.get("telefono")?.value,
+      correoElectronico: this.agregarProveedorForm.get("correoElectronico")?.value,
+      regimen: this.agregarProveedorForm.get("regimen")?.value,
+      representanteLegal: this.agregarProveedorForm.get("representanteLegal")?.value,
+      estatus: this.agregarProveedorForm.get("estatus")?.value,
+
+
+      codigoPostal: this.agregarDireccionFiscalForm.get("codigoPostal")?.value,
+      calle: this.agregarDireccionFiscalForm.get("calle")?.value,
+      numExterior: this.agregarDireccionFiscalForm.get("numExterior")?.value,
+      numInterior: this.agregarDireccionFiscalForm.get("numInterior")?.value,
+      pais: this.agregarDireccionFiscalForm.get("pais")?.value,
+      estado: this.agregarDireccionFiscalForm.get("estado")?.value,
+      municipio: this.agregarDireccionFiscalForm.get("municipio")?.value,
+
+      codigoPostalReferencia: this.formDireccionReferencia.get("codigoPostalReferencia")?.value,
+      calleReferencia: this.formDireccionReferencia.get("calleReferencia")?.value,
+      numExteriorReferencia: this.formDireccionReferencia.get("numExteriorReferencia")?.value,
+      numInteriorReferencia: this.formDireccionReferencia.get("numInteriorReferencia")?.value,
+      paisReferencia: this.formDireccionReferencia.get("paisReferencia")?.value,
+      estadoReferencia: this.formDireccionReferencia.get("estadoReferencia")?.value,
+      municipioReferencia: this.formDireccionReferencia.get("municipioReferencia")?.value,
+
+    };
+  }
 
   adelantarPagina(): void {
     this.indice++;
@@ -98,22 +148,33 @@ export class AgregarProveedorComponent implements OnInit {
     this.ref.close()
   }
 
-  crearResumenProveedor(): void {
-    this.nuevoProveedor = {
-      id: null,
-      ...this.agregarProveedorForm.value,
-      ...this.agregarDireccionFiscalForm.value,
-      ...this.formDireccionReferencia.value
+  cerrar(event?:ConfirmacionServicio): void {
+    debugger;
+    //Selección cancelar pantalla agregar
+    if(event && event.origen == "agregar"){
+      this.ventanaConfirmacion = false;
+      this.ref.close(true);
+      return;
     }
+  }
+
+  crearResumenProveedor(): void {
+    this.confirmarAgregarServicio();
+    // this.nuevoProveedor = {
+    //   id: null,
+    //   ...this.agregarProveedorForm.value,
+    //   ...this.agregarDireccionFiscalForm.value,
+    //   // ...this.formDireccionReferencia.value
+    // }
   }
 
   abrirAgregarDireccionReferencia() {
    if(this.direccionReferencia == false){
      this.direccionReferencia = true;
-    //  this.inicializarDireccionReferenciaForm();
+     this.inicializarDireccionReferenciaForm();
    }else{
     this.direccionReferencia = false;
-    // this.formDireccionReferencia.reset;
+    this.formDireccionReferencia.reset;
    }
 
 }

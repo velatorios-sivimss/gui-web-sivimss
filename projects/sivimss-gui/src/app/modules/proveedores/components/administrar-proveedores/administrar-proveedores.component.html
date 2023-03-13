@@ -15,20 +15,24 @@
         </p-dropdown>
       </div>
     </div>
+
+
     <div class="row mb-3">
       <div class="col-md-12">
-        <label class="control-label" for="delegacion">Proveedores:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="proveedoresOpciones"
+        <label class="control-label" for="proveedores">Proveedores:</label>
+        <p-dropdown id="proveedores" class="form-control" formControlName="proveedores" [options]="proveedoresOpciones"
           placeholder="Seleccionar la delegación">
         </p-dropdown>
       </div>
-      <div class="col-md-12">
-        <label class="control-label" for="rol">Proveedor:</label>
-        <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="proveedoresOpciones"
-          placeholder="Ingresar nombre del proveedor">
-        </p-dropdown>
-      </div>
     </div>
+    <div class="row mb-3">
+    <div class="col-md-12">
+        <label class="control-label" for="proveedor">Proveedor<span class="req">*</span></label>
+        <input id="proveedor" class="form-control" formControlName="proveedor" placeholder="Inserta el proveedor">
+    </div>
+    </div>
+
+
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
         <button type="submit" class="btn btn-default btn-md" (click)="limpiarFiltros()">Limpiar</button>
@@ -62,11 +66,11 @@
         <tr>
           <td>{{proveedor.id}}</td>
           <td>{{proveedor.nombre}}</td>
-          <td>{{proveedor.tipoDeProveedor}}</td>
+          <td>{{proveedor.tipoProveedor}}</td>
           <td>{{proveedor.responsableSanitario}}</td>
           <td>
             <div class="contenedor-inputswitch">
-              <p-inputSwitch [(ngModel)]="proveedor.estatus"></p-inputSwitch>
+              <p-inputSwitch [(ngModel)]="proveedor.estatus" (onChange)="abrirModalCambioEstatus(proveedor)"></p-inputSwitch>
               <span class="activo" *ngIf="proveedor.estatus">Activo</span>
               <span class="inactivo" *ngIf="!proveedor.estatus">Inactivo</span>
             </div>
@@ -105,7 +109,7 @@
 <p-overlayPanel #overlayPanel>
     <ng-template pTemplate="content">
         <app-overlay-panel-opciones>
-            <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificacionProveedor()"></app-overlay-panel-opcion>
+            <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificacionProveedor()" ></app-overlay-panel-opcion>
         </app-overlay-panel-opciones>
     </ng-template>
 </p-overlayPanel>
