@@ -8,6 +8,7 @@ import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { VerDetallePromotoresComponent } from '../ver-detalle-promotores/ver-detalle-promotores.component';
 import { Promotor } from '../../models/promotores.interface';
 import { Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
+import { CURP, EMAIL } from 'projects/sivimss-gui/src/app/utils/regex';
 
 interface HttpResponse {
   respuesta: string;
@@ -116,22 +117,22 @@ export class AgregarPromotoresComponent implements OnInit {
 
   inicializarAgregarPromotorForm() {
     this.agregarPromotorForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }, Validators.required],
-      numEmpleado: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      curp: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      nombre: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      primerApellido: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      segundoApellido: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
+      id: [{ value: null, disabled: true }],
+      numEmpleado: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
+      curp: [{ value: null, disabled: false }, [Validators.maxLength(18), Validators.required, Validators.pattern(CURP)]],
+      nombre: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required]],
+      primerApellido: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
+      segundoApellido: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
       fechaNacimiento: [{ value: null, disabled: false }, Validators.required],
       fechaIngreso: [{ value: null, disabled: false }, Validators.required],
-      fechaBaja: [{ value: null, disabled: false }],
-      sueldoBase: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
+      fechaBaja: [{ value: null, disabled: true }],
+      sueldoBase: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
       velatorio: [{ value: null, disabled: false }, Validators.required],
-      categoria: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      antiguedad: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      correo: [{ value: null, disabled: false }, [Validators.required, Validators.email,
-      Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-      puesto: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
+      categoria: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
+      antiguedad: [{ value: null, disabled: true }, [Validators.maxLength(50)]],
+      correo: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required,
+      Validators.email, Validators.pattern(EMAIL)]],
+      puesto: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
       diasDescanso: [{ value: null, disabled: false }, Validators.required],
       estatus: [{ value: true, disabled: false }, Validators.required],
     });
@@ -175,6 +176,16 @@ export class AgregarPromotoresComponent implements OnInit {
         }
       });
     }
+  }
+
+  consultarRenapo() {
+    //TO DO Realizar consulta a RENAPO si CURP es válida
+    console.log(this.f.curp.value);
+  }
+
+  handleFechaIngreso() {
+    //TO DO Calcular Antigüedad
+    console.log(this.f.fechaIngreso.value);
   }
 
   get f() {

@@ -31,8 +31,6 @@ export class PaquetesComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  // modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
-
   opciones: any[] = [
     {
       label: 'Opción 1',

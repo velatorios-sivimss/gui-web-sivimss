@@ -6,7 +6,7 @@
     </div>
     <div class="col-md-6">
       <label class="control-label" for="numEmpleado">No. de empleado<span class="req">*</span>:</label>
-      <input id="numEmpleado" class="form-control" formControlName="numEmpleado" maxlength="70"
+      <input id="numEmpleado" class="form-control" formControlName="numEmpleado" maxlength="10"
              placeholder="Ingresa el no. de empleado" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.numEmpleado?.errors?.required && (f.numEmpleado?.dirty || f.numEmpleado?.touched)">Campo 
         obligatorio</span>
@@ -16,14 +16,14 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label class="control-label" for="curp">CURP<span class="req">*</span>:</label>
-      <input id="curp" class="form-control" formControlName="curp" maxlength="70"
-             placeholder="Ingresa el CURP" alphanumericOnly trimmer>
+      <input id="curp" class="form-control" formControlName="curp" maxlength="18"
+             placeholder="Ingresa el CURP" alphanumericOnly trimmer (change)="consultarRenapo();">
       <span class="campo-obligatorio" *ngIf="f.curp?.errors?.required && (f.curp?.dirty || f.curp?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="nombre">Nombre(s)<span class="req">*</span>:</label>
-      <input id="nombre" class="form-control" formControlName="nombre" maxlength="70"
+      <input id="nombre" class="form-control" formControlName="nombre" maxlength="30"
              placeholder="Ingresa el nombre(s)" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.nombre?.errors?.required && (f.nombre?.dirty || f.nombre?.touched)">Campo 
         obligatorio</span>
@@ -33,14 +33,14 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label class="control-label" for="primerApellido">Primer apellido<span class="req">*</span>:</label>
-      <input id="primerApellido" class="form-control" formControlName="primerApellido" maxlength="70"
+      <input id="primerApellido" class="form-control" formControlName="primerApellido" maxlength="20"
              placeholder="Ingresa el primer apellido" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.primerApellido?.errors?.required && (f.primerApellido?.dirty || f.primerApellido?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="segundoApellido">Segundo apellido<span class="req">*</span>:</label>
-      <input id="segundoApellido" class="form-control" formControlName="segundoApellido" maxlength="70"
+      <input id="segundoApellido" class="form-control" formControlName="segundoApellido" maxlength="20"
              placeholder="Ingresa el segundo apellido" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.segundoApellido?.errors?.required && (f.segundoApellido?.dirty || f.segundoApellido?.touched)">Campo 
         obligatorio</span>
@@ -58,7 +58,7 @@
     </div>
     <div class="col-md-6">
       <label class="control-label" for="fechaIngreso">Fecha de ingreso<span class="req">*</span>:</label>
-      <p-calendar id="fechaIngreso" formControlName="fechaIngreso" styleClass="form-control"
+      <p-calendar id="fechaIngreso" formControlName="fechaIngreso" styleClass="form-control" (onSelect)="handleFechaIngreso();"
           [showIcon]="true" placeholder="Selecciona la fecha" dateFormat="dd/mm/yy">
       </p-calendar>
       <span class="campo-obligatorio" *ngIf="f.fechaIngreso?.errors?.required && (f.fechaIngreso?.dirty || f.fechaIngreso?.touched)">Campo 
@@ -77,8 +77,8 @@
     </div>
     <div class="col-md-6">
       <label class="control-label" for="sueldoBase">Sueldo base<span class="req">*</span>:</label>
-      <input id="sueldoBase" class="form-control" formControlName="sueldoBase" maxlength="70"
-             placeholder="Ingresa el sueldo base" alphanumericOnly trimmer>
+      <input id="sueldoBase" class="form-control" formControlName="sueldoBase" maxlength="10"
+             placeholder="Ingresa el sueldo base" numbersOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.sueldoBase?.errors?.required && (f.sueldoBase?.dirty || f.sueldoBase?.touched)">Campo 
         obligatorio</span>
     </div>
@@ -95,7 +95,7 @@
     </div>
     <div class="col-md-6">
       <label class="control-label" for="categoria">Categoría<span class="req">*</span>:</label>
-      <input id="categoria" class="form-control" formControlName="categoria" maxlength="70"
+      <input id="categoria" class="form-control" formControlName="categoria" maxlength="20"
              placeholder="Ingresa la categoría" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.categoria?.errors?.required && (f.categoria?.dirty || f.categoria?.touched)">Campo 
         obligatorio</span>
@@ -105,14 +105,14 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label class="control-label" for="antiguedad">Antigüedad<span class="req">*</span>:</label>
-      <input id="antiguedad" class="form-control" formControlName="antiguedad" maxlength="70"
-             placeholder="Ingresa la antigüedad" alphanumericOnly trimmer>
+      <input id="antiguedad" class="form-control" formControlName="antiguedad" maxlength="50"
+             placeholder="Ingresa la antigüedad" trimmer>
       <span class="campo-obligatorio" *ngIf="f.antiguedad?.errors?.required && (f.antiguedad?.dirty || f.antiguedad?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="correo">Correo electrónico<span class="req">*</span>:</label>
-      <input id="correo" class="form-control" formControlName="correo" maxlength="70"
+      <input id="correo" class="form-control" formControlName="correo" maxlength="30"
              placeholder="Ingresa el correo" trimmer>
       <span class="campo-obligatorio" *ngIf="f.correo?.errors?.required && (f.correo?.dirty || f.correo?.touched)">Campo 
         obligatorio</span>
@@ -122,7 +122,7 @@
   <div class="row mb-3">
     <div class="col-md-6">
       <label class="control-label" for="puesto">Puesto<span class="req">*</span>:</label>
-      <input id="puesto" class="form-control" formControlName="puesto" maxlength="70"
+      <input id="puesto" class="form-control" formControlName="puesto" maxlength="20"
              placeholder="Ingresa el puesto" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.puesto?.errors?.required && (f.puesto?.dirty || f.puesto?.touched)">Campo 
         obligatorio</span>

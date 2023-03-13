@@ -29,8 +29,6 @@ export class ActualizarPaquetesComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
-  // modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'modificar';
-
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementosServicios: number = 0;
