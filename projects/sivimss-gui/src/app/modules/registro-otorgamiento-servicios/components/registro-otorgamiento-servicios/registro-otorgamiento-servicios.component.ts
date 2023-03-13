@@ -8,14 +8,13 @@ import {SERVICIO_BREADCRUMB} from "../../constants/breadcrumb";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RegistroOtorgamientoServicios} from "../../models/registro-otorgamiento-servicios-interface";
 import {LazyLoadEvent} from "primeng-lts/api";
-import {Servicio} from "../../../servicios/models/servicio.interface";
-import {
-  ModificarServicioComponent
-} from "../../../servicios/components/modificar-servicio/modificar-servicio.component";
-import {TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {
   DetalleRegistroOtorgamientoServiciosComponent
 } from "../detalle-registro-otorgamiento-servicios/detalle-registro-otorgamiento-servicios.component";
+import {
+  AgregarRegistroOtorgamientoServiciosComponent
+} from "../agregar-registro-otorgamiento-servicios/agregar-registro-otorgamiento-servicios.component";
 
 @Component({
   selector: 'app-registro-otorgamiento-servicios',
@@ -38,13 +37,14 @@ export class RegistroOtorgamientoServiciosComponent implements OnInit {
   registroOtorgamientoServicios: RegistroOtorgamientoServicios[]=[];
   registroOtorgamientoSeleccionado: RegistroOtorgamientoServicios = {};
 
-  quitarServicioRef!: DynamicDialogRef;
+  otorgamientoServicioRef!: DynamicDialogRef;
   situarServicioRef!: DynamicDialogRef;
 
   constructor(
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
+    private alertaService: AlertaService,
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +72,7 @@ export class RegistroOtorgamientoServiciosComponent implements OnInit {
     setTimeout(()=>{
       this.registroOtorgamientoServicios = [
         {
+          tipoServicio:1,
           descTipoServicio: "Desc tipo servicio",
           certificadoCremacion: true,
           fecha:"2022/02/02",
@@ -83,30 +84,30 @@ export class RegistroOtorgamientoServiciosComponent implements OnInit {
   }
 
   abrirModalSituarServicios(): void{
-    this.quitarServicioRef = this.dialogService.open(DetalleRegistroOtorgamientoServiciosComponent,{
+    this.situarServicioRef = this.dialogService.open(AgregarRegistroOtorgamientoServiciosComponent,{
       header:"Otorgamiento de un servicio",
       width:"920px"
+    });
+    this.situarServicioRef.onClose.subscribe((estatus:boolean) => {
+      if (estatus) {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Otorgamiento del servicio registrado correctamente');
+      }
     })
+
   }
 
   abrirModalQuitarServicio(): void{
-    // this.creacionRef = this.dialogService.open(ModificarServicioComponent, {
-    //   header:"Modificar servicio",
-    //   width:"920px",
-    // })
-    //
-    // this.creacionRef.onClose.subscribe((estatus:boolean) => {
-    //   if(estatus){
-    //     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
-    //   }
-    // })
-
-    this.quitarServicioRef = this.dialogService.open(DetalleRegistroOtorgamientoServiciosComponent,{
+    this.otorgamientoServicioRef = this.dialogService.open(DetalleRegistroOtorgamientoServiciosComponent,{
       header:"Quitar servicio",
-      width:"920px"
+      width:"920px",
+      data:this.registroOtorgamientoSeleccionado
     })
 
-
+    this.otorgamientoServicioRef.onClose.subscribe((estatus:boolean) => {
+      if (estatus) {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio eliminado correctamente');
+      }
+    })
   }
 
   abrirPanel(event:MouseEvent,registroOtorgamientoServicios:RegistroOtorgamientoServicios):void{

@@ -35,22 +35,13 @@ export class ServiciosComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  encabezadoEstatusServicio:String = "";
 
   servicios:Servicio[] = [];
   servicioSeleccionado:Servicio = {};
 
   filtroForm!: FormGroup;
 
-  modificarServicioForm!: FormGroup;
-
-  mostrarModalModificarServicio: boolean = false;
-  mostrarModalDetalleServicio: boolean = false;
-  mostrarModalEstatusServicio: boolean = false;
-
-  creacionRef!: DynamicDialogRef;
-  detalleRef!:DynamicDialogRef;
-  modificacionRef!:DynamicDialogRef;
+    creacionRef!: DynamicDialogRef;
 
   opciones:TipoDropdown[] = CATALOGOS_DUMMIES;
   tipoServicio:TipoDropdown[] = CATALOGOS_DUMMIES;
@@ -118,7 +109,7 @@ export class ServiciosComponent implements OnInit {
 
   abrirModalCambioEstatus(servicio:Servicio){
     /*Preguntar si se puede usar 'let'*/
-    let header:string = "" ;
+    let header:string;
     servicio.estatus?header="Activar servicio":header="Desactivar servicio";
     this.creacionRef = this.dialogService.open(DetalleServicioComponent, {
       header:header,

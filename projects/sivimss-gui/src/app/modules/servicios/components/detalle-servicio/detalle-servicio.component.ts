@@ -49,7 +49,7 @@ export class DetalleServicioComponent implements OnInit {
     this.creacionRef.onClose.subscribe((estatus:boolean) => {
       if(estatus){
          this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
-        this.ref.close();
+          this.ref.close();
       }
     })
   }

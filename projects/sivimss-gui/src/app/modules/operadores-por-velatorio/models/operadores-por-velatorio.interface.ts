@@ -7,6 +7,7 @@ export interface OperadoresPorVelatorio {
   numeroEmpleado?: string;
   matricula?: number;
   fechaNaciemiento?: string;
+  entidadFederativa?: number;
   fechaIngreso?: string;
   fechaBaja?: string;
   sueldoBase?: number;
@@ -19,4 +20,5 @@ export interface OperadoresPorVelatorio {
   correoElectronico?: string;
   puesto?: string;
   estatus?: boolean;
+  categoria?: string;
 }

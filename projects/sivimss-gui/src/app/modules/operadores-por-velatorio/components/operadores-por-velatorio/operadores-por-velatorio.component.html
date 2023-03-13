@@ -42,13 +42,13 @@
     <h2 class="subtitulo">Operadores</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarOperador()">Agregar operador</button>
   </div>
-</section>
 
-<p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="operadoresPorVelatorio" [paginator]="operadoresPorVelatorio.length > 0"
-         [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos"
-         [scrollable]="true" scrollDirection="horizontal"
-         [pageLinks]="3" [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
 
+<p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="operadoresPorVelatorio"
+         [paginator]="operadoresPorVelatorio.length > 0"
+         [rows]="cantElementosPorPagina"
+         [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
+         (onLazyLoad)="paginar($event)">
     <ng-template pTemplate="header">
       <tr>
         <th scope="col">ID</th>
@@ -83,19 +83,58 @@
       <td> {{operadoresPorVelatorio.segundoApellido}} </td>
       <td> {{operadoresPorVelatorio.fechaNaciemiento}} </td>
       <td> {{operadoresPorVelatorio.fechaIngreso}} </td>
+      <td> {{operadoresPorVelatorio.fechaBaja}} </td>
       <td> {{operadoresPorVelatorio.sueldoBase}} </td>
       <td> {{operadoresPorVelatorio.descVelatorio}} </td>
       <td> {{operadoresPorVelatorio.descDiasDescanso}} </td>
       <td> {{operadoresPorVelatorio.descAntiguedad}} </td>
       <td> {{operadoresPorVelatorio.correoElectronico}} </td>
       <td> {{operadoresPorVelatorio.puesto}} </td>
+      <td> {{operadoresPorVelatorio.categoria}} </td>
       <td>
-        <div class="contenedor-inputSwitch">
-          <p-inputSwitch [(ngModel)]="operadoresPorVelatorio.estatus"></p-inputSwitch>
-          <span class="activo" *ngIf="operadoresPorVelatorio.estatus">Activo</span>
-          <span class="inactivo" *ngIf="operadoresPorVelatorio.estatus">Inactivo</span>
+        <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
+          <div class="contenedor-inputSwitch">
+            <p-inputSwitch [(ngModel)]="operadoresPorVelatorio.estatus" (onChange)="abrirModalEstatusOperador(operadoresPorVelatorio)" ></p-inputSwitch>
+            <span class="activo" *ngIf="operadoresPorVelatorio.estatus">Activo</span>
+            <span class="inactivo" *ngIf="!operadoresPorVelatorio.estatus">Inactivo</span>
+          </div>
+          <div class="contenedor-celda-iconos">
+            <a (click)="abrirModalDetalleOperador(operadoresPorVelatorio)">
+              <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+            </a>
+            <a (click)="abrirPanel($event,operadoresPorVelatorio)">
+              <img
+                src="assets/images/imagen-icono-barras-horizontales.svg"
+                alt="icono barras horizontales">
+            </a>
+          </div>
         </div>
       </td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="paginatorleft">
+    <div class="paginator-template">
+      <span class="total-elements">{{operadoresPorVelatorio.length}} de {{totalElementos}}</span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="paginatorright">
+    <div class="paginator-template">
+      <div class="export-table">
+        <span class="export-table-text">Exportar tabla</span>
+        <div class="export-table-icons">
+          <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
+          <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg"
+               alt="exportar excel">
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </p-table>
+</section>
+<p-overlayPanel #overlayPanel>
+  <ng-template pTemplate="content">
+    <app-overlay-panel-opciones>
+      <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificarOperador()"></app-overlay-panel-opcion>
+    </app-overlay-panel-opciones>
+  </ng-template>
+</p-overlayPanel>

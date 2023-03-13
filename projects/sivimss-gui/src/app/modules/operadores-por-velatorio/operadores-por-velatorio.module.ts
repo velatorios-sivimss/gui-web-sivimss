@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CeldaStickyModule } from "projects/sivimss-gui/src/app/shared/celda-sticky/celda-sticky.module";
 
 import {
   OverlayPanelOpcionesModule
@@ -16,6 +17,7 @@ import { InputSwitchModule } from "primeng-lts/inputswitch";
 import { DialogModule } from "primeng-lts/dialog";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { DynamicDialogModule } from 'primeng-lts/dynamicdialog';
+import { CalendarModule } from 'primeng-lts/calendar';
 import {
   OperadoresPorVelatorioComponent
 } from "./components/operadores-por-velatorio/operadores-por-velatorio.component";
@@ -30,6 +32,9 @@ import {
 } from "./components/detalle-operadores-por-velatorio/detalle-operadores-por-velatorio.component";
 import {OperadoresPorVelatorioRoutingModule} from "./operadores-por-velatorio-routing.module";
 import {OperadoresPorVelatorioService} from "./services/operadores-por-velatorio.service";
+
+
+import {MultiSelectModule} from 'primeng-lts/multiselect';
 
 @NgModule({
   declarations:[
@@ -51,7 +56,10 @@ import {OperadoresPorVelatorioService} from "./services/operadores-por-velatorio
     DialogModule,
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
-    TablePanelModule
+    TablePanelModule,
+    CeldaStickyModule,
+    CalendarModule,
+    MultiSelectModule
   ],
   providers:[
     OperadoresPorVelatorioService

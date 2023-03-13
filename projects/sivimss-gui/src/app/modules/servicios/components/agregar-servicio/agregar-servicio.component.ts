@@ -74,7 +74,6 @@ export class AgregarServicioComponent implements OnInit {
   }
 
   cerrar(event?:ConfirmacionServicio): void {
-    debugger;
     //Selección cancelar pantalla agregar
     if(event && event.origen == "agregar"){
       this.ventanaConfirmacion = false;

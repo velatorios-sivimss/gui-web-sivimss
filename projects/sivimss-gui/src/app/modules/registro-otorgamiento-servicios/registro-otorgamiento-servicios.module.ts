@@ -21,6 +21,7 @@ import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/ov
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {RegistroOtorgamientoServiciosRoutingModule} from "./registro-otorgamiento-servicios.routing";
 import {RegistroOtorgamientoServiciosService} from "./services/registro-otorgamiento-servicios.service";
+import { CheckboxModule } from "primeng-lts/checkbox";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {RegistroOtorgamientoServiciosService} from "./services/registro-otorgami
     DialogModule,
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
-    TablePanelModule
+    TablePanelModule,
+    CheckboxModule
   ],
   providers:[
     RegistroOtorgamientoServiciosService
