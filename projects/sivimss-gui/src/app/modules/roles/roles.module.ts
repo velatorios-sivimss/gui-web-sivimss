@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CeldaStickyModule } from "projects/sivimss-gui/src/app/shared/celda-sticky/celda-sticky.module";
 
 import { RolesRoutingModule } from './roles-routing.module';
 import { RolesComponent } from './components/roles/roles.component';
@@ -37,7 +38,8 @@ import { PermisosPipe } from './pipes/permisos.pipe';
     CheckboxModule,
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
-    TablePanelModule
+    TablePanelModule,
+    CeldaStickyModule
   ],
   providers: [
     RolService
