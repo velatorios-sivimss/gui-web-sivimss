@@ -17,14 +17,14 @@
     <div class="col-md-6">
       <label class="control-label" for="curp">CURP<span class="req">*</span>:</label>
       <input id="curp" class="form-control" formControlName="curp" maxlength="18"
-             placeholder="Ingresa el CURP" alphanumericOnly trimmer (change)="consultarRenapo();">
+             placeholder="Ingresa el CURP" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.curp?.errors?.required && (f.curp?.dirty || f.curp?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="nombre">Nombre(s)<span class="req">*</span>:</label>
       <input id="nombre" class="form-control" formControlName="nombre" maxlength="30"
-             placeholder="Ingresa el nombre(s)" alphanumericOnly trimmer>
+             placeholder="Ingresa el nombre(s)" (blur)="consultarRenapo();" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.nombre?.errors?.required && (f.nombre?.dirty || f.nombre?.touched)">Campo 
         obligatorio</span>
     </div>
@@ -34,14 +34,14 @@
     <div class="col-md-6">
       <label class="control-label" for="primerApellido">Primer apellido<span class="req">*</span>:</label>
       <input id="primerApellido" class="form-control" formControlName="primerApellido" maxlength="20"
-             placeholder="Ingresa el primer apellido" alphanumericOnly trimmer>
+             placeholder="Ingresa el primer apellido" (blur)="consultarRenapo();" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.primerApellido?.errors?.required && (f.primerApellido?.dirty || f.primerApellido?.touched)">Campo 
         obligatorio</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="segundoApellido">Segundo apellido<span class="req">*</span>:</label>
       <input id="segundoApellido" class="form-control" formControlName="segundoApellido" maxlength="20"
-             placeholder="Ingresa el segundo apellido" alphanumericOnly trimmer>
+             placeholder="Ingresa el segundo apellido" (blur)="consultarRenapo();" alphanumericOnly trimmer>
       <span class="campo-obligatorio" *ngIf="f.segundoApellido?.errors?.required && (f.segundoApellido?.dirty || f.segundoApellido?.touched)">Campo 
         obligatorio</span>
     </div>
@@ -51,7 +51,7 @@
     <div class="col-md-6">
       <label class="control-label" for="fechaNacimiento">Fecha de nacimiento<span class="req">*</span>:</label>
       <p-calendar id="fechaNacimiento" formControlName="fechaNacimiento" styleClass="form-control"
-          [showIcon]="true" placeholder="Selecciona la fecha" dateFormat="dd/mm/yy">
+          [showIcon]="true" placeholder="Selecciona la fecha" dateFormat="dd/mm/yy" (onSelect)="consultarRenapo();">
       </p-calendar>
       <span class="campo-obligatorio" *ngIf="f.fechaNacimiento?.errors?.required && (f.fechaNacimiento?.dirty || f.fechaNacimiento?.touched)">Campo 
         obligatorio</span>

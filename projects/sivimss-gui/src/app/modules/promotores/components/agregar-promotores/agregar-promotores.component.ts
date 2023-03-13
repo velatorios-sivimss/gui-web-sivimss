@@ -179,8 +179,23 @@ export class AgregarPromotoresComponent implements OnInit {
   }
 
   consultarRenapo() {
-    //TO DO Realizar consulta a RENAPO si CURP es válida
-    console.log(this.f.curp.value);
+    //TO DO Realizar consulta a RENAPO cuando campos de nombre y fecha nacimiento tengan datos
+    if (this.validarPreconsultaRenapo()) {
+      //CURP Dommy para prueba
+      this.f.curp.setValue('OEAF771012HMCRGR09');
+      //En caso de no existir CURP mostrar msj
+      this.alertaService.mostrar(TipoAlerta.Precaucion, 'No se encontró información relacionada a tu búsqueda.');
+    }
+  }
+
+  validarPreconsultaRenapo(): boolean {
+    if (this.agregarPromotorForm.get('nombre')?.valid &&
+      this.agregarPromotorForm.get('primerApellido')?.valid &&
+      this.agregarPromotorForm.get('segundoApellido')?.valid &&
+      this.agregarPromotorForm.get('fechaNacimiento')?.valid) {
+      return true;
+    }
+    return false;
   }
 
   handleFechaIngreso() {
