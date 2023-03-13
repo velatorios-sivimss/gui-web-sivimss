@@ -5,23 +5,23 @@ import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
-import { VerDetallePromotoresComponent } from '../ver-detalle-promotores/ver-detalle-promotores.component';
-import { Promotor } from '../../models/promotores.interface';
+import { VerDetallePanteonesComponent } from '../ver-detalle-panteones/ver-detalle-panteones.component';
+import { Panteon } from '../../models/panteones.interface';
 import { Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { CURP, EMAIL } from 'projects/sivimss-gui/src/app/utils/regex';
 
 interface HttpResponse {
   respuesta: string;
-  promotor: Promotor;
+  panteon: Panteon;
 }
 
 @Component({
-  selector: 'app-agregar-promotores',
-  templateUrl: './agregar-promotores.component.html',
-  styleUrls: ['./agregar-promotores.component.scss'],
+  selector: 'app-agregar-panteones',
+  templateUrl: './agregar-panteones.component.html',
+  styleUrls: ['./agregar-panteones.component.scss'],
   providers: [DialogService]
 })
-export class AgregarPromotoresComponent implements OnInit {
+export class AgregarPanteonesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
@@ -87,7 +87,7 @@ export class AgregarPromotoresComponent implements OnInit {
   tituloEliminar: string = '';
   intentoPorGuardar: boolean = false;
 
-  agregarPromotorForm!: FormGroup;
+  agregarPanteonForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -107,14 +107,14 @@ export class AgregarPromotoresComponent implements OnInit {
       },
       {
         icono: '',
-        titulo: 'Promotores'
+        titulo: 'Panteones'
       }
     ]);
-    this.inicializarAgregarPromotorForm();
+    this.inicializarAgregarPanteonForm();
   }
 
-  inicializarAgregarPromotorForm() {
-    this.agregarPromotorForm = this.formBuilder.group({
+  inicializarAgregarPanteonForm() {
+    this.agregarPanteonForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }],
       numEmpleado: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
       curp: [{ value: null, disabled: false }, [Validators.maxLength(18), Validators.required, Validators.pattern(CURP)]],
@@ -136,34 +136,34 @@ export class AgregarPromotoresComponent implements OnInit {
     });
   }
 
-  abrirModalDetallePromotor() {
+  abrirModalDetallePanteon() {
     return 0;
   }
 
-  agregarPromotor(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Promotor guardado');
+  agregarPanteon(): void {
+    this.alertaService.mostrar(TipoAlerta.Exito, 'Panteon guardado');
   }
 
-  cerrarDialogo(promotor?: Promotor) {
+  cerrarDialogo(panteon?: Panteon) {
     this.ref.close({
       respuesta: 'Ok',
-      promotor,
+      panteon,
     });
   }
 
-  verDetalleGuardarPromotor(): void {
+  verDetalleGuardarPanteon(): void {
     this.intentoPorGuardar = true;
-    this.agregarPromotorForm.markAllAsTouched();
+    this.agregarPanteonForm.markAllAsTouched();
 
-    if (this.agregarPromotorForm.valid) {
-      const values = this.agregarPromotorForm.getRawValue();
-      const nuevoPromotor: Promotor = {
+    if (this.agregarPanteonForm.valid) {
+      const values = this.agregarPanteonForm.getRawValue();
+      const nuevoPanteon: Panteon = {
         ...values,
         id: 1,
       };
-      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePromotoresComponent, {
-        data: { promotor: nuevoPromotor, modo: Accion.Agregar },
-        header: "Agregar promotor",
+      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePanteonesComponent, {
+        data: { panteon: nuevoPanteon, modo: Accion.Agregar },
+        header: "Agregar panteon",
         width: "920px"
       });
 
@@ -187,10 +187,10 @@ export class AgregarPromotoresComponent implements OnInit {
   }
 
   validarPreconsultaRenapo(): boolean {
-    if (this.agregarPromotorForm.get('nombre')?.valid &&
-      this.agregarPromotorForm.get('primerApellido')?.valid &&
-      this.agregarPromotorForm.get('segundoApellido')?.valid &&
-      this.agregarPromotorForm.get('fechaNacimiento')?.valid) {
+    if (this.agregarPanteonForm.get('nombre')?.valid &&
+      this.agregarPanteonForm.get('primerApellido')?.valid &&
+      this.agregarPanteonForm.get('segundoApellido')?.valid &&
+      this.agregarPanteonForm.get('fechaNacimiento')?.valid) {
       return true;
     }
     return false;
@@ -202,6 +202,6 @@ export class AgregarPromotoresComponent implements OnInit {
   }
 
   get f() {
-    return this.agregarPromotorForm.controls;
+    return this.agregarPanteonForm.controls;
   }
 }

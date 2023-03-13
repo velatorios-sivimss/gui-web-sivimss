@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from '@angular/router';
-import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
-import { VerDetallePromotoresComponent } from '../ver-detalle-promotores/ver-detalle-promotores.component';
-import { Promotor } from '../../models/promotores.interface';
+import { VerDetallePanteonesComponent } from '../ver-detalle-panteones/ver-detalle-panteones.component';
+import { Panteon } from '../../models/panteones.interface';
 import { Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
-import { CURP, EMAIL } from 'projects/sivimss-gui/src/app/utils/regex';
+import { EMAIL } from 'projects/sivimss-gui/src/app/utils/regex';
 
 interface HttpResponse {
   respuesta: string;
-  promotor: Promotor;
+  panteon: Panteon;
 }
 
 @Component({
-  selector: 'app-agregar-promotores',
-  templateUrl: './agregar-promotores.component.html',
-  styleUrls: ['./agregar-promotores.component.scss'],
+  selector: 'app-modificar-panteones',
+  templateUrl: './modificar-panteones.component.html',
+  styleUrls: ['./modificar-panteones.component.scss'],
   providers: [DialogService]
 })
-export class AgregarPromotoresComponent implements OnInit {
+export class ModificarPanteonesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
@@ -86,8 +86,8 @@ export class AgregarPromotoresComponent implements OnInit {
   tipoArticulos: any[] = [];
   tituloEliminar: string = '';
   intentoPorGuardar: boolean = false;
-
-  agregarPromotorForm!: FormGroup;
+  panteonSeleccionado!: Panteon;
+  modificarPanteonForm!: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -96,10 +96,13 @@ export class AgregarPromotoresComponent implements OnInit {
     private alertaService: AlertaService,
     private route: ActivatedRoute,
     public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
   ) {
   }
 
   ngOnInit(): void {
+    this.panteonSeleccionado = this.config.data?.panteon;
+
     this.breadcrumbService.actualizar([
       {
         icono: 'imagen-icono-operacion-sivimss.svg',
@@ -107,21 +110,21 @@ export class AgregarPromotoresComponent implements OnInit {
       },
       {
         icono: '',
-        titulo: 'Promotores'
+        titulo: 'Panteones'
       }
     ]);
-    this.inicializarAgregarPromotorForm();
+    this.inicializarModificarPanteonForm();
   }
 
-  inicializarAgregarPromotorForm() {
-    this.agregarPromotorForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }],
-      numEmpleado: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
-      curp: [{ value: null, disabled: false }, [Validators.maxLength(18), Validators.required, Validators.pattern(CURP)]],
-      nombre: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required]],
-      primerApellido: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      segundoApellido: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      fechaNacimiento: [{ value: null, disabled: false }, Validators.required],
+  inicializarModificarPanteonForm() {
+    this.modificarPanteonForm = this.formBuilder.group({
+      id: [{ value: null, disabled: true }, Validators.required],
+      numEmpleado: [{ value: null, disabled: true }],
+      curp: [{ value: null, disabled: true }],
+      nombre: [{ value: null, disabled: true }],
+      primerApellido: [{ value: null, disabled: true }],
+      segundoApellido: [{ value: null, disabled: true }],
+      fechaNacimiento: [{ value: null, disabled: true }],
       fechaIngreso: [{ value: null, disabled: false }, Validators.required],
       fechaBaja: [{ value: null, disabled: true }],
       sueldoBase: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
@@ -132,38 +135,42 @@ export class AgregarPromotoresComponent implements OnInit {
       Validators.email, Validators.pattern(EMAIL)]],
       puesto: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
       diasDescanso: [{ value: null, disabled: false }, Validators.required],
-      estatus: [{ value: true, disabled: false }, Validators.required],
+      estatus: [{ value: true, disabled: true }],
     });
+
+    this.modificarPanteonForm.patchValue({
+      ...this.panteonSeleccionado,
+    })
   }
 
-  abrirModalDetallePromotor() {
+  abrirModalDetallePanteon() {
     return 0;
   }
 
-  agregarPromotor(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Promotor guardado');
+  modificarPanteon(): void {
+    this.alertaService.mostrar(TipoAlerta.Exito, 'Panteon guardado');
   }
 
-  cerrarDialogo(promotor?: Promotor) {
+  cerrarDialogo(panteon?: Panteon) {
     this.ref.close({
       respuesta: 'Ok',
-      promotor,
+      panteon,
     });
   }
 
-  verDetalleGuardarPromotor(): void {
+  verDetalleGuardarPanteon(): void {
     this.intentoPorGuardar = true;
-    this.agregarPromotorForm.markAllAsTouched();
+    this.modificarPanteonForm.markAllAsTouched();
 
-    if (this.agregarPromotorForm.valid) {
-      const values = this.agregarPromotorForm.getRawValue();
-      const nuevoPromotor: Promotor = {
+    if (this.modificarPanteonForm.valid) {
+      const values = this.modificarPanteonForm.getRawValue();
+      const nuevoPanteon: Panteon = {
         ...values,
         id: 1,
       };
-      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePromotoresComponent, {
-        data: { promotor: nuevoPromotor, modo: Accion.Agregar },
-        header: "Agregar promotor",
+      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePanteonesComponent, {
+        data: { panteon: nuevoPanteon, modo: Accion.Modificar },
+        header: "Modificar panteon",
         width: "920px"
       });
 
@@ -176,32 +183,7 @@ export class AgregarPromotoresComponent implements OnInit {
     }
   }
 
-  consultarRenapo() {
-    //TO DO Realizar consulta a RENAPO cuando campos de nombre y fecha nacimiento tengan datos
-    if (this.validarPreconsultaRenapo()) {
-      //CURP Dommy para prueba
-      this.f.curp.setValue('OEAF771012HMCRGR09');
-      //En caso de no existir CURP mostrar msj
-      this.alertaService.mostrar(TipoAlerta.Precaucion, 'No se encontró información relacionada a tu búsqueda.');
-    }
-  }
-
-  validarPreconsultaRenapo(): boolean {
-    if (this.agregarPromotorForm.get('nombre')?.valid &&
-      this.agregarPromotorForm.get('primerApellido')?.valid &&
-      this.agregarPromotorForm.get('segundoApellido')?.valid &&
-      this.agregarPromotorForm.get('fechaNacimiento')?.valid) {
-      return true;
-    }
-    return false;
-  }
-
-  handleFechaIngreso() {
-    //TO DO Calcular Antigüedad
-    console.log(this.f.fechaIngreso.value);
-  }
-
   get f() {
-    return this.agregarPromotorForm.controls;
+    return this.modificarPanteonForm.controls;
   }
 }

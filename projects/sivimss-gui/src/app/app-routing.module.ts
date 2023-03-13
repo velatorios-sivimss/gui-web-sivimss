@@ -47,6 +47,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
+    path: 'panteones',
+    loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
+  },
+  {
+    path: 'salas',
+    loadChildren: () => import('./modules/salas/salas.module').then(m => m.SalasModule)
+  },
+  {
     path: 'promotores',
     loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule)
   },
