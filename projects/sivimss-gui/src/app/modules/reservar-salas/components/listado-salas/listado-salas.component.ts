@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TipoDropdown } from '../../../../models/tipo-dropdown';
-import { MenuItem } from 'primeng-lts/api';
 import { MENU_SALAS } from '../../constants/menu-salas';
 import { SalaVelatorio } from '../../models/sala-velatorio.interface';
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
@@ -13,8 +12,7 @@ import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/co
 export class ListadoSalasComponent implements OnInit {
 
   velatorios: TipoDropdown[] = [];
-  menu: MenuItem[] = MENU_SALAS;
-  activeItem: MenuItem =  MENU_SALAS[0];
+  menu: string[] = MENU_SALAS;
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;

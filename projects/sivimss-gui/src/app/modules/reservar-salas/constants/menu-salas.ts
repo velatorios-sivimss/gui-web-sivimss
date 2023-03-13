@@ -1,3 +1,2 @@
-import { MenuItem } from 'primeng-lts/api';
 
-export const MENU_SALAS: MenuItem[] = [{ label: 'Cremación' }, { label: 'Embalsamiento' }];
+export const MENU_SALAS: string[] = ['Cremación','Embalsamiento'];

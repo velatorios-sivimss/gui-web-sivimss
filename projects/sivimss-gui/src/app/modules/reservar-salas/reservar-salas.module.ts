@@ -11,8 +11,8 @@ import { DropdownModule } from 'primeng-lts/dropdown';
 import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng-lts/selectbutton';
 import { TableModule } from 'primeng-lts/table';
-import { TabMenuModule } from 'primeng-lts/tabmenu';
 import { VerActividadSalasComponent } from './components/ver-actividad-salas/ver-actividad-salas.component';
+import { TabViewModule } from 'primeng-lts/tabview';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { VerActividadSalasComponent } from './components/ver-actividad-salas/ver
     ReservarSalasRoutingModule,
     SelectButtonModule,
     TableModule,
-    TabMenuModule,
+    TabViewModule,
     TituloPrincipalModule,
     FormsModule
   ]
