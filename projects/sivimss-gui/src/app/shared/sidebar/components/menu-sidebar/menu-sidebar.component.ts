@@ -136,10 +136,16 @@ export class MenuSidebarComponent implements OnInit {
         },
         {
           icono: '',
+          texto: 'Promotores',
+          ruta: 'promotores',
+          activo: false
+        },
+        {
+          icono: '',
           texto: 'Ordenes de entrada',
           ruta: 'ordenes-de-entrada',
           activo: false
-        }
+        },
       ]
     }
   ]

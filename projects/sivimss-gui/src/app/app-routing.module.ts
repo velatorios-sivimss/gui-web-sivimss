@@ -47,6 +47,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
+    path: 'promotores',
+    loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

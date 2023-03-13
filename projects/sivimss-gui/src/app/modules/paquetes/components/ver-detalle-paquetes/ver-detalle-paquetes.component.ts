@@ -28,7 +28,7 @@ export class VerDetallePaquetesComponent implements OnInit {
   articulos: Articulo[] = [];
   preguntaConfirmacion: string = '';
   mensajeConfirmacion: string = '';
-  modo: 'crear' | 'actualizar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   constructor(
     public ref: DynamicDialogRef,

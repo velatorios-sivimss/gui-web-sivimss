@@ -29,7 +29,7 @@ export class AgregarPaquetesComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
-  modo: 'crear' | 'actualizar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
+  modo: 'crear' | 'modificar' | 'detalle' | 'activar' | 'desactivar' = 'crear';
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
