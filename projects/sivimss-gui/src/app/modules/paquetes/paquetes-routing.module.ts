@@ -1,24 +1,36 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AgregarPaqueteComponent } from './components/agregar-paquete/agregar-paquete.component';
-import { ActualizarPaqueteComponent } from './components/actualizar-paquete/actualizar-paquete.component';
-import { PaquetesComponent } from './components/listado-paquete/paquetes.component';
+import { AgregarPaquetesComponent } from './components/agregar-paquetes/agregar-paquetes.component';
+import { ActualizarPaquetesComponent } from './components/modificar-paquetes/actualizar-paquetes.component';
+import { PaquetesComponent } from './components/paquetes/paquetes.component';
+import { PaquetesResolver } from './services/paquetes.resolver';
 
 const routes: Routes = [
   {
     path: '', component: PaquetesComponent,
   },
   {
-    path: 'agregar-paquete', component: AgregarPaqueteComponent,
+    path: 'agregar-paquete',
+    component: AgregarPaquetesComponent,
+    resolve: {
+      respuesta: PaquetesResolver
+    }
   },
   {
-    path: 'modificar-paquete/:id', component: ActualizarPaqueteComponent,
+    path: 'modificar-paquete/:id',
+    component: ActualizarPaquetesComponent,
+    resolve: {
+      respuesta: PaquetesResolver
+    }
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    PaquetesResolver
+]
 })
 export class PaquetesRoutingModule {
 }

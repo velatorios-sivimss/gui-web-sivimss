@@ -7,26 +7,26 @@ import { TablePanelModule } from "projects/sivimss-gui/src/app/shared/table-pane
 import { UtileriaModule } from '../../shared/utileria/utileria.module';
 import {AutoCompleteModule} from 'primeng-lts/autocomplete';
 import { PaquetesRoutingModule } from './paquetes-routing.module';
-import { PaquetesComponent } from './components/listado-paquete/paquetes.component';
-import { AgregarPaqueteComponent } from './components/agregar-paquete/agregar-paquete.component';
-import { ActualizarPaqueteComponent } from './components/actualizar-paquete/actualizar-paquete.component';
+import { PaquetesComponent } from './components/paquetes/paquetes.component';
+import { AgregarPaquetesComponent } from './components/agregar-paquetes/agregar-paquetes.component';
+import { ActualizarPaquetesComponent } from './components/modificar-paquetes/actualizar-paquetes.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TituloPrincipalModule } from "../../shared/titulo-principal/titulo-principal.module";
-import { PaqueteService } from "./services/paquetes.service";
+import { PaquetesService } from "./services/paquetes.service";
 import { DropdownModule } from "primeng-lts/dropdown";
 import { TableModule } from "primeng-lts/table";
 import { InputSwitchModule } from "primeng-lts/inputswitch";
 import { DialogModule } from "primeng-lts/dialog";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { CheckboxModule } from 'primeng-lts/checkbox';
-import { VerDetallePaqueteComponent } from './components/ver-detalle-paquete/ver-detalle-paquete.component';
+import { VerDetallePaquetesComponent } from './components/ver-detalle-paquetes/ver-detalle-paquetes.component';
 
 @NgModule({
   declarations: [
     PaquetesComponent,
-    AgregarPaqueteComponent,
-    VerDetallePaqueteComponent,
-    ActualizarPaqueteComponent,
+    AgregarPaquetesComponent,
+    VerDetallePaquetesComponent,
+    ActualizarPaquetesComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +46,7 @@ import { VerDetallePaqueteComponent } from './components/ver-detalle-paquete/ver
     AutoCompleteModule,
   ],
   providers: [
-    PaqueteService
+    PaquetesService
   ]
 })
 export class PaquetesModule {

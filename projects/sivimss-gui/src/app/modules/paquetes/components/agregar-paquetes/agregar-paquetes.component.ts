@@ -10,7 +10,7 @@ import { Servicio } from '../../models/servicios.interface';
 import { LazyLoadEvent } from "primeng-lts/api";
 import { Articulo } from '../../models/articulos.interface';
 import { ListaVelatorios } from '../../models/lista-velatorios.interface';
-import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-paquete.component';
+import { VerDetallePaquetesComponent } from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
 import { Paquete } from '../../models/paquetes.interface';
 
 interface HttpResponse {
@@ -19,12 +19,12 @@ interface HttpResponse {
 }
 
 @Component({
-  selector: 'app-agregar-paquete',
-  templateUrl: './agregar-paquete.component.html',
-  styleUrls: ['./agregar-paquete.component.scss'],
+  selector: 'app-agregar-paquetes',
+  templateUrl: './agregar-paquetes.component.html',
+  styleUrls: ['./agregar-paquetes.component.scss'],
   providers: [DialogService]
 })
-export class AgregarPaqueteComponent implements OnInit {
+export class AgregarPaquetesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
@@ -279,7 +279,7 @@ export class AgregarPaqueteComponent implements OnInit {
         servicios: this.servicios,
         articulos: this.articulos,
       };
-      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaqueteComponent, {
+      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaquetesComponent, {
         data: { paquete: nuevoPaquete, modo: this.modo },
         header: "Agregar paquete",
         width: "920px"

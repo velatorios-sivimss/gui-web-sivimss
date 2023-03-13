@@ -8,7 +8,7 @@ import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
 import { Paquete } from "../../models/paquetes.interface";
 import { LazyLoadEvent } from "primeng-lts/api";
 import { ActivatedRoute, Router } from '@angular/router';
-import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-paquete.component';
+import { VerDetallePaquetesComponent } from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
 import { Servicio } from '../../models/servicios.interface';
 import { Articulo } from '../../models/articulos.interface';
 
@@ -184,7 +184,7 @@ export class PaquetesComponent implements OnInit {
   }
 
   abrirModalDetallePaquete(paquete: Paquete) {
-    this.detalleRef = this.dialogService.open(VerDetallePaqueteComponent, {
+    this.detalleRef = this.dialogService.open(VerDetallePaquetesComponent, {
       data: { paquete, modo: this.modo = 'detalle' },
       header: "Ver detalle",
       width: "920px"
@@ -231,7 +231,7 @@ export class PaquetesComponent implements OnInit {
 
   cambiarEstatus(paquete: Paquete) {
     this.modo = paquete.estatus ? 'desactivar' : 'activar';
-    this.detalleRef = this.dialogService.open(VerDetallePaqueteComponent, {
+    this.detalleRef = this.dialogService.open(VerDetallePaquetesComponent, {
       data: { paquete, modo: this.modo },
       header: "Ver detalle",
       width: "920px"

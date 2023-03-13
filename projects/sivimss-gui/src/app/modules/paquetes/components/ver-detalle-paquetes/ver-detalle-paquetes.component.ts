@@ -9,11 +9,11 @@ import { Paquete } from '../../models/paquetes.interface';
 import { Servicio } from '../../models/servicios.interface';
 
 @Component({
-  selector: 'app-ver-detalle-paquete',
-  templateUrl: './ver-detalle-paquete.component.html',
-  styleUrls: ['./ver-detalle-paquete.component.scss']
+  selector: 'app-ver-detalle-paquetes',
+  templateUrl: './ver-detalle-paquetes.component.html',
+  styleUrls: ['./ver-detalle-paquetes.component.scss']
 })
-export class VerDetallePaqueteComponent implements OnInit {
+export class VerDetallePaquetesComponent implements OnInit {
   readonly MENSAJE_PAQUETE_AGREGADO = 'Paquete agregado correctamente';
   readonly MENSAJE_PAQUETE_ACTIVADO = 'Paquete activado correctamente';
   readonly MENSAJE_PAQUETE_DESACTIVADO = 'Paquete desactivado correctamente';

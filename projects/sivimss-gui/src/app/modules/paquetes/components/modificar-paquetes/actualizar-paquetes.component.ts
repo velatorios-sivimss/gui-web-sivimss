@@ -10,7 +10,7 @@ import { Servicio } from '../../models/servicios.interface';
 import { LazyLoadEvent } from "primeng-lts/api";
 import { Articulo } from '../../models/articulos.interface';
 import { ListaVelatorios } from '../../models/lista-velatorios.interface';
-import { VerDetallePaqueteComponent } from '../ver-detalle-paquete/ver-detalle-paquete.component';
+import { VerDetallePaquetesComponent } from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
 import { Paquete } from '../../models/paquetes.interface';
 
 interface HttpResponse {
@@ -19,12 +19,12 @@ interface HttpResponse {
 }
 
 @Component({
-  selector: 'app-actualizar-paquete',
-  templateUrl: './actualizar-paquete.component.html',
-  styleUrls: ['./actualizar-paquete.component.scss'],
+  selector: 'app-actualizar-paquetes',
+  templateUrl: './actualizar-paquetes.component.html',
+  styleUrls: ['./actualizar-paquetes.component.scss'],
   providers: [DialogService]
 })
-export class ActualizarPaqueteComponent implements OnInit {
+export class ActualizarPaquetesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
@@ -279,7 +279,7 @@ export class ActualizarPaqueteComponent implements OnInit {
         servicios: this.servicios,
         articulos: this.articulos,
       };
-      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaqueteComponent, {
+      const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaquetesComponent, {
         data: { paquete: paqueteActualizado, modo: this.modo },
         header: "Actualizar paquete",
         width: "920px"
