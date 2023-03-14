@@ -9,6 +9,7 @@ import {Velatorio} from "../../modelos/velatorio.interface";
 export class DetalleVelatorioComponent implements OnInit {
 
   @Input() velatorio!: Velatorio;
+  @Input() estatus: boolean = false;
   constructor() { }
 
   ngOnInit(): void {

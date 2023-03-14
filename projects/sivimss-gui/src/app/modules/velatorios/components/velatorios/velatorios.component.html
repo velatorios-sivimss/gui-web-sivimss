@@ -48,7 +48,7 @@
         <th>Administrador</th>
         <th>Responsable sanitario</th>
         <th>Salas Cremación</th>
-        <th>Salas Embalsamiento</th>
+        <th>Salas Embalsamamiento</th>
         <th>Capillas de velación</th>
         <th>Asignación</th>
         <th>Dirección calle</th>
@@ -59,7 +59,7 @@
         <th>Estado</th>
         <th>Teléfono</th>
         <th>Estatus</th>
-        <th alignFrozen="right" pFrozenColumn></th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-velatorio>
@@ -69,7 +69,7 @@
         <td>{{ velatorio.administrador }}</td>
         <td>{{ velatorio.responsableSanitario}}</td>
         <td>{{ velatorio.salasCremacion}}</td>
-        <td>{{ velatorio.salasEmbalsamiento}}</td>
+        <td>{{ velatorio.salasEmbalsamamiento}}</td>
         <td>{{ velatorio.capillasVelacion}}</td>
         <td>{{ velatorio.asignacion}}</td>
         <td>{{ velatorio.direccionCalle}}</td>
@@ -126,7 +126,8 @@
     <app-overlay-panel-opciones>
       <app-overlay-panel-opcion titulo="Modificar"
                                 (click)="abrirModalModificacionVelatorio()"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Desactivar" (click)="abrirModalActivarVelatorio()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion [titulo]="titulo"
+                                (click)="abrirModalActivarVelatorio()"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
