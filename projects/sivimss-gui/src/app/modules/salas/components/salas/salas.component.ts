@@ -87,7 +87,7 @@ export class SalasComponent implements OnInit {
       },
       {
         icono: '',
-        titulo: 'Salas'
+        titulo: 'Administrar salas'
       }
     ]);
     this.inicializarFiltroForm();
@@ -99,62 +99,29 @@ export class SalasComponent implements OnInit {
       this.salas = [
         {
           id: 1,
-          numEmpleado: '11',
-          curp: 'ALBI05041980',
-          nombre: 'Alberto',
-          primerApellido: 'Lima',
-          segundoApellido: 'Dorantes',
-          fechaNacimiento: '05/04/1980',
-          fechaIngreso: '01/30/2000',
-          sueldoBase: '$10,000.00',
+          nombreSala: 'Sala no. 10 Jesús Salvador y la Madre Inmaculada',
+          disponibilidad: 'Disponible',
+          tipoSala: 'De embalsamamiento',
           velatorio: 'No. 14 San Luis Potosí y CD Valles',
-          categoria: '$3,000',
-          antiguedad: '22 años',
-          correo: 'jimetez@imss.gob.mx',
-          puesto: 'Sala',
-          diasDescanso: '13/03/2023',
-          nombreSala: 'Sala siniestro de previsión funeraria con cremación',
-          descripcion: 'Sala todo incluido con cremación servicios completos',
+          capacidad: '2 personas',
           estatus: true,
         },
         {
           id: 2,
-          numEmpleado: '11',
-          curp: 'ALBI05041980',
-          nombre: 'Alberto',
-          primerApellido: 'Lima',
-          segundoApellido: 'Dorantes',
-          fechaNacimiento: '05/04/1980',
-          fechaIngreso: '01/30/2000',
-          sueldoBase: '$10,000.00',
+          nombreSala: 'Sala no. 10 Jesús Salvador y la Madre Inmaculada',
+          disponibilidad: 'Disponible',
+          tipoSala: 'De embalsamamiento',
           velatorio: 'No. 14 San Luis Potosí y CD Valles',
-          categoria: '$3,000',
-          antiguedad: '22 años',
-          correo: 'jimetez@imss.gob.mx',
-          puesto: 'Sala',
-          diasDescanso: '13/03/2023',
-          nombreSala: 'Sala siniestro de previsión funeraria con cremación',
-          descripcion: 'Sala todo incluido con cremación servicios completos',
+          capacidad: '2 personas',
           estatus: true,
         },
         {
           id: 3,
-          numEmpleado: '11',
-          curp: 'ALBI05041980',
-          nombre: 'Alberto',
-          primerApellido: 'Lima',
-          segundoApellido: 'Dorantes',
-          fechaNacimiento: '05/04/1980',
-          fechaIngreso: '01/30/2000',
-          sueldoBase: '$10,000.00',
+          nombreSala: 'Sala no. 10 Jesús Salvador y la Madre Inmaculada',
+          disponibilidad: 'Disponible',
+          tipoSala: 'De embalsamamiento',
           velatorio: 'No. 14 San Luis Potosí y CD Valles',
-          categoria: '$3,000',
-          antiguedad: '22 años',
-          correo: 'jimetez@imss.gob.mx',
-          puesto: 'Sala',
-          diasDescanso: '13/03/2023',
-          nombreSala: 'Sala siniestro de previsión funeraria con cremación',
-          descripcion: 'Sala todo incluido con cremación servicios completos',
+          capacidad: '2 personas',
           estatus: true,
         }
       ];
@@ -164,9 +131,9 @@ export class SalasComponent implements OnInit {
 
   inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
-      nivel: [{ value: null, disabled: false }],
-      delegacion: [{ value: null, disabled: false }],
+      id: [{ value: null, disabled: false }],
       velatorio: [{ value: null, disabled: false }],
+      tipoSala: [{ value: null, disabled: false }],
       nombreSala: [{ value: null, disabled: false }],
     });
   }

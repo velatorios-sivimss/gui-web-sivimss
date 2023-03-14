@@ -41,46 +41,19 @@ export class ModificarSalasComponent implements OnInit {
     }
   ];
 
-  regiones: any[] = [
+  disponibilidad: any[] = [
     {
-      label: 'Nacional',
+      label: 'Disponible',
       value: 0,
     },
     {
-      label: 'Delegacional',
+      label: 'Ocupada',
       value: 1,
     },
     {
-      label: 'Velatorio',
+      label: 'En mantenimiento',
       value: 2,
     }
-  ];
-
-  catalogoArticulos: any[] = [
-    {
-      label: 'Ataúd',
-      value: 0,
-    },
-    {
-      label: 'Urna',
-      value: 1,
-    },
-    {
-      label: 'Cartucho',
-      value: 2,
-    },
-    {
-      label: 'Empaques traslado aéreo',
-      value: 3,
-    },
-    {
-      label: 'Bolsa para cadáver',
-      value: 4,
-    },
-    {
-      label: 'Otro',
-      value: 5,
-    },
   ];
 
   tipoArticulos: any[] = [];
@@ -118,24 +91,13 @@ export class ModificarSalasComponent implements OnInit {
 
   inicializarModificarSalaForm() {
     this.modificarSalaForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }, Validators.required],
-      numEmpleado: [{ value: null, disabled: true }],
-      curp: [{ value: null, disabled: true }],
-      nombre: [{ value: null, disabled: true }],
-      primerApellido: [{ value: null, disabled: true }],
-      segundoApellido: [{ value: null, disabled: true }],
-      fechaNacimiento: [{ value: null, disabled: true }],
-      fechaIngreso: [{ value: null, disabled: false }, Validators.required],
-      fechaBaja: [{ value: null, disabled: true }],
-      sueldoBase: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
+      id: [{ value: null, disabled: true }],
+      nombreSala: [{ value: null, disabled: false }, [Validators.maxLength(50), Validators.required]],
+      tipoSala: [{ value: null, disabled: false }, Validators.required],
       velatorio: [{ value: null, disabled: false }, Validators.required],
-      categoria: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      antiguedad: [{ value: null, disabled: true }, [Validators.maxLength(50)]],
-      correo: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required,
-      Validators.email, Validators.pattern(EMAIL)]],
-      puesto: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      diasDescanso: [{ value: null, disabled: false }, Validators.required],
-      estatus: [{ value: true, disabled: true }],
+      capacidad: [{ value: null, disabled: false }, [Validators.maxLength(1), Validators.required]],
+      disponibilidad: [{ value: 0, disabled: true }, Validators.required],
+      estatus: [{ value: true, disabled: false }, []],
     });
 
     this.modificarSalaForm.patchValue({
@@ -148,7 +110,7 @@ export class ModificarSalasComponent implements OnInit {
   }
 
   modificarSala(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Sala guardado');
+    this.alertaService.mostrar(TipoAlerta.Exito, 'Sala guardada');
   }
 
   cerrarDialogo(sala?: Sala) {

@@ -2,7 +2,7 @@
     <ng-template appCustomTemplate="left-header">
         <div class="table-panel-header-column">
             <span class="font-bold">
-                ID <span [ngClass]="salaSeleccionado?.estatus ? 'activo' : 'inactivo'">{{salaSeleccionado?.id}}</span>
+                ID <span [ngClass]="salaSeleccionada?.estatus ? 'activo' : 'inactivo'">{{salaSeleccionada?.id}}</span>
             </span>
         </div>
     </ng-template>
@@ -11,12 +11,12 @@
             <div class="flex flex-column">
                 <span>Estatus</span>
                 <div>
-                    <span class="activo" *ngIf="salaSeleccionado?.estatus">Activo</span>
-                    <span class="inactivo" *ngIf="!salaSeleccionado?.estatus">Inactivo</span>
+                    <span class="activo" *ngIf="salaSeleccionada?.estatus">Activo</span>
+                    <span class="inactivo" *ngIf="!salaSeleccionada?.estatus">Inactivo</span>
                 </div>
             </div>
             <div class="flex flex-column ml-5">
-                <a>
+                <a (click)="abrirPanel($event)">
                     <img
                       src="assets/images/imagen-icono-barras-horizontales.svg"
                       alt="icono barras horizontales">
@@ -27,102 +27,36 @@
     <div class="row table-panel-row">
         <div class="col-md-6">
             <div class="table-panel-column">
-                <label>No. de empleado</label>
-                <span>{{salaSeleccionado?.numEmpleado}}</span>
+                <label>Nombre:</label>
+                <span>{{salaSeleccionada?.nombreSala}}</span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="table-panel-column">
-                <label>CURP</label>
-                <span>{{salaSeleccionado?.curp}}</span>
+                <label>Disponibilidad:</label>
+                <span>{{salaSeleccionada?.disponibilidad}}</span>
             </div>
         </div>        
     </div>
     <div class="row table-panel-row">
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div class="table-panel-column">
-                <label>Nombre(s)</label>
-                <span>{{salaSeleccionado?.nombre}}</span>
+                <label>Tipo de sala:</label>
+                <span>{{salaSeleccionada?.tipoSala}}</span>
             </div>
         </div>
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="table-panel-column">
-                <label>Primer apellido</label>
-                <span>{{salaSeleccionado?.primerApellido}}</span>
+                <label>Velatorio:</label>
+                <span>{{salaSeleccionada?.velatorio}}</span>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="table-panel-column">
-                <label>Segundo apellido</label>
-                <span>{{salaSeleccionado?.segundoApellido}}</span>
+                <label>Capacidad:</label>
+                <span>{{salaSeleccionada?.capacidad}}</span>
             </div>
         </div>        
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Fecha de nacimiento</label>
-                <span>{{salaSeleccionado?.fechaNacimiento}}</span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Fecha de ingreso</label>
-                <span>{{salaSeleccionado?.fechaIngreso}}</span>
-            </div>
-        </div>
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Sueldo base</label>
-                <span>{{salaSeleccionado?.sueldoBase}}</span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Velatorio</label>
-                <span>{{salaSeleccionado?.velatorio}}</span>
-            </div>
-        </div>
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Categoría</label>
-                <span>{{salaSeleccionado?.categoria}}</span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Antigüedad</label>
-                <span>{{salaSeleccionado?.antiguedad}}</span>
-            </div>
-        </div>
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Correo electrónico</label>
-                <span>{{salaSeleccionado?.correo}}</span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="table-panel-column">
-                <label>Puesto</label>
-                <span>{{salaSeleccionado?.puesto}}</span>
-            </div>
-        </div>
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-12">
-            <div class="table-panel-column">
-                <label>Días de descanso</label>
-                <span>{{salaSeleccionado?.diasDescanso}}</span>
-            </div>
-        </div>
     </div>
 </app-table-panel>
 
@@ -150,3 +84,11 @@
         <button class="ml-4 btn btn-primary btn-md" (click)="cambiarEstatusSala();">Aceptar</button>
     </div>
 </div>
+
+<p-overlayPanel #overlayPanel>
+    <ng-template pTemplate="content">
+      <app-overlay-panel-opciones>
+        <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificarSala()"></app-overlay-panel-opcion>
+      </app-overlay-panel-opciones>
+    </ng-template>
+</p-overlayPanel>
