@@ -17,6 +17,7 @@ export class DetalleProveedorComponent implements OnInit {
   @Output() confirmacionAceptar = new EventEmitter<ConfirmacionServicio>();
 
   creacionRef!: DynamicDialogRef;
+  acordionAbierto: boolean = false;
 
   @ViewChild(OverlayPanel)
   overlayPanel: OverlayPanel | undefined;
@@ -34,6 +35,14 @@ export class DetalleProveedorComponent implements OnInit {
     if(this.config?.data){
       this.proveedorSeleccionado = this.config.data.proveedor;
       this.origen = this.config.data.origen;
+    }
+  }
+
+  abrirAcordion(){
+    if(this.acordionAbierto == false){
+      this.acordionAbierto = true;
+    }else{
+      this.acordionAbierto = false;
     }
   }
 
