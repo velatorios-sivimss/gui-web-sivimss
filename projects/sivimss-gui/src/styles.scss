@@ -59,6 +59,12 @@ body {
   color: #E10000;
 }
 
+.listado-obligatorio-recuadro {
+  font-style: normal;
+  font-weight: 600;
+  color: #E10000;
+}
+
 .subtitulo {
   font-style: normal;
   font-weight: 600;
@@ -74,10 +80,11 @@ body {
 }
 
 .contenedor-inputswitch {
-  display: flex;
   align-items: center;
+  display: inline-block;
+  margin-left: 10px;
 
-  & > *:not(span) {
+  &>*:not(span) {
     transform: translateY(3px);
   }
 
@@ -110,7 +117,7 @@ body {
     cursor: pointer;
   }
 
-  a + a {
+  a+a {
     margin-left: 1rem;
   }
 }
@@ -187,4 +194,18 @@ body {
       color: #484848;
     }
   }
+}
+
+.rectangle-row {
+  border: 1px solid #DEE2E6;
+}
+
+.active-text-color {
+  color: #217A6B;
+}
+
+.custom-table .p-datatable-wrapper {
+  border: none;
+  border-radius: 0px;
+  overflow: hidden;
 }
