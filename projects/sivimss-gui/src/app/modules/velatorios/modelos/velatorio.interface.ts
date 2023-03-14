@@ -4,7 +4,7 @@ export interface Velatorio {
   administrador: string,
   responsableSanitario: string,
   salasCremacion: number,
-  salasEmbalsamiento: number,
+  salasEmbalsamamiento: number,
   capillasVelacion: number,
   asignacion: string,
   direccionCalle: string,

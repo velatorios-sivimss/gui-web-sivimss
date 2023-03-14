@@ -11,6 +11,10 @@ import { ActivarVelatorioComponent } from './components/activar-velatorio/activa
 import {TituloPrincipalModule} from "../../shared/titulo-principal/titulo-principal.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng-lts/dropdown";
+import {TableModule} from "primeng-lts/table";
+import {InputSwitchModule} from "primeng-lts/inputswitch";
+import {OverlayPanelModule} from "primeng-lts/overlaypanel";
+import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/overlay-panel-opciones.module";
 
 
 @NgModule({
@@ -28,6 +32,11 @@ import {DropdownModule} from "primeng-lts/dropdown";
     TituloPrincipalModule,
     FormsModule,
     ReactiveFormsModule,
+    DropdownModule,
+    TableModule,
+    InputSwitchModule,
+    OverlayPanelModule,
+    OverlayPanelOpcionesModule,
     DropdownModule
   ]
 })
