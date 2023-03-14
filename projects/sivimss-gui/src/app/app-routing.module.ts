@@ -3,7 +3,7 @@ import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
 import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
-
+import { ProveedoresModule } from './modules/proveedores/proveedores.module';
 const routes: Routes = [
   {
     path: 'pagina-no-encontrada',
@@ -47,6 +47,18 @@ const routes: Routes = [
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
+    path: 'servicios',
+    loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
+  },
+  {
+    path: 'operadores-por-velatorio',
+    loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
+  },
+  {
+    path: 'registro-otorgamiento-servicios',
+    loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule)
+  },
+  {
     path: 'panteones',
     loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
   },
@@ -57,6 +69,14 @@ const routes: Routes = [
   {
     path: 'promotores',
     loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule)
+  },
+  {
+    path: 'proveedores',
+    loadChildren: () => import('./modules/proveedores/proveedores.module').then(m => m.ProveedoresModule)
+  },
+  {
+    path: 'artículos',
+    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
     path: '**',

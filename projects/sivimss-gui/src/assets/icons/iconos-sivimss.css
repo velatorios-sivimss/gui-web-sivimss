@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'font-sivimss';
-  src:  url('fonts/font-sivimss.eot?d0yo48');
-  src:  url('fonts/font-sivimss.eot?d0yo48#iefix') format('embedded-opentype'),
-  url('fonts/font-sivimss.ttf?d0yo48') format('truetype'),
-  url('fonts/font-sivimss.woff?d0yo48') format('woff'),
-  url('fonts/font-sivimss.svg?d0yo48#font-sivimss') format('svg');
+  src:  url('fonts/font-sivimss.eot?vja8y9');
+  src:  url('fonts/font-sivimss.eot?vja8y9#iefix') format('embedded-opentype'),
+    url('fonts/font-sivimss.ttf?vja8y9') format('truetype'),
+    url('fonts/font-sivimss.woff?vja8y9') format('woff'),
+    url('fonts/font-sivimss.svg?vja8y9#font-sivimss') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,9 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.fs-eye-off:before {
+.fs-flecha-abajo:before {
+  content: "\e903";
+}
+.fs-calendario:before {
+  content: "\e902";
+}
+.fs-ver-apagado:before {
   content: "\e901";
 }
-.fs-eye:before {
+.fs-ver:before {
   content: "\e900";
 }
