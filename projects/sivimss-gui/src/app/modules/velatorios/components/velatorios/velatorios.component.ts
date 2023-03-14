@@ -31,7 +31,6 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
   creacionRef!: DynamicDialogRef;
   modificarRef!: DynamicDialogRef;
   activarRef!: DynamicDialogRef;
-  detalleRef!: DynamicDialogRef;
 
   constructor(private breadCrumbService: BreadcrumbService,
               public dialogService: DialogService,
@@ -82,13 +81,6 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
     if (this.activarRef) {
       this.activarRef.destroy();
     }
-    if (this.detalleRef) {
-      this.detalleRef.destroy();
-    }
-  }
-
-  abrirModalDetalleVehiculo(velatorio: Velatorio): void {
-
   }
 
   abrirPanel($event: MouseEvent, velatorio: Velatorio): void {
