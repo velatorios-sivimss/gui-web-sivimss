@@ -1,1 +1,34 @@
-<p>velatorios works!</p>
+<app-titulo-principal titulo="Administrar velatorios"></app-titulo-principal>
+<div class="border-panel">
+  <form [formGroup]="filtroForm" (submit)="buscar()">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="nivel">Nivel:</label>
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="niveles"
+                    placeholder="Selecciona nivel">
+        </p-dropdown>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="velatorio">Velatorios:</label>
+        <p-dropdown id="velatorio" class="form-control" formControlName="delegacion" [options]="velatorios"
+                    placeholder="Selecciona velatorio">
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="velatorioEspecifico">Velatorio Especifico:</label>
+        <input id="velatorioEspecifico" class="form-control" formControlName="velatorioEspecifico"
+               placeholder="Ingresa nombre del servicio">
+      </div>
+      <div class="col-md-6"></div>
+    </div>
+    <div class="row mt-6">
+      <div class="col-md-12 flex justify-content-end">
+        <button type="button" class="btn btn-default btn-md" (click)="limpiarFiltros()">Limpiar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+      </div>
+    </div>
+  </form>
+</div>
+<section class="mt-5"></section>

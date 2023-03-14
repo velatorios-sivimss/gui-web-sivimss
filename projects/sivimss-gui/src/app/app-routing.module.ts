@@ -43,6 +43,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
+    path: 'velatorios',
+    loadChildren: () => import('./modules/velatorios/velatorios.module').then(module => module.VelatoriosModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

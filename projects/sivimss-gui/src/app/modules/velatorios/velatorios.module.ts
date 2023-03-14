@@ -8,6 +8,9 @@ import { DetalleVelatorioComponent } from './components/detalle-velatorio/detall
 import { VerDetalleVelatorioComponent } from './components/ver-detalle-velatorio/ver-detalle-velatorio.component';
 import { ModificarVelatorioComponent } from './components/modificar-velatorio/modificar-velatorio.component';
 import { ActivarVelatorioComponent } from './components/activar-velatorio/activar-velatorio.component';
+import {TituloPrincipalModule} from "../../shared/titulo-principal/titulo-principal.module";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DropdownModule} from "primeng-lts/dropdown";
 
 
 @NgModule({
@@ -21,7 +24,11 @@ import { ActivarVelatorioComponent } from './components/activar-velatorio/activa
   ],
   imports: [
     CommonModule,
-    VelatoriosRoutingModule
+    VelatoriosRoutingModule,
+    TituloPrincipalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DropdownModule
   ]
 })
 export class VelatoriosModule { }
