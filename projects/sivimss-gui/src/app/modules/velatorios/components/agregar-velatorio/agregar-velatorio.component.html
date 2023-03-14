@@ -140,6 +140,19 @@
         </button>
       </div>
     </div>
-
   </form>
+</ng-container>
+<ng-container *ngIf="indice === 1">
+  <app-detalle-velatorio [velatorio]="nuevoVelatorio"></app-detalle-velatorio>
+  <div class="mb-3 mt-3 row text-center">
+    ¿Estas seguro que deseas agregar este nuevo velatorio?
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12 flex justify-content-end">
+      <button type="button" class="btn btn-default btn-md" (click)="cancelarCreacion()">Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-md ml-5" (click)="crearVelatorio()">Aceptar
+      </button>
+    </div>
+  </div>
+
 </ng-container>

@@ -1,1 +1,111 @@
-<p>detalle-velatorio works!</p>
+<app-table-panel>
+  <ng-template appCustomTemplate="left-header">
+    <div class="table-panel-header-column">
+      <span class="font-bold mr-2">ID</span>
+      <span class="activo">{{velatorio.id}}</span>
+    </div>
+  </ng-template>
+  <ng-template appCustomTemplate="right-header">
+  </ng-template>
+  <div class="row table-panel-row">
+    <div class="col-md-12">
+      <div class="table-panel-column">
+        <label>Nombre</label>
+        <span>{{velatorio?.nombre}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-6">
+      <div class="table-panel-column">
+        <label>Administrador</label>
+        <span>{{velatorio?.administrador}}</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="table-panel-column">
+        <label>Responsable</label>
+        <span>{{velatorio?.responsableSanitario}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-4">
+      <div class="table-panel-column">
+        <label>No. capillas</label>
+        <span>{{velatorio?.capillasVelacion}}</span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="table-panel-column">
+        <label>No. salas de cremación</label>
+        <span>{{velatorio?.salasCremacion}}</span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="table-panel-column">
+        <label>No. salas de embalsamamiento</label>
+        <span>{{velatorio?.salasEmbalsamamiento}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-12">
+      <div class="table-panel-column">
+        <label>Asignación</label>
+        <span>{{velatorio?.asignacion}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-12">
+      <div class="table-panel-column">
+        <div class="subtitulo mb-2">Dirección</div>
+        <label>Código postal</label>
+        <span>{{velatorio?.codigoPostal}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-6">
+      <div class="table-panel-column">
+        <label>Calle</label>
+        <span>{{velatorio?.direccionCalle}}</span>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="table-panel-column">
+        <label>No. exterior</label>
+        <span>{{velatorio?.numeroExterior}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-4">
+      <div class="table-panel-column">
+        <label>Colonia</label>
+        <span>{{velatorio?.colonia}}</span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="table-panel-column">
+        <label>Municipio</label>
+        <span>{{velatorio?.municipio}}</span>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="table-panel-column">
+        <label>Estado</label>
+        <span>{{velatorio?.estado}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="row table-panel-row">
+    <div class="col-md-12">
+      <div class="table-panel-column">
+        <label>Telefono</label>
+        <span>{{velatorio?.telefono}}</span>
+      </div>
+    </div>
+  </div>
+</app-table-panel>

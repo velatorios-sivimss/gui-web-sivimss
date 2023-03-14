@@ -15,6 +15,7 @@ import {TableModule} from "primeng-lts/table";
 import {InputSwitchModule} from "primeng-lts/inputswitch";
 import {OverlayPanelModule} from "primeng-lts/overlaypanel";
 import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/overlay-panel-opciones.module";
+import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 
 
 @NgModule({
@@ -37,7 +38,7 @@ import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/ov
     InputSwitchModule,
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
-    DropdownModule
+    TablePanelModule
   ]
 })
 export class VelatoriosModule { }

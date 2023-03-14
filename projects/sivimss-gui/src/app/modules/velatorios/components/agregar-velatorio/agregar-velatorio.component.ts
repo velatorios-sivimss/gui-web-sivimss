@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {Velatorio} from "../../modelos/velatorio.interface";
+import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 
 @Component({
   selector: 'app-agregar-velatorio',
@@ -15,7 +16,7 @@ export class AgregarVelatorioComponent implements OnInit {
 
   velatorioForm!: FormGroup;
 
-  asignaciones: TipoDropdown[] = [];
+  asignaciones: TipoDropdown[] = CATALOGOS_DUMMIES;
   nuevoVelatorio!: Velatorio;
   constructor(private formBuilder: FormBuilder,
               public ref: DynamicDialogRef) {
