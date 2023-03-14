@@ -197,7 +197,7 @@ export class AdministrarProveedoresComponent implements OnInit {
 
   abrirModalCreacionProveedor(): void {
     this.creacionRef = this.dialogService.open(AgregarProveedorComponent, {
-      header: "Agregar vehículo",
+      header: "Agregar proveedor",
       width: "920px",
     });
   }
@@ -206,7 +206,7 @@ export class AdministrarProveedoresComponent implements OnInit {
     console.log(this.proveedorSeleccionado);
     this.creacionRef = this.dialogService.open(ModificarProveedorComponent, {
       data: this.proveedorSeleccionado,
-      header: "Modificar vehículo",
+      header: "Modificar proveedor",
       width: "920px"
     })
   }
