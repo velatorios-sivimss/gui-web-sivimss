@@ -1,0 +1,173 @@
+<ng-container *ngIf="!ventanaConfirmacion">
+  <form [formGroup]="modificarArticuloForm">
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="idAgregar">ID<span class="req">*:</span>:</label>
+        <input id="idAgregar" class="form-control" formControlName="id" placeholder="ID">
+        <span class="campo-obligatorio"
+              *ngIf="fma.id?.errors?.required && (fma.id?.dirty || fma.id?.touched)">Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="categoria">Categoria (Artículo)<span class="req">*</span></label>
+        <p-dropdown appendTo="body" id="categoria" class="form-control" formControlName="categoria"
+                    [options]="tipoServicio"
+                    placeholder="Selecciona la categoria">
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="tipoDeArticulo">Tipo de artículo<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="tipoDeArticulo" class="form-control" formControlName="tipoDeArticulo"
+                    [options]="tipoServicio"
+                    placeholder="Selecciona el tipo de servicio">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.tipoDeArticulo?.errors?.required && (fma.tipoDeArticulo?.dirty || fma.tipoDeArticulo?.touched)">Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="tipoDeMaterial">Tipo de material<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="tipoDeMaterial" class="form-control" formControlName="tipoDeMaterial"
+                    [options]="cuentaContable"
+                    placeholder="Selecciona la cuenta contable">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.tipoDeMaterial?.errors?.required && (fma.tipoDeMaterial?.dirty || fma.tipoDeMaterial?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="tamanio">Tamaño<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="tamanio" class="form-control" formControlName="tamanio"
+                    [options]="tipoServicio"
+                    placeholder="Selecciona el tamaño">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.tamanio?.errors?.required && (fma.tamanio?.dirty || fma.tamanio?.touched)">Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="clasificacionDeProducto">Clasificación del producto<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="clasificacionDeProducto" class="form-control" formControlName="clasificacionDeProducto"
+                    [options]="cuentaContable"
+                    placeholder="Selecciona la clasificacióne">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.clasificacionDeProducto?.errors?.required && (fma.clasificacionDeProducto?.dirty || fma.clasificacionDeProducto?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="control-label" for="modeloDeArticulo">Modelo del artículo<span class="req">*:</span>:</label>
+        <input id="modeloDeArticulo" class="form-control" formControlName="modeloDeArticulo" placeholder="Ingresa el modelo">
+        <span class="campo-obligatorio"
+              *ngIf="fma.modeloDeArticulo?.errors?.required && (fma.modeloDeArticulo?.dirty || fma.modeloDeArticulo?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="control-label" for="descripcionDeProducto">Descripción del artículo<span class="req">*:</span>:</label>
+        <input id="descripcionDeProducto" class="form-control" formControlName="descripcionDeProducto" placeholder="Ingresa la descripción">
+        <span class="campo-obligatorio"
+              *ngIf="fma.descripcionDeProducto?.errors?.required && (fma.descripcionDeProducto?.dirty || fma.descripcionDeProducto?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="control-label" for="largo">Largo<span class="req">*:</span>:</label>
+        <input id="largo" class="form-control" formControlName="largo" placeholder="Ingresa el largo">
+        <span class="campo-obligatorio"
+              *ngIf="fma.largo?.errors?.required && (fma.largo?.dirty || fma.largo?.touched)">Campo obligatorio</span>
+      </div>
+      <div class="col-md-4">
+        <label class="control-label" for="ancho">Ancho<span class="req">*:</span>:</label>
+        <input id="ancho" class="form-control" formControlName="ancho" placeholder="Ingresa el ancho">
+        <span class="campo-obligatorio"
+              *ngIf="fma.ancho?.errors?.required && (fma.ancho?.dirty || fma.ancho?.touched)">Campo obligatorio</span>
+      </div>
+      <div class="col-md-4">
+        <label class="control-label" for="alto">Alto<span class="req">*:</span>:</label>
+        <input id="alto" class="form-control" formControlName="alto" placeholder="Ingresa el alto">
+        <span class="campo-obligatorio"
+              *ngIf="fma.ancho?.errors?.required && (fma.ancho?.dirty || fma.ancho?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="partidaPresupuestal">Partida Presupuestal<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="partidaPresupuestal" class="form-control" formControlName="partidaPresupuestal"
+                    [options]="tipoServicio"
+                    placeholder="Selecciona la partida presupuestal">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.partidaPresupuestal?.errors?.required && (fma.partidaPresupuestal?.dirty || fma.partidaPresupuestal?.touched)">Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="cuentaContableAgregar">Cuenta contable<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="cuentaContableAgregar" class="form-control" formControlName="cuentaContable"
+                    [options]="cuentaContable"
+                    placeholder="Selecciona la cuenta contable">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.cuentaContable?.errors?.required && (fma.cuentaContable?.dirty || fma.cuentaContable?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="control-label" for="claveSAT">Clave SAT<span class="req"></span></label>
+        <p-dropdown appendTo="body" id="claveSAT" class="form-control" formControlName="claveSAT"
+                    [options]="partidaPresupuestal"
+                    placeholder="Selecciona la clave de artículo SAT">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="fma.claveSAT?.errors?.required && (fma.claveSAT?.dirty || fma.claveSAT?.touched)">Campo obligatorio</span>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <label class="control-label">Estatus<span class="req">*:</span></label>
+        <div class="contenedor-inputswitch">
+          <p-inputSwitch formControlName="estatus"></p-inputSwitch>
+          <span class="activo" *ngIf="fma.estatus?.value">Activo</span>
+          <span class="inactivo" *ngIf="!fma.estatus?.value">Inactivo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <span>*Campos obligatorios</span>
+      </div>
+    </div>
+  </form>
+  <div class="flex justify-content-end">
+    <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="modificarArticuloForm.invalid" (click)="confirmarModificarArticulo()">
+      Agregar
+    </button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="ventanaConfirmacion">
+  <app-detalle-articulos [articuloSeleccionado]="this.articulos" [origen]="'agregar'"
+                        (confirmacionAceptar)="cerrar($event)"  ></app-detalle-articulos>
+</ng-container>
