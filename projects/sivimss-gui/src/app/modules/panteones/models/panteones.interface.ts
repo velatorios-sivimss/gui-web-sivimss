@@ -1,28 +1,14 @@
 export interface Panteon {
   id?: number;
-  numEmpleado?: string;
   nombrePanteon?: string;
-  curp?: string;
-  nombre?: string;
-  primerApellido?: string;
-  segundoApellido?: string;
-  fechaNacimiento?: string;
-  fechaIngreso?: string;
-  sueldoBase?: string;
-  velatorio?: string;
-  categoria?: string;
-  antiguedad?: string;
-  correo?: string;
-  puesto?: string;
-  diasDescanso?: string;
-  nombrePromotor?: string;
-  descripcion?: string;
+  calle?: string;
+  numExterior?: string;
+  numInterior?: string;
+  colonia?: string;
+  municipio?: string;
+  contacto?: string;
+  numTelefono?: string;
+  cp?: string;
+  estado?: string;
   estatus?: boolean;
-  // costoInicial?: string;
-  // costoReferencia?: string;
-  // precio?: string;
-  // region?: string;
-  // clave?: string;
-  // servicios?: Servicio[];
-  // articulos?: Articulo[];
 }
