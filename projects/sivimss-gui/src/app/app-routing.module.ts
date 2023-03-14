@@ -57,6 +57,8 @@ const routes: Routes = [
   {
     path: 'registro-otorgamiento-servicios',
     loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule)
+  },
+  {
     path: 'panteones',
     loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
   },

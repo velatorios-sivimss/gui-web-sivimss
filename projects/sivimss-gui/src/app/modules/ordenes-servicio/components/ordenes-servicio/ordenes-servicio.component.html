@@ -65,7 +65,7 @@
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
     <h2 class="subtitulo">Órdenes de servicio</h2>
-    <button type="button" class="btn btn-primary btn-lg">Generar orden de servicio</button>
+    <button type="button" class="btn btn-primary btn-lg" routerLink="generar-orden-de-servicio">Generar orden de servicio</button>
   </div>
   <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="ordenesServicio" [paginator]="ordenesServicio.length > 0"
            [rows]="cantElementosPorPagina"
