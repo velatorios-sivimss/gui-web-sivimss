@@ -35,12 +35,28 @@ const routes: Routes = [
     loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule)
   },
   {
+    path: 'paquetes',
+    loadChildren: () => import('./modules/paquetes/paquetes.module').then(m => m.PaquetesModule)
+  },
+  {
     path: 'ordenes-de-servicio',
     loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
   },
   {
     path: 'inventario-vehicular',
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
+  },
+  {
+    path: 'panteones',
+    loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
+  },
+  {
+    path: 'salas',
+    loadChildren: () => import('./modules/salas/salas.module').then(m => m.SalasModule)
+  },
+  {
+    path: 'promotores',
+    loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule)
   },
   {
     path: '**',
