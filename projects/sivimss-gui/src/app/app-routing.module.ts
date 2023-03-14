@@ -47,6 +47,16 @@ const routes: Routes = [
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
   {
+    path: 'servicios',
+    loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
+  },
+  {
+    path: 'operadores-por-velatorio',
+    loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
+  },
+  {
+    path: 'registro-otorgamiento-servicios',
+    loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule)
     path: 'panteones',
     loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
   },
