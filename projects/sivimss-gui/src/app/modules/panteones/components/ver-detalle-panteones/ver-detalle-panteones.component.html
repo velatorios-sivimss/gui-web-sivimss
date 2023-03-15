@@ -1,0 +1,152 @@
+<app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+        <div class="table-panel-header-column">
+            <span class="font-bold">
+                ID <span [ngClass]="panteonSeleccionado?.estatus ? 'activo' : 'inactivo'">{{panteonSeleccionado?.id}}</span>
+            </span>
+        </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+        <div class="table-panel-header-column">
+            <div class="flex flex-column">
+                <span>Estatus</span>
+                <div>
+                    <span class="activo" *ngIf="panteonSeleccionado?.estatus">Activo</span>
+                    <span class="inactivo" *ngIf="!panteonSeleccionado?.estatus">Inactivo</span>
+                </div>
+            </div>
+            <div class="flex flex-column ml-5">
+                <a>
+                    <img
+                      src="assets/images/imagen-icono-barras-horizontales.svg"
+                      alt="icono barras horizontales">
+                  </a>
+            </div>
+        </div>
+    </ng-template>
+    <div class="row table-panel-row">
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>No. de empleado</label>
+                <span>{{panteonSeleccionado?.numEmpleado}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>CURP</label>
+                <span>{{panteonSeleccionado?.curp}}</span>
+            </div>
+        </div>        
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-12">
+            <div class="table-panel-column">
+                <label>Nombre(s)</label>
+                <span>{{panteonSeleccionado?.nombre}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Primer apellido</label>
+                <span>{{panteonSeleccionado?.primerApellido}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Segundo apellido</label>
+                <span>{{panteonSeleccionado?.segundoApellido}}</span>
+            </div>
+        </div>        
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Fecha de nacimiento</label>
+                <span>{{panteonSeleccionado?.fechaNacimiento}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Fecha de ingreso</label>
+                <span>{{panteonSeleccionado?.fechaIngreso}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Sueldo base</label>
+                <span>{{panteonSeleccionado?.sueldoBase}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Velatorio</label>
+                <span>{{panteonSeleccionado?.velatorio}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Categoría</label>
+                <span>{{panteonSeleccionado?.categoria}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Antigüedad</label>
+                <span>{{panteonSeleccionado?.antiguedad}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Correo electrónico</label>
+                <span>{{panteonSeleccionado?.correo}}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="table-panel-column">
+                <label>Puesto</label>
+                <span>{{panteonSeleccionado?.puesto}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="row table-panel-row">
+        <div class="col-md-12">
+            <div class="table-panel-column">
+                <label>Días de descanso</label>
+                <span>{{panteonSeleccionado?.diasDescanso}}</span>
+            </div>
+        </div>
+    </div>
+</app-table-panel>
+
+
+<div class="flex justify-content-end mt-5" *ngIf="accionEntrada === Accion.Detalle">
+    <button class="ml-4 btn btn-primary btn-md" (click)="cerrarDialogo();">Aceptar</button>
+</div>
+
+<div *ngIf="accionEntrada === Accion.Agregar || accionEntrada === Accion.Modificar">
+    <div class="m-4 flex flex-column align-items-center justify-content-center">
+        <span>{{preguntaConfirmacion}}</span>
+    </div>
+    <div class="flex justify-content-end mt-5">
+        <button class="btn btn-default btn-md" (click)="cerrarDialogo();">Cancelar</button>
+        <button class="ml-4 btn btn-primary btn-md" (click)="agregarPanteon();">Aceptar</button>
+    </div>
+</div>
+
+<div *ngIf="accionEntrada === Accion.Activar || accionEntrada === Accion.Desactivar">
+    <div class="m-4 flex flex-column align-items-center justify-content-center">
+        <span>{{preguntaConfirmacion}}</span>
+    </div>
+    <div class="flex justify-content-end mt-5">
+        <button class="btn btn-default btn-md" (click)="cerrarDialogo();">Cancelar</button>
+        <button class="ml-4 btn btn-primary btn-md" (click)="cambiarEstatusPanteon();">Aceptar</button>
+    </div>
+</div>

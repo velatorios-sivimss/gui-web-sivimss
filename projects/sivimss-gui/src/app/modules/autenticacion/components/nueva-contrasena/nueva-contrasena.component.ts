@@ -75,7 +75,11 @@ export class NuevaContrasenaComponent implements OnInit {
 
   }
 
-  get f() {
-    return this.form.controls;
+  get fdc() {
+    return this.form.get('datosContratante');
+  }
+
+  get fd(){
+    return this.form.get('direccion');
   }
 }

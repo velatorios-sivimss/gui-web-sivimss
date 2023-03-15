@@ -35,12 +35,48 @@ const routes: Routes = [
     loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule)
   },
   {
+    path: 'paquetes',
+    loadChildren: () => import('./modules/paquetes/paquetes.module').then(m => m.PaquetesModule)
+  },
+  {
     path: 'ordenes-de-servicio',
     loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
   },
   {
     path: 'inventario-vehicular',
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
+  },
+  {
+    path: 'servicios',
+    loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
+  },
+  {
+    path: 'operadores-por-velatorio',
+    loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
+  },
+  {
+    path: 'registro-otorgamiento-servicios',
+    loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule)
+  },
+  {
+    path: 'panteones',
+    loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
+  },
+  {
+    path: 'salas',
+    loadChildren: () => import('./modules/salas/salas.module').then(m => m.SalasModule)
+  },
+  {
+    path: 'promotores',
+    loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule)
+  },
+  {
+    path: 'proveedores',
+    loadChildren: () => import('./modules/proveedores/proveedores.module').then(m => m.ProveedoresModule)
+  },
+  {
+    path: 'artículos',
+    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
     path: 'velatorios',
