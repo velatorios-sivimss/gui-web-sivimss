@@ -15,24 +15,24 @@ export class MenuSidebarComponent implements OnInit {
 
   menu: any[] = [
     {
-      icono: 'imagen-icono-operacion-sivimss.svg',
+      icono: 'operacion-sivimss',
       texto: 'Operación SIVIMSS',
       activo: false,
       subtitulos: [
         {
-          icono: '',
+          icono: 'ordenes-de-servicio',
           texto: 'Órdenes de servicio',
           ruta: 'ordenes-de-servicio',
           activo: false
         },
         {
-          icono: '',
+          icono: 'ordenes-de-subrogacion',
           texto: 'Órdenes de subrogación',
           ruta: 'ordenes-de-subrogacion',
           activo: false
         },
         {
-          icono: '',
+          icono: 'pagos',
           texto: 'Pagos',
           ruta: 'pagos',
           activo: false
@@ -142,10 +142,16 @@ export class MenuSidebarComponent implements OnInit {
         },
         {
           icono: '',
+          texto: 'Promotores',
+          ruta: 'promotores',
+          activo: false
+        },
+        {
+          icono: '',
           texto: 'Ordenes de entrada',
           ruta: 'ordenes-de-entrada',
           activo: false
-        }
+        },
       ]
     }
   ]

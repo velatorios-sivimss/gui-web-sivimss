@@ -4,7 +4,7 @@
       <ng-template pTemplate="header">
         <ul class="menu-titulos">
           <li class="menu-titulo">
-            <i class="menu-titulo-icono fs fs-eye"></i>
+            <i class="menu-titulo-icono fs fs-{{titulo.icono}}"></i>
             <a class="menu-titulo-texto">{{titulo.texto}}</a>
           </li>
         </ul>
@@ -13,7 +13,7 @@
         <ul class="menu-subtitulos">
           <li class="menu-subtitulo" [class.activo]="subtitulo.activo" (click)="navegar(subtitulo)"
               *ngFor="let subtitulo of titulo.subtitulos">
-            <i class="menu-subtitulo-icono fs fs-eye"></i>
+            <i class="menu-subtitulo-icono fs fs-{{subtitulo.icono}}"></i>
             <a class="menu-subtitulo-texto">{{subtitulo.texto}}</a>
           </li>
         </ul>
