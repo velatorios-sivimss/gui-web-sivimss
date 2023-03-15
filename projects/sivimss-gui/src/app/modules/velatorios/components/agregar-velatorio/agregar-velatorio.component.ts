@@ -47,14 +47,10 @@ export class AgregarVelatorioComponent implements OnInit {
     });
   }
 
-  get formV() {
-    return this.velatorioForm.controls;
-  }
-
-  crearVelatorio() {
+  crearVelatorio(): void {
     if (this.indice === 0) {
       this.indice++;
-      this.nuevoVelatorio = { ... this.velatorioForm.value};
+      this.nuevoVelatorio = {...this.velatorioForm.value};
       return;
     }
     this.ref.close()
@@ -66,5 +62,9 @@ export class AgregarVelatorioComponent implements OnInit {
       return;
     }
     this.ref.close();
+  }
+
+  get formV() {
+    return this.velatorioForm.controls;
   }
 }

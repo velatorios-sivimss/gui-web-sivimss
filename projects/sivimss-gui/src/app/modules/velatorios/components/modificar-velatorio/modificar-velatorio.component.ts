@@ -51,25 +51,25 @@ export class ModificarVelatorioComponent implements OnInit {
     });
   }
 
+  cancelarModificacion(): void {
+    if (this.indice === 0) {
+      this.indice++;
+      this.nuevoVelatorio = {...this.velatorioForm.value};
+      return;
+    }
+    this.ref.close()
+  }
+
+  modificarVelatorio(): void {
+    if (this.indice === 0) {
+      this.indice++;
+      this.nuevoVelatorio = {...this.velatorioForm.value};
+      return;
+    }
+    this.ref.close()
+  }
+
   get formV() {
     return this.velatorioForm.controls;
-  }
-
-  cancelarModificacion() {
-    if (this.indice === 0) {
-      this.indice++;
-      this.nuevoVelatorio = {...this.velatorioForm.value};
-      return;
-    }
-    this.ref.close()
-  }
-
-  modificarVelatorio() {
-    if (this.indice === 0) {
-      this.indice++;
-      this.nuevoVelatorio = {...this.velatorioForm.value};
-      return;
-    }
-    this.ref.close()
   }
 }

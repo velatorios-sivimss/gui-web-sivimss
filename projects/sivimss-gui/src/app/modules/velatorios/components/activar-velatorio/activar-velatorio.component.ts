@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Velatorio} from "../../modelos/velatorio.interface";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 
@@ -11,6 +11,7 @@ export class ActivarVelatorioComponent implements OnInit {
 
   velatorioSeleccionado!: Velatorio;
   title!: string;
+
   constructor(public ref: DynamicDialogRef,
               public config: DynamicDialogConfig) {
     this.velatorioSeleccionado = this.config.data;
@@ -25,6 +26,5 @@ export class ActivarVelatorioComponent implements OnInit {
   }
 
   cambiarEstatus(): void {
-
   }
 }
