@@ -11,6 +11,7 @@ import {LazyLoadEvent} from "primeng-lts/api";
 import {REGISTROS_VELATORIOS} from "../../constants/dummies";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 import {ActivarVelatorioComponent} from "../activar-velatorio/activar-velatorio.component";
+import {ModificarVelatorioComponent} from "../modificar-velatorio/modificar-velatorio.component";
 
 @Component({
   selector: 'app-velatorios',
@@ -100,7 +101,11 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
   }
 
   abrirModalModificacionVelatorio(): void {
-
+    this.modificarRef = this.dialogService.open(ModificarVelatorioComponent, {
+      header: 'Modificar velatorio',
+      data: this.velatorioSeleccionado,
+      width: "920px"
+    });
   }
 
   abrirModalActivarVelatorio(): void {

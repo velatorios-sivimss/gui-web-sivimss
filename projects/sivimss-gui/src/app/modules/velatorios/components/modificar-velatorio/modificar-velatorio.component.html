@@ -1,1 +1,186 @@
-<p>modificar-velatorio works!</p>
+<ng-container *ngIf="indice === 0">
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column">
+        <span class="font-bold mr-2">ID</span>
+        <span class="activo">{{ velatorioSeleccionado.id }}</span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+        <div class="flex flex-column">
+          <span>Estatus</span>
+          <div class="contenedor-inputswitch">
+            <span class="activo" *ngIf="formV.estatus?.value">Activo</span>
+            <span class="inactivo" *ngIf="!formV.estatus?.value">Inactivo</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </app-table-panel>
+  <form [formGroup]="velatorioForm" (submit)="modificarVelatorio()">
+    <div class="row mb-3 mt-3">
+      <div class="col-md-6">
+        <label class="control-label" for="id">ID <span class="req">*</span>:</label>
+        <input id="id" class="form-control" formControlName="id">
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="nombre">Nombre<span class="req">*</span>:</label>
+        <input id="nombre" class="form-control" formControlName="nombre" placeholder="Ingresa el nombre">
+        <span class="campo-obligatorio"
+              *ngIf="formV.nombre?.errors?.required && (formV.nombre?.dirty || formV.nombre?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="administrador">Administrador<span class="req">*</span>:</label>
+        <input id="administrador" class="form-control" formControlName="administrador"
+               placeholder="Ingresa el administrador">
+        <span class="campo-obligatorio"
+              *ngIf="formV.administrador?.errors?.required && (formV.administrador?.dirty || formV.administrador?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="responsableSanitario">Responsable sanitario<span class="req">*</span>:</label>
+        <input id="responsableSanitario" class="form-control" formControlName="responsableSanitario"
+               placeholder="Ingresa el responsableSanitario">
+        <span class="campo-obligatorio"
+              *ngIf="formV.responsableSanitario?.errors?.required && (formV.responsableSanitario?.dirty || formV.responsableSanitario?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label class="control-label" for="capillasVelacion">No. capillas<span class="req">*</span>:</label>
+        <input id="capillasVelacion" class="form-control" formControlName="capillasVelacion"
+               placeholder="Ingresa el número de salas">
+        <span class="campo-obligatorio"
+              *ngIf="formV.capillasVelacion?.errors?.required && (formV.capillasVelacion?.dirty || formV.capillasVelacion?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-4">
+        <label class="control-label" for="salasCremacion">No. salas cremación<span class="req">*</span>:</label>
+        <input id="salasCremacion" class="form-control" formControlName="salasCremacion"
+               placeholder="Ingresa el número de salas">
+        <span class="campo-obligatorio"
+              *ngIf="formV.salasCremacion?.errors?.required && (formV.salasCremacion?.dirty || formV.salasCremacion?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-4">
+        <label class="control-label" for="salasEmbalsamamiento">No. salas embalsamiento<span
+          class="req">*</span>:</label>
+        <input id="salasEmbalsamamiento" class="form-control" formControlName="salasEmbalsamamiento"
+               placeholder="Ingresa el número de salas">
+        <span class="campo-obligatorio"
+              *ngIf="formV.salasEmbalsamamiento?.errors?.required && (formV.salasEmbalsamamiento?.dirty || formV.salasEmbalsamamiento?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="asignacion">Asignacion<span class="req">*</span>:</label>
+        <p-dropdown id="asignacion" class="form-control" formControlName="asignacion" [options]="asignaciones"
+                    placeholder="Selecciona asignación">
+        </p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="formV.asignacion?.errors?.required && (formV.asignacion?.dirty || formV.asignacion?.touched)">
+                    Campo obligatorio</span>
+
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="codigoPostal">Código Postal<span class="req">*</span>:</label>
+        <input id="codigoPostal" class="form-control" formControlName="codigoPostal"
+               placeholder="Ingresa el código postal">
+        <span class="campo-obligatorio"
+              *ngIf="formV.codigoPostal?.errors?.required && (formV.codigoPostal?.dirty || formV.codigoPostal?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="direccionCalle">Calle<span class="req">*</span>:</label>
+        <input id="direccionCalle" class="form-control" formControlName="direccionCalle"
+               placeholder="Ingresa la calle">
+        <span class="campo-obligatorio"
+              *ngIf="formV.direccionCalle?.errors?.required && (formV.direccionCalle?.dirty || formV.direccionCalle?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="numeroExterior">No. exterior<span class="req">*</span>:</label>
+        <input id="numeroExterior" class="form-control" formControlName="numeroExterior"
+               placeholder="Ingresa el número exterior">
+        <span class="campo-obligatorio"
+              *ngIf="formV.numeroExterior?.errors?.required && (formV.numeroExterior?.dirty || formV.numeroExterior?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="colonia">Colonia<span class="req">*</span>:</label>
+        <input id="colonia" class="form-control" formControlName="colonia"
+               placeholder="Ingresa la colonia">
+        <span class="campo-obligatorio"
+              *ngIf="formV.colonia?.errors?.required && (formV.colonia?.dirty || formV.colonia?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="municipio">Municipio<span class="req">*</span>:</label>
+        <input id="municipio" class="form-control" formControlName="municipio"
+               placeholder="Ingresa el municipio">
+        <span class="campo-obligatorio"
+              *ngIf="formV.municipio?.errors?.required && (formV.municipio?.dirty || formV.municipio?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="control-label" for="estado">Estado<span class="req">*</span>:</label>
+        <input id="estado" class="form-control" formControlName="estado"
+               placeholder="Ingresa el estado">
+        <span class="campo-obligatorio"
+              *ngIf="formV.estado?.errors?.required && (formV.estado?.dirty || formV.estado?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="telefono">Teléfono<span class="req">*</span>:</label>
+        <input id="telefono" class="form-control" formControlName="telefono"
+               placeholder="Ingresa el teléfono">
+        <span class="campo-obligatorio"
+              *ngIf="formV.telefono?.errors?.required && (formV.telefono?.dirty || formV.telefono?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="control-label">Estatus<span class="req">*</span></label>
+        <div class="contenedor-inputswitch">
+          <p-inputSwitch formControlName="estatus"></p-inputSwitch>
+          <span class="activo" *ngIf="formV.estatus?.value">Activo</span>
+          <span class="inactivo" *ngIf="!formV.estatus?.value">Inactivo</span>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12 flex justify-content-end">
+        <button type="button" class="btn btn-default btn-md" (click)="cancelarModificacion()">Cancelar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5"
+                [disabled]="velatorioForm.invalid">Aceptar
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-container>
+<ng-container *ngIf="indice === 1">
+  <app-detalle-velatorio [velatorio]="nuevoVelatorio"></app-detalle-velatorio>
+  <div class="mb-3 mt-3 row text-center">
+    ¿Estas seguro que deseas modificar este velatorio?
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12 flex justify-content-end">
+      <button type="button" class="btn btn-default btn-md" (click)="cancelarModificacion()">Cancelar</button>
+      <button type="submit" class="btn btn-primary btn-md ml-5" (click)="modificarVelatorio()">Aceptar
+      </button>
+    </div>
+  </div>
+</ng-container>

@@ -133,6 +133,16 @@
       </div>
     </div>
     <div class="row mb-3">
+      <div class="col-md-12">
+        <label class="control-label">Estatus<span class="req">*</span></label>
+        <div class="contenedor-inputswitch">
+          <p-inputSwitch formControlName="estatus"></p-inputSwitch>
+          <span class="activo" *ngIf="formV.estatus?.value">Activo</span>
+          <span class="inactivo" *ngIf="!formV.estatus?.value">Inactivo</span>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
       <div class="col-md-12 flex justify-content-end">
         <button type="button" class="btn btn-default btn-md" (click)="cancelarCreacion()">Cancelar</button>
         <button type="submit" class="btn btn-primary btn-md ml-5"
