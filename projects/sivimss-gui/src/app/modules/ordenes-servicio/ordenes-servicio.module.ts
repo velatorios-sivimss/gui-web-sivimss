@@ -9,6 +9,7 @@ import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { RadioButtonModule } from "primeng-lts/radiobutton";
 import { StepsModule } from "primeng-lts/steps";
 import { TableModule } from "primeng-lts/table";
+import { AccordionModule } from 'primeng-lts/accordion';
 import {
   OrdenesServicioRoutingModule
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/ordenes-servicio-routing.module';
@@ -23,6 +24,7 @@ import { TituloPrincipalModule } from "projects/sivimss-gui/src/app/shared/titul
 import { GenerarOrdenServicioComponent } from './components/generar-orden-servicio/generar-orden-servicio.component';
 import { DatosContratanteComponent } from './components/datos-contratante/datos-contratante.component';
 import { DatosFinadoComponent } from './components/datos-finado/datos-finado.component';
+import { CancelarOrdenServicioComponent } from './components/cancelar-orden-servicio/cancelar-orden-servicio.component';
 
 
 @NgModule({
@@ -30,7 +32,8 @@ import { DatosFinadoComponent } from './components/datos-finado/datos-finado.com
     OrdenesServicioComponent,
     GenerarOrdenServicioComponent,
     DatosContratanteComponent,
-    DatosFinadoComponent
+    DatosFinadoComponent,
+    CancelarOrdenServicioComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +50,8 @@ import { DatosFinadoComponent } from './components/datos-finado/datos-finado.com
     OverlayPanelOpcionesModule,
     TablePanelModule,
     StepsModule,
-    RadioButtonModule
+    RadioButtonModule,
+    AccordionModule
   ]
 })
 export class OrdenesServicioModule {
