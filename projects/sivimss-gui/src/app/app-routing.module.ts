@@ -79,6 +79,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
+    path: 'convenios-prevision-funeraria',
+    loadChildren: () => import('./modules/convenios-prevision-funeraria/convenios-prevision-funeraria.module').then(m => m.ConveniosPrevisionFunerariaModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
