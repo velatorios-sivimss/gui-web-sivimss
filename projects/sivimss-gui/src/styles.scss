@@ -59,7 +59,7 @@ body {
   color: #E10000;
 }
 
-.mensaje-inferior-campo-obligatorio{
+.mensaje-inferior-campo-obligatorio {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -92,7 +92,7 @@ body {
   display: inline-block;
   margin-left: 10px;
 
-  &>*:not(span) {
+  & > *:not(span) {
     transform: translateY(3px);
   }
 
@@ -123,10 +123,20 @@ body {
 
   a {
     cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform:scale(1.15) translateY(2px);
   }
 
-  a+a {
-    margin-left: 1rem;
+  a + a {
+    margin-left: 1.75rem;
+  }
+
+  i.fs{
+    font-size: 20px;
+    color:#9D2449;
   }
 }
 
@@ -202,6 +212,14 @@ body {
       color: #484848;
     }
   }
+}
+
+.fs-color-base {
+  color: #9D2449;
+}
+
+.fs-2x {
+  font-size: 16px;
 }
 
 .rectangle-row {
