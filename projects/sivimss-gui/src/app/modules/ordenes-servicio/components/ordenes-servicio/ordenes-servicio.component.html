@@ -57,12 +57,11 @@
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
         <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5" (click)="buscar()">Buscar</button>
       </div>
     </div>
   </form>
 </div>
-<app-loader-inline *ngIf="mostrarLoaderInline"></app-loader-inline>
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
     <h2 class="subtitulo">Órdenes de servicio</h2>

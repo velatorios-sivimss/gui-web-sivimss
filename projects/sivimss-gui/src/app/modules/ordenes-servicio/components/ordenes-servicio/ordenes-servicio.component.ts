@@ -4,6 +4,7 @@ import { LazyLoadEvent } from "primeng-lts/api";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { DIEZ_ELEMENTOS_POR_PAGINA } from "projects/sivimss-gui/src/app/utils/constantes";
 
 @Component({
@@ -40,12 +41,13 @@ export class OrdenesServicioComponent implements OnInit {
   ordenesServicio: any[] = [];
   ordenServicioSeleccionada: any = null;
 
-  mostrarLoaderInline:boolean = true;
+  mostrarLoaderInline: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
     private alertaService: AlertaService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private loaderService: LoaderService
   ) {
   }
 
@@ -63,7 +65,7 @@ export class OrdenesServicioComponent implements OnInit {
     this.inicializarFiltroForm();
   }
 
-  inicializarFiltroForm():void {
+  inicializarFiltroForm(): void {
     this.filtroForm = this.formBuilder.group({
       velatorio: [{value: null, disabled: false}, []],
       numeroFolio: [{value: null, disabled: false}, []],
@@ -75,7 +77,6 @@ export class OrdenesServicioComponent implements OnInit {
       estatus: [{value: null, disabled: false}, []]
     });
   }
-
 
   paginar(event: LazyLoadEvent): void {
     setTimeout(() => {
@@ -109,7 +110,14 @@ export class OrdenesServicioComponent implements OnInit {
     }, 0);
   }
 
-  abrirPanel(event:MouseEvent, ordenServicioSeleccionada: any):void {
+  buscar() {
+    this.loaderService.activar();
+    setTimeout(() => {
+      this.loaderService.desactivar();
+    }, 2000);
+  }
+
+  abrirPanel(event: MouseEvent, ordenServicioSeleccionada: any): void {
     this.ordenServicioSeleccionada = ordenServicioSeleccionada;
     this.overlayPanel.toggle(event);
   }

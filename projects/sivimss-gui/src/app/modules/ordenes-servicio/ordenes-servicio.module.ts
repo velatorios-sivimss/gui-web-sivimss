@@ -16,7 +16,6 @@ import {
 import {
   OrdenesServicioComponent
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
-import { LoaderInlineModule } from "projects/sivimss-gui/src/app/shared/loader-inline/loader-inline.module";
 import {
   OverlayPanelOpcionesModule
 } from "projects/sivimss-gui/src/app/shared/overlay-panel-opciones/overlay-panel-opciones.module";
@@ -26,7 +25,9 @@ import { GenerarOrdenServicioComponent } from './components/generar-orden-servic
 import { DatosContratanteComponent } from './components/datos-contratante/datos-contratante.component';
 import { DatosFinadoComponent } from './components/datos-finado/datos-finado.component';
 import { CancelarOrdenServicioComponent } from './components/cancelar-orden-servicio/cancelar-orden-servicio.component';
-import { VerOrdenServicioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
+import {
+  VerOrdenServicioComponent
+} from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
 
 
 @NgModule({
@@ -54,8 +55,7 @@ import { VerOrdenServicioComponent } from 'projects/sivimss-gui/src/app/modules/
     TablePanelModule,
     StepsModule,
     RadioButtonModule,
-    AccordionModule,
-    LoaderInlineModule
+    AccordionModule
   ]
 })
 export class OrdenesServicioModule {
