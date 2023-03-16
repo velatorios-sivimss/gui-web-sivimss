@@ -1,5 +1,5 @@
 <div class="border-panel mb-8">
-  <h1>CANCELAR ORDEN DE SERVICIO</h1>
+  <h1>VER ORDEN DE SERVICIO</h1>
   <div class="sivimss-acoordion-header">
     <div class="accordion-header-left">
       <span>Folio </span>
@@ -174,7 +174,7 @@
     </div>
     <div class="row">
       <div class="col-md-12 flex justify-content-end align-items-center">
-        <button class="btn btn-md btn-gold" routerLink="../">Salir sin cancelar</button>
+        <button class="btn btn-md btn-gold" routerLink="../">Regresar</button>
         <button class="ml-6 btn btn-md btn-primary">Aceptar</button>
       </div>
     </div>
@@ -186,7 +186,8 @@
     <app-overlay-panel-opciones>
       <app-overlay-panel-opcion titulo="Generar tarjeta identificación"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Cancelar orden"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Cancelar orden" routerLink="../cancelar-orden-de-servicio"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
+

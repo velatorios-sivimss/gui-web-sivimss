@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CancelarOrdenServicioComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
+
   }
+
 
 }
