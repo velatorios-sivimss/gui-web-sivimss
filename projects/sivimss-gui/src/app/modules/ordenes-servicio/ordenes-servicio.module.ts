@@ -10,6 +10,7 @@ import { RadioButtonModule } from "primeng-lts/radiobutton";
 import { StepsModule } from "primeng-lts/steps";
 import { TableModule } from "primeng-lts/table";
 import { AccordionModule } from 'primeng-lts/accordion';
+import { DialogService, DynamicDialogModule } from 'primeng-lts/dynamicdialog';
 import {
   OrdenesServicioRoutingModule
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/ordenes-servicio-routing.module';
@@ -28,6 +29,9 @@ import { CancelarOrdenServicioComponent } from './components/cancelar-orden-serv
 import {
   VerOrdenServicioComponent
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
+import {
+  GenerarTarjetaIdentificacionComponent
+} from './components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component';
 
 
 @NgModule({
@@ -37,7 +41,8 @@ import {
     DatosContratanteComponent,
     DatosFinadoComponent,
     CancelarOrdenServicioComponent,
-    VerOrdenServicioComponent
+    VerOrdenServicioComponent,
+    GenerarTarjetaIdentificacionComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +60,11 @@ import {
     TablePanelModule,
     StepsModule,
     RadioButtonModule,
-    AccordionModule
+    AccordionModule,
+    DynamicDialogModule
+  ],
+  providers: [
+    DialogService
   ]
 })
 export class OrdenesServicioModule {

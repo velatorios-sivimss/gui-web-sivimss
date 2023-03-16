@@ -125,7 +125,7 @@
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Generar tarjeta identificación"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Generar tarjeta identificación" (click)="abrirModalGenerarTarjetaIdent()"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Cancelar orden"
                                 routerLink="cancelar-orden-de-servicio"></app-overlay-panel-opcion>

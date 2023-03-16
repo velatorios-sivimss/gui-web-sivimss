@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { LazyLoadEvent } from "primeng-lts/api";
+import { DialogService } from "primeng-lts/dynamicdialog";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
+import {
+  GenerarTarjetaIdentificacionComponent
+} from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
@@ -47,7 +51,8 @@ export class OrdenesServicioComponent implements OnInit {
     private formBuilder: FormBuilder,
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private dialogService: DialogService
   ) {
   }
 
@@ -120,6 +125,21 @@ export class OrdenesServicioComponent implements OnInit {
   abrirPanel(event: MouseEvent, ordenServicioSeleccionada: any): void {
     this.ordenServicioSeleccionada = ordenServicioSeleccionada;
     this.overlayPanel.toggle(event);
+  }
+
+  abrirModalGenerarTarjetaIdent() {
+    const ref = this.dialogService.open(GenerarTarjetaIdentificacionComponent, {
+      header: 'Generar tarjeta de identificación',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a GenerarTarjetaIdentificacionComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en GenerarTarjetaIdentificacionComponent
+
+      }
+    });
   }
 
 }
