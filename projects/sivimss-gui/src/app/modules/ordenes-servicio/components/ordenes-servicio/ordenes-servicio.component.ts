@@ -6,6 +6,7 @@ import { OverlayPanel } from "primeng-lts/overlaypanel";
 import {
   GenerarTarjetaIdentificacionComponent
 } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component";
+import { VerTarjetaIdentificacionComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
@@ -137,7 +138,20 @@ export class OrdenesServicioComponent implements OnInit {
     });
     ref.onClose.subscribe((val: boolean) => {
       if (val) { //Obtener info cuando se cierre el modal en GenerarTarjetaIdentificacionComponent
+      }
+    });
+  }
 
+  abrirModalVerTarjetaIdent() {
+    const ref = this.dialogService.open(VerTarjetaIdentificacionComponent, {
+      header: 'Ver tarjeta de identificación',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a VerTarjetaIdentificacionComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en VerTarjetaIdentificacionComponent
       }
     });
   }

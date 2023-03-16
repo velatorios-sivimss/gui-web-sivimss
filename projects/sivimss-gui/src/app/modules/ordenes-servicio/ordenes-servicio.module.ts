@@ -11,27 +11,20 @@ import { StepsModule } from "primeng-lts/steps";
 import { TableModule } from "primeng-lts/table";
 import { AccordionModule } from 'primeng-lts/accordion';
 import { DialogService, DynamicDialogModule } from 'primeng-lts/dynamicdialog';
-import {
-  OrdenesServicioRoutingModule
-} from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/ordenes-servicio-routing.module';
-import {
-  OrdenesServicioComponent
-} from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
-import {
-  OverlayPanelOpcionesModule
-} from "projects/sivimss-gui/src/app/shared/overlay-panel-opciones/overlay-panel-opciones.module";
+import { OrdenesServicioRoutingModule } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/ordenes-servicio-routing.module';
+import { OrdenesServicioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
+import { EtapasModule } from "projects/sivimss-gui/src/app/shared/etapas/etapas.module";
+import { OverlayPanelOpcionesModule } from "projects/sivimss-gui/src/app/shared/overlay-panel-opciones/overlay-panel-opciones.module";
 import { TablePanelModule } from "projects/sivimss-gui/src/app/shared/table-panel/table-panel.module";
 import { TituloPrincipalModule } from "projects/sivimss-gui/src/app/shared/titulo-principal/titulo-principal.module";
 import { GenerarOrdenServicioComponent } from './components/generar-orden-servicio/generar-orden-servicio.component';
 import { DatosContratanteComponent } from './components/datos-contratante/datos-contratante.component';
 import { DatosFinadoComponent } from './components/datos-finado/datos-finado.component';
 import { CancelarOrdenServicioComponent } from './components/cancelar-orden-servicio/cancelar-orden-servicio.component';
-import {
-  VerOrdenServicioComponent
-} from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
-import {
-  GenerarTarjetaIdentificacionComponent
-} from './components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component';
+import { VerOrdenServicioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
+import { GenerarTarjetaIdentificacionComponent } from './components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component';
+import { ModificarOrdenServicioComponent } from './components/modificar-orden-servicio/modificar-orden-servicio.component';
+import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component';
 
 
 @NgModule({
@@ -42,7 +35,9 @@ import {
     DatosFinadoComponent,
     CancelarOrdenServicioComponent,
     VerOrdenServicioComponent,
-    GenerarTarjetaIdentificacionComponent
+    GenerarTarjetaIdentificacionComponent,
+    ModificarOrdenServicioComponent,
+    VerTarjetaIdentificacionComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +56,8 @@ import {
     StepsModule,
     RadioButtonModule,
     AccordionModule,
-    DynamicDialogModule
+    DynamicDialogModule,
+    EtapasModule
   ],
   providers: [
     DialogService

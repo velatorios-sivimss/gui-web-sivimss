@@ -6,6 +6,7 @@ import {
 import {
   GenerarOrdenServicioComponent
 } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/generar-orden-servicio/generar-orden-servicio.component";
+import { ModificarOrdenServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-orden-servicio/modificar-orden-servicio.component";
 import {
   OrdenesServicioComponent
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'ver-orden-de-servicio',
     component: VerOrdenServicioComponent
+  },
+  {
+    path: 'modificar-orden-de-servicio',
+    component: ModificarOrdenServicioComponent
   }
 ];
 
