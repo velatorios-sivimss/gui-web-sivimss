@@ -200,17 +200,17 @@
   }
 }
 
-.p-radiobutton .p-radiobutton-box.p-highlight{
+.p-radiobutton .p-radiobutton-box.p-highlight {
   border-color: #9d2449;
   background: #9d2449;
 }
 
-.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover{
+.p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
   border-color: #9d2449;
   background: #9d2449;
 }
 
-.p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus{
+.p-radiobutton .p-radiobutton-box:not(.p-disabled).p-focus {
   box-shadow: none;
   border-color: transparent;
 }
@@ -354,7 +354,7 @@ p-dropdown.form-control {
 .p-dropdown .p-dropdown-trigger-icon {
   color: #545454;
   font-size: 9px;
-  transform: translate(-50%,25%);
+  transform: translate(-50%, 25%);
 
   &.pi {
     font-family: 'font-sivimss' !important;
@@ -783,43 +783,64 @@ p-table .border-padding-top .p-datatable-wrapper {
   padding-top: 6px;
 }
 
-//
-//.p-accordion .p-accordion-header .p-accordion-header-link {
-//  padding: 1rem 1.25rem;
-//  border: 1px solid #dee2e6;
-//  color: #212529;
-//  background: #efefef;
-//  font-weight: 600;
-//  border-radius: 4px;
-//  transition: box-shadow 0.15s;
-//  margin: 0.2rem;
-//}
-//
-//.p-accordion .p-accordion-header .p-accordion-header-link {
-//  padding: 1rem 1.25rem;
-//  border: 1px solid #dee2e6;
-//  color: #212529;
-//  background: #ffffff;
-//  font-weight: 600;
-//  border-radius: 4px;
-//  transition: box-shadow 0.15s;
-//  margin: 0.2rem;
-//}
-//
-//.p-accordion .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon {
-//  margin-right: 0.5rem;
-//  position: absolute;
-//  margin-left: 96%;
-//  color: #9f2241;
-//  font-size: large;
-//  font-weight: inherit;
-//}
-//
-//.p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
-//  outline: 0 none;
-//  outline-offset: 0;
-//  box-shadow: 0 0 0 0.2rem #dee2e6;
-//}
+.sivimss-accordion.p-accordion {
+
+  .p-accordion-header .p-accordion-header-link {
+    background-color: white;
+  }
+
+  .p-accordion-header .p-accordion-header-link {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 26px;
+    color: #484848;
+  }
+
+  .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
+    box-shadow: none;
+  }
+
+  .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+    background-color: white;
+  }
+
+  .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+    background-color: white;
+  }
+
+  .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+    background-color: white;
+  }
+
+  .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon.pi-chevron-right {
+    transform: rotate(90deg) scale(1.3);
+    display: inline-block;
+    margin-right: 1.15rem;
+  }
+
+  .p-accordion-header .p-accordion-header-link .p-accordion-toggle-icon.pi-chevron-down {
+    transform: rotate(180deg) scale(1.3);
+    display: inline-block;
+    margin-right: 1.15rem;
+  }
+
+  p-accordiontab .p-accordion-tab{
+    margin-bottom: 1rem;
+  }
+
+  p-accordiontab:not(:first-child) .p-accordion-header .p-accordion-header-link{
+    border: 1px solid #dee2e6;
+  }
+
+  p-accordiontab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, p-accordiontab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
+    border-top: 1px solid #dee2e6;
+  }
+
+  .p-accordion-content{
+    padding: 2.25rem;
+  }
+}
 
 .p-inputswitch {
   width: 31px;

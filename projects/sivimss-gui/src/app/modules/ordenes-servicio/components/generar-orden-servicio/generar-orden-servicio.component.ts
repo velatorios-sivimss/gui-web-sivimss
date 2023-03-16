@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
-import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import { EtapaEstado } from "projects/sivimss-gui/src/app/shared/etapas/models/etapa-estado.enum";
+import { Etapa } from "projects/sivimss-gui/src/app/shared/etapas/models/etapa.interface";
 
 @Component({
   selector: 'app-generar-orden-servicio',
@@ -10,14 +9,85 @@ import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrum
 })
 export class GenerarOrdenServicioComponent implements OnInit {
 
-  items = [
-    {label: 'Datos del contratante'},
-    {label: 'Datos del finado'},
-    {label: 'Características del presupuesto'},
-    {label: 'Información del servicio'},
+  readonly DATOS_DEL_CONTRATANTE = 0;
+  readonly DATOS_DEL_FINADO = 1;
+  readonly CARACTERISTICAS_DEL_PRESUPUESTO = 2;
+  readonly INFORMACION_DEL_SERVICIO = 3;
+
+
+  etapas: Etapa[] = [
+    {
+      idEtapa: 0,
+      estado: EtapaEstado.Activo,
+      textoInterior: '1',
+      textoExterior: 'Datos del contratante',
+      lineaIzquierda: {
+        mostrar: false,
+        estilo: "solid"
+      },
+      lineaDerecha: {
+        mostrar: true,
+        estilo: "solid"
+      }
+    },
+    {
+      idEtapa: 1,
+      estado: EtapaEstado.Inactivo,
+      textoInterior: '2',
+      textoExterior: 'Datos del finado',
+      lineaIzquierda: {
+        mostrar: true,
+        estilo: "solid"
+      },
+      lineaDerecha: {
+        mostrar: true,
+        estilo: "solid"
+      }
+    },
+    {
+      idEtapa: 2,
+      estado: EtapaEstado.Inactivo,
+      textoInterior: '3',
+      textoExterior: 'Características del presupuesto',
+      lineaIzquierda: {
+        mostrar: true,
+        estilo: "solid"
+      },
+      lineaDerecha: {
+        mostrar: true,
+        estilo: "solid"
+      }
+    },
+    {
+      idEtapa: 3,
+      estado: EtapaEstado.Inactivo,
+      textoInterior: '4',
+      textoExterior: 'Información del servicio',
+      lineaIzquierda: {
+        mostrar: true,
+        estilo: "solid"
+      },
+      lineaDerecha: {
+        mostrar: false,
+        estilo: "solid"
+      }
+    }
   ];
 
-  ngOnInit(): void {
+  idEtapaSeleccionada: number = 0;
+
+  constructor() {
   }
+
+  ngOnInit(): void {
+
+  }
+
+  obtenerRefEtapaSeleccionada(etapaSeleccionada: Etapa) {
+    //Con esta etapa que se recibe ya se puede modificar su estado.
+    //Al modificar el estado de la etapa su estilo se actualiza.
+    this.idEtapaSeleccionada = etapaSeleccionada.idEtapa;
+  }
+
 
 }

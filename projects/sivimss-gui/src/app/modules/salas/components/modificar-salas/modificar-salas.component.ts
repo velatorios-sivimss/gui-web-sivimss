@@ -131,7 +131,7 @@ export class ModificarSalasComponent implements OnInit {
         id: 1,
       };
       const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetalleSalasComponent, {
-        data: { sala: nuevoSala, modo: Accion.Modificar },
+        data: {sala: nuevoSala, modo: Accion.Modificar},
         header: "Modificar sala",
         width: "920px"
       });
