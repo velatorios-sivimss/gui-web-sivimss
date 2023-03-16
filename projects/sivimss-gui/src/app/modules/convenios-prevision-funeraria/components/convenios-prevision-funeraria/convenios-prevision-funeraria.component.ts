@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import {AlertaService} from "../../../../shared/alerta/services/alerta.service";
-import {DialogService} from "primeng-lts/dynamicdialog";
+import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {SERVICIO_BREADCRUMB} from "../../constants/breadcrunb";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {LazyLoadEvent} from "primeng-lts/api";
@@ -14,12 +14,16 @@ import {AfiliadoInterface} from "../../models/afiliado.interface";
 import {VigenciaConvenioInterface} from "../../models/vigencia-convenio.interface";
 import {FacturaConvenioInterface} from "../../models/factura-convenio.interface";
 import {SinisestroInterface} from "../../models/sinisestro.interface";
+import {
+  DetalleConvenioPrevisionFunerariaComponent
+} from "../detalle-convenio-prevision-funeraria/detalle-convenio-prevision-funeraria.component";
 
 
 @Component({
   selector: 'app-convenios-prevision-funeraria',
   templateUrl: './convenios-prevision-funeraria.component.html',
   styleUrls: ['./convenios-prevision-funeraria.component.scss'],
+  providers: [DialogService]
 })
 export class ConsultaConveniosComponent implements OnInit {
 
@@ -57,13 +61,13 @@ export class ConsultaConveniosComponent implements OnInit {
 
   convenioSeleccionado: ConveniosPrevisionFunerariaInterface = {};
 
-
-
+  detalleRef!: DynamicDialogRef;
 
   constructor(
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
+    public dialogService: DialogService,
   ) { }
 
   ngOnInit(): void {
@@ -100,7 +104,12 @@ export class ConsultaConveniosComponent implements OnInit {
           situacion: "N/A",
           factura:"DOC-00001",
           importeConvenio: 50,
-          estatus:0
+          estatus:0,
+          beneficiario:[
+            {
+              nombre:"Juan"
+            }
+          ]
         },
         {
           folioConvenio: "DOC-0000001",
@@ -111,7 +120,15 @@ export class ConsultaConveniosComponent implements OnInit {
           situacion: "N/A",
           factura:"DOC-00001",
           importeConvenio: 50,
-          estatus:1
+          estatus:1,
+          beneficiario:[
+            {
+              nombre:"Juan"
+            },
+            {
+              nombre:"Juan"
+            }
+          ]
         },
         {
           folioConvenio: "DOC-0000001",
@@ -122,7 +139,18 @@ export class ConsultaConveniosComponent implements OnInit {
           situacion: "N/A",
           factura:"DOC-00001",
           importeConvenio: 50,
-          estatus:2
+          estatus:2,
+          beneficiario:[
+            {
+              nombre:"Juan"
+            },
+            {
+              nombre:"Juan"
+            },
+            {
+              nombre:"Juan"
+            }
+          ]
         }
       ];
       this.datosAfiliado = [
@@ -133,6 +161,7 @@ export class ConsultaConveniosComponent implements OnInit {
           afiliado: "Joel Durán Mendoza",
           rfcTitular: "DUMEJO8475T7",
           edad:34,
+          fechaNacimiento:"01/01/2021",
           genero:"Masculuno",
           correoElectronico:"jodu87@gmail.com"
         },
@@ -142,6 +171,7 @@ export class ConsultaConveniosComponent implements OnInit {
           descVelatorio:"No. 01 Doctores",
           afiliado: "Joel Durán Mendoza",
           rfcTitular: "DUMEJO8475T7",
+          fechaNacimiento:"01/01/2021",
           edad:34,
           genero:"Masculuno",
           correoElectronico:"jodu87@gmail.com"
@@ -221,7 +251,11 @@ export class ConsultaConveniosComponent implements OnInit {
   }
 
   abrirModalDetalleConvenio(convenio: ConveniosPrevisionFunerariaInterface): void {
-
+    this.detalleRef = this.dialogService.open( DetalleConvenioPrevisionFunerariaComponent,{
+      header:"Detalle del convenio",
+      width:"920px",
+      data: convenio,
+    })
   }
 
   buscar(): void {
@@ -240,5 +274,6 @@ export class ConsultaConveniosComponent implements OnInit {
   get ff(){
     return this.filtroForm.controls;
   }
+
 
 }

@@ -21,11 +21,16 @@ import { DialogModule } from "primeng-lts/dialog";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { DynamicDialogModule } from 'primeng-lts/dynamicdialog';
 import {PanelModule} from "primeng-lts/panel";
+import {AccordionModule} from "primeng-lts/accordion";
+import {InputTextModule} from "primeng-lts/inputtext";
+
 import {ConsultaConveniosComponent} from "./components/convenios-prevision-funeraria/convenios-prevision-funeraria.component";
+import { DetalleConvenioPrevisionFunerariaComponent } from './components/detalle-convenio-prevision-funeraria/detalle-convenio-prevision-funeraria.component';
 
 @NgModule({
   declarations:[
     ConsultaConveniosComponent,
+    DetalleConvenioPrevisionFunerariaComponent,
   ],
   imports:[
     CommonModule,
@@ -42,7 +47,9 @@ import {ConsultaConveniosComponent} from "./components/convenios-prevision-funer
     OverlayPanelOpcionesModule,
     TablePanelModule,
     CeldaStickyModule,
-    PanelModule
+    PanelModule,
+    AccordionModule,
+    InputTextModule
   ],
   providers:[
     ConsultaConveniosService
