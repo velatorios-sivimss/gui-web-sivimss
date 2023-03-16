@@ -1,6 +1,6 @@
 <form [formGroup]="form">
   <ng-container formGroupName="datosContratante">
-    <h4>Datos del contratante</h4>
+    <h2 class="subtitulo-base">Datos del contratante</h2>
     <div class="row mb-2">
       <div class="col-md-4">
         <label class="control-label" for="matricula">Matrícula<span class="req">*</span>:</label>
@@ -100,7 +100,7 @@
     </div>
   </ng-container>
   <ng-container formGroupName="direccion">
-    <h4>Dirección</h4>
+    <h2 class="subtitulo-base">Dirección</h2>
     <div class="row mb-2">
       <div class="col-md-6">
         <label class="control-label" for="calle">Calle<span class="req">*</span>:</label>
@@ -158,7 +158,7 @@
     </div>
     <div class="row">
       <div class="col-md-12 flex justify-content-end align-items-center">
-        <button class="btn btn-md btn-gold">Cancelar</button>
+        <button class="btn btn-md btn-gold" routerLink="../">Cancelar</button>
         <button class="btn btn-md btn-primary ml-5">Aceptar</button>
       </div>
     </div>

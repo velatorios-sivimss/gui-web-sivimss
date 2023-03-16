@@ -833,8 +833,12 @@ p-table .border-padding-top .p-datatable-wrapper {
     border: 1px solid #dee2e6;
   }
 
-  p-accordiontab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, .p-accordion p-accordiontab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
+  p-accordiontab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, p-accordiontab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
     border-top: 1px solid #dee2e6;
+  }
+
+  .p-accordion-content{
+    padding: 2.25rem;
   }
 }
 
