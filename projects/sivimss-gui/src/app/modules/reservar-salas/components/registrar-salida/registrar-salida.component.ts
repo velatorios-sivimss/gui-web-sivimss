@@ -30,6 +30,10 @@ export class RegistrarSalidaComponent implements OnInit {
   }
 
   cancelar(): void {
+    if (this.indice === 1) {
+      this.indice--;
+      return;
+    }
     this.ref.close()
   }
 
@@ -37,4 +41,10 @@ export class RegistrarSalidaComponent implements OnInit {
     return this.registroSalidaForm.controls;
   }
 
+  guardar(): void {
+    if (this.indice === 0) {
+      this.indice++;
+      return;
+    }
+  }
 }

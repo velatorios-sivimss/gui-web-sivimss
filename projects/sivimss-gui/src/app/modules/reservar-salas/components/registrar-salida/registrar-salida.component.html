@@ -18,7 +18,7 @@
       </div>
     </div>
   </app-table-panel>
-  <form [formGroup]="registroSalidaForm">
+  <form [formGroup]="registroSalidaForm" (submit)="guardar()">
     <div class="row mb-3 mt-3">
       <div class="col-md-12">
         Registro de salida
@@ -77,10 +77,49 @@
   </form>
 </ng-container>
 <ng-container *ngIf="indice === 1">
-
-  <div class="row mb-3">
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column contenedor-inputswitch">
+        <span class="activo font-bold mr-2">ID</span>
+        <span></span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+    </ng-template>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column">
+        <span>
+        Sor Juana Ines de la Cruz
+        </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-3">
+        <div class="table-panel-column">
+          <label>Nivel del gas</label>
+          <span></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Registro de salida</label>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </app-table-panel>
+  <div class="row mb-5 mt-5">
     <div class="col-md-12 text-center">
       ¿Estas seguro de registrar la salida de esta sala?
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-12 flex justify-content-end">
+      <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
+      <button type="button" class="btn btn-primary btn-md ml-5" (click)="guardar()">Aceptar
+      </button>
     </div>
   </div>
 </ng-container>
