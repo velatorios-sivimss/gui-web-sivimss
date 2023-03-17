@@ -11,6 +11,8 @@ export class RegistrarSalidaComponent implements OnInit {
 
   registroSalidaForm!: FormGroup;
 
+  indice: number = 0;
+
   constructor(private formBuilder: FormBuilder,
               public ref: DynamicDialogRef) { }
 

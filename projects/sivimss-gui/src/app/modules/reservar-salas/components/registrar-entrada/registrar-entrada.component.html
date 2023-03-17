@@ -1,126 +1,223 @@
-<app-table-panel>
-  <ng-template appCustomTemplate="left-header">
-    <div class="table-panel-header-column contenedor-inputswitch">
-      <span class="informacion font-bold mr-2">ID</span>
-      <span class="informacion"></span>
-    </div>
-  </ng-template>
-  <ng-template appCustomTemplate="right-header">
-    <div class="table-panel-header-column">
-      <div class="flex flex-column">
-        <span>Disponibilidad</span>
-        <div class="contenedor-inputswitch">
-          <span class="informacion">Disponible</span>
+<ng-container *ngIf="indice === 0">
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column contenedor-inputswitch">
+        <span class="informacion font-bold mr-2">ID</span>
+        <span class="informacion"></span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+        <div class="flex flex-column">
+          <span>Disponibilidad</span>
+          <div class="contenedor-inputswitch">
+            <span class="informacion">Disponible</span>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-template>
-  <div class="row table-panel-row">
-    <div class="col-md-4">
-      <div class="table-panel-column contenedor-inputswitch">
+    </ng-template>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column contenedor-inputswitch">
         <span class="informacion">
         Sor Juana Ines de la Cruz
         </span>
-      </div>
-    </div>
-  </div>
-</app-table-panel>
-<form [formGroup]="registroEntradaForm">
-  <div class="row mb-3 mt-3">
-    <div class="col-md-6 mb-3">
-      <label class="control-label" for="inicioDe">Registrar inicio de <span class="req">*</span>:</label>
-      <p-dropdown id="inicioDe" class="form-control" formControlName="inicioDe" [options]="opcionesInicio"
-      ></p-dropdown>
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.inicioDe?.errors?.required && (entradaF.inicioDe?.dirty || entradaF.inicioDe?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6 mb-3" *ngIf="entradaF.inicioDe?.value === 'Mantenimiento'">
-      <label class="control-label" for="tipoMantenimiento">Tipo de Mantenimiento <span class="req">*</span>:</label>
-      <input id="tipoMantenimiento" class="form-control" formControlName="tipoMantenimiento">
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.tipoMantenimiento?.errors?.required && (entradaF.tipoMantenimiento?.dirty || entradaF.tipoMantenimiento?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="control-label" for="folioODS">Folio de la ODS <span class="req">*</span>:</label>
-      <input id="folioODS" class="form-control" formControlName="folioODS">
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.folioODS?.errors?.required && (entradaF.folioODS?.dirty || entradaF.folioODS?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="control-label" for="nombreContratante">Nombre del contratante <span class="req">*</span>:</label>
-      <input id="nombreContratante" class="form-control" formControlName="nombreContratante">
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.nombreContratante?.errors?.required && (entradaF.nombreContratante?.dirty || entradaF.nombreContratante?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="control-label" for="nombreFinado">Nombre del finado(a) <span class="req">*</span>:</label>
-      <input id="nombreFinado" class="form-control" formControlName="nombreFinado">
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.nombreFinado?.errors?.required && (entradaF.nombreFinado?.dirty || entradaF.nombreFinado?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="control-label" for="nombreResponsable">Nombre del responsable <span class="req">*</span>:</label>
-      <input id="nombreResponsable" class="form-control" formControlName="nombreResponsable">
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.nombreResponsable?.errors?.required && (entradaF.nombreResponsable?.dirty || entradaF.nombreResponsable?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6 mb-3">
-      <label class="control-label" for="nivelGas">Nivel de gas <span class="req">*</span>:</label>
-      <input id="nivelGas" class="form-control" formControlName="nivelGas">
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.nivelGas?.errors?.required && (entradaF.nivelGas?.dirty || entradaF.nivelGas?.touched)">
-                    Campo obligatorio</span>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-md-12">
-      Registro de entrada
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <label class="control-label" for="fecha">Fecha <span class="req">*</span>:</label>
-      <p-calendar id="fecha" styleClass="form-control" formControlName="fecha" [showIcon]="true"></p-calendar>
-      <span class="campo-obligatorio"
-            *ngIf="entradaF.fecha?.errors?.required && (entradaF.fecha?.dirty || entradaF.fecha?.touched)">
-                    Campo obligatorio</span>
-    </div>
-    <div class="col-md-6">
-      <label class="control-label" for="hora">Hora <span class="req">*</span>:</label>
-      <div class="row">
-        <div class="col-md-6">
-          <p-calendar id="hora" styleClass="form-control" formControlName="hora" [timeOnly]="true"
-          ></p-calendar>
-          <span class="campo-obligatorio"
-                *ngIf="entradaF.hora?.errors?.required && (entradaF.hora?.dirty || entradaF.hora?.touched)">
-                    Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <p-calendar id="minutos" styleClass="form-control" formControlName="minutos" [timeOnly]="true"></p-calendar>
-          <span class="campo-obligatorio"
-                *ngIf="entradaF.minutos?.errors?.required && (entradaF.minutos?.dirty || entradaF.minutos?.touched)">
-                    Campo obligatorio</span>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-md-12">
-      <span>*Campos obligatorios</span>
+  </app-table-panel>
+  <form [formGroup]="registroEntradaForm" (submit)="guardar()">
+    <div class="row mb-3 mt-3">
+      <div class="col-md-6 mb-3">
+        <label class="control-label" for="inicioDe">Registrar inicio de <span class="req">*</span>:</label>
+        <p-dropdown id="inicioDe" class="form-control" formControlName="inicioDe" [options]="opcionesInicio"
+        ></p-dropdown>
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.inicioDe?.errors?.required && (entradaF.inicioDe?.dirty || entradaF.inicioDe?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6 mb-3" *ngIf="entradaF.inicioDe?.value === 'Mantenimiento'">
+        <label class="control-label" for="tipoMantenimiento">Tipo de Mantenimiento <span class="req">*</span>:</label>
+        <input id="tipoMantenimiento" class="form-control" formControlName="tipoMantenimiento">
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.tipoMantenimiento?.errors?.required && (entradaF.tipoMantenimiento?.dirty || entradaF.tipoMantenimiento?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="control-label" for="folioODS">Folio de la ODS <span class="req">*</span>:</label>
+        <input id="folioODS" class="form-control" formControlName="folioODS">
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.folioODS?.errors?.required && (entradaF.folioODS?.dirty || entradaF.folioODS?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="control-label" for="nombreContratante">Nombre del contratante <span class="req">*</span>:</label>
+        <input id="nombreContratante" class="form-control" formControlName="nombreContratante">
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.nombreContratante?.errors?.required && (entradaF.nombreContratante?.dirty || entradaF.nombreContratante?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="control-label" for="nombreFinado">Nombre del finado(a) <span class="req">*</span>:</label>
+        <input id="nombreFinado" class="form-control" formControlName="nombreFinado">
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.nombreFinado?.errors?.required && (entradaF.nombreFinado?.dirty || entradaF.nombreFinado?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="control-label" for="nombreResponsable">Nombre del responsable <span class="req">*</span>:</label>
+        <input id="nombreResponsable" class="form-control" formControlName="nombreResponsable">
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.nombreResponsable?.errors?.required && (entradaF.nombreResponsable?.dirty || entradaF.nombreResponsable?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="control-label" for="nivelGas">Nivel de gas <span class="req">*</span>:</label>
+        <input id="nivelGas" class="form-control" formControlName="nivelGas">
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.nivelGas?.errors?.required && (entradaF.nivelGas?.dirty || entradaF.nivelGas?.touched)">
+                    Campo obligatorio</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        Registro de entrada
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label class="control-label" for="fecha">Fecha <span class="req">*</span>:</label>
+        <p-calendar id="fecha" styleClass="form-control" formControlName="fecha" [showIcon]="true"></p-calendar>
+        <span class="campo-obligatorio"
+              *ngIf="entradaF.fecha?.errors?.required && (entradaF.fecha?.dirty || entradaF.fecha?.touched)">
+                    Campo obligatorio</span>
+      </div>
+      <div class="col-md-6">
+        <label class="control-label" for="hora">Hora <span class="req">*</span>:</label>
+        <div class="row">
+          <div class="col-md-6">
+            <p-calendar id="hora" styleClass="form-control" formControlName="hora" [timeOnly]="true"
+            ></p-calendar>
+            <span class="campo-obligatorio"
+                  *ngIf="entradaF.hora?.errors?.required && (entradaF.hora?.dirty || entradaF.hora?.touched)">
+                    Campo obligatorio</span>
+          </div>
+          <div class="col-md-6">
+            <p-calendar id="minutos" styleClass="form-control" formControlName="minutos" [timeOnly]="true"></p-calendar>
+            <span class="campo-obligatorio"
+                  *ngIf="entradaF.minutos?.errors?.required && (entradaF.minutos?.dirty || entradaF.minutos?.touched)">
+                    Campo obligatorio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <span>*Campos obligatorios</span>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-12 flex justify-content-end">
+        <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5"
+                [disabled]="registroEntradaForm.invalid">Aceptar
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-container>
+<ng-container *ngIf="indice === 1">
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column contenedor-inputswitch">
+        <span class="informacion font-bold mr-2">ID</span>
+        <span class="informacion"></span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+        <div class="flex flex-column">
+          <span>Disponibilidad</span>
+          <div class="contenedor-inputswitch">
+            <span class="informacion">Disponible</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column contenedor-inputswitch">
+        <span class="informacion">
+        Sor Juana Ines de la Cruz
+        </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Registrar Inicio de</label>
+          <span></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Folio de la ODS</label>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Nombre del responsable</label>
+          <span></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Nombre del contratante</label>
+          <span></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Nombre del finado</label>
+          <span></span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-3">
+        <div class="table-panel-column">
+          <label>Nivel del gas</label>
+          <span></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Registro de entrada</label>
+          <span></span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Registro de entrada</label>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </app-table-panel>
+  <div class="row mb-5 mt-5">
+    <div class="col-md-12 text-center">
+      ¿Estas seguro de registrar la entrada de esta sala?
     </div>
   </div>
   <div class="row mb-3">
     <div class="col-md-12 flex justify-content-end">
       <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
-      <button type="submit" class="btn btn-primary btn-md ml-5"
-              [disabled]="registroEntradaForm.invalid">Aceptar
+      <button type="button" class="btn btn-primary btn-md ml-5" (click)="guardar()">Aceptar
       </button>
     </div>
   </div>
-</form>
+</ng-container>

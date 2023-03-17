@@ -70,11 +70,8 @@
               <td>{{sala.estatus}}</td>
               <td>{{sala.hora_entrada}}</td>
               <td>
-                <button *ngIf="!sala.hora_entrada" type="button" class="btn btn-primary btn-md">
-                  Registrar Entrada
-                </button>
-                <button *ngIf="sala.hora_entrada" type="button" class="btn btn-primary btn-md">
-                  Registrar Salida
+                <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)" >
+                  Registrar {{ sala.hora_entrada ? 'Salida' : 'Entrada'}}
                 </button>
               </td>
             </tr>

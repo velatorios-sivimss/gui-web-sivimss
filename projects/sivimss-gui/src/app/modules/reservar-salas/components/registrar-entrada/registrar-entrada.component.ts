@@ -12,6 +12,8 @@ export class RegistrarEntradaComponent implements OnInit {
 
   registroEntradaForm!: FormGroup;
 
+  indice: number = 0;
+
   opcionesInicio: TipoDropdown[] = [{label: 'Op1', value: 'Op1'}, {label: 'Mantenimiento', value: 'Mantenimiento'}];
 
   constructor(
@@ -40,10 +42,21 @@ export class RegistrarEntradaComponent implements OnInit {
   }
 
   cancelar(): void {
+    if (this.indice === 1) {
+      this.indice--;
+      return;
+    }
     this.ref.close()
   }
 
   get entradaF() {
     return this.registroEntradaForm.controls;
+  }
+
+  guardar(): void {
+    if (this.indice === 0) {
+      this.indice++;
+      return;
+    }
   }
 }
