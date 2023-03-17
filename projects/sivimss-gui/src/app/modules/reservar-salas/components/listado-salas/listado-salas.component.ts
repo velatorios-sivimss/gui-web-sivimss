@@ -5,6 +5,7 @@ import {SalaVelatorio} from '../../models/sala-velatorio.interface';
 import {DIEZ_ELEMENTOS_POR_PAGINA} from 'projects/sivimss-gui/src/app/utils/constantes';
 import {DialogService} from "primeng-lts/dynamicdialog";
 import {RegistrarEntradaComponent} from "../registrar-entrada/registrar-entrada.component";
+import {RegistrarSalidaComponent} from "../registrar-salida/registrar-salida.component";
 
 @Component({
   selector: 'app-listado-salas',
@@ -68,6 +69,9 @@ export class ListadoSalasComponent implements OnInit {
 
 
   private registrarSalida(): void {
-
+    this.dialogService.open(RegistrarSalidaComponent, {
+      header: 'Registrar Salida',
+      width: '920px'
+    });
   }
 }
