@@ -49,7 +49,6 @@
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
     <h2 class="subtitulo">Convenios de previsión funeraria</h2>
-    <!-- <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarServicio()">Agregar artículo</button> -->
   </div>
   <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="conveniosPrevicion"
     [paginator]="conveniosPrevicion.length > 0" [rows]="cantElementosPorPagina" [lazy]="true"
@@ -75,10 +74,8 @@
         <td> {{convenioPrevision.primerApellido}} </td>
         <td> {{convenioPrevision.segundoApellido}} </td>
         <td>
-          <!-- <div class="contenedor-inputswitch"> -->
           <span class="activo" *ngIf="convenioPrevision.estatus">Abierto</span>
           <span class="inactivo" *ngIf="!convenioPrevision.estatus">Cerrado</span>
-          <!-- </div> -->
         </td>
         <td>
           <div class="contenedor-celda-iconos">

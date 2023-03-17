@@ -1,72 +1,58 @@
-import { ConfirmacionServicio, ConveniosPrevision } from './../../models/convenios-prevision.interface';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import {ConfirmacionServicio,ConveniosPrevision,} from './../../models/convenios-prevision.interface'
+import {Component,EventEmitter,Input,OnInit,Output,ViewChild,} from '@angular/core'
+import {DialogService,DynamicDialogConfig,DynamicDialogRef,} from 'primeng-lts/dynamicdialog'
+import { OverlayPanel } from 'primeng-lts/overlaypanel'
+import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service'
 
 @Component({
   selector: 'app-detalle-renovacion',
   templateUrl: './detalle-renovacion.component.html',
-  styleUrls: ['./detalle-renovacion.component.scss']
+  styleUrls: ['./detalle-renovacion.component.scss'],
 })
 export class DetalleRenovacionComponent implements OnInit {
+  @Input() convenioSeleccionado!: ConveniosPrevision
+  @Input() origen!: string
+  @Output() confirmacionAceptar = new EventEmitter<ConfirmacionServicio>()
 
-  @Input() convenioSeleccionado!: ConveniosPrevision;
-  @Input() origen!: string;
-  @Output() confirmacionAceptar = new EventEmitter<ConfirmacionServicio>();
-
-  creacionRef!: DynamicDialogRef;
+  creacionRef!: DynamicDialogRef
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel | undefined;
+  overlayPanel: OverlayPanel | undefined
 
-  abrirModificar: boolean = false;
+  abrirModificar: boolean = false
 
-  constructor(public ref: DynamicDialogRef,
+  constructor(
+    public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     public dialogService: DialogService,
-    private alertaService: AlertaService) { }
+    private alertaService: AlertaService,
+  ) {}
 
-ngOnInit(): void {
-
-//Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
-if(this.config?.data){
-this.convenioSeleccionado = this.config.data.servicio;
-this.origen = this.config.data.origen;
-}
-}
-
-abrirModalModificarServicio():void{
-  // this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
-  //   header:"Modificar servicio",
-  //   width:"920px",
-  // })
-
-  // this.creacionRef.onClose.subscribe((estatus:boolean) => {
-  //   if(estatus){
-  //      this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
-  //     this.ref.close();
-  //   }
-  // })
-}
-
-aceptar():void {
-  if(this.origen == "detalle"){
-    this.ref.close();
+  ngOnInit(): void {
+    //Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
+    if (this.config?.data) {
+      this.convenioSeleccionado = this.config.data.servicio
+      this.origen = this.config.data.origen
+    }
   }
-  if(this.origen == "agregar" || this.origen == "modificar" ){
-    this.confirmacionAceptar.emit({estatus:true,origen:this.origen});
-  }
-  if(this.origen == "estatus"){
-    this.ref.close(this.convenioSeleccionado);
-  }
-}
 
-regresar(): void{
-  this.confirmacionAceptar.emit({estatus:true,origen:"regresar"});
-}
+  aceptar(): void {
+    if (this.origen == 'detalle') {
+      this.ref.close()
+    }
+    if (this.origen == 'agregar' || this.origen == 'modificar') {
+      this.confirmacionAceptar.emit({ estatus: true, origen: this.origen })
+    }
+    if (this.origen == 'estatus') {
+      this.ref.close(this.convenioSeleccionado)
+    }
+  }
 
-cerrar(): void {
-  this.ref.close();
-}
+  regresar(): void {
+    this.confirmacionAceptar.emit({ estatus: true, origen: 'regresar' })
+  }
+
+  cerrar(): void {
+    this.ref.close()
+  }
 }

@@ -5,7 +5,6 @@
         <span class="font-bold">Folio convenio {{convenioSeleccionado.folioConvenio}}</span>
       </div>
     </ng-template>
-
     <ng-template *ngIf="(origen == 'agregar' || origen == 'modificar' || origen == 'estatus')" appCustomTemplate="right-header">
       <div class="table-panel-header-column">
         <div class="flex flex-column">
@@ -17,9 +16,6 @@
         </div>
       </div>
     </ng-template>
-
-
-
     <div class="row table-panel-row">
       <div class="col-md-4">
         <div class="table-panel-column">
@@ -40,9 +36,6 @@
         </div>
       </div>
     </div>
-
-
-
     <div class="row table-panel-row">
       <div class="col-md-4">
         <div class="table-panel-column">
@@ -63,8 +56,6 @@
         </div>
       </div>
     </div>
-
-
     <div class="row table-panel-row">
       <div class="col-md-4">
         <div class="table-panel-column">
@@ -79,8 +70,6 @@
         </div>
       </div>
     </div>
-
-
     <div class="row table-panel-row">
       <div class="col-md-4">
         <div class="table-panel-column">
@@ -101,8 +90,6 @@
         </div>
       </div>
     </div>
-
-
     <div class="row table-panel-row">
       <div class="col-md-4">
         <div class="table-panel-column">
@@ -124,7 +111,6 @@
       </div>
     </div>
   </app-table-panel>
-
   <ng-container *ngIf="origen == 'agregar'">
     <div class="flex justify-content-end">
       <button class="ml-4 mt-3 btn btn-default btn-md"  (click)="aceptar()">
@@ -135,18 +121,13 @@
       </button>
     </div>
   </ng-container>
-
-
   <p-overlayPanel #overlayPanel>
     <ng-template pTemplate="content">
       <app-overlay-panel-opciones>
       </app-overlay-panel-opciones>
     </ng-template>
   </p-overlayPanel>
-
 </ng-container>
-
-
   <ng-container *ngIf="abrirHabilitar">
     <form [formGroup]="habilitarRenobacionForm">
       <div class="row mb-3">
