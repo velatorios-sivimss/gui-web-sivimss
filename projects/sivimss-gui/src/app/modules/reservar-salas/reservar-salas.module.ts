@@ -17,7 +17,7 @@ import {RegistrarEntradaComponent} from './components/registrar-entrada/registra
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {CalendarModule} from "primeng-lts/calendar";
 import { RegistrarSalidaComponent } from './components/registrar-salida/registrar-salida.component';
-
+import { FullCalendarModule } from 'primeng-lts/fullcalendar';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,8 @@ import { RegistrarSalidaComponent } from './components/registrar-salida/registra
     FormsModule,
     TablePanelModule,
     ReactiveFormsModule,
-    CalendarModule
+    CalendarModule,
+    FullCalendarModule,
   ]
 })
 export class ReservarSalasModule {
