@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {DynamicDialogRef} from "primeng-lts/dynamicdialog";
 
 @Component({
   selector: 'app-registrar-entrada',
@@ -11,10 +12,11 @@ export class RegistrarEntradaComponent implements OnInit {
 
   registroEntradaForm!: FormGroup;
 
-  opcionesInicio: TipoDropdown[] = [];
+  opcionesInicio: TipoDropdown[] = [{label: 'Op1', value: 'Op1'}, {label: 'Mantenimiento', value: 'Mantenimiento'}];
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public ref: DynamicDialogRef
   ) {
     this.iniciarFormRegistroEntrada();
   }
@@ -37,4 +39,11 @@ export class RegistrarEntradaComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  cancelar(): void {
+    this.ref.close()
+  }
+
+  get entradaF() {
+    return this.registroEntradaForm.controls;
+  }
 }
