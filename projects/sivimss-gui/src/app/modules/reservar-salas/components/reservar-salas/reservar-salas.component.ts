@@ -30,8 +30,7 @@ export class ReservarSalasComponent implements OnInit {
   }
 
   redirigirOpcionSala(opcion: { value: SelectButtonOptions }): void {
-    console.log(opcion)
-    this.router.navigate(["/reservar-salas", { outlets: { salas: this.opcionSala.route } }]);
+    this.router.navigate(["/reservar-salas", { outlets: { salas: [this.opcionSala.route] } }]);
   }
 
 }

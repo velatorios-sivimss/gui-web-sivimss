@@ -25,7 +25,7 @@
   border-bottom: 1px solid #DDDDDD;
 }
 
-.ultima-celda-sticky.p-datatable .p-datatable-thead > tr > th{
+.ultima-celda-sticky.p-datatable .p-datatable-thead > tr > th {
   position: sticky;
   right: 0;
   border-left: 1px solid #DDDDDD;
@@ -56,7 +56,7 @@
 }
 
 
-.p-datatable .p-datatable-tbody>tr>td {
+.p-datatable .p-datatable-tbody > tr > td {
   font-style: normal;
   font-weight: 400;
   border-left: 0;
@@ -67,7 +67,7 @@
   color: #484848;
 }
 
-.ultima-celda-sticky.p-datatable .p-datatable-tbody > tr > td{
+.ultima-celda-sticky.p-datatable .p-datatable-tbody > tr > td {
   background-color: white;
   position: sticky;
   right: 0;
@@ -107,7 +107,7 @@
   font-size: 1.6rem;
 }
 
-.p-dialog .p-dialog-content+.p-dialog-footer {
+.p-dialog .p-dialog-content + .p-dialog-footer {
   padding: 0 3rem 3rem 3rem;
   font-size: 1.6rem;
 }
@@ -142,7 +142,7 @@
 .form-control.p-calendar {
   position: relative;
 
-  .p-datepicker table td>span.p-highlight {
+  .p-datepicker table td > span.p-highlight {
     background: #9d2449;
   }
 
@@ -793,15 +793,15 @@ p-table .border-padding-top .p-datatable-wrapper {
     margin-right: 1.15rem;
   }
 
-  p-accordiontab .p-accordion-tab{
+  p-accordiontab .p-accordion-tab {
     margin-bottom: 1rem;
   }
 
-  p-accordiontab:not(:first-child) .p-accordion-header .p-accordion-header-link{
+  p-accordiontab:not(:first-child) .p-accordion-header .p-accordion-header-link {
     border: 1px solid #dee2e6;
   }
 
-  p-accordiontab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, .p-accordion p-accordiontab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link{
+  p-accordiontab:not(:first-child) .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link, .p-accordion p-accordiontab:not(:first-child) .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
     border-top: 1px solid #dee2e6;
   }
 }
@@ -1002,3 +1002,19 @@ p-table .border-padding-top .p-datatable-wrapper {
   top: 31.58%;
   bottom: 28.95%;
 }
+
+.p-tabview .p-tabview-panels {
+  border: 1px solid #dee2e6;
+  border-top: none;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding-left: 25px;
+  padding-right: 25px;
+  font-size: 14px;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  color: #9D2449;
+}
+
