@@ -16,6 +16,7 @@ import {TabViewModule} from 'primeng-lts/tabview';
 import {RegistrarEntradaComponent} from './components/registrar-entrada/registrar-entrada.component';
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {CalendarModule} from "primeng-lts/calendar";
+import { RegistrarSalidaComponent } from './components/registrar-salida/registrar-salida.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {CalendarModule} from "primeng-lts/calendar";
     ListadoSalasComponent,
     CalendarioSalasComponent,
     VerActividadSalasComponent,
-    RegistrarEntradaComponent
+    RegistrarEntradaComponent,
+    RegistrarSalidaComponent
   ],
   imports: [
     CommonModule,
