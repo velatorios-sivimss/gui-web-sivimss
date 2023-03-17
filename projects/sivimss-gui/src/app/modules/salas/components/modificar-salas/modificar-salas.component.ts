@@ -118,24 +118,24 @@ export class ModificarSalasComponent implements OnInit {
 
   inicializarModificarSalaForm() {
     this.modificarSalaForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }, Validators.required],
-      numEmpleado: [{ value: null, disabled: true }],
-      curp: [{ value: null, disabled: true }],
-      nombre: [{ value: null, disabled: true }],
-      primerApellido: [{ value: null, disabled: true }],
-      segundoApellido: [{ value: null, disabled: true }],
-      fechaNacimiento: [{ value: null, disabled: true }],
-      fechaIngreso: [{ value: null, disabled: false }, Validators.required],
-      fechaBaja: [{ value: null, disabled: true }],
-      sueldoBase: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
-      velatorio: [{ value: null, disabled: false }, Validators.required],
-      categoria: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      antiguedad: [{ value: null, disabled: true }, [Validators.maxLength(50)]],
-      correo: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required,
-      Validators.email, Validators.pattern(EMAIL)]],
-      puesto: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      diasDescanso: [{ value: null, disabled: false }, Validators.required],
-      estatus: [{ value: true, disabled: true }],
+      id: [{value: null, disabled: true}, Validators.required],
+      numEmpleado: [{value: null, disabled: true}],
+      curp: [{value: null, disabled: true}],
+      nombre: [{value: null, disabled: true}],
+      primerApellido: [{value: null, disabled: true}],
+      segundoApellido: [{value: null, disabled: true}],
+      fechaNacimiento: [{value: null, disabled: true}],
+      fechaIngreso: [{value: null, disabled: false}, Validators.required],
+      fechaBaja: [{value: null, disabled: true}],
+      sueldoBase: [{value: null, disabled: false}, [Validators.maxLength(10), Validators.required]],
+      velatorio: [{value: null, disabled: false}, Validators.required],
+      categoria: [{value: null, disabled: false}, [Validators.maxLength(20), Validators.required]],
+      antiguedad: [{value: null, disabled: true}, [Validators.maxLength(50)]],
+      correo: [{value: null, disabled: false}, [Validators.maxLength(30), Validators.required,
+        Validators.email, Validators.pattern(EMAIL)]],
+      puesto: [{value: null, disabled: false}, [Validators.maxLength(20), Validators.required]],
+      diasDescanso: [{value: null, disabled: false}, Validators.required],
+      estatus: [{value: true, disabled: true}],
     });
 
     this.modificarSalaForm.patchValue({
@@ -169,7 +169,7 @@ export class ModificarSalasComponent implements OnInit {
         id: 1,
       };
       const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetalleSalasComponent, {
-        data: { sala: nuevoSala, modo: Accion.Modificar },
+        data: {sala: nuevoSala, modo: Accion.Modificar},
         header: "Modificar sala",
         width: "920px"
       });
