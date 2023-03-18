@@ -13,7 +13,7 @@ import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrum
 export class AgregarRolComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   opciones:any[] = [
     {
@@ -30,15 +30,15 @@ export class AgregarRolComponent implements OnInit {
     }
   ];
 
-  agregarRolForm: FormGroup;
+  agregarRolForm!: FormGroup;
 
   mostrarModalAgregarFunc: boolean = false;
   mostrarModalModificarFunc: boolean = false;
 
-  formFuncionalidad: FormGroup;
+  formFuncionalidad!: FormGroup;
 
   funcionalidades: Funcionalidad[] = [];
-  funcionalidadSeleccionada: Funcionalidad = null;
+  funcionalidadSeleccionada!: Funcionalidad;
 
   contadorFuncionalidades = 1;
 

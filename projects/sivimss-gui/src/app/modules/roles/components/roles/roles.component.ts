@@ -15,7 +15,7 @@ import {Rol} from "../../models/rol.interface";
 export class RolesComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -36,11 +36,11 @@ export class RolesComponent implements OnInit {
     }
   ];
 
-  filtroForm: FormGroup;
+  filtroForm!: FormGroup;
 
   roles: Rol[] = [];
 
-  rolSeleccionado: Rol = null;
+  rolSeleccionado!: Rol;
   mostrarModalDetalleRol: boolean = false;
 
   constructor(

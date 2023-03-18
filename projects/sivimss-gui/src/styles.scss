@@ -14,6 +14,19 @@ se debe agregar en [styles.scss].
 @import "assets/scss/custom-prime";
 @import "assets/scss/custom-grafica-base";
 
+:root {
+  --sivimss-max-width: 1440px;
+  @media screen and (min-width: 1440px) {
+    --sivimss-max-width: 1600px;
+  }
+  @media screen and (min-width: 1600px) {
+    --sivimss-max-width: 1900px;
+  }
+  @media screen and (min-width: 1900px) {
+    --sivimss-max-width: 2100px;
+  }
+}
+
 html {
   font-size: 10px;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -29,6 +42,12 @@ body {
   padding-top: 120px;
 }
 
+.container-sivimss {
+  max-width: var(--sivimss-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .req {
   color: #272829;
 }
@@ -37,6 +56,20 @@ body {
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
+  color: #E10000;
+}
+
+.mensaje-inferior-campo-obligatorio {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #222222;
+}
+
+.listado-obligatorio-recuadro {
+  font-style: normal;
+  font-weight: 600;
   color: #E10000;
 }
 
@@ -55,8 +88,9 @@ body {
 }
 
 .contenedor-inputswitch {
-  display: flex;
   align-items: center;
+  display: inline-block;
+  margin-left: 10px;
 
   & > *:not(span) {
     transform: translateY(3px);
@@ -89,10 +123,20 @@ body {
 
   a {
     cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform:scale(1.15) translateY(2px);
   }
 
   a + a {
-    margin-left: 1rem;
+    margin-left: 1.75rem;
+  }
+
+  i.fs{
+    font-size: 20px;
+    color:#9D2449;
   }
 }
 
@@ -168,5 +212,49 @@ body {
       color: #484848;
     }
   }
+}
 
+.fs-color-base {
+  color: #9D2449;
+}
+
+.fs-2x {
+  font-size: 16px;
+}
+
+.rectangle-row {
+  border: 1px solid #DEE2E6;
+}
+
+.active-text-color {
+  color: #217A6B;
+}
+
+.custom-table .p-datatable-wrapper {
+  border: none;
+  border-radius: 0px;
+  overflow: hidden;
+}
+
+h2.subtitulo-base{
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #484848;
+  margin:1rem 0;
+}
+
+.etiqueta-base{
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #484848;
+  margin-bottom: 0;
+}
+
+.texto-base{
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 30px;
+  color: #000000;
 }

@@ -24,7 +24,7 @@ import * as moment from 'moment';
 export class UsuariosComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   respuesta!: HttpRespuesta<any> | null;
   numPaginaActual: number = 0;
@@ -51,9 +51,9 @@ export class UsuariosComponent implements OnInit {
   usuarioSeleccionado: Usuario = null;
   usuarioModificado: Usuario = null;
 
-  filtroForm: FormGroup;
-  agregarUsuarioForm: FormGroup;
-  modificarUsuarioForm: FormGroup;
+  filtroForm!: FormGroup;
+  agregarUsuarioForm!: FormGroup;
+  modificarUsuarioForm!: FormGroup;
 
   mostrarModalAgregarUsuario: boolean = false;
   mostrarModalModificarUsuario: boolean = false;
@@ -91,7 +91,7 @@ export class UsuariosComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  abrirModalAgregarUsuario():void {
+  abrirModalAgregarUsuario(): void {
     this.inicializarAgregarUsuarioForm();
     this.mostrarModalAgregarUsuario = true;
   }
@@ -101,7 +101,7 @@ export class UsuariosComponent implements OnInit {
     this.mostrarModalModificarUsuario = true;
   }
 
-  abrirModalDetalleUsuario(usuario:Usuario):void {
+  abrirModalDetalleUsuario(usuario: Usuario): void {
     this.usuarioSeleccionado = {...usuario};
     this.mostrarModalDetalleUsuario = true;
   }
@@ -360,7 +360,7 @@ debugger
     return this.agregarUsuarioForm.controls;
   }
 
-  get fmu(){
+  get fmu() {
     return this.modificarUsuarioForm.controls;
   }
 

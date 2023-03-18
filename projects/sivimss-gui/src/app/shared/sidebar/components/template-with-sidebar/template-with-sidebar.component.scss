@@ -1,0 +1,16 @@
+.content {
+  position: relative;
+
+  main {
+    padding: 0 2.5rem;
+  }
+
+  &.sidebar-activo {
+
+    main {
+     // margin-left: 320px;
+    }
+
+  }
+
+}

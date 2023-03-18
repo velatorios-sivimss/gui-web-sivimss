@@ -13,11 +13,11 @@ export const TRANSPORTES_USUARIO = "transportes_usuario";
 @Injectable()
 export class AutenticacionService {
 
-  private usuarioSubject = new BehaviorSubject<Usuario >(null);
-  usuario$: Observable<Usuario> = this.usuarioSubject.asObservable();
-  estaLogueado$: Observable<boolean>;
-  noEstaLogueado$: Observable<boolean>;
-  subsSesionInactivaTemporizador: Subscription;
+  private usuarioSubject = new BehaviorSubject<Usuario | null>(null);
+  usuario$: Observable<Usuario | null> = this.usuarioSubject.asObservable();
+  estaLogueado$!: Observable<boolean>;
+  noEstaLogueado$!: Observable<boolean>;
+  subsSesionInactivaTemporizador!: Subscription;
 
   constructor(
     private http: HttpClient,
