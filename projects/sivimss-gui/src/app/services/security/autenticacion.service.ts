@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import {Usuario} from "projects/sivimss-gui/src/app/models/usuario.interface";
+import { Usuario } from '../../modules/usuarios/models/usuario.interface';
 
 
 
