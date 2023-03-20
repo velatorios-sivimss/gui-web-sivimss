@@ -11,10 +11,20 @@
       </ng-template>
       <ng-template pTemplate="content">
         <ul class="menu-subtitulos">
-          <li class="menu-subtitulo" [class.activo]="subtitulo.activo" (click)="navegar(subtitulo)"
+          <li [ngClass]="{'menu-subtitulo': !subtitulo?.submenus}" [class.activo]="subtitulo.activo" (click)="!subtitulo?.submenus && navegar(subtitulo)"
               *ngFor="let subtitulo of titulo.subtitulos">
-            <i class="menu-subtitulo-icono fs fs-{{subtitulo.icono}}"></i>
-            <a class="menu-subtitulo-texto">{{subtitulo.texto}}</a>
+
+            <div [ngClass]="{'menu-subtitulo': subtitulo?.submenus}" [class.activo]="subtitulo.activo">
+              <i class="menu-subtitulo-icono fs fs-{{subtitulo.icono}}"></i>
+              <a class="menu-subtitulo-texto">{{subtitulo.texto}}</a>
+            </div>
+
+            <ul *ngIf="subtitulo?.submenus">
+              <li class="menu-subtitulo submenu-titulo" [class.activo]="submenu.activo" (click)="navegarDesdeSubmenu(subtitulo, submenu)"
+                *ngFor="let submenu of subtitulo.submenus">
+                <a class="menu-subtitulo-texto">{{submenu.texto}}</a> 
+              </li>
+            </ul>
           </li>
         </ul>
       </ng-template>
