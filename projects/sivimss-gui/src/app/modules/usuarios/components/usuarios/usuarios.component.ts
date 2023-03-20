@@ -9,7 +9,7 @@ import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcru
 
 import { ActivatedRoute } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Usuario } from "../../models/usuario.interface";
+import { Usuario } from '../../models/usuario.interface';
 import { UsuarioService } from '../../services/usuario.service';
 import { HttpRespuesta } from '../../../../models/http-respuesta.interface';
 
@@ -30,7 +30,6 @@ export class UsuariosComponent implements OnInit {
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
-  email: boolean | string;
   
   opciones: any[] = [
     {
@@ -48,8 +47,8 @@ export class UsuariosComponent implements OnInit {
   ];
 
   usuarios: Usuario[] = [];
-  usuarioSeleccionado: Usuario = null;
-  usuarioModificado: Usuario = null;
+  usuarioSeleccionado: Usuario = {};
+  usuarioModificado: Usuario = {};
 
   filtroForm!: FormGroup;
   agregarUsuarioForm!: FormGroup;
@@ -97,7 +96,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   abrirModalModificarUsuario():void {
-   // this.inicializarModificarUsuarioForm();
     this.mostrarModalModificarUsuario = true;
   }
 
@@ -152,7 +150,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   
-  paginar(event: LazyLoadEvent): void {
+  paginar(event: any): void {
     debugger
     let inicio = event.first;
     let pagina = Math.floor(inicio / 10);
@@ -303,7 +301,7 @@ debugger
     
   }
   
-  cambiarEstatus(id):void {
+  cambiarEstatus(id: any):void {
     let idUsuario: any = {
       id: id
     }

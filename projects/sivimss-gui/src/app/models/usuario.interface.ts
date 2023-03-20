@@ -1,4 +1,4 @@
-export interface UsuarioModel {
+export interface Usuario {
     id?: number;
     curp?: string;
     claveUsuario?: string;
