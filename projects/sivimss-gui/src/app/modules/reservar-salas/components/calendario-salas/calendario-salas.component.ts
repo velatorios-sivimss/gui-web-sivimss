@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core';
+import {Component, OnInit} from '@angular/core';
+import {CalendarOptions, DateSelectArg, EventApi, EventClickArg} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-// import interactionPlugin from '@fullcalendar/interaction';
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {MENU_SALAS} from "../../constants/menu-salas";
 
 @Component({
   selector: 'app-calendario-salas',
@@ -13,8 +14,11 @@ export class CalendarioSalasComponent implements OnInit {
   calendarOptions!: CalendarOptions;
   mesAnterior: Date = this.obtenerMesAnterior()
   mesAnteriorUltimoDia: Date = this.obtenerMesAnterior(true)
+  velatorios: TipoDropdown[] = [];
+  menu: string[] = MENU_SALAS;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.inicializarCalendario();
@@ -30,15 +34,15 @@ export class CalendarioSalasComponent implements OnInit {
 
   inicializarCalendario(): void {
     this.calendarOptions = {
-      headerToolbar: { end: "", start: "" },
-      validRange: {
-        start: this.mesAnterior,
-        end: this.mesAnteriorUltimoDia
-      },
+      // headerToolbar: { end: "", start: "" },
+      // validRange: {
+      //   start: this.mesAnterior,
+      //   end: this.mesAnteriorUltimoDia
+      // },
       initialView: 'dayGridMonth',
-      plugins: [ dayGridPlugin],
+      plugins: [dayGridPlugin],
       //initialEvents: this.registros,
-      defaultAllDay: true,
+      // defaultAllDay: true,
       // select: this.mostrarModal.bind(this),
       locale: 'es-MX',
       // selectable: this.camposHabilitados,

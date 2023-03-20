@@ -1,4 +1,3 @@
-<script src="listado-salas.component.ts"></script>
 <div class="row mb-3">
   <div class="col-md-6">
     <label class="control-label" for="velatorio">Velatorios:</label>
@@ -32,7 +31,7 @@
                   <td>{{sala.estatus}}</td>
                   <td>{{sala.hora_entrada}}</td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)" >
+                    <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
                       Registrar {{ sala.hora_entrada ? 'Salida' : 'Entrada'}}
                     </button>
                   </td>
@@ -70,7 +69,7 @@
               <td>{{sala.estatus}}</td>
               <td>{{sala.hora_entrada}}</td>
               <td>
-                <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)" >
+                <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
                   Registrar {{ sala.hora_entrada ? 'Salida' : 'Entrada'}}
                 </button>
               </td>

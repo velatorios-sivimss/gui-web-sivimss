@@ -1,1 +1,19 @@
-<p-fullCalendar [options]="calendarOptions"></p-fullCalendar>
+<div class="row mb-3">
+  <div class="col-md-6">
+    <label class="control-label" for="velatorio">Velatorios:</label>
+    <p-dropdown id="velatorio" class="form-control" [options]="velatorios" placeholder="Selecciona velatorio">
+    </p-dropdown>
+  </div>
+</div>
+<div class="row mb-3">
+  <div class="col-md-12">
+    <p-tabView>
+      <p-tabPanel [header]="menu[0]">
+        <p-fullCalendar [options]="calendarOptions"></p-fullCalendar>
+      </p-tabPanel>
+      <p-tabPanel [header]="menu[1]">
+        
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>
