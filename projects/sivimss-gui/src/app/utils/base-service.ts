@@ -7,7 +7,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
 //TO DO Cambiar el Id de la funcionalidad cuando se obtenga del oaut
 //      Cambiar auth_token2 por el token de la sesion del usuario
 
-private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJ7XCJpZFwiOicxJyxcInJvbFwiOicxJyxcIm5vbWJyZVwiOidudWxsJyxcImNvcnJlb1wiOidwYWJsby5ub2xhc2NvZXhhbXBsZS5jb20nfSIsImlhdCI6MTY3ODQ2NTA2MywiZXhwIjoxNjc5MjY0NjYzfQ.eOAuyK5Mg1HSS6_GRuYknbs0jvG3Um6QOtVXsS9RLa8BzPrJdx5vId8VKOx23gKIfoJQ6lRP1Jzd54Y7juUscw";
+private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJ7XCJpZFwiOicxJyxcInJvbFwiOicxJyxcIm5vbWJyZVwiOidudWxsJyxcImNvcnJlb1wiOidwYWJsby5ub2xhc2NvZXhhbXBsZS5jb20nfSIsImlhdCI6MTY3OTQxMzE5NSwiZXhwIjoxNjgwMjEyNzk1fQ.kgb-Td83sP0yjzgPPIH1JoDHxRNAQO89oyuFWNBOv9MpRLn6mZaa0qv_t15M3UjTyNAp70t19OengUG42WReBQ";
   
     constructor(
         protected _http: HttpClient,
@@ -15,7 +15,6 @@ private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTNTEyIn0.ey
     ) { }
     
     guardar(usuario:any): Observable<T> {
-        debugger
         const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token}`,'Content-Type': 'application/json'});
         const body = new FormData();
         body.append('datos',usuario);

@@ -49,6 +49,7 @@ export class UsuariosComponent implements OnInit {
   usuarios: Usuario[] = [];
   usuarioSeleccionado: Usuario = {};
   usuarioModificado: Usuario = {};
+  valorValidacion: number = 0;
 
   filtroForm!: FormGroup;
   agregarUsuarioForm!: FormGroup;
@@ -115,7 +116,6 @@ export class UsuariosComponent implements OnInit {
 
   inicializarAgregarUsuarioForm() {
     this.agregarUsuarioForm = this.formBuilder.group({
-      id: [{value: 1, disabled: true}],
       curp: [{value: null, disabled: false}, [Validators.required,Validators.maxLength(18)]],
       matricula: [{value: null, disabled: false}, [Validators.required,Validators.maxLength(10)]],
       nombre: [{value: null, disabled: false}, [Validators.required,Validators.maxLength(50)]],
@@ -151,13 +151,11 @@ export class UsuariosComponent implements OnInit {
 
   
   paginar(event: any): void {
-    debugger
     let inicio = event.first;
     let pagina = Math.floor(inicio / 10);
     let tamanio = event.rows;
     this.usuarioService.buscarPorPagina(pagina, tamanio).subscribe(
       (respuesta) => {
-        debugger
         this.usuarios = [];
         this.respuesta = null;
         this.respuesta = respuesta;
@@ -170,7 +168,6 @@ export class UsuariosComponent implements OnInit {
   }
 
   buscar(): void {
-debugger
   let filtros: any = {
     idOficina: this.filtroForm.get("nivel")?.value,
     idVelatorio: this.filtroForm.get("velatorio")?.value,
@@ -217,7 +214,6 @@ debugger
 
 
   agregarUsuario():void {
-    debugger
     let usuario: Usuario = {
       materno: this.agregarUsuarioForm.get("segundoApellido")?.value,
       nombre: this.agregarUsuarioForm.get("nombre")?.value,
@@ -268,7 +264,6 @@ debugger
     this.usuarioModificado = usuario;
   }
 
-  // (click)="mostrarModalConfModUsuario = true
   modificarUsuario():void {
     let usuario: Usuario = {
       id: this.modificarUsuarioForm.get("id")?.value,
@@ -318,17 +313,31 @@ debugger
   }
 
   validarCurp():void {
-    debugger
     let curp: Usuario = {
       curp: this.agregarUsuarioForm.get("curp")?.value
     }
     this.usuarioService.validarCurp(JSON.stringify(curp)).subscribe(
       (respuesta) => {
-        let valor = this.respuesta!.datos.content;
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Curp valido');
+        if ( respuesta!.datos){
+          this.valorValidacion =  respuesta!.datos[0].valor;
+          switch( this.valorValidacion) { 
+            case 0: { 
+              this.alertaService.mostrar(TipoAlerta.Exito, 'Curp valido');
+            break; 
+            } 
+            case 1: { 
+              this.alertaService.mostrar(TipoAlerta.Error, 'Curp duplicado');
+            break; 
+            } 
+            case 2: { 
+              this.alertaService.mostrar(TipoAlerta.Error, 'Curp mal formado');
+            break; 
+            } 
+          }
+        }
       },
       (error: HttpErrorResponse) => {
-        this.alertaService.mostrar( TipoAlerta.Error, 'Curp no valido');
+        this.alertaService.mostrar( TipoAlerta.Error, 'Ocurrio un error');
         console.error("ERROR: ",   error.message)
       }
     );
@@ -341,6 +350,19 @@ debugger
     }
     this.usuarioService.validarMatricula(JSON.stringify(matricula)).subscribe(
       (respuesta) => {
+        if ( respuesta!.datos){
+          this.valorValidacion =  respuesta!.datos[0].valor;
+          switch( this.valorValidacion) { 
+            case 0: { 
+              this.alertaService.mostrar(TipoAlerta.Exito, 'Matricula valida');
+            break; 
+            } 
+            case 1: { 
+              this.alertaService.mostrar(TipoAlerta.Error, 'Matricula duplicada');
+            break; 
+            }  
+          }
+        }
         this.alertaService.mostrar(TipoAlerta.Exito, 'Matricula valida');
       },
       (error: HttpErrorResponse) => {

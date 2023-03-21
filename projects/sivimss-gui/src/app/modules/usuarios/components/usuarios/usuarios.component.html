@@ -113,12 +113,6 @@
         <form [formGroup]="agregarUsuarioForm">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label class="control-label" for="id">ID</label>
-                    <input id="id" class="form-control" formControlName="id" placeholder="ID">
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
                     <label class="control-label" for="curp">CURP<span class="req">*</span></label>
                     <input id="curp" class="form-control" formControlName="curp" placeholder="Inserta el CURP" (change)="validarCurp();">
                     <span class="campo-obligatorio" *ngIf="fau?.curp?.errors?.required && (fau?.curp?.dirty || fau?.curp?.touched)">Campo obligatorio</span>
