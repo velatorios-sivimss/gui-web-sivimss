@@ -147,6 +147,13 @@ export class UsuariosComponent implements OnInit {
       rol: new FormControl(usuario.idRol, Validators.required),
       estatus: new FormControl(usuario.estatus, Validators.required)
     });
+    this.modificarUsuarioForm.controls['id'].disable();
+    this.modificarUsuarioForm.controls['curp'].disable();
+    this.modificarUsuarioForm.controls['matricula'].disable();
+    this.modificarUsuarioForm.controls['nombre'].disable();
+    this.modificarUsuarioForm.controls['primerApellido'].disable();
+    this.modificarUsuarioForm.controls['segundoApellido'].disable();
+    this.modificarUsuarioForm.controls['fechaNacimiento'].disable();
   }
 
   
@@ -211,8 +218,6 @@ export class UsuariosComponent implements OnInit {
     );
   }
 
-
-
   agregarUsuario():void {
     let usuario: Usuario = {
       materno: this.agregarUsuarioForm.get("segundoApellido")?.value,
@@ -233,7 +238,7 @@ export class UsuariosComponent implements OnInit {
       (respuesta) => {
         this.mostrarModalAgregarUsuario = false;
         this.alertaService.mostrar(TipoAlerta.Exito, 'Alta satisfactoria');
-
+        this.recargarTabla();
       },
       (error: HttpErrorResponse) => {
         this.alertaService.mostrar( TipoAlerta.Error, 'Alta incorrecta');
@@ -287,6 +292,7 @@ export class UsuariosComponent implements OnInit {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Actualización satisfactoria');
         this.mostrarModalConfModUsuario = false;
         this.mostrarModalModificarUsuario = false;
+        this.recargarTabla();
       },
       (error: HttpErrorResponse) => {
         this.alertaService.mostrar( TipoAlerta.Error, 'Actualización incorrecta');
@@ -304,6 +310,7 @@ export class UsuariosComponent implements OnInit {
       (respuesta) => {
         this.respuesta = respuesta;
         this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
+        this.recargarTabla();
       },
       (error: HttpErrorResponse) => {
         console.error(error);
@@ -343,7 +350,6 @@ export class UsuariosComponent implements OnInit {
     );
   }
 
-  
   validarMatricula():void {
     let matricula: any = {
       claveMatricula: this.agregarUsuarioForm.get("matricula")?.value
@@ -368,6 +374,22 @@ export class UsuariosComponent implements OnInit {
       (error: HttpErrorResponse) => {
         this.alertaService.mostrar( TipoAlerta.Error, 'Matricula no valida');
         console.error("ERROR: ",   error.message)
+      }
+    );
+  }
+
+  recargarTabla() {
+    let pagina = 0;
+    let tamanio = 10;
+    this.usuarioService.buscarPorPagina(pagina, tamanio).subscribe(
+      (respuesta) => {
+        this.usuarios = [];
+        this.respuesta = null;
+        this.respuesta = respuesta;
+        this.usuarios = this.respuesta!.datos.content;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
       }
     );
   }
