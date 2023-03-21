@@ -83,6 +83,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/convenios-prevision-funeraria/convenios-prevision-funeraria.module').then(m => m.ConveniosPrevisionFunerariaModule)
   },
   {
+    path: 'renovar-convenio-pf',
+    loadChildren: () => import('./modules/renovar-convenio-pf/renovar-convenio-pf.module').then(m => m.RenovarConvenioPfModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
