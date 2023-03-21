@@ -5,7 +5,7 @@ import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import {AlertaService} from "../../../../shared/alerta/services/alerta.service";
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {SERVICIO_BREADCRUMB} from "../../constants/breadcrunb";
+import {SERVICIO_BREADCRUMB} from "../../constants/breadcrumb";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {ConveniosPrevisionFunerariaInterface} from "../../models/convenios-prevision-funeraria.interface";

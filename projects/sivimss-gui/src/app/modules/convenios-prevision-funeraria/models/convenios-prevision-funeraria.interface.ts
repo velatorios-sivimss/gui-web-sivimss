@@ -27,6 +27,8 @@ export interface ConveniosPrevisionFunerariaInterface {
   telefono?: number;
   correoElectronico?: string;
 
+
+  promotor?: number;
   matricula?: string;
   primerApellido?: string;
   segundoApellido?: string;

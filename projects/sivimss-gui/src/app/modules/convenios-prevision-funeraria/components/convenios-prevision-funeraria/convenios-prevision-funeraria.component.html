@@ -61,7 +61,7 @@
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
     <h2 class="subtitulo">Convenios</h2>
-    <button type="button" class="btn btn-primary btn-lg" (click)="agregarConvenio()">Agregar convenio</button>
+    <button type="button" class="btn btn-primary btn-lg" routerLink="./ingresar-nuevo-convenio" (click)="agregarConvenio()">Agregar convenio</button>
   </div>
   <p-table #tablaConvenio appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="convenioPrevision"
            [paginator]="convenioPrevision.length > 0"
