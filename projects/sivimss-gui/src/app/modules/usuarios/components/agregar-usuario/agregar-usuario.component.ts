@@ -1,4 +1,3 @@
-// TODO: Si matricula y curp no validas no guardar
 
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -33,7 +32,7 @@ export class AgregarUsuarioComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   curpValida: boolean = false;
   matriculaValida: boolean = false;
-  catRol: Catalogo[] = [];
+  catRol: TipoDropdown[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -46,15 +45,8 @@ export class AgregarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAgregarUsuarioForm();
-    let respuesta = this.route.snapshot.data["respuesta"];
-    this.catRol = respuesta.datos.map(
-      (rol: Catalogo) => (
-        {
-          label: rol.nombre,
-          value: rol.id
-        }
-      )
-    );
+    const roles = this.route.snapshot.data["respuesta"].datos;
+    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
   }
 
   inicializarAgregarUsuarioForm(): void {

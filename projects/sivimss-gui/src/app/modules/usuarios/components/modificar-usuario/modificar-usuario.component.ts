@@ -41,15 +41,8 @@ export class ModificarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     const usuario = this.config.data;
-    let respuesta = this.route.snapshot.data["respuesta"];
-    this.catRol = respuesta.datos.map(
-      (rol: any) => (
-        {
-          label: rol.nombre,
-          value: rol.id
-        }
-      )
-    );
+    const roles = this.route.snapshot.data["respuesta"].datos;
+    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
     this.inicializarModificarUsuarioForm(usuario);
   }
 
