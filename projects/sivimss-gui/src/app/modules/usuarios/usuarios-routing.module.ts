@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { UsuariosComponent } from './components/usuarios/usuarios.component';
-import { UsuarioResolver } from './services/usuario.resolver';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {UsuariosComponent} from './components/usuarios/usuarios.component';
+import {UsuarioResolver} from './services/usuario.resolver';
 
-const routes: Routes = [{ path: '', component: UsuariosComponent,
-resolve: {
-  respuesta: UsuarioResolver,
-}, }];
+const routes: Routes = [{
+  path: '', component: UsuariosComponent,
+  // resolve: {
+  //  respuesta: UsuarioResolver,
+  // },
+}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
@@ -15,4 +17,5 @@ resolve: {
     UsuarioResolver,
   ],
 })
-export class UsuariosRoutingModule { }
+export class UsuariosRoutingModule {
+}
