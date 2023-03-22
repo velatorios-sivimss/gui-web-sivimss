@@ -131,6 +131,7 @@ body {
     align-items: center;
     justify-content: center;
     transform:scale(1.15) translateY(2px);
+    width: 100%;
   }
 
   a + a {
@@ -268,4 +269,8 @@ h2.subtitulo-base{
   font-size: 14px;
   line-height: 30px;
   color: #000000;
+}
+
+.mt-5-custom {
+  margin-top: 2.5rem !important;
 }

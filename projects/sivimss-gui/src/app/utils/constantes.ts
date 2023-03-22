@@ -6,4 +6,5 @@ export enum Accion {
     Detalle,
     Activar,
     Desactivar,
+    Renovar,
 };

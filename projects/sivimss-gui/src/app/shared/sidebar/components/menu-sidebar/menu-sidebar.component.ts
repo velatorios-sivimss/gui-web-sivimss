@@ -47,13 +47,13 @@ export class MenuSidebarComponent implements OnInit {
             {
               icono: '',
               texto: 'Administrar contratos',
-              ruta: 'administrar-contratos',
+              ruta: 'contratos-putr/administrar-contratos',
               activo: false
             },
             {
               icono: '',
               texto: 'Seguimiento de pagos',
-              ruta: 'seguimiento-de-pagos',
+              ruta: 'contratos-putr/seguimiento-de-pagos',
               activo: false
             },
           ]
