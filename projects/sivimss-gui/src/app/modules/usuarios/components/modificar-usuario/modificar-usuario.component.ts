@@ -27,7 +27,7 @@ export class ModificarUsuarioComponent implements OnInit {
   usuarioModificado!: UsuarioModificado;
   opciones: TipoDropdown[] = CATALOGOS;
   indice: number = 0;
-  catRol: Catalogo[] = [];
+  catRol: TipoDropdown[] = [];
 
   constructor(
     private route: ActivatedRoute,

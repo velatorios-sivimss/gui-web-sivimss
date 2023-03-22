@@ -27,7 +27,6 @@ type SolicitudMatricula = Pick<Usuario, "claveMatricula">;
 export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuarioForm!: FormGroup;
-  valorValidacion: number = 0;
   opciones: TipoDropdown[] = CATALOGOS;
   curpValida: boolean = false;
   matriculaValida: boolean = false;
