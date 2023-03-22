@@ -79,6 +79,7 @@ export class AgregarUsuarioComponent implements OnInit {
 
   validarCurp(): void {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
+    if (!curp.curp) return;
     const solicitudCurp: string = JSON.stringify(curp);
     this.usuarioService.validarCurp(solicitudCurp).subscribe(
       (respuesta) => {
@@ -97,6 +98,7 @@ export class AgregarUsuarioComponent implements OnInit {
 
   validarMatricula(): void {
     const matricula: SolicitudMatricula = {claveMatricula: this.agregarUsuarioForm.get("matricula")?.value};
+    if (!matricula.claveMatricula) return;
     const solicitudMatricula: string = JSON.stringify(matricula);
     this.usuarioService.validarMatricula(solicitudMatricula).subscribe(
       (respuesta) => {
