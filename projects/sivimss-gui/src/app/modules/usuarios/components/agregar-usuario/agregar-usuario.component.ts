@@ -1,4 +1,3 @@
-
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PATRON_CORREO} from "../../../../utils/constantes";
@@ -14,7 +13,7 @@ import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {MENSAJES_CURP, OPCIONES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA, OPCIONES_MATRICULA} from "../../constants/validacionMatricula";
 import {ActivatedRoute} from '@angular/router';
-import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type NuevoUsuario = Omit<Usuario, "id" | "password" | "estatus" | "matricula">;
 type SolicitudCurp = Pick<Usuario, "curp">;
@@ -93,7 +92,7 @@ export class AgregarUsuarioComponent implements OnInit {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
         if (!OPCIONES_CURP.includes(valor)) return;
-        const {mensaje, tipo, valido } = MENSAJES_CURP.get(valor);
+        const {mensaje, tipo, valido} = MENSAJES_CURP.get(valor);
         this.curpValida = valido;
         this.alertaService.mostrar(tipo, mensaje);
       },
