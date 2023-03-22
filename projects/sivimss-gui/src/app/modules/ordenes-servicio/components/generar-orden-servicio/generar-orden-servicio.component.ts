@@ -86,6 +86,8 @@ export class GenerarOrdenServicioComponent implements OnInit {
   obtenerRefEtapaSeleccionada(etapaSeleccionada: Etapa) {
     //Con esta etapa que se recibe ya se puede modificar su estado.
     //Al modificar el estado de la etapa su estilo se actualiza.
+    this.etapas.forEach((etapa: Etapa) => etapa.estado = EtapaEstado.Inactivo);
+    etapaSeleccionada.estado = EtapaEstado.Activo;
     this.idEtapaSeleccionada = etapaSeleccionada.idEtapa;
   }
 
