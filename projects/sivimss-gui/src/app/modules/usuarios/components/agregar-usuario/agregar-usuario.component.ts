@@ -14,6 +14,8 @@ import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {MENSAJES_CURP, OPCIONES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA, OPCIONES_MATRICULA} from "../../constants/validacionMatricula";
+import {ActivatedRoute} from '@angular/router';
+import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type NuevoUsuario = Omit<Usuario, "id" | "password" | "estatus" | "matricula">;
 type SolicitudCurp = Pick<Usuario, "curp">;
@@ -31,8 +33,10 @@ export class AgregarUsuarioComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   curpValida: boolean = false;
   matriculaValida: boolean = false;
+  catRol: Catalogo[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private alertaService: AlertaService,
     private formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
@@ -42,6 +46,15 @@ export class AgregarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAgregarUsuarioForm();
+    let respuesta = this.route.snapshot.data["respuesta"];
+    this.catRol = respuesta.datos.map(
+      (rol: Catalogo) => (
+        {
+          label: rol.nombre,
+          value: rol.id
+        }
+      )
+    );
   }
 
   inicializarAgregarUsuarioForm(): void {

@@ -5,9 +5,9 @@ import {UsuarioResolver} from './services/usuario.resolver';
 
 const routes: Routes = [{
   path: '', component: UsuariosComponent,
-  // resolve: {
-  //  respuesta: UsuarioResolver,
-  // },
+   resolve: {
+    respuesta: UsuarioResolver,
+   },
 }];
 
 @NgModule({

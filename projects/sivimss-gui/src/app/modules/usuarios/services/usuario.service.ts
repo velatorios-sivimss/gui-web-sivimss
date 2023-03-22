@@ -36,4 +36,9 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
     return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/valida-matricula`,matricula, {headers});
   }
 
+  obtenerCatRoles(): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`,'Content-Type': 'application/json'});
+    return this._http.get<HttpRespuesta<any>>(this._base + `1/catalogo?servicio=catalogo-roles`, {headers});
+  }
+
 }

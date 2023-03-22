@@ -11,6 +11,8 @@ import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {diferenciaUTC} from "../../../../utils/funciones";
+import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {ActivatedRoute} from '@angular/router';
 
 type UsuarioModificado = Omit<Usuario, "password">
 
@@ -25,17 +27,29 @@ export class ModificarUsuarioComponent implements OnInit {
   usuarioModificado!: UsuarioModificado;
   opciones: TipoDropdown[] = CATALOGOS;
   indice: number = 0;
+  catRol: Catalogo[] = [];
 
-  constructor(private formBuilder: FormBuilder,
-              private usuarioService: UsuarioService,
-              private alertaService: AlertaService,
-              public config: DynamicDialogConfig,
-              public ref: DynamicDialogRef
+  constructor(
+      private route: ActivatedRoute,
+      private formBuilder: FormBuilder,
+      private usuarioService: UsuarioService,
+      private alertaService: AlertaService,
+      public config: DynamicDialogConfig,
+      public ref: DynamicDialogRef
   ) {
   }
 
   ngOnInit(): void {
     const usuario = this.config.data;
+    let respuesta = this.route.snapshot.data["respuesta"];
+    this.catRol = respuesta.datos.map(
+      (rol: any) => (
+        {
+          label: rol.nombre,
+          value: rol.id
+        }
+      )
+    );
     this.inicializarModificarUsuarioForm(usuario);
   }
 
