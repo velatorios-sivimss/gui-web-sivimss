@@ -107,7 +107,8 @@
   </div>
   <div class="row flex justify-content-end mb-4">
     <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
-    <button type="submit" class="ml-4 btn btn-primary btn-md" [disabled]="agregarUsuarioForm.invalid">
+    <button type="submit" class="ml-4 btn btn-primary btn-md"
+            [disabled]="agregarUsuarioForm.invalid || !matriculaValida || !curpValida">
       Agregar
     </button>
   </div>

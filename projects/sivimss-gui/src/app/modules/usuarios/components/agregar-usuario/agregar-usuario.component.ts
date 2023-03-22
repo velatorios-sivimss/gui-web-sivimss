@@ -29,6 +29,8 @@ export class AgregarUsuarioComponent implements OnInit {
   agregarUsuarioForm!: FormGroup;
   valorValidacion: number = 0;
   opciones: TipoDropdown[] = CATALOGOS;
+  curpValida: boolean = false;
+  matriculaValida: boolean = false;
 
   constructor(
     private alertaService: AlertaService,
@@ -86,7 +88,8 @@ export class AgregarUsuarioComponent implements OnInit {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
         if (!OPCIONES_CURP.includes(valor)) return;
-        const {mensaje, tipo} = MENSAJES_CURP.get(valor);
+        const {mensaje, tipo, valido } = MENSAJES_CURP.get(valor);
+        this.curpValida = valido;
         this.alertaService.mostrar(tipo, mensaje);
       },
       (error: HttpErrorResponse) => {
@@ -105,7 +108,8 @@ export class AgregarUsuarioComponent implements OnInit {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
         if (!OPCIONES_MATRICULA.includes(valor)) return;
-        const {mensaje, tipo} = MENSAJES_MATRICULA.get(valor);
+        const {mensaje, tipo, valido} = MENSAJES_MATRICULA.get(valor);
+        this.matriculaValida = valido;
         this.alertaService.mostrar(tipo, mensaje);
       },
       (error: HttpErrorResponse) => {
