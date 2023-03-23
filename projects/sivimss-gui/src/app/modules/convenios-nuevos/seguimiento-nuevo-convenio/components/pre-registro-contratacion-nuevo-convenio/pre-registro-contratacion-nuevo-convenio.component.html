@@ -1,0 +1,143 @@
+<app-titulo-principal titulo="Pre-registro para la contratación de Convenio de Previsión Funeraria"></app-titulo-principal>
+<div class="border-panel">
+
+  <app-table-panel class="row mb-5">
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column">
+        <span class="font-bold">Número de folio de convenio (Pre-registro) </span>
+        <span class="font-bold">DOC00000000001 </span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+      </div>
+    </ng-template>
+  </app-table-panel>
+
+  <div class="row mb-3">
+    <div  class="col-md-12">
+      <div class="flex justify-content-between align-items-center">
+        <h2 class="subtitulo">Personas y beneficiarios</h2>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <!-- <div class="flex justify-content-between align-items-center"> -->
+        <span>Modifica, elimina o agrega Pesonas y hasta 3 beneficiarios por cada una</span>
+      <!-- </div> -->
+    </div>
+  </div>
+
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+        <div class="table-panel-header-column">
+            <span class="font-bold">
+              Hermelinda Huautla Flores
+            </span>
+        </div>
+    </ng-template>
+
+
+    <ng-template appCustomTemplate="right-header">
+        <div class="table-panel-header-column">
+            <div class="flex flex-column">
+                <div>
+                </div>
+            </div>
+            <div class="flex flex-column ml-5">
+              <div class="contenedor-celda-iconos">
+              <a (click)="abrir($event)">
+                    <img
+                      src="assets/images/imagen-icono-barras-horizontales.svg"
+                      alt="icono barras horizontales">
+                  </a>
+            </div>
+            </div>
+        </div>
+    </ng-template>
+
+</app-table-panel>
+
+
+<div class="row mb-3">
+  <div  class="col-md-12">
+    <div class="flex justify-content-between align-items-center">
+      <h2 class="subtitulo">Adjuntar documentación</h2>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <!-- <div class="flex justify-content-between align-items-center"> -->
+      <span>Arrastrar y soltar los archivos en la sección "Cargar Archivos" o selecciona la opción “Agregar Archivo"</span>
+    <!-- </div> -->
+  </div>
+</div>
+
+
+
+  <section class="mt-5">
+    <!-- [paginator]="documentos.length > 0" -->
+    <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="documentos"
+             [rows]="cantElementosPorPagina"
+             [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
+             (onLazyLoad)="paginar($event)">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col">Numero del documento</th>
+          <th scope="col">Tipo del documento</th>
+          <th scope="col">Link del documento</th>
+          <th scope="col"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-documento>
+        <tr>
+          <td> {{documento.numeroDocumento}} </td>
+          <td> {{documento.tipoDocumento}} </td>
+          <td> {{documento.linkDocumento}} </td>
+          <td>
+            <div class="contenedor-celda-iconos">
+              <a (click)="abrirPanel($event,documento)">
+                <img
+                  src="assets/images/imagen-icono-barras-horizontales.svg"
+                  alt="icono barras horizontales">
+              </a>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+
+      <!-- <ng-template pTemplate="paginatorleft">
+        <div class="paginator-template">
+          <span class="total-elements"> {{documentos.length}} de {{totalElementos}} </span>
+        </div>
+      </ng-template> -->
+
+      <!-- <ng-template pTemplate="paginatorright">
+        <div class="paginator-template">
+          <div class="export-table">
+            <span class="export-table-text">Exportar tabla</span>
+            <div class="export-table-icons">
+              <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
+              <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel">
+            </div>
+          </div>
+        </div>
+      </ng-template> -->
+    </p-table>
+  </section>
+
+
+</div>
+
+<p-overlayPanel #overlayPanel>
+  <ng-template pTemplate="content">
+    <app-overlay-panel-opciones  *ngIf="infoPersona == true">
+      <app-overlay-panel-opcion titulo="Beneficiarios" (click)="abrirModificarDocumento()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Detalle" (click)="abrirModificarDocumento()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModificarDocumento()"></app-overlay-panel-opcion>
+    </app-overlay-panel-opciones>
+    <app-overlay-panel-opciones *ngIf="infoPersona == false">
+      <app-overlay-panel-opcion titulo="Modificar documento" (click)="abrirModificarDocumento()"></app-overlay-panel-opcion>
+    </app-overlay-panel-opciones>
+  </ng-template>
+</p-overlayPanel>
+
