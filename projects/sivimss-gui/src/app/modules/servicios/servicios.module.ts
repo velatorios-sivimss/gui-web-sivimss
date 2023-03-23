@@ -13,6 +13,7 @@ import {ServiciosRoutingModule} from "./servicios-routing.module";
 
 import {ServiciosComponent} from "./components/servicios/servicios.component";
 import {ServicioService} from "./services/servicio.service";
+import { CeldaStickyModule } from "projects/sivimss-gui/src/app/shared/celda-sticky/celda-sticky.module";
 
 import { DropdownModule } from "primeng-lts/dropdown";
 import { TableModule } from "primeng-lts/table";
@@ -45,7 +46,8 @@ import { DetalleServicioComponent } from './components/detalle-servicio/detalle-
     DialogModule,
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
-    TablePanelModule
+    TablePanelModule,
+    CeldaStickyModule
   ],
   providers:[
     ServicioService

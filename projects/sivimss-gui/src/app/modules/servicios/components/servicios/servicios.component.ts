@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
+import {DynamicDialogRef,DialogService} from "primeng-lts/dynamicdialog";
 import { LazyLoadEvent } from "primeng-lts/api";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 
@@ -12,12 +13,12 @@ import {Servicio} from "../../models/servicio.interface";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 
-import {SERVICIO_BREADCRUMB} from "../../constants/breadcrumb";
-import {DynamicDialogRef,DialogService} from "primeng-lts/dynamicdialog";
-import {AgregarServicioComponent} from "../agregar-servicio/agregar-servicio.component";
-import {ModificarServicioComponent} from "../modificar-servicio/modificar-servicio.component";
-import {DetalleServicioComponent} from "../detalle-servicio/detalle-servicio.component";
 import {CATALOGOS_DUMMIES} from "../../constants/dummies";
+import {SERVICIO_BREADCRUMB} from "../../constants/breadcrumb";
+
+import {AgregarServicioComponent} from "../agregar-servicio/agregar-servicio.component";
+import {DetalleServicioComponent} from "../detalle-servicio/detalle-servicio.component";
+import {ModificarServicioComponent} from "../modificar-servicio/modificar-servicio.component";
 
 
 @Component({
@@ -137,7 +138,7 @@ export class ServiciosComponent implements OnInit {
     setTimeout(() =>{
       this.servicios = [
         {
-          id: 1,
+          id: 11111111,
           servicio: "Transporte de ataúdes",
           descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
           tipoServicio: 1,
@@ -151,7 +152,7 @@ export class ServiciosComponent implements OnInit {
           estatus: true,
         },
         {
-          id: 2,
+          id: 22222222,
           servicio: "Transporte de ataúdes",
           descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
           tipoServicio: 1,
@@ -165,7 +166,7 @@ export class ServiciosComponent implements OnInit {
           estatus: true,
         },
         {
-          id: 3,
+          id: 33333333,
           servicio: "Transporte de ataúdes",
           descripcionServicio: "Transporte de ataúdes en la totalidad del terriotorio nacional Mexicano",
           tipoServicio: 1,

@@ -216,6 +216,7 @@ export class OperadoresPorVelatorioComponent implements OnInit {
           estatus:false
         }
       ];
+    this.totalElementos = this.operadoresPorVelatorio.length;
 
     },0);
   }

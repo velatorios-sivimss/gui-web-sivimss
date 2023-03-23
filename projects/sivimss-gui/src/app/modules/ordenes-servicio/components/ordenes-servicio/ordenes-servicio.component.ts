@@ -1,9 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { LazyLoadEvent } from "primeng-lts/api";
+import { DialogService } from "primeng-lts/dynamicdialog";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
+import {
+  GenerarTarjetaIdentificacionComponent
+} from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component";
+import { VerTarjetaIdentificacionComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { DIEZ_ELEMENTOS_POR_PAGINA } from "projects/sivimss-gui/src/app/utils/constantes";
 
 @Component({
@@ -40,10 +46,14 @@ export class OrdenesServicioComponent implements OnInit {
   ordenesServicio: any[] = [];
   ordenServicioSeleccionada: any = null;
 
+  mostrarLoaderInline: boolean = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private alertaService: AlertaService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private loaderService: LoaderService,
+    private dialogService: DialogService
   ) {
   }
 
@@ -61,7 +71,7 @@ export class OrdenesServicioComponent implements OnInit {
     this.inicializarFiltroForm();
   }
 
-  inicializarFiltroForm():void {
+  inicializarFiltroForm(): void {
     this.filtroForm = this.formBuilder.group({
       velatorio: [{value: null, disabled: false}, []],
       numeroFolio: [{value: null, disabled: false}, []],
@@ -73,7 +83,6 @@ export class OrdenesServicioComponent implements OnInit {
       estatus: [{value: null, disabled: false}, []]
     });
   }
-
 
   paginar(event: LazyLoadEvent): void {
     setTimeout(() => {
@@ -107,9 +116,44 @@ export class OrdenesServicioComponent implements OnInit {
     }, 0);
   }
 
-  abrirPanel(event:MouseEvent, ordenServicioSeleccionada: any):void {
+  buscar() {
+    this.loaderService.activar();
+    setTimeout(() => {
+      this.loaderService.desactivar();
+    }, 2000);
+  }
+
+  abrirPanel(event: MouseEvent, ordenServicioSeleccionada: any): void {
     this.ordenServicioSeleccionada = ordenServicioSeleccionada;
     this.overlayPanel.toggle(event);
+  }
+
+  abrirModalGenerarTarjetaIdent() {
+    const ref = this.dialogService.open(GenerarTarjetaIdentificacionComponent, {
+      header: 'Generar tarjeta de identificación',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a GenerarTarjetaIdentificacionComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en GenerarTarjetaIdentificacionComponent
+      }
+    });
+  }
+
+  abrirModalVerTarjetaIdent() {
+    const ref = this.dialogService.open(VerTarjetaIdentificacionComponent, {
+      header: 'Ver tarjeta de identificación',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a VerTarjetaIdentificacionComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en VerTarjetaIdentificacionComponent
+      }
+    });
   }
 
 }

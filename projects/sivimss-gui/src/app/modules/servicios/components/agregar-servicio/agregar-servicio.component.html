@@ -9,7 +9,7 @@
       </div>
       <div class="col-md-6">
         <label class="control-label" for="servicioAgregar">Servicio<span class="req">*</span>:</label>
-        <input id="servicioAgregar" class="form-control" formControlName="servicio" placeholder="Ingresar el servicio">
+        <input id="servicioAgregar" class="form-control" formControlName="servicio" placeholder="Ingresa el servicio">
         <span class="campo-obligatorio"
               *ngIf="fas.servicio?.errors?.required && (fas.servicio?.dirty || fas.servicio?.touched)">Campo obligatorio</span>
       </div>
@@ -91,7 +91,7 @@
   <div class="flex justify-content-end">
     <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
     <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarServicioForm.invalid" (click)="confirmarAgregarServicio()">
-      Agregar
+      Aceptar
     </button>
   </div>
 </ng-container>

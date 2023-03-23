@@ -1,5 +1,6 @@
 <form [formGroup]="form">
   <ng-container formGroupName="datosFinado">
+    <h2 class="subtitulo-base">Datos del finado</h2>
     <div class="row mb-2 flex align-content-between">
       <div class="col-md-3">
         <label class="control-label" for="tipoOrden">Tipo de orden<span class="req">*</span>:</label>
@@ -27,11 +28,13 @@
         <label class="control-label">¿Es obito?</label>
         <div class="flex">
           <div class="flex align-items-center mx-2">
-            <p-radioButton [inputId]="'esObitoSi'" name="esObito" [value]="true" formControlName="esObito"></p-radioButton>
+            <p-radioButton [inputId]="'esObitoSi'" name="esObito" [value]="true"
+                           formControlName="esObito"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'esObitoSi'">Si</label>
           </div>
           <div class="flex align-items-center mx-2">
-            <p-radioButton [inputId]="'esObitoNo'" name="esObito" [value]="false" formControlName="esObito"></p-radioButton>
+            <p-radioButton [inputId]="'esObitoNo'" name="esObito" [value]="false"
+                           formControlName="esObito"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'esObitoNo'">No</label>
           </div>
         </div>
@@ -43,11 +46,13 @@
         <label class="control-label">¿El servicio es para una extremidad?<span class="req">*</span>:</label>
         <div class="flex">
           <div class="flex align-items-center mx-2">
-            <p-radioButton [inputId]="'esParaExtremidadSi'" name="esParaExtremidad" [value]="true" formControlName="esParaExtremidad"></p-radioButton>
+            <p-radioButton [inputId]="'esParaExtremidadSi'" name="esParaExtremidad" [value]="true"
+                           formControlName="esParaExtremidad"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'esParaExtremidadSi'">Si</label>
           </div>
           <div class="flex align-items-center mx-2">
-            <p-radioButton [inputId]="'esParaExtremidadNo'" name="esParaExtremidad" [value]="false" formControlName="esParaExtremidad"></p-radioButton>
+            <p-radioButton [inputId]="'esParaExtremidadNo'" name="esParaExtremidad" [value]="false"
+                           formControlName="esParaExtremidad"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'esParaExtremidadNo'">No</label>
           </div>
         </div>
@@ -234,8 +239,8 @@
   <div class="row">
     <div class="col-md-12 flex justify-content-end align-items-center">
       <button class="btn btn-md btn-default">Regresar</button>
-      <button class="btn btn-md btn-gold ml-5">Cancelar</button>
-      <button class="btn btn-md btn-primary ml-5">Aceptar</button>
+      <button class="btn btn-md btn-gold ml-5" routerLink="../">Cancelar</button>
+      <button type="button" class="btn btn-md btn-primary ml-5">Aceptar</button>
     </div>
   </div>
 </form>
