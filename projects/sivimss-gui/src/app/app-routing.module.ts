@@ -3,7 +3,7 @@ import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
 import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
-import { ProveedoresModule } from './modules/proveedores/proveedores.module';
+
 const routes: Routes = [
   {
     path: 'pagina-no-encontrada',
@@ -43,6 +43,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
   },
   {
+    path: 'contratos-putr/administrar-contratos',
+    loadChildren: () => import('./modules/contratos-putr/administrar-contratos/contratos.module').then(m => m.ContratosModule)
+  },
+  {
+    path: 'contratos-putr/seguimiento-de-pagos',
+    loadChildren: () => import('./modules/contratos-putr/seguimiento-de-pagos/cuotas.module').then(m => m.CuotasModule)
+  },
+  {
     path: 'inventario-vehicular',
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
@@ -77,6 +85,18 @@ const routes: Routes = [
   {
     path: 'artículos',
     loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
+  },
+  {
+    path: 'convenios-prevision-funeraria',
+    loadChildren: () => import('./modules/convenios-prevision-funeraria/convenios-prevision-funeraria.module').then(m => m.ConveniosPrevisionFunerariaModule)
+  },
+  {
+    path: 'renovar-convenio-pf',
+    loadChildren: () => import('./modules/renovar-convenio-pf/renovar-convenio-pf.module').then(m => m.RenovarConvenioPfModule)
+  },
+  {
+    path: 'velatorios',
+    loadChildren: () => import('./modules/velatorios/velatorios.module').then(module => module.VelatoriosModule)
   },
   {
     path: 'renovacion-extemporanea',

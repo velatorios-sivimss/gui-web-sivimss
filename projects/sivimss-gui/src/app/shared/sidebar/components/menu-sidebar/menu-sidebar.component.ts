@@ -11,6 +11,7 @@ import { Observable } from "rxjs";
 export class MenuSidebarComponent implements OnInit {
 
   opcionAnteriorSeleccionada: any = null;
+  opcionSubmenuAnteriorSeleccionada: any = null;
   activo$!: Observable<boolean>;
 
   menu: any[] = [
@@ -36,6 +37,26 @@ export class MenuSidebarComponent implements OnInit {
           texto: 'Pagos',
           ruta: 'pagos',
           activo: false
+        },
+        {
+          icono: 'pagos',
+          texto: 'Contratos PUTR',
+          ruta: 'contratos-putr',
+          activo: false,
+          submenus: [
+            {
+              icono: '',
+              texto: 'Administrar contratos',
+              ruta: 'contratos-putr/administrar-contratos',
+              activo: false
+            },
+            {
+              icono: '',
+              texto: 'Seguimiento de pagos',
+              ruta: 'contratos-putr/seguimiento-de-pagos',
+              activo: false
+            },
+          ]
         },
       ]
     },
@@ -164,9 +185,26 @@ export class MenuSidebarComponent implements OnInit {
     if (this.opcionAnteriorSeleccionada) {
       this.opcionAnteriorSeleccionada.activo = false;
     }
+    if (this.opcionSubmenuAnteriorSeleccionada) {
+      this.opcionSubmenuAnteriorSeleccionada.activo = false;
+    }
     opcionSeleccionada.activo = true;
     this.router.navigate([opcionSeleccionada.ruta]);
     this.opcionAnteriorSeleccionada = opcionSeleccionada;
+  }
+
+  navegarDesdeSubmenu(menuSeleccionado: any, submenuSeleccionado: any) {
+    if (this.opcionAnteriorSeleccionada) {
+      this.opcionAnteriorSeleccionada.activo = false;
+    }
+    if (this.opcionSubmenuAnteriorSeleccionada) {
+      this.opcionSubmenuAnteriorSeleccionada.activo = false;
+    }
+    menuSeleccionado.activo = true;
+    submenuSeleccionado.activo = true;
+    this.router.navigate([submenuSeleccionado.ruta]);
+    this.opcionAnteriorSeleccionada = menuSeleccionado;
+    this.opcionSubmenuAnteriorSeleccionada = submenuSeleccionado;
   }
 
 }

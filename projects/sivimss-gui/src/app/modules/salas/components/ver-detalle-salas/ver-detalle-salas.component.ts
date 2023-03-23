@@ -1,23 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LazyLoadEvent } from 'primeng-lts/api/lazyloadevent';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef, DialogService } from 'primeng-lts/dynamicdialog';
+import { OverlayPanel } from 'primeng-lts/overlaypanel';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { Sala } from '../../models/salas.interface';
+import { ModificarSalasComponent } from '../modificar-salas/modificar-salas.component';
 
 @Component({
   selector: 'app-ver-detalle-salas',
   templateUrl: './ver-detalle-salas.component.html',
-  styleUrls: ['./ver-detalle-salas.component.scss']
+  styleUrls: ['./ver-detalle-salas.component.scss'],
+  providers: [DialogService]
 })
 export class VerDetalleSalasComponent implements OnInit {
-  readonly MENSAJE_SALA_AGREGADA = 'Sala se ha agregado correctamente';
-  readonly MENSAJE_SALA_MODIFICADA = 'Sala se ha modificado correctamente';
-  readonly MENSAJE_SALA_ACTIVADA = 'Sala se ha activado correctamente';
-  readonly MENSAJE_SALA_DESACTIVADA = 'Sala se ha desactivado correctamente';
 
-  salaSeleccionado!: Sala;
+  @ViewChild(OverlayPanel)
+  overlayPanel!: OverlayPanel;
+
+  readonly MENSAJE_SALA_AGREGADA = 'Sala agregada correctamente';
+  readonly MENSAJE_SALA_MODIFICADA = 'Sala modificada correctamente';
+  readonly MENSAJE_SALA_ACTIVADA = 'Sala activada correctamente';
+  readonly MENSAJE_SALA_DESACTIVADA = 'Sala desactivada correctamente';
+
+  detalleRef!: DynamicDialogRef;
+  salaSeleccionada!: Sala;
   preguntaConfirmacion: string = '';
   mensajeConfirmacion: string = '';
   Accion = Accion;
@@ -27,10 +35,11 @@ export class VerDetalleSalasComponent implements OnInit {
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private alertaService: AlertaService,
+    public dialogService: DialogService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.salaSeleccionado = this.config.data?.sala;
+    this.salaSeleccionada = this.config.data?.sala;
     this.accionEntrada = this.config.data?.modo;
   }
 
@@ -41,24 +50,28 @@ export class VerDetalleSalasComponent implements OnInit {
   inicializarModo() {
     switch (this.accionEntrada) {
       case Accion.Agregar:
-        this.preguntaConfirmacion = '¿Estás seguro de agregar esta nueva sala?';
+        this.preguntaConfirmacion = '¿Estás seguro que deseas agregar esta sala?';
         this.mensajeConfirmacion = this.MENSAJE_SALA_AGREGADA;
         break;
       case Accion.Modificar:
-        this.preguntaConfirmacion = '¿Estás seguro de modificar esta sala?';
+        this.preguntaConfirmacion = '¿Estás seguro que deseas modificar esta sala?';
         this.mensajeConfirmacion = this.MENSAJE_SALA_MODIFICADA;
         break;
       case Accion.Activar:
-        this.preguntaConfirmacion = '¿Estás seguro de activar esta sala?';
+        this.preguntaConfirmacion = '¿Estás seguro que deseas activar esta sala?';
         this.mensajeConfirmacion = this.MENSAJE_SALA_ACTIVADA;
         break;
       case Accion.Desactivar:
-        this.preguntaConfirmacion = '¿Estás seguro de desactivar esta sala?';
+        this.preguntaConfirmacion = '¿Estás seguro que deseas desactivar esta sala?';
         this.mensajeConfirmacion = this.MENSAJE_SALA_DESACTIVADA;
         break;
       default:
         break;
     }
+  }
+
+  abrirPanel(event: MouseEvent): void {
+    this.overlayPanel.toggle(event);
   }
 
   cerrarDialogo(sala?: Sala) {
@@ -71,8 +84,8 @@ export class VerDetalleSalasComponent implements OnInit {
   // Para activar o desactivar
   cambiarEstatusSala() {
     const nuevoSala: Sala = {
-      ...this.salaSeleccionado,
-      estatus: !this.salaSeleccionado.estatus,
+      ...this.salaSeleccionada,
+      estatus: !this.salaSeleccionada.estatus,
     }
     // TO DO Integrar servicio de back para Actualizar Estatus
     this.cerrarDialogo(nuevoSala);
@@ -80,9 +93,18 @@ export class VerDetalleSalasComponent implements OnInit {
   }
 
   agregarSala() {
-    const nuevoSala: Sala = { ...this.salaSeleccionado }
+    const nuevoSala: Sala = { ...this.salaSeleccionada }
     // TO DO Integrar servicio de back para Guardar
     this.cerrarDialogo(nuevoSala);
     this.alertaService.mostrar(TipoAlerta.Exito, this.mensajeConfirmacion);
+  }
+
+  abrirModalModificarSala() {
+    this.cerrarDialogo();
+    this.detalleRef = this.dialogService.open(ModificarSalasComponent, {
+      data: { panteon: this.salaSeleccionada },
+      header: "Modificar sala",
+      width: "920px"
+    });
   }
 }
