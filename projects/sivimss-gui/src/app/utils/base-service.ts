@@ -15,7 +15,8 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     protected _agregar: string,
     protected _actualizar: string,
     protected _aplicativo: number,
-    protected _servicio: string
+    protected _servicio: string,
+    protected _estatus: string,
   ) {
   }
 
@@ -40,7 +41,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', id);
     const params = new HttpParams().append('datos', id);
-    return this._http.put<T>(this._base + "1/cambiar-estatus-usr", body, {headers, params});
+    return this._http.put<T>(this._base + `${this._aplicativo}/${this._estatus}`, body, {headers, params});
   }
 
   buscarPorId(id: ID): Observable<T> {
@@ -49,6 +50,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
   }
 
   buscarPorPagina(pagina: number, tamanio: number): Observable<T> {
+    debugger
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     const params = new HttpParams()
       .append("pagina", pagina)

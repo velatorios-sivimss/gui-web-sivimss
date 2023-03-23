@@ -14,17 +14,23 @@ export class RolService extends BaseService<HttpRespuesta<any>, any> {
   private auth_token3: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJ7XCJpZFwiOicxJyxcInJvbFwiOicxJyxcIm5vbWJyZVwiOidudWxsJyxcImNvcnJlb1wiOidwYWJsby5ub2xhc2NvZXhhbXBsZS5jb20nfSIsImlhdCI6MTY3OTQxMzE5NSwiZXhwIjoxNjgwMjEyNzk1fQ.kgb-Td83sP0yjzgPPIH1JoDHxRNAQO89oyuFWNBOv9MpRLn6mZaa0qv_t15M3UjTyNAp70t19OengUG42WReBQ";
    
   constructor(protected _http: HttpClient) {
-    super(_http, `${environment.api.mssivimss}`, "agregar-rol", "actualizar-rol", 1, "consultar-roles");
+    super(_http, `${environment.api.mssivimss}`, "agregar-rol", "actualizar-rol", 4, "consultar-roles", "cambiar-estatus-rol" );
   }
 
-  buscarPorPagina(pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
+  buscarPorFiltros(filtros: any, pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token3}`, 'Content-Type': 'application/json'});
-    return this._http.get<HttpRespuesta<any>>(this._base + `3?pagina=${pagina}&tamanio=${tamanio}&servicio=consultar-roles`, {headers})
+    const params = new HttpParams()
+      .append("pagina", pagina)
+      .append("tamanio", tamanio);
+    return this._http.post<HttpRespuesta<any>>(this._base + `4/buscar/rol-filtros`, filtros, {headers, params});
   }
+
 
   obtenerCatRoles(): Observable<HttpRespuesta<any>> {
-    const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token3}`,'Content-Type': 'application/json'});
-    return this._http.get<HttpRespuesta<any>>(this._base + `3/catalogo?servicio=catalogo-roles`, {headers});
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token3}`, 'Content-Type': 'application/json'});
+    const params = new HttpParams()
+      .append("servicio", "catalogo-roles")
+    return this._http.get<HttpRespuesta<any>>(this._base + `4/catalogo`, {headers, params});
   }
 
 }

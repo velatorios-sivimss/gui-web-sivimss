@@ -21,7 +21,7 @@
             </div>
             <div class="col-md-6">
                 <label class="control-label" for="rol">Rol:</label>
-                <p-dropdown id="rol" class="form-control" formControlName="estatus" [options]="opciones" placeholder="Seleccionar el rol">
+                <p-dropdown id="rol" class="form-control" formControlName="estatus" [options]="catRol" placeholder="Seleccionar el rol">
                 </p-dropdown>
             </div>
         </div>
@@ -58,8 +58,8 @@
         </div>
         <div class="row mt-6">
             <div class="col-md-12 flex justify-content-end">
-                <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-                <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+                <button type="submit" class="btn btn-default btn-md" (click)="limpiar();">Limpiar</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5" (click)="buscar();">Buscar</button>
             </div>
         </div>
     </form>
@@ -69,7 +69,7 @@
         <h2 class="subtitulo">Roles</h2>
         <button type="button" class="btn btn-primary btn-lg" routerLink="agregar-rol">Agregar rol</button>
     </div>
-    <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="roles" [paginator]="roles.length > 0" [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
+    <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="roles" [paginator]="roles.length > 0" [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual" (onLazyLoad)="seleccionarPaginacion()">
         <ng-template pTemplate="header">
             <tr>
                 <th>ID</th>
@@ -81,14 +81,14 @@
         </ng-template>
         <ng-template pTemplate="body" let-rol>
             <tr>
-                <td>{{rol.id}}</td>
-                <td>{{rol.des}}</td>
+                <td>{{rol.idRol}}</td>
+                <td>{{rol.desRol}}</td>
                 <td>{{rol.nivel}}</td>
                 <td>{{rol.fCreacion}}</td>
                 <td>
                     <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
                         <div class="contenedor-inputswitch">
-                            <p-inputSwitch [(ngModel)]="rol.estatus"></p-inputSwitch>
+                            <p-inputSwitch [(ngModel)]="rol.estatus" (ngModelChange)="cambiarEstatus(rol.idRol);"></p-inputSwitch>
                             <span class="activo" *ngIf="rol.estatus">Activo</span>
                             <span class="inactivo" *ngIf="!rol.estatus">Inactivo</span>
                         </div>
@@ -146,7 +146,7 @@
                     <div class="flex flex-column">
                         <span>Estatus</span>
                         <div class="contenedor-inputswitch">
-                            <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus"></p-inputSwitch>
+                            <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus" (ngModelChange)="cambiarEstatus(rolSeleccionado.idRol);"></p-inputSwitch>
                             <span class="activo" *ngIf="rolSeleccionado.estatus">Activo</span>
                             <span class="inactivo" *ngIf="!rolSeleccionado.estatus">Inactivo</span>
                         </div>
@@ -160,7 +160,7 @@
                 <div class="col-md-9">
                     <div class="table-panel-column">
                         <label>Nombre del Rol</label>
-                        <span>{{rolSeleccionado.des}}</span>
+                        <span>{{rolSeleccionado.desRol}}</span>
                     </div>
                 </div>
                 <div class="col-md-3">
