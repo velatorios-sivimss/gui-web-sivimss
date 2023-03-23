@@ -20,7 +20,7 @@ import {FiltrosUsuario} from "../../models/filtrosUsuario.interface";
 import {VerDetalleUsuarioComponent} from "../ver-detalle-usuario/ver-detalle-usuario.component";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.component";
-import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "876px";
@@ -41,7 +41,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   totalElementos: number = 0;
 
   opciones: TipoDropdown[] = CATALOGOS;
-  catRol: any[] = [];
+  catRol: TipoDropdown[] = [];
   usuarios: Usuario[] = [];
   usuarioSeleccionado!: Usuario;
 
@@ -65,15 +65,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
-    let respuesta = this.route.snapshot.data["respuesta"];
-    this.catRol = respuesta.datos.map(
-      (rol: Catalogo) => (
-        {
-          label: rol.nombre,
-          value: rol.id
-        }
-      )
-    );
+    const roles = this.route.snapshot.data["respuesta"].datos;
+    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
     this.inicializarFiltroForm();
   }
 
@@ -84,7 +77,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   abrirModalAgregarUsuario(): void {
     const CREACION_CONFIG: DynamicDialogConfig = {
-      header: "Ver detalle",
+      header: "Agregar usuario",
       width: MAX_WIDTH,
     }
     this.creacionRef = this.dialogService.open(AgregarUsuarioComponent, CREACION_CONFIG);

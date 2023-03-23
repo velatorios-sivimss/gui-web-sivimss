@@ -1,8 +1,6 @@
-// TODO: Si matricula y curp no validas no guardar
-
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PATRON_CORREO} from "../../../../utils/constantes";
+import {PATRON_CORREO, PATRON_CURP} from "../../../../utils/constantes";
 import {Usuario} from "../../models/usuario.interface";
 import * as moment from "moment/moment";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
@@ -15,7 +13,7 @@ import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {MENSAJES_CURP, OPCIONES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA, OPCIONES_MATRICULA} from "../../constants/validacionMatricula";
 import {ActivatedRoute} from '@angular/router';
-import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type NuevoUsuario = Omit<Usuario, "id" | "password" | "estatus" | "matricula">;
 type SolicitudCurp = Pick<Usuario, "curp">;
@@ -29,11 +27,10 @@ type SolicitudMatricula = Pick<Usuario, "claveMatricula">;
 export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuarioForm!: FormGroup;
-  valorValidacion: number = 0;
   opciones: TipoDropdown[] = CATALOGOS;
   curpValida: boolean = false;
   matriculaValida: boolean = false;
-  catRol: Catalogo[] = [];
+  catRol: TipoDropdown[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -46,20 +43,14 @@ export class AgregarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAgregarUsuarioForm();
-    let respuesta = this.route.snapshot.data["respuesta"];
-    this.catRol = respuesta.datos.map(
-      (rol: Catalogo) => (
-        {
-          label: rol.nombre,
-          value: rol.id
-        }
-      )
-    );
+    const roles = this.route.snapshot.data["respuesta"].datos;
+    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
   }
 
   inicializarAgregarUsuarioForm(): void {
     this.agregarUsuarioForm = this.formBuilder.group({
-      curp: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(18)]],
+      curp: [{value: null, disabled: false},
+        [Validators.required, Validators.maxLength(18), Validators.pattern(PATRON_CURP)]],
       matricula: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(10)]],
       nombre: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(50)]],
       primerApellido: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(50)]],
@@ -95,13 +86,14 @@ export class AgregarUsuarioComponent implements OnInit {
   validarCurp(): void {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
     if (!curp.curp) return;
+    if (!PATRON_CURP.test(curp.curp)) return;
     const solicitudCurp: string = JSON.stringify(curp);
     this.usuarioService.validarCurp(solicitudCurp).subscribe(
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
         if (!OPCIONES_CURP.includes(valor)) return;
-        const {mensaje, tipo, valido } = MENSAJES_CURP.get(valor);
+        const {mensaje, tipo, valido} = MENSAJES_CURP.get(valor);
         this.curpValida = valido;
         this.alertaService.mostrar(tipo, mensaje);
       },
