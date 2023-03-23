@@ -15,11 +15,17 @@ import {CalendarModule} from "primeng-lts/calendar";
 import {OverlayPanelModule} from "primeng-lts/overlaypanel";
 import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/overlay-panel-opciones.module";
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
+import { AgregarUsuarioComponent } from './components/agregar-usuario/agregar-usuario.component';
+import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
+import { VerDetalleUsuarioComponent } from './components/ver-detalle-usuario/ver-detalle-usuario.component';
 
 
 @NgModule({
   declarations: [
-    UsuariosComponent
+    UsuariosComponent,
+    AgregarUsuarioComponent,
+    ModificarUsuarioComponent,
+    VerDetalleUsuarioComponent
   ],
   imports: [
     CommonModule,
