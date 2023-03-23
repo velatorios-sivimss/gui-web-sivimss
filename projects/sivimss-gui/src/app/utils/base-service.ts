@@ -15,7 +15,8 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     protected _agregar: string,
     protected _actualizar: string,
     protected _aplicativo: number,
-    protected _servicio: string
+    protected _servicio: string,
+    protected _detalle: string
   ) {
   }
 
@@ -45,6 +46,8 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
 
   buscarPorId(id: ID): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
+    const params = new HttpParams()
+      .append("servicio", this._detalle)
     return this._http.get<T>(this._base + `${this._aplicativo}/` + id, {headers});
   }
 
