@@ -14,7 +14,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     protected _base: string,
     protected _agregar: string,
     protected _actualizar: string,
-    protected _nivel: number,
+    protected _aplicativo: number,
     protected _servicio: string
   ) {
   }
@@ -24,7 +24,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', usuario);
     const params = new HttpParams().append('datos', usuario);
-    return this._http.post<T>(this._base + `${this._nivel}/${this._agregar}`, body, {headers, params});
+    return this._http.post<T>(this._base + `${this._aplicativo}/${this._agregar}`, body, {headers, params});
   }
 
   actualizar(usuario: any): Observable<T> {
@@ -32,7 +32,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', usuario);
     const params = new HttpParams().append('datos', usuario);
-    return this._http.put<T>(this._base + `${this._nivel}/${this._actualizar}`, body, {headers, params});
+    return this._http.put<T>(this._base + `${this._aplicativo}/${this._actualizar}`, body, {headers, params});
   }
 
   cambiarEstatus(id: any): Observable<T> {
@@ -45,7 +45,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
 
   buscarPorId(id: ID): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
-    return this._http.get<T>(this._base + `${this._nivel}/` + id, {headers});
+    return this._http.get<T>(this._base + `${this._aplicativo}/` + id, {headers});
   }
 
   buscarPorPagina(pagina: number, tamanio: number): Observable<T> {
@@ -54,7 +54,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
       .append("pagina", pagina)
       .append("tamanio", tamanio)
       .append("servicio", this._servicio)
-    return this._http.get<T>(this._base + `${this._nivel}`, {headers, params})
+    return this._http.get<T>(this._base + `${this._aplicativo}`, {headers, params})
   }
 
 }

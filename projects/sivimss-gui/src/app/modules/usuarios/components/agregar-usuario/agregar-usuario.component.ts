@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PATRON_CORREO} from "../../../../utils/constantes";
+import {PATRON_CORREO, PATRON_CURP} from "../../../../utils/constantes";
 import {Usuario} from "../../models/usuario.interface";
 import * as moment from "moment/moment";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
@@ -49,7 +49,8 @@ export class AgregarUsuarioComponent implements OnInit {
 
   inicializarAgregarUsuarioForm(): void {
     this.agregarUsuarioForm = this.formBuilder.group({
-      curp: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(18)]],
+      curp: [{value: null, disabled: false},
+        [Validators.required, Validators.maxLength(18), Validators.pattern(PATRON_CURP)]],
       matricula: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(10)]],
       nombre: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(50)]],
       primerApellido: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(50)]],
@@ -85,6 +86,7 @@ export class AgregarUsuarioComponent implements OnInit {
   validarCurp(): void {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
     if (!curp.curp) return;
+    if (!PATRON_CURP.test(curp.curp)) return;
     const solicitudCurp: string = JSON.stringify(curp);
     this.usuarioService.validarCurp(solicitudCurp).subscribe(
       (respuesta) => {
