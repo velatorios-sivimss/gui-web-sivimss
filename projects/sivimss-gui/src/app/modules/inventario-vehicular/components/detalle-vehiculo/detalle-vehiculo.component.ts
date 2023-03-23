@@ -18,8 +18,8 @@ export class DetalleVehiculoComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  abrirModalModificacionVehiculo() {
-    this.modificar.emit(true)
+  abrirModalModificacionVehiculo(): void {
+    this.modificar.emit(true);
   }
 
 }
