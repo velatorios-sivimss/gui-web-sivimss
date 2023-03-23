@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {PrimeNGConfig} from 'primeng-lts/api';
 import {TranslateService} from '@ngx-translate/core';
 import {NavigationEnd, Router} from "@angular/router";
+import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -10,12 +12,14 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  rutaActual: string;
+  rutaActual!: string;
+
 
   constructor(
     private primengConfig: PrimeNGConfig,
     private translateService: TranslateService,
-    private router: Router
+    private router: Router,
+
   ) {
     /*Esta implementacion es temporal*/
     this.router.events.subscribe(event => {
@@ -27,6 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+
     this.permitirAnimacionRippleComponentesPrime();
     this.establecerIdiomaGeneral('es');
   }

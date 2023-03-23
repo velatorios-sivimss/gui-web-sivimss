@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
-import {LazyLoadEvent} from "primeng-lts/api";
-import {OverlayPanel} from "primeng-lts/overlaypanel";
-import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
-import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import {Usuario} from "../../models/usuario.interface";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
+import { LazyLoadEvent } from "primeng-lts/api";
+import { OverlayPanel } from "primeng-lts/overlaypanel";
+import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
+import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
+import { Usuario } from "../../models/usuario.interface";
 
 @Component({
   selector: 'app-usuarios',
@@ -15,7 +15,7 @@ import {Usuario} from "../../models/usuario.interface";
 export class UsuariosComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -37,11 +37,11 @@ export class UsuariosComponent implements OnInit {
   ];
 
   usuarios: Usuario[] = [];
-  usuarioSeleccionado: Usuario = null;
+  usuarioSeleccionado!: Usuario;
 
-  filtroForm: FormGroup;
-  agregarUsuarioForm: FormGroup;
-  modificarUsuarioForm: FormGroup;
+  filtroForm!: FormGroup;
+  agregarUsuarioForm!: FormGroup;
+  modificarUsuarioForm!: FormGroup;
 
   mostrarModalAgregarUsuario: boolean = false;
   mostrarModalModificarUsuario: boolean = false;
@@ -116,22 +116,22 @@ export class UsuariosComponent implements OnInit {
     }, 0);
   }
 
-  abrirPanel(event:MouseEvent, usuario: any):void {
+  abrirPanel(event: MouseEvent, usuario: any): void {
     this.usuarioSeleccionado = usuario;
     this.overlayPanel.toggle(event);
   }
 
-  abrirModalAgregarUsuario():void {
+  abrirModalAgregarUsuario(): void {
     this.inicializarAgregarUsuarioForm();
     this.mostrarModalAgregarUsuario = true;
   }
 
-  abrirModalModificarUsuario():void {
+  abrirModalModificarUsuario(): void {
     this.inicializarModificarUsuarioForm();
     this.mostrarModalModificarUsuario = true;
   }
 
-  abrirModalDetalleUsuario(usuario:Usuario):void {
+  abrirModalDetalleUsuario(usuario: Usuario): void {
     this.usuarioSeleccionado = {...usuario};
     this.mostrarModalDetalleUsuario = true;
   }
@@ -163,7 +163,7 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  inicializarModificarUsuarioForm():void {
+  inicializarModificarUsuarioForm(): void {
     this.modificarUsuarioForm = this.formBuilder.group({
       id: [{value: 1, disabled: true}],
       curp: [{value: null, disabled: false}, [Validators.required]],
@@ -181,11 +181,11 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  agregarUsuario():void {
+  agregarUsuario(): void {
     this.alertaService.mostrar(TipoAlerta.Exito, 'Usuario guardado');
   }
 
-  modificarUsuario():void {
+  modificarUsuario(): void {
   }
 
   get f() {
@@ -196,7 +196,7 @@ export class UsuariosComponent implements OnInit {
     return this.agregarUsuarioForm.controls;
   }
 
-  get fmu(){
+  get fmu() {
     return this.modificarUsuarioForm.controls;
   }
 

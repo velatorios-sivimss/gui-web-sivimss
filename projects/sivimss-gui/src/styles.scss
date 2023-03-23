@@ -14,6 +14,19 @@ se debe agregar en [styles.scss].
 @import "assets/scss/custom-prime";
 @import "assets/scss/custom-grafica-base";
 
+:root {
+  --sivimss-max-width: 1440px;
+  @media screen and (min-width: 1440px) {
+    --sivimss-max-width: 1600px;
+  }
+  @media screen and (min-width: 1600px) {
+    --sivimss-max-width: 1900px;
+  }
+  @media screen and (min-width: 1900px) {
+    --sivimss-max-width: 2100px;
+  }
+}
+
 html {
   font-size: 10px;
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
@@ -29,6 +42,12 @@ body {
   padding-top: 120px;
 }
 
+.container-sivimss {
+  max-width: var(--sivimss-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .req {
   color: #272829;
 }
@@ -37,6 +56,20 @@ body {
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
+  color: #E10000;
+}
+
+.mensaje-inferior-campo-obligatorio{
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #222222;
+}
+
+.listado-obligatorio-recuadro {
+  font-style: normal;
+  font-weight: 600;
   color: #E10000;
 }
 
@@ -55,10 +88,11 @@ body {
 }
 
 .contenedor-inputswitch {
-  display: flex;
   align-items: center;
+  display: inline-block;
+  margin-left: 10px;
 
-  & > *:not(span) {
+  &>*:not(span) {
     transform: translateY(3px);
   }
 
@@ -91,7 +125,7 @@ body {
     cursor: pointer;
   }
 
-  a + a {
+  a+a {
     margin-left: 1rem;
   }
 }
@@ -168,5 +202,18 @@ body {
       color: #484848;
     }
   }
+}
 
+.rectangle-row {
+  border: 1px solid #DEE2E6;
+}
+
+.active-text-color {
+  color: #217A6B;
+}
+
+.custom-table .p-datatable-wrapper {
+  border: none;
+  border-radius: 0px;
+  overflow: hidden;
 }

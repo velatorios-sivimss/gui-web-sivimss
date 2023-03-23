@@ -15,7 +15,7 @@ import { LazyLoadEvent } from "primeng-lts/api";
 export class CapillasComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel;
+  overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -38,11 +38,11 @@ export class CapillasComponent implements OnInit {
 
   capillas: Capilla[] = [];
 
-  capillaSeleccionada: Capilla = null;
+  capillaSeleccionada!: Capilla;
 
-  filtroForm: FormGroup;
-  agregarCapillaForm: FormGroup;
-  modificarCapillaForm: FormGroup;
+  filtroForm!: FormGroup;
+  agregarCapillaForm!: FormGroup;
+  modificarCapillaForm!: FormGroup;
 
   mostrarModalAgregarCapilla: boolean = false;
   mostrarModalModificarCapilla: boolean = false;
