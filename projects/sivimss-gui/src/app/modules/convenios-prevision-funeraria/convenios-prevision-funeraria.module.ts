@@ -33,7 +33,6 @@ import { DetalleConvenioPrevisionFunerariaComponent } from './components/detalle
 import { AgregarConveniosPrevisionFunerariaComponent } from './components/agregar-convenios-prevision-funeraria/agregar-convenios-prevision-funeraria.component';
 import { AgregarPersonaConveniosPrevisionFunerariaComponent } from './components/agregar-persona-convenios-prevision-funeraria/agregar-persona-convenios-prevision-funeraria.component';
 import { AgregarBeneficiarioConveniosPrevisionFunerariaComponent } from './components/agregar-beneficiario-convenios-prevision-funeraria/agregar-beneficiario-convenios-prevision-funeraria.component';
-import { DetalleBeneficiarioConveniosPrevisionFunerariaComponent } from './components/detalle-beneficiario-convenios-prevision-funeraria/detalle-beneficiario-convenios-prevision-funeraria.component';
 
 @NgModule({
   declarations:[
@@ -42,7 +41,6 @@ import { DetalleBeneficiarioConveniosPrevisionFunerariaComponent } from './compo
     AgregarConveniosPrevisionFunerariaComponent,
     AgregarPersonaConveniosPrevisionFunerariaComponent,
     AgregarBeneficiarioConveniosPrevisionFunerariaComponent,
-    DetalleBeneficiarioConveniosPrevisionFunerariaComponent,
   ],
   imports:[
     CommonModule,

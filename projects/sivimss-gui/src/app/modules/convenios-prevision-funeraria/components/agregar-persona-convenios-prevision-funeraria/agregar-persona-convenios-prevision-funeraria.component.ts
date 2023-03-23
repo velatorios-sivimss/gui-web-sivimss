@@ -15,9 +15,6 @@ import {PersonaInterface} from "../../models/persona.interface";
 import {
   AgregarBeneficiarioConveniosPrevisionFunerariaComponent
 } from "../agregar-beneficiario-convenios-prevision-funeraria/agregar-beneficiario-convenios-prevision-funeraria.component";
-import {
-  DetalleBeneficiarioConveniosPrevisionFunerariaComponent
-} from "../detalle-beneficiario-convenios-prevision-funeraria/detalle-beneficiario-convenios-prevision-funeraria.component";
 
 @Component({
   selector: 'app-agregar-persona-convenios-prevision-funeraria',
@@ -94,11 +91,13 @@ export class AgregarPersonaConveniosPrevisionFunerariaComponent implements OnIni
   }
 
   abrirModalDetalleBeneficiario(detalleBeneficiario: BeneficiarioInterface): void {
+    /*
     this.detalleBeneficiarioRef = this.dialogService.open(DetalleBeneficiarioConveniosPrevisionFunerariaComponent, {
       header:"Ver detalle de beneficiario",
       width:"920px",
       data: detalleBeneficiario,
     });
+    */
   }
   abrirModalEliminarBeneficiario(eliminarBeneficiario: BeneficiarioInterface): void {
     this.beneficiario = this.beneficiario.filter((element) => {
