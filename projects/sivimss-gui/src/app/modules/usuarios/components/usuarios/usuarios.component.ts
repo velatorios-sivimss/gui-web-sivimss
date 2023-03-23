@@ -99,7 +99,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     const DETALLE_CONFIG: DynamicDialogConfig = {
       header: "Ver detalle",
       width: MAX_WIDTH,
-      data: usuario
+      data: usuario.id
     }
     this.creacionRef = this.dialogService.open(VerDetalleUsuarioComponent, DETALLE_CONFIG);
     this.creacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));

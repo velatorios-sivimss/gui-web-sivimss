@@ -1,4 +1,4 @@
-<app-table-panel>
+<app-table-panel *ngIf="usuarioSeleccionado">
   <ng-template appCustomTemplate="left-header">
     <div class="table-panel-header-column">
       <span class="font-bold">ID {{usuarioSeleccionado.id}}</span>
@@ -72,7 +72,7 @@
     <div class="col-md-6">
       <div class="table-panel-column">
         <label>Nivel</label>
-        <span>{{usuarioSeleccionado.idOficina}}</span>
+        <span>{{usuarioSeleccionado.oficina}}</span>
       </div>
     </div>
   </div>
@@ -80,7 +80,7 @@
     <div class="col-md-12">
       <div class="table-panel-column">
         <label>Rol</label>
-        <span>{{usuarioSeleccionado.idRol}}</span>
+        <span>{{usuarioSeleccionado.rol}}</span>
       </div>
     </div>
   </div>

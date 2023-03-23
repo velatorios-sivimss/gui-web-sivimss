@@ -7,6 +7,7 @@ import {UsuarioService} from "../../services/usuario.service";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 
 type SolicitudEstatus = Pick<Usuario, "id">
+type DetalleUsuario =  Required <Usuario> & { oficina: string, rol: string };
 
 @Component({
   selector: 'app-ver-detalle-usuario',
@@ -15,7 +16,7 @@ type SolicitudEstatus = Pick<Usuario, "id">
 })
 export class VerDetalleUsuarioComponent implements OnInit {
 
-  usuarioSeleccionado!: Usuario;
+  usuarioSeleccionado!: DetalleUsuario;
 
   constructor(
     private alertaService: AlertaService,
@@ -26,7 +27,8 @@ export class VerDetalleUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usuarioSeleccionado = this.config.data;
+    const id =  this.config.data;
+    this.obtenerUsuario(id);
   }
 
   cambiarEstatus(id: number): void {
@@ -51,5 +53,17 @@ export class VerDetalleUsuarioComponent implements OnInit {
   abrirModalModificarUsuario(): void {
     const respuesta: RespuestaModalUsuario = { modificar: true };
     this.ref.close(respuesta);
+  }
+
+  obtenerUsuario(id: number): void {
+    this.usuarioService.buscarPorId(id).subscribe(
+      (respuesta) => {
+        this.usuarioSeleccionado = respuesta.datos[0];
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    )
   }
 }

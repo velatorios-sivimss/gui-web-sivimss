@@ -14,7 +14,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     protected _base: string,
     protected _agregar: string,
     protected _actualizar: string,
-    protected _aplicativo: number,
+    protected _funcionalidad: number,
     protected _servicio: string,
     protected _detalle: string
   ) {
@@ -25,7 +25,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', usuario);
     const params = new HttpParams().append('datos', usuario);
-    return this._http.post<T>(this._base + `${this._aplicativo}/${this._agregar}`, body, {headers, params});
+    return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, body, {headers, params});
   }
 
   actualizar(usuario: any): Observable<T> {
@@ -33,7 +33,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', usuario);
     const params = new HttpParams().append('datos', usuario);
-    return this._http.put<T>(this._base + `${this._aplicativo}/${this._actualizar}`, body, {headers, params});
+    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._actualizar}`, body, {headers, params});
   }
 
   cambiarEstatus(id: any): Observable<T> {
@@ -48,7 +48,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     const params = new HttpParams()
       .append("servicio", this._detalle)
-    return this._http.get<T>(this._base + `${this._aplicativo}/` + id, {headers});
+    return this._http.get<T>(this._base + `${this._funcionalidad}/` + id, {headers, params});
   }
 
   buscarPorPagina(pagina: number, tamanio: number): Observable<T> {
@@ -57,7 +57,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
       .append("pagina", pagina)
       .append("tamanio", tamanio)
       .append("servicio", this._servicio)
-    return this._http.get<T>(this._base + `${this._aplicativo}`, {headers, params})
+    return this._http.get<T>(this._base + `${this._funcionalidad}`, {headers, params})
   }
 
 }
