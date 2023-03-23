@@ -139,13 +139,18 @@
       margin-bottom: 0;
       overflow: hidden;
 
+      .submenu-titulo {
+        padding: 0.5rem 2rem !important;
+      }
+
       .menu-subtitulo {
         padding: 1.75rem 1rem 1.75rem 4rem;
         list-style: none;
         cursor: pointer;
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 1rem;
+        display: block;
+        // display: grid;
+        // grid-template-columns: auto 1fr;
+        // gap: 1rem;
         color: #272829;
 
         &.activo {
@@ -166,6 +171,7 @@
           font-size: 14px;
           text-decoration: none;
           color: inherit;
+          padding-left: 2rem;
         }
 
         .menu-subtitulo-icono {
@@ -181,7 +187,6 @@
     }
   }
 }
-
 
 .menu-sidebar {
   transform: translateX(-100%);

@@ -3,30 +3,16 @@
   <form [formGroup]="filtroForm">
     <div class="row mb-3">
       <div class="col-md-6">
-        <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones"
-          placeholder="Selecciona el nivel">
-        </p-dropdown>
-      </div>
-      <div class="col-md-6">
-        <label class="control-label" for="delegacion">Delegación:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones"
-          placeholder="Selecciona la delegación">
-        </p-dropdown>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
-          placeholder="Selecciona el velatorio">
+        <label class="control-label" for="entidadFederativa">Entidad federativa:</label>
+        <p-dropdown id="entidadFederativa" class="form-control" formControlName="entidadFederativa" [options]="opciones"
+          placeholder="Selecciona la entidad federativa">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="nombrePanteon">Nombre del panteón:</label>
         <p-autoComplete id="nombrePanteon" class="form-control" formControlName="nombrePanteon"
           [showEmptyMessage]="true" [suggestions]="panteonesServicioFiltrados" (completeMethod)="filtrarPanteones($event)"
-          [style]="{'width':'100%'}" [minLength]="3" class="p-autocomplete" placeholder="Ingresa el nombre del Panteon" field="label"
+          [style]="{'width':'100%'}" [minLength]="3" class="p-autocomplete" placeholder="Ingresa el nombre del panteón" field="label"
           [inputStyle]="{'width' : '100%','font-style' : 'normal','font-weight' : '400','font-size' : '14px'}"
           >
         </p-autoComplete>
@@ -42,7 +28,7 @@
 </div>
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
-    <h2 class="subtitulo">panteones</h2>
+    <h2 class="subtitulo">Panteones</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarPanteon()">Agregar panteón</button>
   </div>
   <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="panteones" [paginator]="panteones.length > 0"
@@ -51,12 +37,16 @@
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
-        <th>No. de empleado</th>
-        <th>CURP</th>
         <th>Nombre</th>
-        <th>Primer apellido</th>
-        <th>Segundo apellido</th>
-        <th>Fecha de nacimiento</th>
+        <th>Calle</th>
+        <th>No. exterior</th>
+        <th>No. interior</th>
+        <th>C.P.</th>
+        <th>Colonia</th>
+        <th>Municipio</th>
+        <th>Estado</th>
+        <th>Contacto</th>
+        <th>Teléfono</th>
         <th>Estatus</th>
         <th></th>
       </tr>
@@ -64,12 +54,16 @@
     <ng-template pTemplate="body" let-panteon>
       <tr>
         <td>{{panteon.id}}</td>
-        <td>{{panteon.numEmpleado}}</td>
-        <td>{{panteon.curp}}</td>
         <td>{{panteon.nombre}}</td>
-        <td>{{panteon.primerApellido}}</td>
-        <td>{{panteon.segundoApellido}}</td>
-        <td>{{panteon.fechaNacimiento}}</td>
+        <td>{{panteon.calle}}</td>
+        <td>{{panteon.numExterior}}</td>
+        <td>{{panteon.numInterior}}</td>
+        <td>{{panteon.cp}}</td>
+        <td>{{panteon.colonia}}</td>
+        <td>{{panteon.municipio}}</td>
+        <td>{{panteon.estado}}</td>
+        <td>{{panteon.contacto}}</td>
+        <td>{{panteon.numTelefono}}</td>
         <td>
           <div class="contenedor-inputswitch">
             <p-inputSwitch
