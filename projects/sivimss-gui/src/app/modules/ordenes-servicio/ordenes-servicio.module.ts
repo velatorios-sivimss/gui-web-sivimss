@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CalendarModule } from "primeng-lts/calendar";
+import { CheckboxModule } from "primeng-lts/checkbox";
 import { DialogModule } from "primeng-lts/dialog";
 import { DropdownModule } from "primeng-lts/dropdown";
 import { InputSwitchModule } from "primeng-lts/inputswitch";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { RadioButtonModule } from "primeng-lts/radiobutton";
-import { StepsModule } from "primeng-lts/steps";
 import { TableModule } from "primeng-lts/table";
 import { AccordionModule } from 'primeng-lts/accordion';
 import { DialogService, DynamicDialogModule } from 'primeng-lts/dynamicdialog';
@@ -25,6 +25,9 @@ import { VerOrdenServicioComponent } from 'projects/sivimss-gui/src/app/modules/
 import { GenerarTarjetaIdentificacionComponent } from './components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component';
 import { ModificarOrdenServicioComponent } from './components/modificar-orden-servicio/modificar-orden-servicio.component';
 import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component';
+import { SeleccionarBeneficiarioComponent } from './components/seleccionar-beneficiario/seleccionar-beneficiario.component';
+import { CaracteristicasPresupuestoComponent } from './components/caracteristicas-presupuesto/caracteristicas-presupuesto.component';
+import { AgregarServicioComponent } from './components/agregar-servicio/agregar-servicio.component';
 
 
 @NgModule({
@@ -37,7 +40,10 @@ import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-iden
     VerOrdenServicioComponent,
     GenerarTarjetaIdentificacionComponent,
     ModificarOrdenServicioComponent,
-    VerTarjetaIdentificacionComponent
+    VerTarjetaIdentificacionComponent,
+    SeleccionarBeneficiarioComponent,
+    CaracteristicasPresupuestoComponent,
+    AgregarServicioComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +59,7 @@ import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-iden
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
     TablePanelModule,
-    StepsModule,
+    CheckboxModule,
     RadioButtonModule,
     AccordionModule,
     DynamicDialogModule,

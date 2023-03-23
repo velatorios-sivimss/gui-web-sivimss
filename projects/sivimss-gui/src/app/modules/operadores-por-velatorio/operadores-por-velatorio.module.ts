@@ -18,6 +18,7 @@ import { DialogModule } from "primeng-lts/dialog";
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { DynamicDialogModule } from 'primeng-lts/dynamicdialog';
 import { CalendarModule } from 'primeng-lts/calendar';
+import {MultiSelectModule} from 'primeng-lts/multiselect';
 import {
   OperadoresPorVelatorioComponent
 } from "./components/operadores-por-velatorio/operadores-por-velatorio.component";
@@ -34,7 +35,6 @@ import {OperadoresPorVelatorioRoutingModule} from "./operadores-por-velatorio-ro
 import {OperadoresPorVelatorioService} from "./services/operadores-por-velatorio.service";
 
 
-import {MultiSelectModule} from 'primeng-lts/multiselect';
 
 @NgModule({
   declarations:[
