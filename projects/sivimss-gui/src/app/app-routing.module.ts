@@ -87,6 +87,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
+    path: 'renovacion-extemporanea',
+    loadChildren: () => import('./modules/convenios-prevision-funeraria/renovacion-extemporanea/renovacion-extemporanea.module').then(m => m.RenovacionExtemporaneaModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
