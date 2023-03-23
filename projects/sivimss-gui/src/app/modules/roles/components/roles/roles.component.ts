@@ -1,11 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AlertaService} from "../../../../shared/alerta/services/alerta.service";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
+
 import {Rol} from "../../models/rol.interface";
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {HttpErrorResponse} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import { CATALOGOS } from '../../../usuarios/constants/catalogos_dummies';
+import { RolService } from '../../services/rol.service';
+
 
 @Component({
   selector: 'app-roles',
@@ -21,30 +28,19 @@ export class RolesComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  opciones: any[] = [
-    {
-      label: 'Opción 1',
-      value: 0,
-    },
-    {
-      label: 'Opción 2',
-      value: 1,
-    },
-    {
-      label: 'Opción 3',
-      value: 2,
-    }
-  ];
 
   filtroForm!: FormGroup;
 
+  opciones: TipoDropdown[] = CATALOGOS;
+  catRol: any[] = [];
   roles: Rol[] = [];
-
   rolSeleccionado!: Rol;
   mostrarModalDetalleRol: boolean = false;
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private rolService: RolService,
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService
   ) {
@@ -66,95 +62,19 @@ export class RolesComponent implements OnInit {
 
 
   paginar(event: LazyLoadEvent): void {
-    setTimeout(() => {
-      this.roles = [
-        {
-          id: 1,
-          nombre: 'COORDINADOR DE CENTROS VACACIONALES, VELATORIOS, UNIDAD DE CONGRESOS Y TIENDAS',
-          nivel: 'Central',
-          fechaCreacion: '01/01/2022',
-          estatus: true,
-          delegacion: 'Edo. México Poniente',
-          velatorio: 'No. 9 Toluca',
-          funcionalidades: [
-            {
-              id: '4567890',
-              nombre: 'Consulta diosponibilidad de capillas',
-              alta:false,
-              baja:true,
-              aprobacion:true,
-              imprimir:false,
-              modificar:false,
-              consulta:true
-            }
-          ]
-        },
-        {
-          id: 2,
-          nombre: 'DIRECTOR DE ATENCIÓN A CLIENTES ',
-          nivel: 'Central',
-          fechaCreacion: '02/01/2022',
-          estatus: true,
-          delegacion: 'Edo. México Poniente',
-          velatorio: 'No. 9 Toluca',
-          funcionalidades: [
-            {
-              id: '4567890',
-              nombre: 'Consulta diosponibilidad de capillas',
-              alta:false,
-              baja:true,
-              aprobacion:true,
-              imprimir:false,
-              modificar:false,
-              consulta:true
-            }
-          ]
-        },
-        {
-          id: 3,
-          nombre: 'COORDINADOR DE BAJAS, REMATES E INVENTARIO DE VELATORIOS',
-          nivel: 'Central',
-          fechaCreacion: '01/01/2022',
-          estatus: false,
-          delegacion: 'Edo. México Poniente',
-          velatorio: 'No. 9 Toluca',
-          funcionalidades: [
-            {
-              id: '4567890',
-              nombre: 'Consulta diosponibilidad de capillas',
-              alta:false,
-              baja:true,
-              aprobacion:true,
-              imprimir:false,
-              modificar:false,
-              consulta:true
-            }
-          ]
-        },
-        {
-          id: 4,
-          nombre: 'JEFE DE UNIDADES DE TRANSPORTE Y GESTIÓN DE TRASLADOS',
-          nivel: 'Central',
-          fechaCreacion: '10/02/2022',
-          estatus: false,
-          delegacion: 'Edo. México Poniente',
-          velatorio: 'No. 9 Toluca',
-          funcionalidades: [
-            {
-              id: '4567890',
-              nombre: 'Consulta diosponibilidad de capillas',
-              alta:false,
-              baja:true,
-              aprobacion:true,
-              imprimir:false,
-              modificar:false,
-              consulta:true
-            }
-          ]
-        }
-      ];
-      this.totalElementos = this.roles.length;
-    }, 0);
+    debugger
+    this.rolService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.roles = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+    this.totalElementos = this.roles.length;
+
   }
 
   inicializarFiltroForm():void {
