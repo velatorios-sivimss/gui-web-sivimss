@@ -31,10 +31,6 @@ import { ModificarArticulosComponent } from './components/modificar-articulos/mo
     AgregarArticulosComponent,
     DetalleArticulosComponent,
     ModificarArticulosComponent,
-    // DetalleProveedorComponent,
-    // AgregarProveedorComponent,
-    // VerDetalleProveedorComponent,
-    // ModificarProveedorComponent,
   ],
   imports: [
     CalendarModule,
