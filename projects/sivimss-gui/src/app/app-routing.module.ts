@@ -87,6 +87,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/renovar-convenio-pf/renovar-convenio-pf.module').then(m => m.RenovarConvenioPfModule)
   },
   {
+    path: 'contratantes',
+    loadChildren: () => import('./modules/contratantes/contratantes.module').then(m => m.ContratantesModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
