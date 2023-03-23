@@ -5,12 +5,14 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {SERVICIO_BREADCRUMB} from "../../constants/breadcrumb";
 import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import {UsuarioContratante} from "../../models/usuario-contratante.interface";
+import {ConfirmarContratante, UsuarioContratante} from "../../models/usuario-contratante.interface";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {DetalleContratantesComponent} from "../detalle-contratantes/detalle-contratantes.component";
 import {ModificarContratantesComponent} from "../modificar-contratantes/modificar-contratantes.component";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {ALERTA_ESTATUS} from "../../constants/alertas";
 
 @Component({
   selector: 'app-contratantes',
@@ -32,12 +34,16 @@ export class ContratantesComponent implements OnInit {
   contratante: UsuarioContratante[] = [];
   contratanteSeleccionado: UsuarioContratante = {};
 
+  alertaEstatus: string[] = ALERTA_ESTATUS;
+
   modificarRef!: DynamicDialogRef;
   detalleRef!: DynamicDialogRef;
+  retorno:ConfirmarContratante = {};
 
   estatus:TipoDropdown[] = CATALOGOS_DUMMIES;
 
   constructor(
+    private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
     private formBuilder: FormBuilder,
@@ -79,8 +85,10 @@ export class ContratantesComponent implements OnInit {
           calle:"Miguel Alemán Barcenas",
           numeroExterior:"121",
           numeroInterior:"2b",
+          colonia:"Miguel Hidalgo",
           pais:1,
-          estado:1,
+          correoElectronico:"hildalore1234@gmail.com",
+          estado:"CDMX",
           municipio:"Azcapotzalco",
           estatus: true
         },
@@ -125,12 +133,26 @@ export class ContratantesComponent implements OnInit {
       width:"920px",
       data: {contratante:this.contratanteSeleccionado, origen: "modificar"},
     });
+
+    this.modificarRef.onClose.subscribe((respuesta:ConfirmarContratante) => {
+      if(respuesta.estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito, this.alertaEstatus[2]);
+      }
+    });
   }
+
   abrirModalCambiarEstatus(contratante: UsuarioContratante): void {
     this.detalleRef = this.dialogService.open(DetalleContratantesComponent, {
       header:contratante.estatus? "Activar contratante":"Desactivar contratante",
       width:"920px",
       data: {contratante:contratante, origen: "estatus"},
+    });
+
+    this.detalleRef.onClose.subscribe((respuesta:ConfirmarContratante) => {
+      if(respuesta.estatus){
+        this.alertaService.mostrar(TipoAlerta.Exito,
+          respuesta.usuarioContratante?.estatus?this.alertaEstatus[0]:this.alertaEstatus[1] );
+      }
     });
   }
 

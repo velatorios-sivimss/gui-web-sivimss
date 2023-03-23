@@ -20,6 +20,11 @@ export interface UsuarioContratante {
   cp?: number;
   colonia?: string;
   municipio?: string;
-  estado?: number;
+  estado?: string;
+  estatus?: boolean;
+}
+
+export interface ConfirmarContratante {
+  usuarioContratante?:UsuarioContratante,
   estatus?: boolean;
 }
