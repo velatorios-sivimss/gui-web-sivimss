@@ -43,6 +43,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
   },
   {
+    path: 'contratos-putr/administrar-contratos',
+    loadChildren: () => import('./modules/contratos-putr/administrar-contratos/contratos.module').then(m => m.ContratosModule)
+  },
+  {
+    path: 'contratos-putr/seguimiento-de-pagos',
+    loadChildren: () => import('./modules/contratos-putr/seguimiento-de-pagos/cuotas.module').then(m => m.CuotasModule)
+  },
+  {
     path: 'inventario-vehicular',
     loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
   },
@@ -89,6 +97,10 @@ const routes: Routes = [
   {
     path: 'velatorios',
     loadChildren: () => import('./modules/velatorios/velatorios.module').then(module => module.VelatoriosModule)
+  },
+  {
+    path: 'renovacion-extemporanea',
+    loadChildren: () => import('./modules/convenios-prevision-funeraria/renovacion-extemporanea/renovacion-extemporanea.module').then(m => m.RenovacionExtemporaneaModule)
   },
   {
     path: '**',
