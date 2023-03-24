@@ -28,7 +28,7 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
       cantidad:1,
       importe:'$6,000.00',
       proveedor:'Logística y movilidad S.A. de C.V.',
-      totalPaquete:'7,000.00',
+      totalPaquete:'$7,000.00',
       deseaUtilizarArtServ:true
     },
     {
@@ -39,7 +39,7 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
       cantidad:1,
       importe:'$3,000.00',
       proveedor:'Logística y movilidad S.A. de C.V.',
-      totalPaquete:'4,000.00',
+      totalPaquete:'$4,000.00',
       deseaUtilizarArtServ:true
     },
     {
@@ -50,7 +50,7 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
       cantidad:1,
       importe:'$4,000.00',
       proveedor:'Logística y movilidad S.A. de C.V.',
-      totalPaquete:'7,000.00',
+      totalPaquete:'$7,000.00',
       deseaUtilizarArtServ:true
     }
   ]
