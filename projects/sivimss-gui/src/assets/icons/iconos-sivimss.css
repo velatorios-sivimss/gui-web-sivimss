@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'font-sivimss';
-  src:  url('fonts/font-sivimss.eot?jvtfyx');
-  src:  url('fonts/font-sivimss.eot?jvtfyx#iefix') format('embedded-opentype'),
-    url('fonts/font-sivimss.ttf?jvtfyx') format('truetype'),
-    url('fonts/font-sivimss.woff?jvtfyx') format('woff'),
-    url('fonts/font-sivimss.svg?jvtfyx#font-sivimss') format('svg');
+  src:  url('fonts/font-sivimss.eot?ce7tsq');
+  src:  url('fonts/font-sivimss.eot?ce7tsq#iefix') format('embedded-opentype'),
+    url('fonts/font-sivimss.ttf?ce7tsq') format('truetype'),
+    url('fonts/font-sivimss.woff?ce7tsq') format('woff'),
+    url('fonts/font-sivimss.svg?ce7tsq#font-sivimss') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -48,6 +48,9 @@
 }
 .fs-ver:before {
   content: "\e900";
+}
+.fs-check:before {
+  content: "\f00c";
 }
 .fs-pagos:before {
   content: "\e908";

@@ -22,7 +22,7 @@ export class DetalleServicioComponent implements OnInit {
   creacionRef!: DynamicDialogRef;
 
   @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel | undefined;
+  overlayPanel!: OverlayPanel;
 
   abrirModificar: boolean = false;
 

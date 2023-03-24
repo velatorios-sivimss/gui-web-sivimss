@@ -42,7 +42,7 @@
         <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalCreacionVehiculo()">
             Agregar vehículo</button>
     </div>
-    <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="vehiculos" [paginator]="vehiculos.length > 0"
+    <p-table styleClass="mt-5 mb-8" [value]="vehiculos" [paginator]="vehiculos.length > 0"
         [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3"
         [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
         <ng-template pTemplate="header">
@@ -116,9 +116,3 @@
         </app-overlay-panel-opciones>
     </ng-template>
 </p-overlayPanel>
-
-<!-- <app-stepper [items]="items" [checked]="true" [index]="1"></app-stepper> -->
-<!-- <p-steps [model]="items" [ngClass]="{'mostrar-check': propiedad }" [activeIndex]="1"></p-steps> -->
-<!-- <button class="ml-4 btn btn-primary btn-md" (click)="propiedad = !propiedad">
-    Aceptar
-</button> -->

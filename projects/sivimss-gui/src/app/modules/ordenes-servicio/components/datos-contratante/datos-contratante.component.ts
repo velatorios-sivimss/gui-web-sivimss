@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
@@ -9,6 +9,7 @@ import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrum
   styleUrls: ['./datos-contratante.component.scss']
 })
 export class DatosContratanteComponent implements OnInit {
+
   form!: FormGroup;
 
   constructor(
@@ -59,8 +60,6 @@ export class DatosContratanteComponent implements OnInit {
         estado: [{value: null, disabled: false}, [Validators.required]]
       })
     });
-
-    console.log(this.form);
   }
 
   get datosContratante() {

@@ -1,10 +1,18 @@
 <div class="border-panel mb-8">
   <h3>GENERAR ORDEN DE SERVICIO</h3>
-  <div class="row my-3">
-    <div class="col-md-offset-1 col-md-11 stepper">
-      <p-steps [model]="items" [ngClass]="{'mostrar-check': false }" [activeIndex]="0"></p-steps>
-    </div>
+  <div class="mt-4 flex justify-content-center align-items-center">
+    <app-etapas (seleccionarEtapa)="obtenerRefEtapaSeleccionada($event)" [etapas]="etapas"></app-etapas>
   </div>
-<!--  <app-datos-contratante></app-datos-contratante>-->
-  <app-datos-finado></app-datos-finado>
+  <ng-container [ngSwitch]="idEtapaSeleccionada">
+    <ng-container *ngSwitchCase="DATOS_DEL_CONTRATANTE">
+      <app-datos-contratante></app-datos-contratante>
+    </ng-container>
+    <ng-container *ngSwitchCase="DATOS_DEL_FINADO">
+      <app-datos-finado></app-datos-finado>
+    </ng-container>
+    <ng-container *ngSwitchCase="CARACTERISTICAS_DEL_PRESUPUESTO">
+      <app-caracteristicas-presupuesto></app-caracteristicas-presupuesto>
+    </ng-container>
+  </ng-container>
+
 </div>

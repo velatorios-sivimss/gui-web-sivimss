@@ -57,7 +57,7 @@
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
         <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5" (click)="buscar()">Buscar</button>
       </div>
     </div>
   </form>
@@ -69,7 +69,7 @@
       servicio
     </button>
   </div>
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="ordenesServicio" [paginator]="ordenesServicio.length > 0"
+  <p-table styleClass="mt-5 mb-8" [value]="ordenesServicio" [paginator]="ordenesServicio.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">
@@ -92,7 +92,7 @@
         <td>{{ordenServicio.estatus}}</td>
         <td>
           <div class="contenedor-celda-iconos">
-            <a>
+            <a routerLink="ver-orden-de-servicio">
               <i class="fs fs-ver"></i>
             </a>
             <a (click)="abrirPanel($event,ordenServicio)">
@@ -125,9 +125,11 @@
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Generar tarjeta identificación"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Generar tarjeta identificación" (click)="abrirModalGenerarTarjetaIdent()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Ver tarjeta de identificación" (click)="abrirModalVerTarjetaIdent()"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Cancelar orden" routerLink="cancelar-orden-de-servicio"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Cancelar orden"
+                                routerLink="cancelar-orden-de-servicio"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
