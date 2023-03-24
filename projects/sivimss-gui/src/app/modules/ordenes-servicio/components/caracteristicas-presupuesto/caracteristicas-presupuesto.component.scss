@@ -31,3 +31,14 @@
   margin-left: 2.5rem;
 }
 
+a.barras {
+  margin-left: 1.75rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transform:scale(1.15) translateY(2px);
+  i.fs{
+    font-size: 20px;
+    color:#9D2449;
+  }
+}

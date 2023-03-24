@@ -6,7 +6,7 @@ import {
     RouterStateSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { RenovacionExtemporaneaService } from './renovacion-extemporanea.service';
+import { RenovacionExtemporaneaService } from 'projects/sivimss-gui/src/app/modules/renovacion-extemporanea/services/renovacion-extemporanea.service';
 
 @Injectable()
 export class RenovacionExtemporaneaResolver implements Resolve<any> {

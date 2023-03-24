@@ -37,7 +37,7 @@
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarServicio()">Agregar servicio</button>
   </div>
 
-  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8 last-sticky-column" [value]="servicios"
+  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="servicios"
            [paginator]="servicios.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"

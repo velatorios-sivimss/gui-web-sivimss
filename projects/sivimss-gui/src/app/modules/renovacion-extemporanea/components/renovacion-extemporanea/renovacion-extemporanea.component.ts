@@ -1,5 +1,5 @@
-import { HabilitarRenovacionComponent } from './../habilitar-renovacion/habilitar-renovacion.component'
-import { DetalleRenovacionComponent } from './../detalle-renovacion/detalle-renovacion.component'
+import { HabilitarRenovacionComponent } from 'projects/sivimss-gui/src/app/modules/renovacion-extemporanea/components/habilitar-renovacion/habilitar-renovacion.component'
+import { DetalleRenovacionComponent } from 'projects/sivimss-gui/src/app/modules/renovacion-extemporanea/components/detalle-renovacion/detalle-renovacion.component'
 import { Component, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { LazyLoadEvent } from 'primeng-lts/api'
@@ -12,8 +12,8 @@ import {
 } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service'
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service'
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes'
-import { CATALOGOS_DUMMIES } from '../../../../proveedores/constants/dummies'
-import { ConveniosPrevision } from '../../models/convenios-prevision.interface'
+import { CATALOGOS_DUMMIES } from 'projects/sivimss-gui/src/app/modules/proveedores/constants/dummies'
+import { ConveniosPrevision } from 'projects/sivimss-gui/src/app/modules/renovacion-extemporanea/models/convenios-prevision.interface'
 
 @Component({
   selector: 'app-renovacion-extemporanea',
