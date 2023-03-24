@@ -1,4 +1,4 @@
-import {ConfirmacionServicio,ConveniosPrevision,} from './../../models/convenios-prevision.interface'
+import {ConfirmacionServicio,ConveniosPrevision,} from 'projects/sivimss-gui/src/app/modules/renovacion-extemporanea/models/convenios-prevision.interface'
 import {Component,EventEmitter,Input,OnInit,Output,ViewChild,} from '@angular/core'
 import {DialogService,DynamicDialogConfig,DynamicDialogRef,} from 'primeng-lts/dynamicdialog'
 import { OverlayPanel } from 'primeng-lts/overlaypanel'

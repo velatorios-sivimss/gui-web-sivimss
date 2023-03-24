@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import { ConfirmacionServicio, ConveniosPrevision } from '../../models/convenios-prevision.interface';
+import { ConfirmacionServicio, ConveniosPrevision } from 'projects/sivimss-gui/src/app/modules/renovacion-extemporanea/models/convenios-prevision.interface';
 
 @Component({
   selector: 'app-habilitar-renovacion',

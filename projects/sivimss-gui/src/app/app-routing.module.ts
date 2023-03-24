@@ -100,7 +100,11 @@ const routes: Routes = [
   },
   {
     path: 'renovacion-extemporanea',
-    loadChildren: () => import('./modules/convenios-prevision-funeraria/renovacion-extemporanea/renovacion-extemporanea.module').then(m => m.RenovacionExtemporaneaModule)
+    loadChildren: () => import('./modules/renovacion-extemporanea/renovacion-extemporanea.module').then(m => m.RenovacionExtemporaneaModule)
+  },
+  {
+    path: 'contratantes',
+    loadChildren: () => import('./modules/contratantes/contratantes.module').then(m => m.ContratantesModule)
   },
   {
     path: '**',
