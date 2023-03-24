@@ -44,7 +44,7 @@
         <div class="col-md-12">
             <div class="table-panel-column">
                 <span>Servicios del paquete</span>
-                <p-table styleClass="mt-5 mb-8 last-sticky-column custom-table" [value]="servicios" [paginator]="servicios.length > 0"
+                <p-table styleClass="mt-5 mb-8 custom-table" [value]="servicios" [paginator]="servicios.length > 0"
                         [rows]="cantElementosPorPagina"
                         [lazy]="true" [totalRecords]="totalElementosServicios" [pageLinks]="3" [(first)]="numPaginaActual"
                         (onLazyLoad)="paginar($event)">
@@ -69,7 +69,7 @@
         <div class="col-md-12">
             <div class="table-panel-column">
                 <span>Artículos del paquete</span>
-                <p-table styleClass="mt-5 mb-8 last-sticky-column custom-table" [value]="articulos" [paginator]="articulos.length > 0"
+                <p-table styleClass="mt-5 mb-8 custom-table" [value]="articulos" [paginator]="articulos.length > 0"
                     [rows]="cantElementosPorPagina"
                     [lazy]="true" [totalRecords]="totalElementosArticulos" [pageLinks]="3" [(first)]="numPaginaActual"
                     (onLazyLoad)="paginar($event)">

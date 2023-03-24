@@ -55,7 +55,7 @@
     <h2 class="subtitulo">Contratos PUTR</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarCuota()">Registrar cuota</button>
   </div>
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="cuotas" [paginator]="cuotas.length > 0"
+  <p-table styleClass="mt-5 mb-8" [value]="cuotas" [paginator]="cuotas.length > 0"
     [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3"
     [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
     <ng-template pTemplate="header">

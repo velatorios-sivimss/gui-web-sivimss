@@ -16,6 +16,40 @@
       </div>
     </ng-template>
     <ng-template pTemplate="content">
+      <p-table styleClass="mt-5 mb-8 " [value]="paquetes">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>No. consecutivo</th>
+            <th>Grupo</th>
+            <th>Concepto</th>
+            <th>Cantidad</th>
+            <th>Importe/Monto</th>
+            <th>Proveedor</th>
+            <th>Total del paquete</th>
+            <th>¿Deseas utilizar este artículo/servicio?</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-paquete>
+          <tr>
+            <td>{{paquete.noConsecutivo}}</td>
+            <td>{{paquete.grupo}}</td>
+            <td>{{paquete.concepto}}</td>
+            <td>{{paquete.cantidad}}</td>
+            <td>{{paquete.importe}}</td>
+            <td>{{paquete.proveedor}}</td>
+            <td>{{paquete.totalPaquete}}</td>
+            <td style="width:200px">
+              <div class="flex ">
+                <p-checkbox styleClass="mr-3" [(ngModel)]="paquete.deseaUtilizarArtServ"
+                            [binary]="true"></p-checkbox>
+                <a class="barras" (click)="abrirPanel($event,paquete)">
+                  <i class="fs fs-barras-horizontales"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </ng-template>
   </p-accordionTab>
   <p-accordionTab>
@@ -28,9 +62,49 @@
       </div>
     </ng-template>
     <ng-template pTemplate="content">
+      <p-table styleClass="mt-5 mb-8 " [value]="paquetes">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>No. consecutivo</th>
+            <th>Grupo</th>
+            <th>Concepto</th>
+            <th>Cantidad</th>
+            <th>Importe/Monto</th>
+            <th>Proveedor</th>
+            <th>Total del paquete</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-paquete>
+          <tr>
+            <td>{{paquete.noConsecutivo}}</td>
+            <td>{{paquete.grupo}}</td>
+            <td>{{paquete.concepto}}</td>
+            <td>{{paquete.cantidad}}</td>
+            <td>{{paquete.importe}}</td>
+            <td>{{paquete.proveedor}}</td>
+            <td>{{paquete.totalPaquete}}</td>
+            <td style="width:200px">
+              <div class="flex ">
+                <a class="barras" (click)="abrirPanel($event,paquete)">
+                  <i class="fs fs-barras-horizontales"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </ng-template>
   </p-accordionTab>
 </p-accordion>
+<p-overlayPanel #overlayPanel>
+  <ng-template pTemplate="content">
+    <app-overlay-panel-opciones>
+      <app-overlay-panel-opcion titulo="Opcion 1"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Opcion 2"></app-overlay-panel-opcion>
+    </app-overlay-panel-opciones>
+  </ng-template>
+</p-overlayPanel>
 <div class="row">
   <div class="col-md-12 flex justify-content-end">
     <div class="flex flex-column align-items-end">
@@ -135,14 +209,16 @@
       <div class="row">
         <div class="col-md-6">
           <label class="control-label" for="ataud">Ataúd<span class="req">*</span>:</label>
-          <p-dropdown id="ataud" class="form-control" formControlName="ataud" placeholder="Selecciona ataúd" appendTo="body"
+          <p-dropdown id="ataud" class="form-control" formControlName="ataud" placeholder="Selecciona ataúd"
+                      appendTo="body"
                       [options]="[{label:'Opción 1', value:0},{label:'Opción 2', value:1}]"></p-dropdown>
           <span class="campo-obligatorio"
                 *ngIf="fa.ataud?.errors?.required && (fa.ataud?.dirty || fa.ataud?.touched)">Campo obligatorio</span>
         </div>
-        <div class="col-md-6"> 
+        <div class="col-md-6">
           <label class="control-label" for="proveedor">Proveedor<span class="req">*</span>:</label>
-          <p-dropdown id="proveedor" class="form-control" formControlName="proveedor" appendTo="body" placeholder="Selecciona proveedor"
+          <p-dropdown id="proveedor" class="form-control" formControlName="proveedor" appendTo="body"
+                      placeholder="Selecciona proveedor"
                       [options]="[{label:'Opción 1', value:0},{label:'Opción 2', value:1}]"></p-dropdown>
           <span class="campo-obligatorio"
                 *ngIf="fa.proveedor?.errors?.required && (fa.proveedor?.dirty || fa.proveedor?.touched)">Campo obligatorio</span>

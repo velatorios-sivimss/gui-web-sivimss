@@ -31,7 +31,7 @@
     <h2 class="subtitulo">Panteones</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarPanteon()">Agregar panteón</button>
   </div>
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="panteones" [paginator]="panteones.length > 0"
+  <p-table styleClass="mt-5 mb-8" [value]="panteones" [paginator]="panteones.length > 0"
     [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3"
     [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
     <ng-template pTemplate="header">
