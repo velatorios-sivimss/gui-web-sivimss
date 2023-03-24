@@ -51,8 +51,11 @@
   border: 1px solid #DDDDDD;
   border-radius: 10px;
   overflow: hidden;
-  overflow-x: auto;
   width: 100%;
+}
+
+.ultima-celda-sticky .p-datatable-wrapper{
+  overflow-x: auto;
 }
 
 

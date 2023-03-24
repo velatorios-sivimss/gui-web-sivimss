@@ -19,14 +19,14 @@
       <label class="control-label" for="nombrePaquete">Paquete *:</label>
       <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete" maxlength="70"
              placeholder="Ingresa el nombre del paquete" alphanumericOnly trimmer>
-      <span class="campo-obligatorio" *ngIf="f.nombrePaquete?.errors?.required && (f.nombrePaquete?.dirty || f.nombrePaquete?.touched)">Campo 
+      <span class="campo-obligatorio" *ngIf="f.nombrePaquete?.errors?.required && (f.nombrePaquete?.dirty || f.nombrePaquete?.touched)">Campo
         obligatorio</span>
     </div>
     <div class="col-md-4">
       <label class="control-label" for="descripcion">Descripción *:</label>
       <input id="descripcion" class="form-control" formControlName="descripcion" maxlength="70"
              placeholder="Ingresa la descripción del paquete" alphanumericOnly trimmer>
-      <span class="campo-obligatorio" *ngIf="f.descripcion?.errors?.required && (f.descripcion?.dirty || f.descripcion?.touched)">Campo 
+      <span class="campo-obligatorio" *ngIf="f.descripcion?.errors?.required && (f.descripcion?.dirty || f.descripcion?.touched)">Campo
         obligatorio</span>
     </div>
   </div>
@@ -47,12 +47,12 @@
         </p>
       </div>
     </div>
-    <span class="campo-obligatorio" *ngIf="servicios.length === 0 && intentoPorGuardar">Campo 
+    <span class="campo-obligatorio" *ngIf="servicios.length === 0 && intentoPorGuardar">Campo
       obligatorio</span>
   </div>
 
   <section class="mt-5" *ngIf="servicios.length > 0">
-    <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="servicios" [paginator]="servicios.length > 0"
+    <p-table styleClass="mt-5 mb-8" [value]="servicios" [paginator]="servicios.length > 0"
              [rows]="cantElementosPorPagina"
              [lazy]="true" [totalRecords]="totalElementosServicios" [pageLinks]="3" [(first)]="numPaginaActual"
              (onLazyLoad)="paginar($event)">
@@ -102,12 +102,12 @@
         </p>
       </div>
     </div>
-    <span class="campo-obligatorio" *ngIf="articulos.length === 0 && intentoPorGuardar">Campo 
+    <span class="campo-obligatorio" *ngIf="articulos.length === 0 && intentoPorGuardar">Campo
       obligatorio</span>
   </div>
 
   <section class="mt-5" *ngIf="articulos.length > 0">
-    <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="articulos" [paginator]="articulos.length > 0"
+    <p-table styleClass="mt-5 mb-8" [value]="articulos" [paginator]="articulos.length > 0"
              [rows]="cantElementosPorPagina"
              [lazy]="true" [totalRecords]="totalElementosArticulos" [pageLinks]="3" [(first)]="numPaginaActual"
              (onLazyLoad)="paginar($event)">
@@ -145,7 +145,7 @@
       <p-dropdown id="region" class="form-control" formControlName="region" [options]="regiones"
                 placeholder="Selecciona la región" (onChange)="handleChangeRegion();">
       </p-dropdown>
-      <span class="campo-obligatorio" *ngIf="f.region?.errors?.required && (f.region?.dirty || f.region?.touched)">Campo 
+      <span class="campo-obligatorio" *ngIf="f.region?.errors?.required && (f.region?.dirty || f.region?.touched)">Campo
         obligatorio</span>
     </div>
     <div class="col-md-6">
@@ -153,7 +153,7 @@
       <p-dropdown id="clave" class="form-control" formControlName="clave" [options]="opciones"
                 placeholder="Selecciona la clave de articulo SAT">
       </p-dropdown>
-      <span class="campo-obligatorio" *ngIf="f.clave?.errors?.required && (f.clave?.dirty || f.clave?.touched)">Campo 
+      <span class="campo-obligatorio" *ngIf="f.clave?.errors?.required && (f.clave?.dirty || f.clave?.touched)">Campo
         obligatorio</span>
     </div>
   </div>
@@ -168,7 +168,7 @@
       <label class="control-label" for="costoReferencia">Costo referencia *:</label>
       <input id="costoReferencia" class="form-control" formControlName="costoReferencia" numbersOnly
             placeholder="Ingresa el costo" maxlength="10">
-      <span class="campo-obligatorio" *ngIf="f.costoReferencia?.errors?.required && (f.costoReferencia?.dirty || f.costoReferencia?.touched)">Campo 
+      <span class="campo-obligatorio" *ngIf="f.costoReferencia?.errors?.required && (f.costoReferencia?.dirty || f.costoReferencia?.touched)">Campo
         obligatorio</span>
     </div>
     <div class="col-md-4">
@@ -204,7 +204,7 @@
       <span>*Campos obligatorios</span>
     </div>
   </div>
-  
+
   <div class="flex justify-content-end mb-6">
     <button class="ml-4 btn btn-gold btn-md" routerLink="../">Cancelar</button>
     <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarPaqueteForm.invalid" (click)="verDetalleGuardarPaquete()">
@@ -225,7 +225,7 @@
       <div class="row mb-3">
         <div class="col-md-6">
           <label class="control-label" for="tipoServicio">Tipo de servicio<span class="req">*</span>:</label>
-          <p-dropdown appendTo="body" id="tipoServicio" class="form-control" formControlName="tipoServicio" 
+          <p-dropdown appendTo="body" id="tipoServicio" class="form-control" formControlName="tipoServicio"
                       [options]="opciones" placeholder="Selecciona el tipo de servicio" optionValue="label">
           </p-dropdown>
           <span class="campo-obligatorio"
@@ -277,7 +277,7 @@
         </div>
         <div class="col-md-6">
           <label class="control-label" for="tipoArticulo">Tipo de artículo<span class="req">*</span>:</label>
-          <p-dropdown appendTo="body" id="tipoArticulo" class="form-control" formControlName="tipoArticulo" 
+          <p-dropdown appendTo="body" id="tipoArticulo" class="form-control" formControlName="tipoArticulo"
                       [options]="tipoArticulos" placeholder="Selecciona el tipo de artículo" optionValue="label">
           </p-dropdown>
           <span class="campo-obligatorio"
