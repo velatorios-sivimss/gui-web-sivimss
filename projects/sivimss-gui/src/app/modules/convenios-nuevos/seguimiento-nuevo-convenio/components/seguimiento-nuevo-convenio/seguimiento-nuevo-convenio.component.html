@@ -10,7 +10,6 @@
         *ngIf="nuf.nivel?.errors?.required && (nuf.nivel?.dirty || nuf.nivel?.touched)">Campo
         obligatorio</span>
       </div>
-
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
           <input id="velatorio" class="form-control" formControlName="velatorio"
@@ -20,8 +19,6 @@
           obligatorio</span>
       </div>
     </div>
-
-
     <div class="row mb-3">
       <div class="col-md-4">
         <label class="control-label" for="velatorio">Folio de Convenio PF *:</label>
@@ -57,18 +54,14 @@
     </div>
   </form>
 </div>
-
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
     <h2 class="subtitulo">Registros</h2>
-    <!-- <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarServicio()">Agregar artículo</button> -->
   </div>
-
   <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="convenios" [paginator]="convenios.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">
-
     <ng-template pTemplate="header">
       <tr>
         <th scope="col">Folio convenio</th>
@@ -87,21 +80,15 @@
         <td> {{convenio.rfc}} </td>
         <td> {{convenio.nombreAfiliado}} </td>
         <td> {{convenio.tipoPaquete}} </td>
-        <!-- <td> {{convenio.clasificacionDeProducto}} </td> -->
-        <!-- <td> {{convenio.observaciones}} </td> -->
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="convenio.estatus" (onChange)="abrirModalCambioEstatus(convenio)"></p-inputSwitch>
+            <p-inputSwitch [(ngModel)]="convenio.estatus" (onChange)="abrirCambioEstatus(convenio)"></p-inputSwitch>
             <span class="activo" *ngIf="convenio.estatus">Activo</span>
             <span class="inactivo" *ngIf="!convenio.estatus">Inactivo</span>
           </div>
         </td>
-
         <td>
           <div class="contenedor-celda-iconos">
-            <a (click)="abrirModalDetalleCapilla(convenio)">
-              <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
-            </a>
             <a (click)="abrirPanel($event,convenio)">
               <img
                 src="assets/images/imagen-icono-barras-horizontales.svg"
@@ -111,13 +98,11 @@
         </td>
       </tr>
     </ng-template>
-
     <ng-template pTemplate="paginatorleft">
       <div class="paginator-template">
         <span class="total-elements"> {{convenios.length}} de {{totalElementos}} </span>
       </div>
     </ng-template>
-
     <ng-template pTemplate="paginatorright">
       <div class="paginator-template">
         <div class="export-table">

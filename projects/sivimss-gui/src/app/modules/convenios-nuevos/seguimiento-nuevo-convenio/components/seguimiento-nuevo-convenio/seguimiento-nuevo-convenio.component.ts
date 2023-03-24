@@ -140,23 +140,24 @@ export class SeguimientoNuevoConvenioComponent implements OnInit {
     // })
   }
 
-  abrirModalCambioEstatus(servicio:SeguimientoNuevoConvenio){
+  abrirCambioEstatus(servicio:SeguimientoNuevoConvenio){
+    this.router.navigate(['desactivar-convenio'], { relativeTo: this.activatedRoute });
     /*Preguntar si se puede usar 'let'*/
-    //  let header:string = "" ;
-    //  servicio.estatus?header="Activar artículo":header="Desactivar artículo";
-    //  this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
-    //    header:header,
-    //    width:"920px",
-    //    data: {servicio:servicio, origen: "estatus"},
-    //  })
+      // let header:string = "" ;
+      // servicio.estatus?header="Activar artículo":header="Desactivar artículo";
+      // this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
+      //   header:header,
+      //   width:"920px",
+      //   data: {servicio:servicio, origen: "estatus"},
+      // })
 
-    //  this.creacionRef.onClose.subscribe((servicio:Articulos) => {
-    //    if(servicio.estatus){
-    //      this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
-    //    }else{
-    //      this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
-    //    }
-    //  })
+      // this.creacionRef.onClose.subscribe((servicio:Articulos) => {
+      //   if(servicio.estatus){
+      //     this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
+      //   }else{
+      //     this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
+      //   }
+      // })
 
   }
 

@@ -23,12 +23,14 @@ import { OverlayPanelOpcionesModule } from '../../../shared/overlay-panel-opcion
 import { TablePanelModule } from '../../../shared/table-panel/table-panel.module';
 import { TituloPrincipalModule } from '../../../shared/titulo-principal/titulo-principal.module';
 import { PreRegistroContratacionNuevoConvenioComponent } from './components/pre-registro-contratacion-nuevo-convenio/pre-registro-contratacion-nuevo-convenio.component';
+import { DesactivarConvenioComponent } from './components/desactivar-convenio/desactivar-convenio.component';
 
 //as
 @NgModule({
   declarations: [
     SeguimientoNuevoConvenioComponent,
     PreRegistroContratacionNuevoConvenioComponent,
+    DesactivarConvenioComponent,
   ],
   imports: [
     CalendarModule,

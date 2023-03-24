@@ -3,6 +3,7 @@ import { SeguimientoNuevoConvenioResolver } from './services/seguimiento-nuevo-c
 import { SeguimientoNuevoConvenioComponent } from './components/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.component'
 import { NgModule } from '@angular/core'
 import { Route, RouterModule } from '@angular/router'
+import { DesactivarConvenioComponent } from './components/desactivar-convenio/desactivar-convenio.component'
 
 const routes: Route[] = [
   {
@@ -12,6 +13,20 @@ const routes: Route[] = [
   {
     path: 'pre-registro-nuevo-convenio',
     component: PreRegistroContratacionNuevoConvenioComponent,
+    resolve: {
+      respuesta: SeguimientoNuevoConvenioResolver,
+    },
+  },
+  {
+    path: 'desactivar-convenio',
+    component: DesactivarConvenioComponent,
+    resolve: {
+      respuesta: SeguimientoNuevoConvenioResolver,
+    },
+  },
+  {
+    path: 'seguimiento-nuevo-convenio',
+    component: SeguimientoNuevoConvenioComponent,
     resolve: {
       respuesta: SeguimientoNuevoConvenioResolver,
     },
