@@ -15,7 +15,7 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
 
   constructor(protected _http: HttpClient) {
     super(_http, `${environment.api.mssivimss}`, "agregar-usuario", "actualizar-usuario",
-      1, "consultar-usuarios", "detalle-usuario");
+      1, "consultar-usuarios", "detalle-usuario", "cambiar-estatus-usr");
   }
 
   buscarPorFiltros(filtros: any, pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
@@ -28,7 +28,7 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
 
   validarCurp(curp: any): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
-    return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/valida-curp`, curp, {headers});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/valida-curp`, curp, {headers});
   }
 
   validarMatricula(matricula: any): Observable<HttpRespuesta<any>> {

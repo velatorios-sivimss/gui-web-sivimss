@@ -15,24 +15,25 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     protected _agregar: string,
     protected _actualizar: string,
     protected _funcionalidad: number,
-    protected _servicio: string,
-    protected _detalle: string
+    protected _paginado: string,
+    protected _detalle: string,
+    protected _status: string
   ) {
   }
 
-  guardar(usuario: any): Observable<T> {
+  guardar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     const body = new FormData();
-    body.append('datos', usuario);
-    const params = new HttpParams().append('datos', usuario);
+    body.append('datos', t);
+    const params = new HttpParams().append('datos', t);
     return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, body, {headers, params});
   }
 
-  actualizar(usuario: any): Observable<T> {
+  actualizar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     const body = new FormData();
-    body.append('datos', usuario);
-    const params = new HttpParams().append('datos', usuario);
+    body.append('datos', t);
+    const params = new HttpParams().append('datos', t);
     return this._http.put<T>(this._base + `${this._funcionalidad}/${this._actualizar}`, body, {headers, params});
   }
 
@@ -41,7 +42,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', id);
     const params = new HttpParams().append('datos', id);
-    return this._http.put<T>(this._base + "1/cambiar-estatus-usr", body, {headers, params});
+    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._status}`, body, {headers, params});
   }
 
   buscarPorId(id: ID): Observable<T> {
@@ -56,7 +57,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const params = new HttpParams()
       .append("pagina", pagina)
       .append("tamanio", tamanio)
-      .append("servicio", this._servicio)
+      .append("servicio", this._paginado)
     return this._http.get<T>(this._base + `${this._funcionalidad}`, {headers, params})
   }
 
