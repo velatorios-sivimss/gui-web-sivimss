@@ -6,6 +6,7 @@ import {LazyLoadEvent} from "primeng-lts/api";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 import { USUARIOS_BREADCRUMB } from '../../../usuarios/constants/breadcrumb';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {Rol} from "../../models/rol.interface";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {HttpErrorResponse} from '@angular/common/http';
@@ -14,13 +15,17 @@ import { CATALOGOS } from '../../../usuarios/constants/catalogos_dummies';
 import { RolService } from '../../services/rol.service';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import { FiltrosRol } from '../../models/filtrosRol.interface';
+import {VerDetalleRolComponent} from "../ver-detalle-rol/ver-detalle-rol.component";
+import {RespuestaModalRol} from "../../models/respuestaModal.interface";
 
-type SolicitudEstatus = Pick<Rol, "idRol">;
+type SolicitudEstatus = Pick<Rol, "idRol">; 
+const MAX_WIDTH: string = "876px";
 
 @Component({
   selector: 'app-roles',
   templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+  styleUrls: ['./roles.component.scss'],
+  providers: [DialogService]
 })
 export class RolesComponent implements OnInit {
 
@@ -38,13 +43,15 @@ export class RolesComponent implements OnInit {
   roles: Rol[] = [];
   rolSeleccionado!: Rol;
   mostrarModalDetalleRol: boolean = false;
+  creacionRef!: DynamicDialogRef
 
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private rolService: RolService,
     private alertaService: AlertaService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    public dialogService: DialogService,
   ) {
   }
 
@@ -146,14 +153,32 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  abrirModalDetalleRol(rolSeleccionado: Rol):void {
-    this.rolSeleccionado = {...rolSeleccionado};
-    this.mostrarModalDetalleRol = true;
-  }
 
   abrirPanel(event: MouseEvent, rolSeleccionado: Rol):void {
     this.rolSeleccionado = rolSeleccionado;
     this.overlayPanel.toggle(event);
   }
+
+  abrirModalDetalleRol(rol: Rol): void {
+    this.rolSeleccionado = rol;
+    const DETALLE_CONFIG: DynamicDialogConfig = {
+      header: "Ver detalle mik",
+      width: MAX_WIDTH,
+      data: rol
+    }
+    this.creacionRef = this.dialogService.open(VerDetalleRolComponent, DETALLE_CONFIG);
+    this.creacionRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
+  }
+
+  procesarRespuestaModal(respuesta: RespuestaModalRol = {}): void {
+    if (respuesta.actualizar) {
+      this.limpiar();
+    }
+    if (respuesta.mensaje) {
+      this.alertaService.mostrar(TipoAlerta.Exito, respuesta.mensaje);
+    }
+  }
+
+
 
 }

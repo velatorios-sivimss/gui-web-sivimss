@@ -14,7 +14,10 @@ const routes: Routes = [
   },
   {
     path: 'agregar-rol',
-    component: AgregarRolComponent
+    component: AgregarRolComponent,
+    resolve: {
+      respuesta: RolResolver,
+    },
   }
 ];
 

@@ -1,6 +1,7 @@
 import {Funcionalidad} from "./funcionalidad.interface";
 
 export interface Rol {
+  id: number;
   idRol: number;
   desRol: string;
   nivel: string;

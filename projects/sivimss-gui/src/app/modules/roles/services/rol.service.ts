@@ -25,8 +25,8 @@ export class RolService extends BaseService<HttpRespuesta<any>, any> {
     return this._http.post<HttpRespuesta<any>>(this._base + `4/buscar/rol-filtros`, filtros, {headers, params});
   }
 
-
   obtenerCatRoles(): Observable<HttpRespuesta<any>> {
+    debugger
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token3}`, 'Content-Type': 'application/json'});
     const params = new HttpParams()
       .append("servicio", "catalogo-roles")

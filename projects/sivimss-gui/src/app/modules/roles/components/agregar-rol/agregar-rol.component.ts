@@ -4,6 +4,17 @@ import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { Funcionalidad } from "projects/sivimss-gui/src/app/modules/roles/models/funcionalidad.interface";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {ActivatedRoute} from '@angular/router';
+import { RespuestaModalUsuario } from '../../../usuarios/models/respuestaModal.interface';
+import {HttpErrorResponse} from "@angular/common/http";
+import {CATALOGOS} from '../../../usuarios/constants/catalogos_dummies';
+import {RolService} from '../../services/rol.service';
+import {Rol} from "../../models/rol.interface";
+import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {USUARIOS_BREADCRUMB} from '../../../usuarios/constants/breadcrumb';
+
+type NuevoRol = Omit<Rol, "idRol" >;
 
 @Component({
   selector: 'app-agregar-rol',
@@ -15,22 +26,10 @@ export class AgregarRolComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
-  opciones:any[] = [
-    {
-      label: 'Opción 1',
-      value: 0,
-    },
-    {
-      label: 'Opción 2',
-      value: 1,
-    },
-    {
-      label: 'Opción 3',
-      value: 2,
-    }
-  ];
-
+  opciones: TipoDropdown[] = CATALOGOS;
+  catRol: TipoDropdown[] = [];
   agregarRolForm!: FormGroup;
+  modificarRolForm!: FormGroup;
 
   mostrarModalAgregarFunc: boolean = false;
   mostrarModalModificarFunc: boolean = false;
@@ -43,27 +42,19 @@ export class AgregarRolComponent implements OnInit {
   contadorFuncionalidades = 1;
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
+    private rolService: RolService,
     private alertaService: AlertaService
   ) {
   }
 
   ngOnInit(): void {
-    this.breadcrumbService.actualizar([
-      {
-        icono: 'imagen-icono-operacion-sivimss.svg',
-        titulo: 'Administración de catálogos'
-      },
-      {
-        icono: '',
-        titulo: 'Roles'
-      },
-      {
-        icono: '',
-        titulo: 'Agregar rol'
-      }
-    ]);
+    debugger
+    this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
+    const roles = this.route.snapshot.data["respuesta"].datos;
+    this.catRol = roles.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
     this.inicializarAgregarRolForm();
   }
 
@@ -76,6 +67,29 @@ export class AgregarRolComponent implements OnInit {
       estatus: [{value: true, disabled: false}],
       funcionalidades: this.formBuilder.array([])
     });
+  }
+
+  crearNuevoRol(): any {
+    debugger
+    return {
+      nivel: this.agregarRolForm.get("nivel")?.value
+    };
+  }
+
+  agregarRol(): void {
+    debugger
+   // const respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
+    const rolBo: NuevoRol = this.crearNuevoRol();
+    const solicitudRol: string = JSON.stringify(rolBo);
+    this.rolService.guardar(solicitudRol).subscribe(
+      () => {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Alta satisfactoria');
+      },
+      (error: HttpErrorResponse) => {
+        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+        console.error("ERROR: ", error.message)
+      }
+    );
   }
 
   abrirPanel(event: MouseEvent, funcionalidadSeleccionada: Funcionalidad): void {
@@ -152,10 +166,6 @@ export class AgregarRolComponent implements OnInit {
 
   get formArrayFuncionalidades() {
     return this.agregarRolForm.controls.funcionalidades as FormArray;
-  }
-
-  guardarRol() {
-
   }
 
 }
