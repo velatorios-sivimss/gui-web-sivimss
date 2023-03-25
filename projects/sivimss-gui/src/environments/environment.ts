@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api: {
-    mssivimss: 'http://localhost:8082/ms-permisos/sivimss/service/'
+    mssivimss: 'http://localhost:8082/mssivimss-ctrol-permisos/sivimss/service/'
   }
 };
 

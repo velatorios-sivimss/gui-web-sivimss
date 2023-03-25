@@ -1,19 +1,19 @@
 export interface Velatorio {
   id: string,
-  nombre: string,
+  nomVelatorio: string,
   administrador: string,
-  responsableSanitario: string,
+  nomRespoSanitario: string,
   salasCremacion: number,
   salasEmbalsamamiento: number,
   capillasVelacion: number,
-  asignacion: string,
-  direccionCalle: string,
-  numeroExterior: string,
-  codigoPostal: string,
+  cveAsignacion: string,
+  desCalle: string,
+  numExterior: string,
+  idCodigoPostal: string,
   colonia: string,
   estado: string,
   municipio: string,
-  telefono: number,
-  estatus: boolean
-
+  numTelefono: number,
+  estatus: boolean,
+  idDelegacion: number
 }

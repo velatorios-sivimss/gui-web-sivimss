@@ -66,7 +66,7 @@ export class AgregarUsuarioComponent implements OnInit {
     });
   }
 
-  crearNuevoUsuario(): NuevoUsuario {
+  crearUsuario(): NuevoUsuario {
     return {
       materno: this.agregarUsuarioForm.get("segundoApellido")?.value,
       nombre: this.agregarUsuarioForm.get("nombre")?.value,
@@ -126,7 +126,7 @@ export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuario(): void {
     const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
-    const usuario: NuevoUsuario = this.crearNuevoUsuario();
+    const usuario: NuevoUsuario = this.crearUsuario();
     const solicitudUsuario: string = JSON.stringify(usuario);
     this.usuarioService.guardar(solicitudUsuario).subscribe(
       () => {

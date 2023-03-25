@@ -2,8 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {Velatorio} from "../../modelos/velatorio.interface";
+import {Velatorio} from "../../models/velatorio.interface";
 import {CATALOGOS_DUMMIES} from "../../constants/dummies";
+import {HttpErrorResponse} from "@angular/common/http";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {VelatorioService} from "../../services/velatorio.service";
+import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
+
+type NuevoVelatorio = Omit<Velatorio, "municipio" | "estado" | "id" | "salasEmbalsamamiento" |
+  "salasCremacion" | "capillasVelacion" | "administrador" | "idDelegacion">
 
 @Component({
   selector: 'app-agregar-velatorio',
@@ -18,8 +25,11 @@ export class AgregarVelatorioComponent implements OnInit {
 
   asignaciones: TipoDropdown[] = CATALOGOS_DUMMIES;
   nuevoVelatorio!: Velatorio;
-  constructor(private formBuilder: FormBuilder,
-              public ref: DynamicDialogRef) {
+
+  constructor(private alertaService: AlertaService,
+              private formBuilder: FormBuilder,
+              public ref: DynamicDialogRef,
+              private velatorioService: VelatorioService) {
   }
 
   ngOnInit(): void {
@@ -30,34 +40,59 @@ export class AgregarVelatorioComponent implements OnInit {
     this.velatorioForm = this.formBuilder.group({
       id: [{value: null, disabled: true}],
       nombre: [{value: null, disabled: false}, [Validators.required]],
-      administrador: [{value: null, disabled: false}, [Validators.required]],
+      administrador: [{value: null, disabled: true}, [Validators.required]],
       responsableSanitario: [{value: null, disabled: false}, [Validators.required]],
-      capillasVelacion: [{value: null, disabled: false}, [Validators.required]],
-      salasCremacion: [{value: null, disabled: false}, [Validators.required]],
-      salasEmbalsamamiento: [{value: null, disabled: false}, [Validators.required]],
+      capillasVelacion: [{value: 0, disabled: true}],
+      salasCremacion: [{value: 0, disabled: true}],
+      salasEmbalsamamiento: [{value: 0, disabled: true}],
       asignacion: [{value: null, disabled: false}, [Validators.required]],
       codigoPostal: [{value: null, disabled: false}, [Validators.required]],
       direccionCalle: [{value: null, disabled: false}, [Validators.required]],
       numeroExterior: [{value: null, disabled: false}, [Validators.required]],
       colonia: [{value: null, disabled: false}, [Validators.required]],
-      municipio: [{value: null, disabled: false}, [Validators.required]],
-      estado: [{value: null, disabled: false}, [Validators.required]],
+      municipio: [{value: null, disabled: true}],
+      estado: [{value: null, disabled: true}],
       telefono: [{value: null, disabled: false}, [Validators.required]],
       estatus: [{value: true, disabled: false}, [Validators.required]],
     });
   }
 
-  crearVelatorio(): void {
+  guardarVelatorio(): void {
     if (this.indice === 0) {
       this.indice++;
       this.nuevoVelatorio = {...this.velatorioForm.value};
       return;
     }
-    this.ref.close()
+    const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
+    const velatorio: NuevoVelatorio = this.crearVelatorio();
+    const solicitudVelatorio: string = JSON.stringify(velatorio);
+    this.velatorioService.guardar(solicitudVelatorio).subscribe(
+      () => {
+        this.ref.close(respuesta)
+      },
+      (error: HttpErrorResponse) => {
+        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+        console.error("ERROR: ", error.message)
+      }
+    );
+  }
+
+  crearVelatorio(): NuevoVelatorio {
+    return {
+      colonia: this.velatorioForm.get("colonia")?.value,
+      cveAsignacion: this.velatorioForm.get("asignacion")?.value,
+      desCalle: this.velatorioForm.get("direccionCalle")?.value,
+      estatus: this.velatorioForm.get("estatus")?.value,
+      idCodigoPostal: this.velatorioForm.get("codigoPostal")?.value,
+      nomRespoSanitario: this.velatorioForm.get("responsableSanitario")?.value,
+      nomVelatorio: this.velatorioForm.get("nombre")?.value,
+      numExterior: this.velatorioForm.get("numeroExterior")?.value,
+      numTelefono: this.velatorioForm.get("telefono")?.value,
+    }
   }
 
   cancelarCreacion(): void {
-    if (this.indice ===  1) {
+    if (this.indice === 1) {
       this.indice--;
       return;
     }

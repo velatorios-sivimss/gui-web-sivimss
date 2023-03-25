@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Velatorio} from "../../modelos/velatorio.interface";
+import {Velatorio} from "../../models/velatorio.interface";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
@@ -33,20 +33,20 @@ export class ModificarVelatorioComponent implements OnInit {
   inicializarFormVelatorio(velatorio: Velatorio): void {
     this.velatorioForm = this.formBuilder.group({
       id: [{value: velatorio.id, disabled: true}],
-      nombre: [{value: velatorio.nombre, disabled: false}, [Validators.required]],
+      nombre: [{value: velatorio.nomVelatorio, disabled: false}, [Validators.required]],
       administrador: [{value: velatorio.administrador, disabled: false}, [Validators.required]],
-      responsableSanitario: [{value: velatorio.responsableSanitario, disabled: false}, [Validators.required]],
+      responsableSanitario: [{value: velatorio.nomRespoSanitario, disabled: false}, [Validators.required]],
       capillasVelacion: [{value: velatorio.capillasVelacion, disabled: false}, [Validators.required]],
       salasCremacion: [{value: velatorio.salasCremacion, disabled: false}, [Validators.required]],
       salasEmbalsamamiento: [{value: velatorio.salasEmbalsamamiento, disabled: false}, [Validators.required]],
-      asignacion: [{value: velatorio.asignacion, disabled: false}, [Validators.required]],
-      codigoPostal: [{value: velatorio.codigoPostal, disabled: false}, [Validators.required]],
-      direccionCalle: [{value: velatorio.direccionCalle, disabled: false}, [Validators.required]],
-      numeroExterior: [{value: velatorio.numeroExterior, disabled: false}, [Validators.required]],
+      asignacion: [{value: velatorio.cveAsignacion, disabled: false}, [Validators.required]],
+      codigoPostal: [{value: velatorio.idCodigoPostal, disabled: false}, [Validators.required]],
+      direccionCalle: [{value: velatorio.desCalle, disabled: false}, [Validators.required]],
+      numeroExterior: [{value: velatorio.numExterior, disabled: false}, [Validators.required]],
       colonia: [{value: velatorio.colonia, disabled: false}, [Validators.required]],
       municipio: [{value: velatorio.municipio, disabled: false}, [Validators.required]],
       estado: [{value: velatorio.estado, disabled: false}, [Validators.required]],
-      telefono: [{value: velatorio.telefono, disabled: false}, [Validators.required]],
+      telefono: [{value: velatorio.numTelefono, disabled: false}, [Validators.required]],
       estatus: [{value: velatorio.estatus, disabled: false}, [Validators.required]],
     });
   }

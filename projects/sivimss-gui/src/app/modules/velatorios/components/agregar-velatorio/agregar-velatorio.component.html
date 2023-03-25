@@ -1,5 +1,5 @@
 <ng-container *ngIf="indice === 0">
-  <form [formGroup]="velatorioForm" (submit)="crearVelatorio()">
+  <form [formGroup]="velatorioForm" (submit)="guardarVelatorio()">
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="id">ID <span class="req">*</span>:</label>
@@ -160,7 +160,7 @@
   <div class="row mb-3">
     <div class="col-md-12 flex justify-content-end">
       <button type="button" class="btn btn-default btn-md" (click)="cancelarCreacion()">Cancelar</button>
-      <button type="submit" class="btn btn-primary btn-md ml-5" (click)="crearVelatorio()">Aceptar
+      <button type="submit" class="btn btn-primary btn-md ml-5" (click)="guardarVelatorio()">Aceptar
       </button>
     </div>
   </div>

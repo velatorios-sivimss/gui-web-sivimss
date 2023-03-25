@@ -23,7 +23,7 @@ import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type SolicitudEstatus = Pick<Usuario, "id">;
-const MAX_WIDTH: string = "876px";
+const MAX_WIDTH: string = "920px";
 
 @Component({
   selector: 'app-usuarios',

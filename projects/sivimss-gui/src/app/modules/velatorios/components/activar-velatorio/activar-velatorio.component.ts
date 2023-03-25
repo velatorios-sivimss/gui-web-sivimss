@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Velatorio} from "../../modelos/velatorio.interface";
+import {Velatorio} from "../../models/velatorio.interface";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 
 @Component({
