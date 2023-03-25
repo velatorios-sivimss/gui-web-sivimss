@@ -107,6 +107,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/contratantes/contratantes.module').then(m => m.ContratantesModule)
   },
   {
+    path: 'servicios-funerarios',
+    loadChildren: () => import('./modules/servicios-funerarios/servicios-funerarios.module').then(m => m.ServiciosFunerariosModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
