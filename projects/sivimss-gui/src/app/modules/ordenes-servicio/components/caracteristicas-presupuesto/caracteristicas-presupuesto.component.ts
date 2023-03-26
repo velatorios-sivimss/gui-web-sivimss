@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DialogService } from "primeng-lts/dynamicdialog";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
+import { ModalAgregarAlPaqueteComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-al-paquete/modal-agregar-al-paquete.component";
+import { ModalAgregarAlPresupuestoComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-al-presupuesto/modal-agregar-al-presupuesto.component";
+import { ModalAgregarServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-servicio/modal-agregar-servicio.component";
+import { VerKilometrajeComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-kilometraje/ver-kilometraje.component";
 
 @Component({
   selector: 'app-caracteristicas-presupuesto',
@@ -14,49 +19,49 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
 
   paqueteSeleccionado: any;
   form!: FormGroup;
-  mostrarModalAgregarPresupuesto: boolean = false;
-  mostrarModalAgregarPaquete: boolean = false;
+
   mostrarModalAgregarAtaud: boolean = false;
   formAgregarAtaud!: FormGroup;
 
-  paquetes:any[] = [
+  paquetes: any[] = [
     {
-      id:0,
-      noConsecutivo:'1029384',
-      grupo:'Traslado',
-      concepto:'Traslado nacional',
-      cantidad:1,
-      importe:'$6,000.00',
-      proveedor:'Logística y movilidad S.A. de C.V.',
-      totalPaquete:'$7,000.00',
-      deseaUtilizarArtServ:true
+      id: 0,
+      noConsecutivo: '1029384',
+      grupo: 'Traslado',
+      concepto: 'Traslado nacional',
+      cantidad: 1,
+      importe: '$6,000.00',
+      proveedor: 'Logística y movilidad S.A. de C.V.',
+      totalPaquete: '$7,000.00',
+      deseaUtilizarArtServ: true
     },
     {
-      id:1,
-      noConsecutivo:'5463723',
-      grupo:'Cremación',
-      concepto:'Cremación familiar',
-      cantidad:1,
-      importe:'$3,000.00',
-      proveedor:'Logística y movilidad S.A. de C.V.',
-      totalPaquete:'$4,000.00',
-      deseaUtilizarArtServ:true
+      id: 1,
+      noConsecutivo: '5463723',
+      grupo: 'Cremación',
+      concepto: 'Cremación familiar',
+      cantidad: 1,
+      importe: '$3,000.00',
+      proveedor: 'Logística y movilidad S.A. de C.V.',
+      totalPaquete: '$4,000.00',
+      deseaUtilizarArtServ: true
     },
     {
-      id:2,
-      noConsecutivo:'4534664',
-      grupo:'Ataúd',
-      concepto:'Ataúd',
-      cantidad:1,
-      importe:'$4,000.00',
-      proveedor:'Logística y movilidad S.A. de C.V.',
-      totalPaquete:'$7,000.00',
-      deseaUtilizarArtServ:true
+      id: 2,
+      noConsecutivo: '4534664',
+      grupo: 'Ataúd',
+      concepto: 'Ataúd',
+      cantidad: 1,
+      importe: '$4,000.00',
+      proveedor: 'Logística y movilidad S.A. de C.V.',
+      totalPaquete: '$7,000.00',
+      deseaUtilizarArtServ: true
     }
   ]
 
   constructor(
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly dialogService: DialogService
   ) {
   }
 
@@ -76,19 +81,37 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  abrirModalAgregarPrespuesto(event: MouseEvent) {
+  abrirModalAgregarAlPrespuesto(event: MouseEvent) {
     event.stopPropagation();
-    this.mostrarModalAgregarPresupuesto = true;
+    const ref = this.dialogService.open(ModalAgregarAlPresupuestoComponent, {
+      header: 'Agregar a presupuesto',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: ''
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) {
+      }
+    });
   }
 
-  abrirModalAgregarPaquete(event: MouseEvent) {
+  abrirModalAgregarAlPaquete(event: MouseEvent) {
     event.stopPropagation();
-    this.mostrarModalAgregarPaquete = true;
+    const ref = this.dialogService.open(ModalAgregarAlPaqueteComponent, {
+      header: 'Agregar a paquete',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: ''
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) {
+      }
+    });
   }
 
   abrirModalAgregarAtaud(): void {
-    this.mostrarModalAgregarPaquete = false;
-    this.mostrarModalAgregarPresupuesto = false;
     this.formAgregarAtaud = this.formBuilder.group({
       ataud: [{value: null, disabled: false}, [Validators.required]],
       proveedor: [{value: null, disabled: false}, [Validators.required]]
@@ -96,12 +119,39 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
     this.mostrarModalAgregarAtaud = true;
   }
 
+
+  abrirModalAgregarServicio() {
+    const ref = this.dialogService.open(ModalAgregarServicioComponent, {
+      header: 'Agregar servicio',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a ModalVerTarjetaIdentificacionComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en ModalVerTarjetaIdentificacionComponent
+      }
+    });
+  }
+
+  abrirModalVerKm(): void {
+    const ref = this.dialogService.open(VerKilometrajeComponent, {
+      header: 'Ver kilometraje',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a VerKilometrajeComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en VerKilometrajeComponent
+      }
+    });
+  }
+
   get f() {
     return this.form.controls;
   }
 
-  get fa() {
-    return this.formAgregarAtaud.controls;
-  }
+
 
 }
