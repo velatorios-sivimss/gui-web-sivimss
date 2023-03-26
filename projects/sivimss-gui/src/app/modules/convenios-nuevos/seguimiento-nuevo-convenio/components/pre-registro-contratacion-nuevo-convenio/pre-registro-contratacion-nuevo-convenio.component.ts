@@ -47,8 +47,6 @@ export class PreRegistroContratacionNuevoConvenioComponent implements OnInit {
   }
 
   abrir(event:MouseEvent){
-    console.log('hola');
-
     this.infoPersona = true;
     this.overlayPanel.toggle(event);
   }

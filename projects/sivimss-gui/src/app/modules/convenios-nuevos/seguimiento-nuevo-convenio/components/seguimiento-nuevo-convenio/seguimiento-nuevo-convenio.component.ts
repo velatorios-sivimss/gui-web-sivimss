@@ -37,10 +37,10 @@ export class SeguimientoNuevoConvenioComponent implements OnInit {
   mostrarModalModificarArticulo: boolean = false;
   mostrarModalDetalleArticulo: boolean = false;
   mostrarModalEstatusArticulo: boolean = false;
-
   creacionRef!: DynamicDialogRef;
   detalleRef!:DynamicDialogRef;
   modificacionRef!:DynamicDialogRef;
+  porPresona: boolean = false;
 
   opciones:TipoDropdown[] = CATALOGOS_DUMMIES;
   tipoServicio:TipoDropdown[] = CATALOGOS_DUMMIES;
@@ -83,7 +83,7 @@ export class SeguimientoNuevoConvenioComponent implements OnInit {
           folioConvenioPf:"Madera ecológica MDF",
           folioConvenioPsfpa:"Tambora",
           rfcAfiliado:"Intermediaria",
-          tipoContratacion:"Ataudes contra hume",
+          tipoContratacion:"Por persona",
            rfc:"fjdgf639d ",
           nombreAfiliado:"10m",
           tipoPaquete:"2m",
@@ -96,7 +96,7 @@ export class SeguimientoNuevoConvenioComponent implements OnInit {
           folioConvenioPf:"Madera ecológica MDF",
           folioConvenioPsfpa:"Tambora",
           rfcAfiliado:"Intermediaria",
-          tipoContratacion:"Ataudes contra humedad",
+          tipoContratacion:"Por Empresa",
            rfc:"fjdgf639d ",
           nombreAfiliado:"10m",
           tipoPaquete:"2m",
@@ -109,7 +109,7 @@ export class SeguimientoNuevoConvenioComponent implements OnInit {
           folioConvenioPf:"Madera ecológica MDF",
           folioConvenioPsfpa:"Tambora",
           rfcAfiliado:"Intermediaria",
-          tipoContratacion:"Ataudes contra hum",
+          tipoContratacion:"Numero de folio de convenio (Pre registro)",
           rfc:"fjdgf639d ",
           nombreAfiliado:"10m",
           tipoPaquete:"2m",

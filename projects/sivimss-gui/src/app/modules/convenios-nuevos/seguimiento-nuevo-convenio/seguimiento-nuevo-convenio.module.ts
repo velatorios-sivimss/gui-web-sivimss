@@ -24,6 +24,7 @@ import { TablePanelModule } from '../../../shared/table-panel/table-panel.module
 import { TituloPrincipalModule } from '../../../shared/titulo-principal/titulo-principal.module';
 import { PreRegistroContratacionNuevoConvenioComponent } from './components/pre-registro-contratacion-nuevo-convenio/pre-registro-contratacion-nuevo-convenio.component';
 import { DesactivarConvenioComponent } from './components/desactivar-convenio/desactivar-convenio.component';
+import { DetalleBeneficiosComponent } from './components/detalle-beneficios/detalle-beneficios.component';
 
 //as
 @NgModule({
@@ -31,6 +32,7 @@ import { DesactivarConvenioComponent } from './components/desactivar-convenio/de
     SeguimientoNuevoConvenioComponent,
     PreRegistroContratacionNuevoConvenioComponent,
     DesactivarConvenioComponent,
+    DetalleBeneficiosComponent,
   ],
   imports: [
     CalendarModule,

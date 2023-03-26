@@ -1,3 +1,4 @@
+import { DetalleBeneficiosComponent } from './components/detalle-beneficios/detalle-beneficios.component';
 import { PreRegistroContratacionNuevoConvenioComponent } from './components/pre-registro-contratacion-nuevo-convenio/pre-registro-contratacion-nuevo-convenio.component'
 import { SeguimientoNuevoConvenioResolver } from './services/seguimiento-nuevo-convenio.resolver'
 import { SeguimientoNuevoConvenioComponent } from './components/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.component'
@@ -20,6 +21,13 @@ const routes: Route[] = [
   {
     path: 'desactivar-convenio',
     component: DesactivarConvenioComponent,
+    resolve: {
+      respuesta: SeguimientoNuevoConvenioResolver,
+    },
+  },
+  {
+    path: 'detalle-convenio',
+    component: DetalleBeneficiosComponent,
     resolve: {
       respuesta: SeguimientoNuevoConvenioResolver,
     },
