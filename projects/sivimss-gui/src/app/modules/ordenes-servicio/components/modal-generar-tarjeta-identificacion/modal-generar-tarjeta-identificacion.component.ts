@@ -4,11 +4,11 @@ import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog
 import { FormTarjetaIdentificacion } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/models/form-tarjeta-identificacion.enum";
 
 @Component({
-  selector: 'app-generar-tarjeta-identificacion',
-  templateUrl: './generar-tarjeta-identificacion.component.html',
-  styleUrls: ['./generar-tarjeta-identificacion.component.scss']
+  selector: 'app-modal-generar-tarjeta-identificacion',
+  templateUrl: './modal-generar-tarjeta-identificacion.component.html',
+  styleUrls: ['./modal-generar-tarjeta-identificacion.component.scss']
 })
-export class GenerarTarjetaIdentificacionComponent implements OnInit {
+export class ModalGenerarTarjetaIdentificacionComponent implements OnInit {
   readonly FormTarjetaIdentificacion = FormTarjetaIdentificacion;
   pasoForm: FormTarjetaIdentificacion = FormTarjetaIdentificacion.Seleccionar;
   dummy!: string;

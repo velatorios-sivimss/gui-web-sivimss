@@ -11,7 +11,7 @@
     <ng-template pTemplate="header">
       <div class="flex justify-content-between align-items-center w-full">
         <span>Paquete</span>
-        <button class="btn btn-primary btn-lg" (click)="abrirModalAgregarPrespuesto($event)">Agregar artículos y
+        <button class="btn btn-primary btn-lg" (click)="abrirModalAgregarAlPaquete($event)" >Agregar artículos y
           servicios
         </button>
       </div>
@@ -57,7 +57,7 @@
     <ng-template pTemplate="header">
       <div class="flex justify-content-between align-items-center w-full">
         <span>Presupuesto</span>
-        <button class="btn btn-primary btn-lg" (click)="abrirModalAgregarPaquete($event)">Agregar artículos y
+        <button class="btn btn-primary btn-lg" (click)="abrirModalAgregarAlPrespuesto($event)">Agregar artículos y
           servicios
         </button>
       </div>
@@ -150,86 +150,3 @@
     </div>
   </div>
 </form>
-
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar a presupuesto"
-          [(visible)]="mostrarModalAgregarPresupuesto"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <div class="p-4">
-      <div class="row">
-        <div class="col-md-12 flex justify-content-center align-items-center">
-          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarAtaud()">Ataúd</button>
-          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarServicio()">Servicio</button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-gold btn-md" (click)="mostrarModalAgregarPresupuesto = false">Cancelar</button>
-    </div>
-  </ng-template>
-</p-dialog>
-
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar a presupuesto"
-          [(visible)]="mostrarModalAgregarPaquete"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <div class="p-4">
-      <div class="row mb-5">
-        <div class="col-md-12">
-          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarAtaud()">Ataúd</button>
-          <button class="btn btn-primary btn-extra-grande">Uma</button>
-          <button class="btn btn-primary btn-extra-grande">Empaque</button>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <button class="btn btn-primary btn-extra-grande">Artículos <br>complementarios</button>
-          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarServicio()">Servicio</button>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-gold btn-md" (click)="mostrarModalAgregarPresupuesto = false">Cancelar</button>
-    </div>
-  </ng-template>
-</p-dialog>
-
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar ataúd"
-          [(visible)]="mostrarModalAgregarAtaud"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <form [formGroup]="formAgregarAtaud">
-      <div class="row">
-        <div class="col-md-6">
-          <label class="control-label" for="ataud">Ataúd<span class="req">*</span>:</label>
-          <p-dropdown id="ataud" class="form-control" formControlName="ataud" placeholder="Selecciona ataúd"
-                      appendTo="body"
-                      [options]="[{label:'Opción 1', value:0},{label:'Opción 2', value:1}]"></p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fa.ataud?.errors?.required && (fa.ataud?.dirty || fa.ataud?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="proveedor">Proveedor<span class="req">*</span>:</label>
-          <p-dropdown id="proveedor" class="form-control" formControlName="proveedor" appendTo="body"
-                      placeholder="Selecciona proveedor"
-                      [options]="[{label:'Opción 1', value:0},{label:'Opción 2', value:1}]"></p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fa.proveedor?.errors?.required && (fa.proveedor?.dirty || fa.proveedor?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-    </form>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-gold btn-md" (click)="mostrarModalAgregarAtaud = false">Cancelar</button>
-      <button class="ml-5 btn btn-primary btn-md" (click)="mostrarModalAgregarAtaud = false">Aceptar</button>
-    </div>
-  </ng-template>
-</p-dialog>

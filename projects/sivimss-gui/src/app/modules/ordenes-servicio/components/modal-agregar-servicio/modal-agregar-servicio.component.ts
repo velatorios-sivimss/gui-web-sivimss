@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
 
 @Component({
-  selector: 'app-agregar-servicio',
-  templateUrl: './agregar-servicio.component.html',
-  styleUrls: ['./agregar-servicio.component.scss']
+  selector: 'app-modal-agregar-servicio',
+  templateUrl: './modal-agregar-servicio.component.html',
+  styleUrls: ['./modal-agregar-servicio.component.scss']
 })
-export class AgregarServicioComponent implements OnInit {
+export class ModalAgregarServicioComponent implements OnInit {
 
   form!: FormGroup;
   dummy!: string;

@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
 
 @Component({
-  selector: 'app-ver-tarjeta-identificacion',
-  templateUrl: './ver-tarjeta-identificacion.component.html',
-  styleUrls: ['./ver-tarjeta-identificacion.component.scss']
+  selector: 'app-modal-agregar-al-presupuesto',
+  templateUrl: './modal-agregar-al-presupuesto.component.html',
+  styleUrls: ['./modal-agregar-al-presupuesto.component.scss']
 })
-export class VerTarjetaIdentificacionComponent implements OnInit {
+export class ModalAgregarAlPresupuestoComponent implements OnInit {
 
   dummy!: string;
 
   constructor(
-    private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig,
+    private readonly ref: DynamicDialogRef,
+    private readonly config: DynamicDialogConfig
   ) {
   }
 

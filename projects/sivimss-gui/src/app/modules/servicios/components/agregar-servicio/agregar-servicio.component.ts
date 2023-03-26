@@ -9,7 +9,7 @@ import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 
 @Component({
-  selector: 'app-agregar-servicio',
+  selector: 'app-modal-agregar-servicio',
   templateUrl: './agregar-servicio.component.html',
   styleUrls: ['./agregar-servicio.component.scss'],
   providers: [DialogService]
