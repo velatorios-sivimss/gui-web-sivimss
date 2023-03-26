@@ -46,8 +46,6 @@ export class OrdenesServicioComponent implements OnInit {
   ordenesServicio: any[] = [];
   ordenServicioSeleccionada: any = null;
 
-  mostrarLoaderInline: boolean = true;
-
   constructor(
     private formBuilder: FormBuilder,
     private alertaService: AlertaService,

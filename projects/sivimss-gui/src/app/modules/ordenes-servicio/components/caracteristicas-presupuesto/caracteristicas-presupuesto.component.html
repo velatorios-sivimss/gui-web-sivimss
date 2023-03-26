@@ -5,6 +5,7 @@
                 [options]="[{label:'Opción 1', value:0},{label:'Opción 2', value:1}]"></p-dropdown>
   </div>
 </div>
+
 <p-accordion styleClass="sivimss-accordion">
   <p-accordionTab>
     <ng-template pTemplate="header">
@@ -97,14 +98,15 @@
     </ng-template>
   </p-accordionTab>
 </p-accordion>
-<p-overlayPanel #overlayPanel>
+
+<p-overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Opcion 1"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Opcion 2"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Ver kilometraje" (click)="abrirModalVerKm()"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
+
 <div class="row">
   <div class="col-md-12 flex justify-content-end">
     <div class="flex flex-column align-items-end">
@@ -113,7 +115,9 @@
     </div>
   </div>
 </div>
+
 <hr class="hr-separador">
+
 <form [formGroup]="form">
   <div class="row mb-2">
     <div class="col-md-6">
@@ -138,7 +142,6 @@
       </span>
     </div>
   </div>
-
   <div class="row">
     <div class="col-md-12 flex justify-content-end align-items-center">
       <button class="btn btn-md btn-default">Regresar</button>
@@ -148,7 +151,6 @@
   </div>
 </form>
 
-
 <p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar a presupuesto"
           [(visible)]="mostrarModalAgregarPresupuesto"
           [modal]="true"
@@ -157,8 +159,8 @@
     <div class="p-4">
       <div class="row">
         <div class="col-md-12 flex justify-content-center align-items-center">
-          <button class="btn btn-primary btn-extra-grande">Ataúd</button>
-          <button class="btn btn-primary btn-extra-grande">Servicio</button>
+          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarAtaud()">Ataúd</button>
+          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarServicio()">Servicio</button>
         </div>
       </div>
     </div>
@@ -169,7 +171,6 @@
     </div>
   </ng-template>
 </p-dialog>
-
 
 <p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar a presupuesto"
           [(visible)]="mostrarModalAgregarPaquete"
@@ -187,7 +188,7 @@
       <div class="row">
         <div class="col-md-12">
           <button class="btn btn-primary btn-extra-grande">Artículos <br>complementarios</button>
-          <button class="btn btn-primary btn-extra-grande">Servicio</button>
+          <button class="btn btn-primary btn-extra-grande" (click)="abrirModalAgregarServicio()">Servicio</button>
         </div>
       </div>
     </div>
@@ -198,7 +199,6 @@
     </div>
   </ng-template>
 </p-dialog>
-
 
 <p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar ataúd"
           [(visible)]="mostrarModalAgregarAtaud"
@@ -233,4 +233,3 @@
     </div>
   </ng-template>
 </p-dialog>
-

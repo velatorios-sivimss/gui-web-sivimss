@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DialogService } from "primeng-lts/dynamicdialog";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
+import { AgregarServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/agregar-servicio/agregar-servicio.component";
+import { VerKilometrajeComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-kilometraje/ver-kilometraje.component";
+import { VerTarjetaIdentificacionComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component";
 
 @Component({
   selector: 'app-caracteristicas-presupuesto',
@@ -56,7 +60,8 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
   ]
 
   constructor(
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly dialogService: DialogService
   ) {
   }
 
@@ -94,6 +99,36 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
       proveedor: [{value: null, disabled: false}, [Validators.required]]
     });
     this.mostrarModalAgregarAtaud = true;
+  }
+
+  abrirModalAgregarServicio() {
+    this.mostrarModalAgregarPaquete = false;
+    this.mostrarModalAgregarPresupuesto = false;
+    const ref = this.dialogService.open(AgregarServicioComponent, {
+      header: 'Agregar servicio',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a VerTarjetaIdentificacionComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en VerTarjetaIdentificacionComponent
+      }
+    });
+  }
+
+  abrirModalVerKm():void{
+    const ref = this.dialogService.open(VerKilometrajeComponent, {
+      header: 'Ver kilometraje',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a VerKilometrajeComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en VerKilometrajeComponent
+      }
+    });
   }
 
   get f() {

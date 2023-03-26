@@ -28,6 +28,8 @@ import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-iden
 import { SeleccionarBeneficiarioComponent } from './components/seleccionar-beneficiario/seleccionar-beneficiario.component';
 import { CaracteristicasPresupuestoComponent } from './components/caracteristicas-presupuesto/caracteristicas-presupuesto.component';
 import { AgregarServicioComponent } from './components/agregar-servicio/agregar-servicio.component';
+import { VerKilometrajeComponent } from './components/ver-kilometraje/ver-kilometraje.component';
+import { InformacionServicioComponent } from './components/informacion-servicio/informacion-servicio.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { AgregarServicioComponent } from './components/agregar-servicio/agregar-
     VerTarjetaIdentificacionComponent,
     SeleccionarBeneficiarioComponent,
     CaracteristicasPresupuestoComponent,
-    AgregarServicioComponent
+    AgregarServicioComponent,
+    VerKilometrajeComponent,
+    InformacionServicioComponent
   ],
   imports: [
     CommonModule,
