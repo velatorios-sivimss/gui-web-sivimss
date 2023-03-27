@@ -119,7 +119,7 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
     this.velatorioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.listaVelatorios = respuesta!.datos.content || [];
-        this.totalElementos = respuesta!.datoss.totalElements || 0;
+        this.totalElementos = respuesta!.datos.totalElements || 0;
       },
       (error: HttpErrorResponse) => {
         console.error(error);

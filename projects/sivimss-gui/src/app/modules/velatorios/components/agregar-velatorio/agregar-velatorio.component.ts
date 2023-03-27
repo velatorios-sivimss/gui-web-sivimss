@@ -10,7 +10,7 @@ import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 
 type NuevoVelatorio = Omit<Velatorio, "municipio" | "estado" | "id" | "salasEmbalsamamiento" |
-  "salasCremacion" | "capillasVelacion" | "administrador" | "idDelegacion">
+  "salasCremacion" | "capillasVelacion" | "administrador" | "idDelegacion" | "colonia" | "estatus"> & { "idDelegacion": number }
 
 @Component({
   selector: 'app-agregar-velatorio',
@@ -68,27 +68,32 @@ export class AgregarVelatorioComponent implements OnInit {
     const solicitudVelatorio: string = JSON.stringify(velatorio);
     this.velatorioService.guardar(solicitudVelatorio).subscribe(
       () => {
-        this.ref.close(respuesta)
+        this.ref.close(respuesta);
       },
       (error: HttpErrorResponse) => {
         this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
-        console.error("ERROR: ", error.message)
+        console.error("ERROR: ", error);
       }
     );
   }
 
   crearVelatorio(): NuevoVelatorio {
     return {
-      colonia: this.velatorioForm.get("colonia")?.value,
-      cveAsignacion: this.velatorioForm.get("asignacion")?.value,
+      // colonia: this.velatorioForm.get("colonia")?.value,
+      cveAsignacion: 0,
       desCalle: this.velatorioForm.get("direccionCalle")?.value,
-      estatus: this.velatorioForm.get("estatus")?.value,
-      idCodigoPostal: this.velatorioForm.get("codigoPostal")?.value,
+      idCodigoPostal: +this.velatorioForm.get("codigoPostal")?.value,
       nomRespoSanitario: this.velatorioForm.get("responsableSanitario")?.value,
       nomVelatorio: this.velatorioForm.get("nombre")?.value,
-      numExterior: this.velatorioForm.get("numeroExterior")?.value,
+      numExterior: +this.velatorioForm.get("numeroExterior")?.value,
       numTelefono: this.velatorioForm.get("telefono")?.value,
+      idDelegacion : 30
     }
+  }
+
+  obtenerEstatus(): number {
+    const estatus = this.velatorioForm.get("estatus")?.value;
+    return estatus ? 1 : 0;
   }
 
   cancelarCreacion(): void {

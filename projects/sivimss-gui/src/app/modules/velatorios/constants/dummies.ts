@@ -4,15 +4,15 @@ import {Velatorio} from "../models/velatorio.interface";
 
 export const CATALOGOS_DUMMIES: TipoDropdown[] = [
   {
-    value: 'Opcion 1',
+    value: '1',
     label: 'Opcion 1'
   },
   {
-    value: 'Opcion 2',
+    value: '2',
     label: 'Opcion 2'
   },
   {
-    value: 'Opcion 3',
+    value: '3',
     label: 'Opcion 3'
   },
 ];
