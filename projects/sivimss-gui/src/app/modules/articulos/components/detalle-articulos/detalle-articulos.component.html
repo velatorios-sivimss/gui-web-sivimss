@@ -2,10 +2,12 @@
   <app-table-panel>
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column">
-        <span class="font-bold">ID {{articuloSeleccionado.id}}</span>
+        <span class="font-bold">
+          ID <span [ngClass]="articuloSeleccionado?.estatus ? 'activo' : 'inactivo'">{{articuloSeleccionado?.id}}</span>
+        </span>
       </div>
     </ng-template>
-    <ng-template *ngIf="(origen == 'detalle')" appCustomTemplate="right-header">
+    <!-- <ng-template *ngIf="(origen == 'detalle')" appCustomTemplate="right-header">
       <div class="table-panel-header-column">
         <div class="flex flex-column">
           <span>Estatus</span>
@@ -16,13 +18,12 @@
           </div>
         </div>
         <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
-          <img
-            src="assets/images/imagen-icono-barras-horizontales.svg"
-            alt="icono barras horizontales">
+          <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
         </a>
       </div>
     </ng-template>
-    <ng-template *ngIf="(origen == 'agregar' || origen == 'modificar' || origen == 'estatus')" appCustomTemplate="right-header">
+    <ng-template *ngIf="(origen == 'agregar' || origen == 'modificar' || origen == 'estatus')"
+      appCustomTemplate="right-header">
       <div class="table-panel-header-column">
         <div class="flex flex-column">
           <span>Estatus</span>
@@ -32,11 +33,29 @@
           </div>
         </div>
       </div>
+    </ng-template> -->
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+          <div class="flex flex-column">
+              <span>Estatus</span>
+              <div>
+                  <span class="activo" *ngIf="articuloSeleccionado?.estatus">Activo</span>
+                  <span class="inactivo" *ngIf="!articuloSeleccionado?.estatus">Inactivo</span>
+              </div>
+          </div>
+          <div class="flex flex-column ml-5" *ngIf="(origen == 'detalle')">
+              <a (click)="overlayPanel.toggle($event)">
+                  <img
+                    src="assets/images/imagen-icono-barras-horizontales.svg"
+                    alt="icono barras horizontales">
+                </a>
+          </div>
+      </div>
     </ng-template>
     <div class="row table-panel-row">
       <div class="col-md-4">
         <div class="table-panel-column">
-          <label>Categoria</label>
+          <label>Categoría (artículo)</label>
           <span> {{articuloSeleccionado.categoria}} </span>
         </div>
       </div>
@@ -71,7 +90,7 @@
     <div class="row table-panel-row">
       <div class="col-md-12">
         <div class="table-panel-column">
-          <label>Modelo de artículo</label>
+          <label>Modelo del artículo</label>
           <span> {{articuloSeleccionado.modeloDeArticulo}} </span>
         </div>
       </div>
@@ -84,10 +103,6 @@
         </div>
       </div>
     </div>
-
-
-
-
 
     <div class="row table-panel-row">
       <div class="col-md-4">
@@ -136,7 +151,7 @@
 
   <ng-container *ngIf="origen == 'agregar'">
     <div class="flex justify-content-center">
-      <div class="mt-4 col-md-7" >
+      <div class="mt-4 col-md-7">
         ¿Estás seguro que deseas agregar este nuevo artículo?
       </div>
     </div>
@@ -144,14 +159,14 @@
 
   <ng-container *ngIf="origen == 'modificar'">
     <div class="flex justify-content-center">
-      <div class="mt-4 col-md-7" >
+      <div class="mt-4 col-md-7">
         ¿Estás seguro que deseas modificar este nuevo artículo?
       </div>
     </div>
   </ng-container>
   <ng-container *ngIf="origen == 'detalle'">
     <div class="flex justify-content-end">
-      <button class="ml-4 mt-3 btn btn-primary btn-md"  (click)="aceptar()">
+      <button class="ml-4 mt-3 btn btn-primary btn-md" (click)="aceptar()">
         Aceptar
       </button>
     </div>
@@ -159,25 +174,25 @@
 
   <ng-container *ngIf="(origen == 'agregar' || origen == 'modificar')">
     <div class="flex mt-4 justify-content-end">
-      <button class="ml-6 mt-3 btn btn-primary btn-md"  (click)="regresar()">Regresar</button>
+      <button class="ml-6 mt-3 btn btn-primary btn-md" (click)="regresar()">Regresar</button>
       <button class="ml-6 mt-3 btn btn-danger btn-md" (click)="cerrar()">Cancelar</button>
-      <button class="ml-6 mt-3 btn btn-primary btn-md"  (click)="aceptar()">
+      <button class="ml-6 mt-3 btn btn-primary btn-md" (click)="aceptar()">
         Aceptar
       </button>
     </div>
   </ng-container>
 
   <ng-container *ngIf="(origen == 'estatus')">
-      <ng-container *ngIf="articuloSeleccionado.estatus">
-        <div class="flex mt-4 justify-content-center">
-          <div class="col-md-6" >
-            ¿Estás seguro que deseas activar este artículo?
-          </div>
+    <ng-container *ngIf="articuloSeleccionado.estatus">
+      <div class="flex mt-4 justify-content-center">
+        <div class="col-md-8 text-center">
+          ¿Estás seguro que deseas activar este artículo?
         </div>
-      </ng-container>
+      </div>
+    </ng-container>
     <ng-container *ngIf="!articuloSeleccionado.estatus">
       <div class="flex mt-4 justify-content-center">
-        <div class="col-md-6" >
+        <div class="col-md-8 text-center">
           ¿Estás seguro que deseas desactivar este artículo?
         </div>
       </div>
@@ -185,14 +200,11 @@
 
     <div class="flex mt-5 justify-content-end">
       <button class="ml-6 mt-3 btn btn-danger btn-md" (click)="cerrar()">Cancelar</button>
-      <button class="ml-6 mt-3 btn btn-primary btn-md"  (click)="aceptar()">
-      Aceptar
-    </button>
+      <button class="ml-6 mt-3 btn btn-primary btn-md" (click)="aceptar()">
+        Aceptar
+      </button>
     </div>
   </ng-container>
-
-
-
 
   <p-overlayPanel #overlayPanel>
     <ng-template pTemplate="content">

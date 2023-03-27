@@ -12,14 +12,11 @@ import { Articulos, ConfirmacionServicio } from '../../models/articulos.interfac
   providers: [DialogService]
 })
 export class AgregarArticulosComponent implements OnInit {
+  readonly ID_ARTICULO_COMPLEMENTARIO: number = 1;
 
   agregarArticuloForm!: FormGroup;
-
-  articulos:Articulos = {};
-
-
- ventanaConfirmacion: boolean = false;
-
+  articulos: Articulos = {};
+  ventanaConfirmacion: boolean = false;
   opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
   tipoServicio: TipoDropdown[] = CATALOGOS_DUMMIES;
   cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES;
@@ -38,77 +35,77 @@ export class AgregarArticulosComponent implements OnInit {
     this.inicializarAgregarServicioForm();
   }
 
-  inicializarAgregarServicioForm():void{
+  inicializarAgregarServicioForm(): void {
     this.agregarArticuloForm = this.formBuilder.group({
-      id: [{value:null, disabled:true}],
-      categoria: [{value:null,disabled:false},[Validators.required]],
-      tipoDeArticulo: [{value:null,disabled:false},[Validators.required]],
-      tipoDeMaterial: [{value:null,disabled:false},[Validators.required]],
-      tamanio: [{value:null,disabled:false},[Validators.required]],
-      clasificacionDeProducto: [{value:null,disabled:false},[Validators.required]],
-      modeloDeArticulo: [{value:null,disabled:false},[Validators.required]],
-      descripcionDeProducto: [{value:null,disabled:false},[Validators.required]],
-      largo: [{value:null,disabled:false},[Validators.required]],
-      ancho: [{value:null,disabled:false},[Validators.required]],
-      alto: [{value:null,disabled:false},[Validators.required]],
-      estatus: [{value: true, disabled: false}],
-      claveSAT: [{value:null,disabled:false},[Validators.required]],
-      cuentaClave: [{value:null,disabled:false},[Validators.required]],
-      cuentaContable: [{value:null,disabled:false},[Validators.required]],
-      partidaPresupuestal: [{value:null,disabled:false},[Validators.required]],
+      id: [{ value: null, disabled: true }],
+      categoria: [{ value: null, disabled: false }, [Validators.required]],
+      tipoDeArticulo: [{ value: null, disabled: false }, [Validators.required]],
+      tipoDeMaterial: [{ value: null, disabled: false }, [Validators.required]],
+      tamanio: [{ value: null, disabled: false }, [Validators.required]],
+      clasificacionDeProducto: [{ value: null, disabled: false }, [Validators.required]],
+      modeloDeArticulo: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
+      descripcionDeProducto: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
+      largo: [{ value: null, disabled: false }, [Validators.maxLength(3), Validators.required]],
+      ancho: [{ value: null, disabled: false }, [Validators.maxLength(3), Validators.required]],
+      alto: [{ value: null, disabled: false }, [Validators.maxLength(3), Validators.required]],
+      estatus: [{ value: true, disabled: false }],
+      claveSAT: [{ value: null, disabled: false }, [Validators.required]],
+      cuentaContable: [{ value: null, disabled: true }, []],
+      partidaPresupuestal: [{ value: null, disabled: true }, []],
     });
   }
 
-  confirmarAgregarServicio(): void {
-    this.ventanaConfirmacion = true;
-    /*
-    * Se mandará solo texto para que el detalle solo lo imprim por lo que se deben llenar las variables
-    * que son 'desc'*/
-    this.articulos = {
-      id: this.agregarArticuloForm.get("id")?.value,
-      categoria: this.agregarArticuloForm.get("categoria")?.value,
-      tipoDeArticulo:this.agregarArticuloForm.get("tipoDeArticulo")?.value,
-      tipoDeMaterial: this.agregarArticuloForm.get("tipoDeMaterial")?.value,
-      tamanio: this.agregarArticuloForm.get("tamanio")?.value,
-      clasificacionDeProducto: this.agregarArticuloForm.get("clasificacionDeProducto")?.value,
-      modeloDeArticulo: this.agregarArticuloForm.get("modeloDeArticulo")?.value,
-      descripcionDeProducto: this.agregarArticuloForm.get("descripcionDeProducto")?.value,
-      largo: this.agregarArticuloForm.get("largo")?.value,
-      ancho: this.agregarArticuloForm.get("ancho")?.value,
-      alto: this.agregarArticuloForm.get("alto")?.value,
-      estatus:this.agregarArticuloForm.get("estatus")?.value,
-      claveSAT:this.agregarArticuloForm.get("claveSAT")?.value,
-      cuentaClave:this.agregarArticuloForm.get("cuentaClave")?.value,
-      cuentaContable:this.agregarArticuloForm.get("cuentaContable")?.value,
-      partidaPresupuestal:this.agregarArticuloForm.get("partidaPresupuestal")?.value,
-    };
+  agregarServicio(): void {
+    this.agregarArticuloForm.markAllAsTouched();
+    if (this.agregarArticuloForm.valid) {
+      this.ventanaConfirmacion = true;
+    }
   }
 
-  cerrar(event?:ConfirmacionServicio): void {
+  cerrar(event?: ConfirmacionServicio): void {
     debugger;
     //Selección cancelar pantalla agregar
-    if(event && event.origen == "agregar"){
+    if (event && event.origen == "agregar") {
       this.ventanaConfirmacion = false;
       this.ref.close(true);
       return;
     }
 
-    if(event && event.origen == "regresar") {
+    if (event && event.origen == "regresar") {
       this.ventanaConfirmacion = false;
       return;
     }
 
-    if(event && event.origen == "cancelar"){
+    if (event && event.origen == "cancelar") {
       this.ventanaConfirmacion = false;
       return;
     }
 
     this.ref.close(false);
-
   }
 
+  handleChangeTipoArticulo() {
+    if (this.faa.tipoDeArticulo.value === this.ID_ARTICULO_COMPLEMENTARIO) {
+      this.faa.cuentaContable.enable();
+      this.faa.cuentaContable.setValidators(Validators.required);
+      this.faa.cuentaContable.updateValueAndValidity();
+      this.faa.partidaPresupuestal.enable();
+      this.faa.partidaPresupuestal.setValidators(Validators.required);
+      this.faa.partidaPresupuestal.updateValueAndValidity();
+      this.agregarArticuloForm.markAllAsTouched();
+    } else {
+      this.faa.cuentaContable.reset();
+      this.faa.cuentaContable.clearValidators();
+      this.faa.cuentaContable.updateValueAndValidity();
+      this.faa.cuentaContable.disable();
+      this.faa.partidaPresupuestal.reset();
+      this.faa.partidaPresupuestal.clearValidators();
+      this.faa.partidaPresupuestal.updateValueAndValidity();
+      this.faa.partidaPresupuestal.disable();
+    }
+  }
 
-  get faa(){
+  get faa() {
     return this.agregarArticuloForm.controls;
   }
 
