@@ -1,5 +1,5 @@
 <app-titulo-principal titulo="Agregar rol"></app-titulo-principal>
-<form [formGroup]="agregarRolForm" (submit)="agregarRol()">
+<form [formGroup]="agregarRolForm">
     <section>
         <h2 class="subtitulo">Datos generales</h2>
         <div class="px-4 mt-3">
@@ -90,7 +90,7 @@
     <div class="flex justify-content-end mb-6">
         <button class="btn btn-default btn-md" routerLink="../">Regresar</button>
         <button class="ml-4 btn btn-gold btn-md" routerLink="../">Cancelar</button>
-        <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarRolForm.invalid">
+        <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarRolForm.invalid" (click)="agregarRol()">
       Aceptar
     </button>
     </div>

@@ -162,7 +162,7 @@ export class RolesComponent implements OnInit {
   abrirModalDetalleRol(rol: Rol): void {
     this.rolSeleccionado = rol;
     const DETALLE_CONFIG: DynamicDialogConfig = {
-      header: "Ver detalle mik",
+      header: "Ver detalle",
       width: MAX_WIDTH,
       data: rol
     }

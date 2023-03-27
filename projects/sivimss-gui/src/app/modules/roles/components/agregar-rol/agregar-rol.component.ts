@@ -76,6 +76,19 @@ export class AgregarRolComponent implements OnInit {
     };
   }
 
+/*
+  crearNuevoRolFuncionalidad(): any {
+    debugger
+    return {
+      idRol:
+      idFuncionalidad:  this.funcionalidades[0]?.id
+      nivel: this.agregarRolForm.get("nivel")?.value,
+      estatus:
+      permiso:
+      idUsuarioAlta:
+    };
+  }*/
+
   agregarRol(): void {
     debugger
    // const respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
@@ -153,6 +166,7 @@ export class AgregarRolComponent implements OnInit {
   }
 
   obtenerFuncionalidadesDeFormArray(): Funcionalidad[] {
+    debugger
     return this.formArrayFuncionalidades.controls.map((formGroup: AbstractControl) => formGroup.value as Funcionalidad);
   }
 
