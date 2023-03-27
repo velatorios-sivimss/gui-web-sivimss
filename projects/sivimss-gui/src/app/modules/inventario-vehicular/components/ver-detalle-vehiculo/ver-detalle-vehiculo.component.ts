@@ -18,7 +18,7 @@ export class VerDetalleVehiculoComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  cerrarDialogo(modificar: boolean = false) {
+  cerrarDialogo(modificar: boolean = false): void {
     this.ref.close( { modificar });
   }
 

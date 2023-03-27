@@ -34,7 +34,7 @@
     <h2 class="subtitulo">Lista de capillas</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarCapilla()">Agregar capilla</button>
   </div>
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="capillas" [paginator]="capillas.length > 0"
+  <p-table styleClass="mt-5 mb-8" [value]="capillas" [paginator]="capillas.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">

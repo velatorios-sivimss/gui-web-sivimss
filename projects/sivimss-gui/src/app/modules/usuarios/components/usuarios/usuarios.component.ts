@@ -99,7 +99,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     const DETALLE_CONFIG: DynamicDialogConfig = {
       header: "Ver detalle",
       width: MAX_WIDTH,
-      data: usuario
+      data: usuario.id
     }
     this.creacionRef = this.dialogService.open(VerDetalleUsuarioComponent, DETALLE_CONFIG);
     this.creacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
@@ -139,7 +139,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   paginarConFiltros(): void {
     const filtros = this.crearSolicitudFiltros();
     const solicitudFiltros = JSON.stringify(filtros);
-    this.usuarioService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.totalElementos).subscribe(
+    this.usuarioService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.usuarios = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;

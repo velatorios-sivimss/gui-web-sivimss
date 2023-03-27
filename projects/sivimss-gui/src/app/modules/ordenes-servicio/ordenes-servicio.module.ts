@@ -26,6 +26,8 @@ import { GenerarTarjetaIdentificacionComponent } from './components/generar-tarj
 import { ModificarOrdenServicioComponent } from './components/modificar-orden-servicio/modificar-orden-servicio.component';
 import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component';
 import { SeleccionarBeneficiarioComponent } from './components/seleccionar-beneficiario/seleccionar-beneficiario.component';
+import { CaracteristicasPresupuestoComponent } from './components/caracteristicas-presupuesto/caracteristicas-presupuesto.component';
+import { AgregarServicioComponent } from './components/agregar-servicio/agregar-servicio.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import { SeleccionarBeneficiarioComponent } from './components/seleccionar-benef
     GenerarTarjetaIdentificacionComponent,
     ModificarOrdenServicioComponent,
     VerTarjetaIdentificacionComponent,
-    SeleccionarBeneficiarioComponent
+    SeleccionarBeneficiarioComponent,
+    CaracteristicasPresupuestoComponent,
+    AgregarServicioComponent
   ],
   imports: [
     CommonModule,

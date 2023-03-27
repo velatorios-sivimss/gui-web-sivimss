@@ -11,10 +11,10 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
 //TO DO Cambiar el Id de la funcionalidad cuando se obtenga del oaut
 //      Cambiar auth_token2 por el token de la sesion del usuario
 
-  private auth_token2: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY3OTY4NzM1NSwiZXhwIjoxNjgwMjkyMTU1fQ.Ah2L-rpfJTpsu8VHhb4OxOe_Nj7cUxI_bB9XjAfAy2Y";
-
+  private auth_token2: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJwZXJtaXNvc1VzdWFyaW9cIjpbe1wiaWRGdW5jaW9uYWxpZGFkXCI6XCIxXCIsXCJwZXJtaXNvc1wiOlt7XCJpZFBlcm1pc29cIjpcIjFcIixcImRlc2NQZXJtaXNvXCI6XCJBTFRBXCJ9LHtcImlkUGVybWlzb1wiOlwiMlwiLFwiZGVzY1Blcm1pc29cIjpcIkJBSkFcIn0se1wiaWRQZXJtaXNvXCI6XCIzXCIsXCJkZXNjUGVybWlzb1wiOlwiQ09OU1VMVEFcIn0se1wiaWRQZXJtaXNvXCI6XCI0XCIsXCJkZXNjUGVybWlzb1wiOlwiTU9ESUZJQ0FSXCJ9LHtcImlkUGVybWlzb1wiOlwiNVwiLFwiZGVzY1Blcm1pc29cIjpcIkFQUk9CQUNJw5NOXCJ9LHtcImlkUGVybWlzb1wiOlwiNlwiLFwiZGVzY1Blcm1pc29cIjpcIklNUFJJTUlSXCJ9XX1dLFwiaWRVc3VhcmlvXCI6XCIxXCIsXCJjdmVVc3VhcmlvXCI6XCIxXCIsXCJjdmVNYXRyaWN1bGFcIjpcIjFcIixcIm5vbWJyZVwiOlwiMSAxIDFcIixcImN1cnBcIjpcIjFcIn0iLCJpYXQiOjE2Nzk1MDgyMDgsImV4cCI6MTY4MDExMzAwOH0.HKZVMqii_eBGWISOrHwUxoK4RTp7vuc8LFN0hFK62eM";
   constructor(protected _http: HttpClient) {
-    super(_http, `${environment.api.mssivimss}`, "agregar-usuario", "actualizar-usuario", 1, "consultar-usuarios", "cambiar-estatus-usr");
+    super(_http, `${environment.api.mssivimss}`, "agregar-usuario", "actualizar-usuario",
+      1, "consultar-usuarios", "detalle-usuario", "cambiar-estatus-usr");
   }
 
   buscarPorFiltros(filtros: any, pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
@@ -27,20 +27,20 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
 
   validarCurp(curp: any): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
-    return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/valida-curp`, curp, {headers});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/valida-curp`, curp, {headers});
   }
 
   validarMatricula(matricula: any): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
     const params = new HttpParams()
-    return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/valida-matricula`, matricula, {headers});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/valida-matricula`, matricula, {headers});
   }
 
   obtenerCatRoles(): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
     const params = new HttpParams()
       .append("servicio", "catalogo-roles")
-    return this._http.get<HttpRespuesta<any>>(this._base + `1/catalogo`, {headers, params});
+    return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, {headers, params});
   }
 
 }
