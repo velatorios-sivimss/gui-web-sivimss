@@ -70,11 +70,10 @@ export class DetalleArticulosComponent implements OnInit {
       (respuesta) => {
         if (respuesta.codigo === 200) {
           if (this.articuloSeleccionado.estatus) {
-            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
-          } else {
             this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo desactivado correctamente');
+          } else {
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');            
           }
-
           this.ref.close(this.articuloSeleccionado);
         }
       },

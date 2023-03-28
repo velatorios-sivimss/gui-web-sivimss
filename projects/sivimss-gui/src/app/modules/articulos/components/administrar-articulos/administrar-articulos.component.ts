@@ -134,6 +134,10 @@ export class AdministrarArticulosComponent implements OnInit {
       width: "920px",
       data: { articulo, origen: "estatus" },
     });
+
+    this.creacionRef.onClose.subscribe((articulo: Articulo) => {
+      this.paginar();
+    });
   }
 
   abrirPanel(event: MouseEvent, articuloSeleccionado: Articulo): void {
@@ -141,7 +145,7 @@ export class AdministrarArticulosComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  paginar(event: LazyLoadEvent): void {
+  paginar(event?: LazyLoadEvent): void {
     this.articulosService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.articulos = respuesta!.datos.content;
