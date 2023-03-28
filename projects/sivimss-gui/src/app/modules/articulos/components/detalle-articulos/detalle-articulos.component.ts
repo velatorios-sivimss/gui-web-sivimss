@@ -4,6 +4,8 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
 import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { ArticulosService } from '../../services/articulos.service';
+import { HttpErrorResponse } from '@angular/common/http';
 export enum TipoAlerta {
   Exito = 'success',
   Info = 'info',
@@ -32,49 +34,64 @@ export class DetalleArticulosComponent implements OnInit {
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     public dialogService: DialogService,
-    private alertaService: AlertaService) { }
+    private alertaService: AlertaService,
+    private articulosService: ArticulosService,
+  ) { }
 
-ngOnInit(): void {
+  ngOnInit(): void {
 
-//Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
-if(this.config?.data){
-this.articuloSeleccionado = this.config.data.servicio;
-this.origen = this.config.data.origen;
-}
-}
+    //Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
+    if (this.config?.data) {
+      this.articuloSeleccionado = this.config.data.servicio;
+      this.origen = this.config.data.origen;
+    }
+  }
 
-abrirModalModificarServicio():void{
-  this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
-    header:"Modificar servicio",
-    width:"920px",
-  })
+  abrirModalModificarServicio(): void {
+    this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
+      header: "Modificar servicio",
+      width: "920px",
+    })
 
-  this.creacionRef.onClose.subscribe((estatus:boolean) => {
-    if(estatus){
-       this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
+    this.creacionRef.onClose.subscribe((estatus: boolean) => {
+      if (estatus) {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
+        this.ref.close();
+      }
+    })
+  }
+
+  aceptar(): void {
+    if (this.origen == "detalle") {
       this.ref.close();
     }
-  })
-}
+    if (this.origen == "agregar" || this.origen == "modificar") {
+      this.confirmacionAceptar.emit({ estatus: true, origen: this.origen });
+    }
+    if (this.origen == "estatus") {
+      this.cambiarEstatus();
+      // this.ref.close(this.articuloSeleccionado);
+    }
+  }
 
-aceptar():void {
-  if(this.origen == "detalle"){
+  cambiarEstatus() {
+    this.articulosService.cambiarEstatus(this.articuloSeleccionado.idArticulo).subscribe(
+      (respuesta) => {
+        console.log(respuesta);
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  regresar(): void {
+    this.confirmacionAceptar.emit({ estatus: true, origen: "regresar" });
+  }
+
+  cerrar(): void {
     this.ref.close();
   }
-  if(this.origen == "agregar" || this.origen == "modificar" ){
-    this.confirmacionAceptar.emit({estatus:true,origen:this.origen});
-  }
-  if(this.origen == "estatus"){
-    this.ref.close(this.articuloSeleccionado);
-  }
-}
-
-regresar(): void{
-  this.confirmacionAceptar.emit({estatus:true,origen:"regresar"});
-}
-
-cerrar(): void {
-  this.ref.close();
-}
 
 }

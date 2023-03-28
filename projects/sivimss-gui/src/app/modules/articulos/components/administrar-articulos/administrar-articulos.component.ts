@@ -14,6 +14,8 @@ import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/a
 import { LazyLoadEvent } from 'primeng-lts/api';
 import { SERVICIO_BREADCRUMB } from '../../constants/breadcrumb';
 import { validarAlMenosUnCampoConValor } from 'projects/sivimss-gui/src/app/utils/funciones';
+import { ArticulosService } from '../../services/articulos.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-administrar-articulos',
@@ -74,6 +76,7 @@ export class AdministrarArticulosComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
     public dialogService: DialogService,
+    private articulosService: ArticulosService,
   ) { }
 
 
@@ -154,63 +157,74 @@ export class AdministrarArticulosComponent implements OnInit {
   }
 
   paginar(event: LazyLoadEvent): void {
-    console.log(event);
-    setTimeout(() => {
-      this.articulos = [
-        {
-          id: 1,
-          categoria: "ataúd",
-          tipoDeArticulo: "Artículo complementario",
-          tipoDeMaterial: "Madera ecológica MDF",
-          tamanio: "Tambora",
-          clasificacionDeProducto: "Intermediaria",
-          modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-          descripcionDeProducto: "Empaques contra humedad ",
-          largo: "10m",
-          ancho: "2m",
-          alto: "01m",
-          claveSAT: "253453453",
-          estatus: true,
-          partidaPresupuestal: "21101",
-          cuentaContable: "12349876345687653",
-        },
-        {
-          id: 2,
-          categoria: "ataúd",
-          tipoDeArticulo: "Artículo complementario",
-          tipoDeMaterial: "Madera ecológica MDF",
-          tamanio: "Tambora",
-          clasificacionDeProducto: "Intermediaria",
-          modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-          descripcionDeProducto: "Empaques contra humedad ",
-          largo: "10m",
-          ancho: "2m",
-          alto: "01m",
-          claveSAT: "253453453",
-          estatus: true,
-          partidaPresupuestal: "21101",
-          cuentaContable: "12349876345687653",
-        },
-        {
-          id: 3,
-          categoria: "ataúd",
-          tipoDeArticulo: "Artículo complementario",
-          tipoDeMaterial: "Madera ecológica MDF",
-          tamanio: "Tambora",
-          clasificacionDeProducto: "Intermediaria",
-          modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-          descripcionDeProducto: "Empaques contra humedad ",
-          largo: "10m",
-          ancho: "2m",
-          alto: "01m",
-          claveSAT: "253453453",
-          estatus: true,
-          partidaPresupuestal: "21101",
-          cuentaContable: "12349876345687653",
-        }
-      ];
-      this.totalElementos = this.articulos.length;
-    }, 0)
+    this.articulosService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.articulos = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+
+    // console.log(event);
+    // setTimeout(() => {
+    //   this.articulos = [
+    //     {
+    //       id: 1,
+    //       categoria: "ataúd",
+    //       tipoDeArticulo: "Artículo complementario",
+    //       tipoDeMaterial: "Madera ecológica MDF",
+    //       tamanio: "Tambora",
+    //       clasificacionDeProducto: "Intermediaria",
+    //       modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
+    //       descripcionDeProducto: "Empaques contra humedad ",
+    //       largo: "10m",
+    //       ancho: "2m",
+    //       alto: "01m",
+    //       claveSAT: "253453453",
+    //       estatus: true,
+    //       partidaPresupuestal: "21101",
+    //       cuentaContable: "12349876345687653",
+    //     },
+    //     {
+    //       id: 2,
+    //       categoria: "ataúd",
+    //       tipoDeArticulo: "Artículo complementario",
+    //       tipoDeMaterial: "Madera ecológica MDF",
+    //       tamanio: "Tambora",
+    //       clasificacionDeProducto: "Intermediaria",
+    //       modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
+    //       descripcionDeProducto: "Empaques contra humedad ",
+    //       largo: "10m",
+    //       ancho: "2m",
+    //       alto: "01m",
+    //       claveSAT: "253453453",
+    //       estatus: true,
+    //       partidaPresupuestal: "21101",
+    //       cuentaContable: "12349876345687653",
+    //     },
+    //     {
+    //       id: 3,
+    //       categoria: "ataúd",
+    //       tipoDeArticulo: "Artículo complementario",
+    //       tipoDeMaterial: "Madera ecológica MDF",
+    //       tamanio: "Tambora",
+    //       clasificacionDeProducto: "Intermediaria",
+    //       modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
+    //       descripcionDeProducto: "Empaques contra humedad ",
+    //       largo: "10m",
+    //       ancho: "2m",
+    //       alto: "01m",
+    //       claveSAT: "253453453",
+    //       estatus: true,
+    //       partidaPresupuestal: "21101",
+    //       cuentaContable: "12349876345687653",
+    //     }
+    //   ];
+    //   this.totalElementos = this.articulos.length;
+    // }, 0)
   }
 
   consultaServicioEspecifico(): string {

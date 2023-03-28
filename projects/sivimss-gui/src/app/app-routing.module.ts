@@ -83,7 +83,7 @@ const routes: Routes = [
     loadChildren: () => import('./modules/proveedores/proveedores.module').then(m => m.ProveedoresModule)
   },
   {
-    path: 'artículos',
+    path: 'articulos',
     loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
