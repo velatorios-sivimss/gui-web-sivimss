@@ -1,17 +1,11 @@
 import { ModificarArticulosComponent } from './../modificar-articulos/modificar-articulos.component';
-import { Articulos, ConfirmacionServicio } from './../../models/articulos.interface';
+import { Articulo, ConfirmacionServicio } from './../../models/articulos.interface';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { ArticulosService } from '../../services/articulos.service';
 import { HttpErrorResponse } from '@angular/common/http';
-export enum TipoAlerta {
-  Exito = 'success',
-  Info = 'info',
-  Precaucion = 'warning',
-  Error = 'error'
-}
 
 @Component({
   selector: 'app-detalle-articulos',
@@ -20,7 +14,7 @@ export enum TipoAlerta {
 })
 export class DetalleArticulosComponent implements OnInit {
 
-  @Input() articuloSeleccionado!: Articulos;
+  @Input() articuloSeleccionado!: Articulo;
   @Input() origen!: string;
   @Output() confirmacionAceptar = new EventEmitter<ConfirmacionServicio>();
 
@@ -39,10 +33,8 @@ export class DetalleArticulosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    //Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
     if (this.config?.data) {
-      this.articuloSeleccionado = this.config.data.servicio;
+      this.articuloSeleccionado = this.config.data.articulo;
       this.origen = this.config.data.origen;
     }
   }
@@ -70,14 +62,21 @@ export class DetalleArticulosComponent implements OnInit {
     }
     if (this.origen == "estatus") {
       this.cambiarEstatus();
-      // this.ref.close(this.articuloSeleccionado);
     }
   }
 
   cambiarEstatus() {
-    this.articulosService.cambiarEstatus(this.articuloSeleccionado.idArticulo).subscribe(
+    this.articulosService.cambiarEstatus({ idArticulo: this.articuloSeleccionado.idArticulo }).subscribe(
       (respuesta) => {
-        console.log(respuesta);
+        if (respuesta.codigo === 200) {
+          if (this.articuloSeleccionado.estatus) {
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
+          } else {
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo desactivado correctamente');
+          }
+
+          this.ref.close(this.articuloSeleccionado);
+        }
       },
       (error: HttpErrorResponse) => {
         console.error(error);

@@ -130,7 +130,7 @@
       <div class="col-md-4">
         <div class="table-panel-column">
           <label>Partida presupuestal</label>
-          <span> {{articuloSeleccionado?.idPartPresupuestal}} </span>
+          <span> {{articuloSeleccionado?.partPresupuestal}} </span>
         </div>
       </div>
       <div class="col-md-4">
@@ -186,14 +186,14 @@
     <ng-container *ngIf="articuloSeleccionado.estatus">
       <div class="flex mt-4 justify-content-center">
         <div class="col-md-8 text-center">
-          ¿Estás seguro que deseas activar este artículo?
+          ¿Estás seguro que deseas desactivar este artículo?
         </div>
       </div>
     </ng-container>
     <ng-container *ngIf="!articuloSeleccionado.estatus">
       <div class="flex mt-4 justify-content-center">
         <div class="col-md-8 text-center">
-          ¿Estás seguro que deseas desactivar este artículo?
+          ¿Estás seguro que deseas activar este artículo?
         </div>
       </div>
     </ng-container>

@@ -11,29 +11,29 @@
       <div class="col-md-6">
         <label class="control-label" for="categoria">Categoría (artículo)<span class="req">*</span>:</label>
         <p-dropdown appendTo="body" id="categoria" class="form-control" formControlName="categoria"
-          [options]="tipoServicio" placeholder="Selecciona el artículo">
+          [options]="catalogoCategorias" placeholder="Selecciona el artículo">
         </p-dropdown>
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <label class="control-label" for="tipoDeArticulo">Tipo de artículo<span class="req">*:</span></label>
-        <p-dropdown appendTo="body" id="tipoDeArticulo" class="form-control" formControlName="tipoDeArticulo"
-          optionValue="value" [options]="tipoServicio" placeholder="Selecciona el tipo de artículo"
+        <label class="control-label" for="tipoArticulo">Tipo de artículo<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="tipoArticulo" class="form-control" formControlName="tipoArticulo"
+          optionValue="value" [options]="catalogoTiposArticulos" placeholder="Selecciona el tipo de artículo"
           (onChange)="handleChangeTipoArticulo();">
         </p-dropdown>
         <span class="campo-obligatorio"
-          *ngIf="faa.tipoDeArticulo?.errors?.required && (faa.tipoDeArticulo?.dirty || faa.tipoDeArticulo?.touched)">Campo
+          *ngIf="faa.tipoArticulo?.errors?.required && (faa.tipoArticulo?.dirty || faa.tipoArticulo?.touched)">Campo
           obligatorio</span>
       </div>
       <div class="col-md-6">
-        <label class="control-label" for="tipoDeMaterial">Tipo de material<span class="req">*:</span></label>
-        <p-dropdown appendTo="body" id="tipoDeMaterial" class="form-control" formControlName="tipoDeMaterial"
-          [options]="cuentaContable" placeholder="Selecciona el tipo de material">
+        <label class="control-label" for="tipoMaterial">Tipo de material<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="tipoMaterial" class="form-control" formControlName="tipoMaterial"
+          [options]="catalogoTiposMateriales" placeholder="Selecciona el tipo de material">
         </p-dropdown>
         <span class="campo-obligatorio"
-          *ngIf="faa.tipoDeMaterial?.errors?.required && (faa.tipoDeMaterial?.dirty || faa.tipoDeMaterial?.touched)">Campo
+          *ngIf="faa.tipoMaterial?.errors?.required && (faa.tipoMaterial?.dirty || faa.tipoMaterial?.touched)">Campo
           obligatorio</span>
       </div>
     </div>
@@ -41,43 +41,43 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="tamanio">Tamaño<span class="req">*:</span></label>
-        <p-dropdown appendTo="body" id="tamanio" class="form-control" formControlName="tamanio" [options]="tipoServicio"
+        <p-dropdown appendTo="body" id="tamanio" class="form-control" formControlName="tamanio" [options]="catalogoTamanios"
           placeholder="Selecciona el tamaño">
         </p-dropdown>
         <span class="campo-obligatorio"
           *ngIf="faa.tamanio?.errors?.required && (faa.tamanio?.dirty || faa.tamanio?.touched)">Campo obligatorio</span>
       </div>
       <div class="col-md-6">
-        <label class="control-label" for="clasificacionDeProducto">Clasificación del producto<span
+        <label class="control-label" for="clasificacionProducto">Clasificación del producto<span
             class="req">*:</span></label>
-        <p-dropdown appendTo="body" id="clasificacionDeProducto" class="form-control"
-          formControlName="clasificacionDeProducto" [options]="cuentaContable"
+        <p-dropdown appendTo="body" id="clasificacionProducto" class="form-control"
+          formControlName="clasificacionProducto" [options]="catalogoClasificacionProductos"
           placeholder="Selecciona la clasificacióne">
         </p-dropdown>
         <span class="campo-obligatorio"
-          *ngIf="faa.clasificacionDeProducto?.errors?.required && (faa.clasificacionDeProducto?.dirty || faa.clasificacionDeProducto?.touched)">Campo
+          *ngIf="faa.clasificacionProducto?.errors?.required && (faa.clasificacionProducto?.dirty || faa.clasificacionProducto?.touched)">Campo
           obligatorio</span>
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-md-12">
-        <label class="control-label" for="modeloDeArticulo">Modelo del artículo<span class="req">*</span>:</label>
-        <input id="modeloDeArticulo" class="form-control" formControlName="modeloDeArticulo" maxlength="70"
+        <label class="control-label" for="modeloArticulo">Modelo del artículo<span class="req">*</span>:</label>
+        <input id="modeloArticulo" class="form-control" formControlName="modeloArticulo" maxlength="70"
           placeholder="Ingresa el modelo" textOnly trimmer>
         <span class="campo-obligatorio"
-          *ngIf="faa.modeloDeArticulo?.errors?.required && (faa.modeloDeArticulo?.dirty || faa.modeloDeArticulo?.touched)">Campo
+          *ngIf="faa.modeloArticulo?.errors?.required && (faa.modeloArticulo?.dirty || faa.modeloArticulo?.touched)">Campo
           obligatorio</span>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-12">
-        <label class="control-label" for="descripcionDeProducto">Descripción del artículo<span
+        <label class="control-label" for="descripcionProducto">Descripción del artículo<span
             class="req">*</span>:</label>
-        <input id="descripcionDeProducto" class="form-control" formControlName="descripcionDeProducto"
+        <input id="descripcionProducto" class="form-control" formControlName="descripcionProducto"
           placeholder="Ingresa la descripción" textOnly trimmer>
         <span class="campo-obligatorio"
-          *ngIf="faa.descripcionDeProducto?.errors?.required && (faa.descripcionDeProducto?.dirty || faa.descripcionDeProducto?.touched)">Campo
+          *ngIf="faa.descripcionProducto?.errors?.required && (faa.descripcionProducto?.dirty || faa.descripcionProducto?.touched)">Campo
           obligatorio</span>
       </div>
     </div>
@@ -110,16 +110,16 @@
       <div class="col-md-6">
         <label class="control-label" for="partidaPresupuestal">Partida Presupuestal<span class="req">*:</span></label>
         <p-dropdown appendTo="body" id="partidaPresupuestal" class="form-control" formControlName="partidaPresupuestal"
-          [options]="tipoServicio" placeholder="Selecciona la partida presupuestal">
+          [options]="catalogoPartidasPresupuestales" placeholder="Selecciona la partida presupuestal">
         </p-dropdown>
         <span class="campo-obligatorio"
           *ngIf="faa.partidaPresupuestal?.errors?.required && (faa.partidaPresupuestal?.dirty || faa.partidaPresupuestal?.touched)">Campo
           obligatorio</span>
       </div>
       <div class="col-md-6">
-        <label class="control-label" for="cuentaContableAgregar">Cuenta contable<span class="req">*:</span></label>
-        <p-dropdown appendTo="body" id="cuentaContableAgregar" class="form-control" formControlName="cuentaContable"
-          [options]="cuentaContable" placeholder="Selecciona la cuenta contable">
+        <label class="control-label" for="cuentaContable">Cuenta contable<span class="req">*:</span></label>
+        <p-dropdown appendTo="body" id="cuentaContable" class="form-control" formControlName="cuentaContable"
+          [options]="catalogoCuentasContables" placeholder="Selecciona la cuenta contable">
         </p-dropdown>
         <span class="campo-obligatorio"
           *ngIf="faa.cuentaContable?.errors?.required && (faa.cuentaContable?.dirty || faa.cuentaContable?.touched)">Campo
@@ -129,12 +129,12 @@
 
     <div class="row mb-3">
       <div class="col-md-12">
-        <label class="control-label" for="claveSAT">Clave SAT<span class="req"></span></label>
-        <p-dropdown appendTo="body" id="claveSAT" class="form-control" formControlName="claveSAT"
-          [options]="partidaPresupuestal" placeholder="Selecciona la clave de artículo SAT">
+        <label class="control-label" for="productoServicios">Clave SAT<span class="req"></span></label>
+        <p-dropdown appendTo="body" id="productoServicios" class="form-control" formControlName="productoServicios"
+          [options]="catalogoClavesSat" placeholder="Selecciona la clave de artículo SAT">
         </p-dropdown>
         <span class="campo-obligatorio"
-          *ngIf="faa.claveSAT?.errors?.required && (faa.claveSAT?.dirty || faa.claveSAT?.touched)">Campo
+          *ngIf="faa.productoServicios?.errors?.required && (faa.productoServicios?.dirty || faa.productoServicios?.touched)">Campo
           obligatorio</span>
       </div>
     </div>
@@ -165,6 +165,6 @@
 </ng-container>
 
 <ng-container *ngIf="ventanaConfirmacion">
-  <app-detalle-articulos [articuloSeleccionado]="agregarArticuloForm.getRawValue()" [origen]="'agregar'"
+  <app-detalle-articulos [articuloSeleccionado]="articuloSeleccionado" [origen]="'agregar'"
     (confirmacionAceptar)="cerrar($event)"></app-detalle-articulos>
 </ng-container>

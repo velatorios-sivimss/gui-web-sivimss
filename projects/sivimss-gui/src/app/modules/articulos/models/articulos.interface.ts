@@ -1,4 +1,4 @@
-export interface Articulos {
+export interface Articulo {
   idArticulo?: number;
   categoriaArticulo?: string;
   idCategoriaArticulo?: number;
@@ -15,31 +15,13 @@ export interface Articulos {
   largo?: string;
   ancho?: string;
   alto?: string;
-  estatus?: boolean;
-  claveSAT?: string;
-  partPresupuestal?: string;
-  // cuentaClave?: string;
-  // cuentaContable?: string;
-  idCuentaPartPresupuestal?: number;
+  estatus?: boolean;  
   idPartPresupuestal?: number;
-  numCuentaPartPresupuestal?: number;
-
-  productoServicios?: string;
+  partPresupuestal?: string;
+  idCuentaPartPresupuestal?: number;
+  numCuentaPartPresupuestal?: string;
   idProductosServicios?: number;
-  
-
-
-  //
-  // idArticulo?: number;
-  // partPresupuestal?: string;
-  // idPartPresupuestal?: number;
-
-
-  // idCuentaPartPresupuestal?: number;
-  // productoServicios?: string;
-  // SAT
-  // numCuentaPartPresupuestal?: number;
-  // idProductosServicios?: number;
+  productoServicios?: string;
 }
 
 export interface ConfirmacionServicio {

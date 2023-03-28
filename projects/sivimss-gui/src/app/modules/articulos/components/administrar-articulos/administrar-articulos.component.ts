@@ -1,7 +1,7 @@
 import { DetalleArticulosComponent } from './../detalle-articulos/detalle-articulos.component';
 import { ModificarArticulosComponent } from './../modificar-articulos/modificar-articulos.component';
 import { AgregarArticulosComponent } from './../agregar-articulos/agregar-articulos.component';
-import { Articulos } from './../../models/articulos.interface';
+import { Articulo } from './../../models/articulos.interface';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
@@ -33,8 +33,8 @@ export class AdministrarArticulosComponent implements OnInit {
   totalElementos: number = 0;
 
 
-  articulos: Articulos[] = [];
-  articuloSeleccionado: Articulos = {};
+  articulos: Articulo[] = [];
+  articuloSeleccionado: Articulo = {};
 
   filtroForm!: FormGroup;
 
@@ -50,10 +50,6 @@ export class AdministrarArticulosComponent implements OnInit {
 
   catNiveles: TipoDropdown[] = CATALOGO_NIVEL;
   opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
-  tipoServicio: TipoDropdown[] = CATALOGOS_DUMMIES;
-  partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES;
-  cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES;
-  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
   articulosServicio: TipoDropdown[] = [
     {
       value: 0,
@@ -123,35 +119,24 @@ export class AdministrarArticulosComponent implements OnInit {
     })
   }
 
-  abrirModalDetalleCapilla(servicio: Articulos) {
+  abrirModalDetalleCapilla(articulo: Articulo) {
     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
       header: "Detalle de artículo",
       width: "920px",
-      data: { servicio: servicio, origen: "detalle" },
-    })
+      data: { articulo, origen: "detalle" },
+    });
   }
 
-  abrirModalCambioEstatus(servicio: Articulos) {
-    /*Preguntar si se puede usar 'let'*/
-    let header: string = "";
-    servicio.estatus ? header = "Activar artículo" : header = "Desactivar artículo";
+  abrirModalCambioEstatus(articulo: Articulo) {
+    const header: string = articulo.estatus ? "Desactivar artículo" : "Activar artículo";
     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
       header: header,
       width: "920px",
-      data: { servicio: servicio, origen: "estatus" },
-    })
-
-    this.creacionRef.onClose.subscribe((servicio: Articulos) => {
-      if (servicio.estatus) {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
-      } else {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
-      }
-    })
-
+      data: { articulo, origen: "estatus" },
+    });
   }
 
-  abrirPanel(event: MouseEvent, articuloSeleccionado: Articulos): void {
+  abrirPanel(event: MouseEvent, articuloSeleccionado: Articulo): void {
     this.articuloSeleccionado = articuloSeleccionado;
     this.overlayPanel.toggle(event);
   }
@@ -167,64 +152,6 @@ export class AdministrarArticulosComponent implements OnInit {
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
-
-    // console.log(event);
-    // setTimeout(() => {
-    //   this.articulos = [
-    //     {
-    //       id: 1,
-    //       categoria: "ataúd",
-    //       tipoDeArticulo: "Artículo complementario",
-    //       tipoDeMaterial: "Madera ecológica MDF",
-    //       tamanio: "Tambora",
-    //       clasificacionDeProducto: "Intermediaria",
-    //       modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-    //       descripcionDeProducto: "Empaques contra humedad ",
-    //       largo: "10m",
-    //       ancho: "2m",
-    //       alto: "01m",
-    //       claveSAT: "253453453",
-    //       estatus: true,
-    //       partidaPresupuestal: "21101",
-    //       cuentaContable: "12349876345687653",
-    //     },
-    //     {
-    //       id: 2,
-    //       categoria: "ataúd",
-    //       tipoDeArticulo: "Artículo complementario",
-    //       tipoDeMaterial: "Madera ecológica MDF",
-    //       tamanio: "Tambora",
-    //       clasificacionDeProducto: "Intermediaria",
-    //       modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-    //       descripcionDeProducto: "Empaques contra humedad ",
-    //       largo: "10m",
-    //       ancho: "2m",
-    //       alto: "01m",
-    //       claveSAT: "253453453",
-    //       estatus: true,
-    //       partidaPresupuestal: "21101",
-    //       cuentaContable: "12349876345687653",
-    //     },
-    //     {
-    //       id: 3,
-    //       categoria: "ataúd",
-    //       tipoDeArticulo: "Artículo complementario",
-    //       tipoDeMaterial: "Madera ecológica MDF",
-    //       tamanio: "Tambora",
-    //       clasificacionDeProducto: "Intermediaria",
-    //       modeloDeArticulo: "Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-    //       descripcionDeProducto: "Empaques contra humedad ",
-    //       largo: "10m",
-    //       ancho: "2m",
-    //       alto: "01m",
-    //       claveSAT: "253453453",
-    //       estatus: true,
-    //       partidaPresupuestal: "21101",
-    //       cuentaContable: "12349876345687653",
-    //     }
-    //   ];
-    //   this.totalElementos = this.articulos.length;
-    // }, 0)
   }
 
   consultaServicioEspecifico(): string {

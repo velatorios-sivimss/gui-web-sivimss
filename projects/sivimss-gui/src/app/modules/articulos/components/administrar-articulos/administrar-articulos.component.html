@@ -10,7 +10,7 @@
       </div>
       <div class="col-md-6">
         <label class="control-label" for="delegacion">Delegación:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="velatorios"
+        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones"
                     placeholder="Selecciona la delegación">
         </p-dropdown>
       </div>
@@ -18,7 +18,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorios"
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
                     placeholder="Selecciona el velatorio">
         </p-dropdown>
       </div>
@@ -75,7 +75,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-articulo>
       <tr>
-        <td> {{articulo.id}} </td>
+        <td> {{articulo.idArticulo}} </td>
         <td> {{articulo.categoriaArticulo}} </td>
         <td> {{articulo.tipoArticulo}} </td>
         <td> {{articulo.tipoMaterial}} </td>
@@ -87,7 +87,10 @@
         <td> {{articulo.alto}} </td>
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="articulo.estatus" (onChange)="abrirModalCambioEstatus(articulo)"></p-inputSwitch>
+            <p-inputSwitch
+              [(ngModel)]="articulo.estatus"
+              (click)="articulo.estatus = !articulo.estatus; abrirModalCambioEstatus(articulo)">
+            </p-inputSwitch>
             <span class="activo" *ngIf="articulo.estatus">Activo</span>
             <span class="inactivo" *ngIf="!articulo.estatus">Inactivo</span>
           </div>

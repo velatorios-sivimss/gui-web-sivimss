@@ -1,5 +1,5 @@
 import { DetalleArticulosComponent } from './../detalle-articulos/detalle-articulos.component';
-import { Articulos, ConfirmacionServicio } from './../../models/articulos.interface';
+import { Articulo, ConfirmacionServicio } from './../../models/articulos.interface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CATALOGOS_DUMMIES } from '../../constants/dummies';
@@ -16,7 +16,7 @@ export class ModificarArticulosComponent implements OnInit {
 
   modificarArticuloForm!: FormGroup;
 
-  articulos: Articulos = {};
+  articulos: Articulo = {};
 
   ventanaConfirmacion: boolean = false;
 
@@ -79,7 +79,7 @@ export class ModificarArticulosComponent implements OnInit {
       ancho: this.modificarArticuloForm.get("ancho")?.value,
       alto: this.modificarArticuloForm.get("alto")?.value,
       estatus: this.modificarArticuloForm.get("estatus")?.value,
-      claveSAT: this.modificarArticuloForm.get("claveSAT")?.value,
+      // claveSAT: this.modificarArticuloForm.get("claveSAT")?.value,
       idCuentaPartPresupuestal: this.modificarArticuloForm.get("cuentaClave")?.value,
       idPartPresupuestal: this.modificarArticuloForm.get("cuentaContable")?.value,
       numCuentaPartPresupuestal: this.modificarArticuloForm.get("partidaPresupuestal")?.value,
