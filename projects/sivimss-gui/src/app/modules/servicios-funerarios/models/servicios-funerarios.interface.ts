@@ -6,10 +6,27 @@ export interface ServiciosFunerariosInterface {
   estado?: string;
   correoElectronico?: string;
   paquete?: string;
+  tipoPaquete?: number;
   numeroPago?: number;
   estatusPlan?: string;
   estatusPago?: string;
   fechaContrato?: string;
+  curp?: string;
+  rfc?: string;
+  matricula?: number;
+  nss?: number;
+  sexo?: number;
+  fechaNacimiento?: string;
+  nacionalidad?: number;
+  lugarNacimiento?: string;
+  telefono?: number;
+  cp?: number;
+  calle?: string;
+  numeroInterior?: string;
+  numeroExterior?: string;
+  colonia?: string;
+  municipio?: string;
+  datosIguales?: boolean;
 }
 
 export interface DetallePago {
