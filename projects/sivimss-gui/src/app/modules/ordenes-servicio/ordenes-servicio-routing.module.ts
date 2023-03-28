@@ -10,6 +10,8 @@ import { ModificarOrdenServicioComponent } from "projects/sivimss-gui/src/app/mo
 import {
   OrdenesServicioComponent
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
+import { ResumenOrdenComplementariaComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/resumen-orden-complementaria/resumen-orden-complementaria.component";
+import { VerOrdenComplementariaComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-complementaria/ver-orden-complementaria.component";
 import {
   VerOrdenServicioComponent
 } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component";
@@ -34,6 +36,14 @@ const routes: Routes = [
   {
     path: 'modificar-orden-de-servicio',
     component: ModificarOrdenServicioComponent
+  },
+  {
+    path: 'resumen-orden-complementaria',
+    component: ResumenOrdenComplementariaComponent
+  },
+  {
+    path: 'ver-orden-complementaria',
+    component: VerOrdenComplementariaComponent
   }
 ];
 

@@ -64,6 +64,6 @@ export class VerDetalleUsuarioComponent implements OnInit {
         console.log(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
-    )
+    );
   }
 }

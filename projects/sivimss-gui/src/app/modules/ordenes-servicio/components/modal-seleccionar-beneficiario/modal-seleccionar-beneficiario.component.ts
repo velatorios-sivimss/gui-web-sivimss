@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder } from "@angular/forms";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
 
 @Component({
-  selector: 'app-seleccionar-beneficiario',
-  templateUrl: './seleccionar-beneficiario.component.html',
-  styleUrls: ['./seleccionar-beneficiario.component.scss']
+  selector: 'app-modal-seleccionar-beneficiario',
+  templateUrl: './modal-seleccionar-beneficiario.component.html',
+  styleUrls: ['./modal-seleccionar-beneficiario.component.scss']
 })
-export class SeleccionarBeneficiarioComponent implements OnInit {
+export class ModalSeleccionarBeneficiarioComponent implements OnInit {
 
   beneficiarios: any[] = [
     {

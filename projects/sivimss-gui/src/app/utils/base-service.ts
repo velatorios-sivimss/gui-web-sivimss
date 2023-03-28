@@ -7,7 +7,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
 //TO DO Cambiar el Id de la funcionalidad cuando se obtenga del oaut
 //      Cambiar auth_token2 por el token de la sesion del usuario
 
-  private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTNTEyIn0.eyJzdWIiOiJ7XCJpZFwiOicxJyxcInJvbFwiOicxJyxcIm5vbWJyZVwiOidudWxsJyxcImNvcnJlb1wiOidwYWJsby5ub2xhc2NvZXhhbXBsZS5jb20nfSIsImlhdCI6MTY3OTQxMzE5NSwiZXhwIjoxNjgwMjEyNzk1fQ.kgb-Td83sP0yjzgPPIH1JoDHxRNAQO89oyuFWNBOv9MpRLn6mZaa0qv_t15M3UjTyNAp70t19OengUG42WReBQ";
+  private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY3OTY4NzM1NSwiZXhwIjoxNjgwMjkyMTU1fQ.Ah2L-rpfJTpsu8VHhb4OxOe_Nj7cUxI_bB9XjAfAy2Y";
 
   constructor(
     protected _http: HttpClient,
@@ -15,24 +15,25 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     protected _agregar: string,
     protected _actualizar: string,
     protected _funcionalidad: number,
-    protected _servicio: string,
-    protected _detalle: string
+    protected _paginado: string,
+    protected _detalle: string,
+    protected _estatus: string
   ) {
   }
 
-  guardar(usuario: any): Observable<T> {
+  guardar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     const body = new FormData();
-    body.append('datos', usuario);
-    const params = new HttpParams().append('datos', usuario);
+    body.append('datos', t);
+    const params = new HttpParams().append('datos', this._agregar);
     return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, body, {headers, params});
   }
 
-  actualizar(usuario: any): Observable<T> {
+  actualizar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     const body = new FormData();
-    body.append('datos', usuario);
-    const params = new HttpParams().append('datos', usuario);
+    body.append('datos', t);
+    const params = new HttpParams().append('datos', this._actualizar);
     return this._http.put<T>(this._base + `${this._funcionalidad}/${this._actualizar}`, body, {headers, params});
   }
 
@@ -41,7 +42,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const body = new FormData();
     body.append('datos', id);
     const params = new HttpParams().append('datos', id);
-    return this._http.put<T>(this._base + "1/cambiar-estatus-usr", body, {headers, params});
+    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._estatus}`, body, {headers, params});
   }
 
   buscarPorId(id: ID): Observable<T> {
@@ -56,7 +57,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const params = new HttpParams()
       .append("pagina", pagina)
       .append("tamanio", tamanio)
-      .append("servicio", this._servicio)
+      .append("servicio", this._paginado)
     return this._http.get<T>(this._base + `${this._funcionalidad}`, {headers, params})
   }
 

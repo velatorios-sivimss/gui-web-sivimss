@@ -51,9 +51,12 @@ export class PreRegistroContratacionNuevoConvenioComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  abrirPanel(event:MouseEvent,articuloSeleccionado:SeguimientoNuevoConvenio):void{
-    this.infoPersona = false;
-    this.documentoSeleccionado = articuloSeleccionado;
+  // ,articuloSeleccionado:SeguimientoNuevoConvenio
+  abrirPanel(event:MouseEvent):void{
+    console.log('se habre el panel');
+
+    // this.infoPersona = false;
+    // this.documentoSeleccionado = articuloSeleccionado;
     this.overlayPanel.toggle(event);
   }
 

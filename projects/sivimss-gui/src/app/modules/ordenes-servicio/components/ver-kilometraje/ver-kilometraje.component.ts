@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
 
 @Component({
-  selector: 'app-ver-tarjeta-identificacion',
-  templateUrl: './ver-tarjeta-identificacion.component.html',
-  styleUrls: ['./ver-tarjeta-identificacion.component.scss']
+  selector: 'app-ver-kilometraje',
+  templateUrl: './ver-kilometraje.component.html',
+  styleUrls: ['./ver-kilometraje.component.scss']
 })
-export class VerTarjetaIdentificacionComponent implements OnInit {
+export class VerKilometrajeComponent implements OnInit {
 
   dummy!: string;
 
   constructor(
-    private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig,
+    private readonly ref: DynamicDialogRef,
+    private readonly config: DynamicDialogConfig
   ) {
   }
 
@@ -25,5 +25,4 @@ export class VerTarjetaIdentificacionComponent implements OnInit {
     //Pasar info a quien abrio el modal en caso de que se requiera. Se esta pasando un boolean de ejemplo
     this.ref.close(true);
   }
-
 }

@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { CapillaService } from './../services/capilla.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BreadcrumbService } from "../../../shared/breadcrumb/services/breadcrumb.service";
 import { AlertaService, TipoAlerta } from "../../../shared/alerta/services/alerta.service";
@@ -6,11 +7,17 @@ import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../utils/constantes";
 import { Capilla } from "../models/capilla.interface";
 import { LazyLoadEvent } from "primeng-lts/api";
+import { HttpErrorResponse } from '@angular/common/http';
+import { DialogService } from 'primeng-lts/dynamicdialog';
+import { ActivatedRoute } from '@angular/router';
+import { HttpRespuesta } from '../../../models/http-respuesta.interface';
+import { CapillasResolver } from '../services/capillas.resolver';
 
 @Component({
   selector: 'app-capillas',
   templateUrl: './capillas.component.html',
-  styleUrls: ['./capillas.component.scss']
+  styleUrls: ['./capillas.component.scss'],
+  providers: [DialogService]
 })
 export class CapillasComponent implements OnInit {
 
@@ -46,11 +53,18 @@ export class CapillasComponent implements OnInit {
 
   mostrarModalAgregarCapilla: boolean = false;
   mostrarModalModificarCapilla: boolean = false;
+  usuarios: any;
 
   constructor(
     private formBuilder: FormBuilder,
+    private alertaService: AlertaService,
+    private route: ActivatedRoute,
+    private capillaService: CapillaService,
     private breadcrumbService: BreadcrumbService,
-    private alertaService: AlertaService
+    public dialogService: DialogService,
+
+
+
   ) {
   }
 
@@ -66,40 +80,41 @@ export class CapillasComponent implements OnInit {
       }
     ]);
     this.inicializarFiltroForm();
+  // this.paginar();
   }
 
 
-  paginar(event: LazyLoadEvent): void {
-    setTimeout(() => {
-      this.capillas = [
-        {
-          id: 'DOC-167589-2022 ',
-          nombre: 'Capilla grande Mexmad de madera y acero contra humedad',
-          largo: '5',
-          alto: '100',
-          areaTotal: '10,000',
-          estatus: true
-        },
-        {
-          id: 'DOC-167589-2022 ',
-          nombre: 'Capilla grande Mexmad de madera y acero contra humedad',
-          largo: '5',
-          alto: '100',
-          areaTotal: '10,000',
-          estatus: true
-        },
-        {
-          id: 'DOC-167589-2022 ',
-          nombre: 'Capilla grande Mexmad de madera y acero contra humedad',
-          largo: '5',
-          alto: '100',
-          areaTotal: '10,000',
-          estatus: true
-        }
-      ];
-      this.totalElementos = this.capillas.length;
-    }, 0);
-  }
+  // paginar(event: LazyLoadEvent): void {
+  //   setTimeout(() => {
+  //     this.capillas = [
+  //       {
+  //         id: 'DOC-167589-2022 ',
+  //         nombre: 'Capilla grande Mexmad de madera y acero contra humedad',
+  //         largo: '5',
+  //         alto: '100',
+  //         areaTotal: '10,000',
+  //         estatus: true
+  //       },
+  //       {
+  //         id: 'DOC-167589-2022 ',
+  //         nombre: 'Capilla grande Mexmad de madera y acero contra humedad',
+  //         largo: '5',
+  //         alto: '100',
+  //         areaTotal: '10,000',
+  //         estatus: true
+  //       },
+  //       {
+  //         id: 'DOC-167589-2022 ',
+  //         nombre: 'Capilla grande Mexmad de madera y acero contra humedad',
+  //         largo: '5',
+  //         alto: '100',
+  //         areaTotal: '10,000',
+  //         estatus: true
+  //       }
+  //     ];
+  //     this.totalElementos = this.capillas.length;
+  //   }, 0);
+  // }
 
   inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
@@ -154,6 +169,25 @@ export class CapillasComponent implements OnInit {
 
   agregarCapilla(): void {
     this.alertaService.mostrar(TipoAlerta.Exito, 'Usuario guardado');
+  }
+
+
+  paginar(): void {
+    // this.numPaginaActual = Math.floor((first || 0) / (rows || 1));
+    this.capillaService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.capillas = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+        console.log("capillas"+this.capillas);
+        console.log("elementos"+this.totalElementos);
+
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+      );
+
   }
 
   get f() {

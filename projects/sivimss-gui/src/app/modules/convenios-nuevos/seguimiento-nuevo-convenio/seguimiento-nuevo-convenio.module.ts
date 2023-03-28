@@ -25,6 +25,9 @@ import { TituloPrincipalModule } from '../../../shared/titulo-principal/titulo-p
 import { PreRegistroContratacionNuevoConvenioComponent } from './components/pre-registro-contratacion-nuevo-convenio/pre-registro-contratacion-nuevo-convenio.component';
 import { DesactivarConvenioComponent } from './components/desactivar-convenio/desactivar-convenio.component';
 import { DetalleBeneficiosComponent } from './components/detalle-beneficios/detalle-beneficios.component';
+import { ModificarPersonaComponent } from './components/modificar-persona/modificar-persona.component';
+import { DetalleBeneficiarioComponent } from './components/detalle-beneficiario/detalle-beneficiario.component';
+import { ModificarBeneficiarioComponent } from './components/modificar-beneficiario/modificar-beneficiario.component';
 
 //as
 @NgModule({
@@ -33,6 +36,9 @@ import { DetalleBeneficiosComponent } from './components/detalle-beneficios/deta
     PreRegistroContratacionNuevoConvenioComponent,
     DesactivarConvenioComponent,
     DetalleBeneficiosComponent,
+    ModificarPersonaComponent,
+    DetalleBeneficiarioComponent,
+    ModificarBeneficiarioComponent,
   ],
   imports: [
     CalendarModule,

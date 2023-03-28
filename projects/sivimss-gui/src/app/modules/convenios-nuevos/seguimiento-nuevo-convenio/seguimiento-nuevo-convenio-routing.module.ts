@@ -1,3 +1,4 @@
+import { ModificarPersonaComponent } from './components/modificar-persona/modificar-persona.component';
 import { DetalleBeneficiosComponent } from './components/detalle-beneficios/detalle-beneficios.component';
 import { PreRegistroContratacionNuevoConvenioComponent } from './components/pre-registro-contratacion-nuevo-convenio/pre-registro-contratacion-nuevo-convenio.component'
 import { SeguimientoNuevoConvenioResolver } from './services/seguimiento-nuevo-convenio.resolver'
@@ -33,12 +34,13 @@ const routes: Route[] = [
     },
   },
   {
-    path: 'seguimiento-nuevo-convenio',
-    component: SeguimientoNuevoConvenioComponent,
+    path: 'modificar-persona',
+    component: ModificarPersonaComponent,
     resolve: {
       respuesta: SeguimientoNuevoConvenioResolver,
     },
   },
+
 ]
 
 @NgModule({

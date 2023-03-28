@@ -37,6 +37,7 @@
         </div>
         <div class="col-md-12 separador">
         </div>
+
         <div class="col-md-12">
           <div class="col-md-1 icono">
             <img src="../../../../../../assets/icons/fonts/admiracion.svg">
@@ -46,6 +47,8 @@
               cada una</p>
           </div>
         </div>
+
+
         <div class="col-md-12 separador"></div>
       </div>
       <app-table-panel>
@@ -114,7 +117,7 @@
               <td> {{documento.linkDocumento}} </td>
               <td>
                 <div class="contenedor-celda-iconos">
-                  <a (click)="abrirPanel($event,documento)">
+                  <a (click)="overlayPanel.toggle($event)">
                     <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
                   </a>
                 </div>
@@ -276,8 +279,21 @@
       </div>
     </div>
   </div>
+  <p-overlayPanel #overlayPanel>
+    <ng-template pTemplate="content">
+      <app-overlay-panel-opciones>
+        <app-overlay-panel-opcion titulo="Generar tarjeta identificación"></app-overlay-panel-opcion>
+        <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
+        <app-overlay-panel-opcion titulo="Cancelar orden"></app-overlay-panel-opcion>
+      </app-overlay-panel-opciones>
+    </ng-template>
+  </p-overlayPanel>
 
-<p-overlayPanel #overlayPanel>
+
+
+
+
+<!-- <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones *ngIf="infoPersona == true">
       <app-overlay-panel-opcion titulo="Beneficiarios" (click)="abrirModificarDocumento()"></app-overlay-panel-opcion>
@@ -289,4 +305,4 @@
         (click)="abrirModificarDocumento()"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
-</p-overlayPanel>
+</p-overlayPanel> -->

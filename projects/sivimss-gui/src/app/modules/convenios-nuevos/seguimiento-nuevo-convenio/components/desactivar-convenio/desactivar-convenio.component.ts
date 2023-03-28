@@ -9,6 +9,12 @@ import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrum
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { Documentos } from '../../models/documentos.interface';
 import { SeguimientoNuevoConvenio } from '../../models/seguimiento-nuevo-convenio.interface';
+export enum TipoAlerta {
+  Exito = 'success',
+  Info = 'info',
+  Precaucion = 'warning',
+  Error = 'error'
+}
 
 @Component({
   selector: 'app-desactivar-convenio',
@@ -88,6 +94,22 @@ export class DesactivarConvenioComponent implements OnInit {
   }
   aceptar(){
     //agregar Mensaje
+    this.abrirModalModificarServicio();
+  }
+
+
+  abrirModalModificarServicio():void{
+    // this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
+    //   header:"Modificar servicio",
+    //   width:"920px",
+    // })
+
+    // this.creacionRef.onClose.subscribe((estatus:boolean) => {
+    //   if(estatus){
+         this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
+        // this.ref.close();
+    //   }
+    // })
   }
 
 }
