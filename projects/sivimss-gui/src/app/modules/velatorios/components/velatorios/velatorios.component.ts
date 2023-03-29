@@ -17,7 +17,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 
-const MAX_WIDTH: string = "876px";
+const MAX_WIDTH: string = "920px";
 
 @Component({
   selector: 'app-velatorios',
