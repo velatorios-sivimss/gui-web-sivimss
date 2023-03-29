@@ -25,10 +25,10 @@ import { DatosContratanteComponent } from './components/datos-contratante/datos-
 import { DatosFinadoComponent } from './components/datos-finado/datos-finado.component';
 import { CancelarOrdenServicioComponent } from './components/cancelar-orden-servicio/cancelar-orden-servicio.component';
 import { VerOrdenServicioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
-import { ModificarOrdenServicioComponent } from './components/modificar-orden-servicio/modificar-orden-servicio.component';
+import { ModificarDatosContratanteComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-datos-contratante/modificar-datos-contratante.component';
 import { ModalSeleccionarBeneficiarioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-seleccionar-beneficiario/modal-seleccionar-beneficiario.component';
 import { CaracteristicasPresupuestoComponent } from './components/caracteristicas-presupuesto/caracteristicas-presupuesto.component';
-import { VerKilometrajeComponent } from './components/ver-kilometraje/ver-kilometraje.component';
+import { ModalVerKilometrajeComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-ver-kilometraje/modal-ver-kilometraje.component';
 import { InformacionServicioComponent } from './components/informacion-servicio/informacion-servicio.component';
 import { ResumenOrdenComplementariaComponent } from './components/resumen-orden-complementaria/resumen-orden-complementaria.component';
 import { VerOrdenComplementariaComponent } from './components/ver-orden-complementaria/ver-orden-complementaria.component';
@@ -39,6 +39,9 @@ import { ModalEliminarArticuloComponent } from './components/modal-eliminar-arti
 import { ModalNoUtilizarArticuloComponent } from './components/modal-no-utilizar-articulo/modal-no-utilizar-articulo.component';
 import { ModalNoUtilizarServicioComponent } from './components/modal-no-utilizar-servicio/modal-no-utilizar-servicio.component';
 import { ModalDonarArticuloComponent } from './components/modal-donar-articulo/modal-donar-articulo.component';
+import { ModalAgregarPanteonComponent } from './components/modal-agregar-panteon/modal-agregar-panteon.component';
+import { ModificarDatosFinadoComponent } from './components/modificar-datos-finado/modificar-datos-finado.component';
+import { ModificarInformacionServicioComponent } from './components/modificar-informacion-servicio/modificar-informacion-servicio.component';
 
 @NgModule({
   declarations: [
@@ -49,11 +52,11 @@ import { ModalDonarArticuloComponent } from './components/modal-donar-articulo/m
     CancelarOrdenServicioComponent,
     VerOrdenServicioComponent,
     ModalGenerarTarjetaIdentificacionComponent,
-    ModificarOrdenServicioComponent,
+    ModificarDatosContratanteComponent,
     ModalVerTarjetaIdentificacionComponent,
     ModalSeleccionarBeneficiarioComponent,
     CaracteristicasPresupuestoComponent,
-    VerKilometrajeComponent,
+    ModalVerKilometrajeComponent,
     ModalAgregarServicioComponent,
     InformacionServicioComponent,
     ResumenOrdenComplementariaComponent,
@@ -64,7 +67,10 @@ import { ModalDonarArticuloComponent } from './components/modal-donar-articulo/m
     ModalEliminarArticuloComponent,
     ModalNoUtilizarArticuloComponent,
     ModalNoUtilizarServicioComponent,
-    ModalDonarArticuloComponent
+    ModalDonarArticuloComponent,
+    ModalAgregarPanteonComponent,
+    ModificarDatosFinadoComponent,
+    ModificarInformacionServicioComponent
   ],
   imports: [
     CommonModule,
