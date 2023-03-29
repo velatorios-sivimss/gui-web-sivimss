@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DialogService } from "primeng-lts/dynamicdialog";
+import { ModalAgregarAtaudComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-ataud/modal-agregar-ataud.component";
+import { ModalAgregarPanteonComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-panteon/modal-agregar-panteon.component";
+import { ModalSeleccionarBeneficiarioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-seleccionar-beneficiario/modal-seleccionar-beneficiario.component";
 
 @Component({
   selector: 'app-informacion-servicio',
@@ -10,7 +14,9 @@ export class InformacionServicioComponent implements OnInit {
 
   form!: FormGroup;
 
-  constructor(private readonly formBuilder: FormBuilder) {
+  constructor(
+    private readonly formBuilder: FormBuilder,
+    private dialogService: DialogService) {
   }
 
   ngOnInit(): void {
@@ -45,6 +51,20 @@ export class InformacionServicioComponent implements OnInit {
         hora: [{value: null, disabled: false}, [Validators.required]],
         gestionadoPorPromotor: [{value: null, disabled: false}, [Validators.required]]
       })
+    });
+  }
+
+  abrirModalAgregarPanteon():void{
+    const ref = this.dialogService.open(ModalAgregarPanteonComponent, {
+      header: 'Agregar panteón',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a ModalAgregarPanteonComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en ModalAgregarPanteonComponent
+      }
     });
   }
 
