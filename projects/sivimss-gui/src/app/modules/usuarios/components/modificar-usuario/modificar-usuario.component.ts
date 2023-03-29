@@ -88,8 +88,7 @@ export class ModificarUsuarioComponent implements OnInit {
 
   modificarUsuario(): void {
     const respuesta: RespuestaModalUsuario = {mensaje: "Actualización satisfactoria", actualizar: true}
-    const solicitudUsuario = JSON.stringify(this.usuarioModificado);
-    this.usuarioService.actualizar(solicitudUsuario).subscribe(
+    this.usuarioService.actualizar(this.usuarioModificado).subscribe(
       () => {
         this.ref.close(respuesta)
       },
