@@ -22,7 +22,7 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams()
       .append("pagina", pagina)
       .append("tamanio", tamanio);
-    return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/buscar-usuarios`, filtros, {headers, params});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/buscar-usuarios`, filtros, {headers, params});
   }
 
   validarCurp(curp: any): Observable<HttpRespuesta<any>> {

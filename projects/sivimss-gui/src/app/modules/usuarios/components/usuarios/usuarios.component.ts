@@ -137,8 +137,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   paginarConFiltros(): void {
     const filtros = this.crearSolicitudFiltros();
-    const solicitudFiltros = JSON.stringify(filtros);
-    this.usuarioService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.usuarios = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
