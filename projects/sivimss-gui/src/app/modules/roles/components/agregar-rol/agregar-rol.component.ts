@@ -29,12 +29,9 @@ export class AgregarRolComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   catRol: TipoDropdown[] = [];
   agregarRolForm!: FormGroup;
-  modificarRolForm!: FormGroup;
-
-  mostrarModalAgregarFunc: boolean = false;
-  mostrarModalModificarFunc: boolean = false;
 
   formFuncionalidad!: FormGroup;
+  permisos : any;
 
   funcionalidades: Funcionalidad[] = [];
   funcionalidadSeleccionada!: Funcionalidad;
@@ -53,41 +50,23 @@ export class AgregarRolComponent implements OnInit {
   ngOnInit(): void {
     debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
-    const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
     this.inicializarAgregarRolForm();
   }
 
   inicializarAgregarRolForm(): void {
     this.agregarRolForm = this.formBuilder.group({
-      rol: [{value: null, disabled: false}, [Validators.required]],
-      delegacion: [{value: null, disabled: false}, [Validators.required]],
-      nivel: [{value: null, disabled: false}, [Validators.required]],
-      velatorio: [{value: null, disabled: false}, [Validators.required]],
-      estatus: [{value: true, disabled: false}],
-      funcionalidades: this.formBuilder.array([])
+      nombre: [{value: null, disabled: false}, [Validators.required]],
+      nivel: [{value: null, disabled: false}, [Validators.required]]
     });
   }
 
   crearNuevoRol(): any {
     debugger
     return {
+      desRol : this.agregarRolForm.get("nombre")?.value,
       nivel: this.agregarRolForm.get("nivel")?.value
     };
   }
-
-/*
-  crearNuevoRolFuncionalidad(): any {
-    debugger
-    return {
-      idRol:
-      idFuncionalidad:  this.funcionalidades[0]?.id
-      nivel: this.agregarRolForm.get("nivel")?.value,
-      estatus:
-      permiso:
-      idUsuarioAlta:
-    };
-  }*/
 
   agregarRol(): void {
     debugger
@@ -105,81 +84,12 @@ export class AgregarRolComponent implements OnInit {
     );
   }
 
-  abrirPanel(event: MouseEvent, funcionalidadSeleccionada: Funcionalidad): void {
-    this.funcionalidadSeleccionada = funcionalidadSeleccionada;
-    this.overlayPanel.toggle(event);
-  }
-
-  abrirModalAgregarFuncionalidad(): void {
-    this.crearFormGroupFuncionalidad();
-    this.mostrarModalAgregarFunc = true;
-  }
-
-  abrirModalModificarFuncionalidad(): void {
-    this.formFuncionalidad = this.formBuilder.group({
-      id: [{value: this.funcionalidadSeleccionada.id, disabled: false}, [Validators.required]],
-      nombre: [{value: this.funcionalidadSeleccionada.nombre, disabled: false}, [Validators.required]],
-      alta: [{value: this.funcionalidadSeleccionada.alta, disabled: false}],
-      baja: [{value: this.funcionalidadSeleccionada.baja, disabled: false}],
-      aprobacion: [{value: this.funcionalidadSeleccionada.aprobacion, disabled: false}],
-      consulta: [{value: this.funcionalidadSeleccionada.consulta, disabled: false}],
-      modificar: [{value: this.funcionalidadSeleccionada.modificar, disabled: false}],
-      imprimir: [{value: this.funcionalidadSeleccionada.imprimir, disabled: false}],
-    });
-    this.mostrarModalModificarFunc = true;
-  }
-
-  crearFormGroupFuncionalidad(): void {
-    this.formFuncionalidad = this.formBuilder.group({
-      id: [{value: this.contadorFuncionalidades, disabled: false}, [Validators.required]],
-      nombre: [{value: null, disabled: false}, [Validators.required]],
-      alta: [{value: false, disabled: false}],
-      baja: [{value: false, disabled: false}],
-      aprobacion: [{value: false, disabled: false}],
-      consulta: [{value: false, disabled: false}],
-      modificar: [{value: false, disabled: false}],
-      imprimir: [{value: false, disabled: false}],
-    });
-  }
-
-  agregarFuncionalidad(): void {
-    this.formArrayFuncionalidades.push(this.formFuncionalidad);
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Exito');
-    this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();
-    this.mostrarModalAgregarFunc = false;
-    this.contadorFuncionalidades++;
-  }
-
-  modificarFuncionalidad(): void {
-    let indiceFuncionalidad: number = this.buscarIndiceFuncionalidadEnFormArray();
-    this.reemplazarFuncionalidadEnFormArray(indiceFuncionalidad, this.formFuncionalidad);
-    this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();
-    this.mostrarModalModificarFunc = false;
-  }
-
-  reemplazarFuncionalidadEnFormArray(indice: number, formGroup: FormGroup) {
-    this.formArrayFuncionalidades.setControl(indice, formGroup);
-  }
-
-  buscarIndiceFuncionalidadEnFormArray(): number {
-    return this.formArrayFuncionalidades.controls.findIndex((control: AbstractControl) => control.value.id === this.formFuncionalidad.value.id);
-  }
-
-  obtenerFuncionalidadesDeFormArray(): Funcionalidad[] {
-    debugger
-    return this.formArrayFuncionalidades.controls.map((formGroup: AbstractControl) => formGroup.value as Funcionalidad);
-  }
-
   get f() {
     return this.agregarRolForm.controls;
   }
 
   get funcionalidad() {
     return this.formFuncionalidad.controls;
-  }
-
-  get formArrayFuncionalidades() {
-    return this.agregarRolForm.controls.funcionalidades as FormArray;
   }
 
 }

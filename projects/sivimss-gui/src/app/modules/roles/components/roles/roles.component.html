@@ -3,58 +3,15 @@
     <form [formGroup]="filtroForm">
         <div class="row mb-3">
             <div class="col-md-6">
-                <label class="control-label" for="nivel">Nivel:</label>
-                <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones" placeholder="Seleccionar el nivel">
-                </p-dropdown>
-            </div>
-            <div class="col-md-6">
-                <label class="control-label" for="velatorio">Velatorio:</label>
-                <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones" placeholder="Seleccionar el velatorio">
-                </p-dropdown>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="control-label" for="delegacion">Delegación:</label>
-                <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones" placeholder="Seleccionar la delegación">
-                </p-dropdown>
-            </div>
-            <div class="col-md-6">
                 <label class="control-label" for="rol">Rol:</label>
                 <p-dropdown id="rol" class="form-control" formControlName="estatus" [options]="catRol" placeholder="Seleccionar el rol">
                 </p-dropdown>
             </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <label class="control-label">Permisos:</label>
-                <div class="flex">
-                    <div class="flex align-items-center">
-                        <p-checkbox inputId="alta" formControlName="alta" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'alta'" class="control-label mb-0">Alta</label>
-                    </div>
-                    <div class="flex align-items-center ml-5">
-                        <p-checkbox inputId="baja" formControlName="baja" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'baja'" class="control-label mb-0">Alta</label>
-                    </div>
-                    <div class="flex align-items-center ml-5">
-                        <p-checkbox inputId="aprobacion" formControlName="aprobacion" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'aprobacion'" class="control-label mb-0">Aprobacion</label>
-                    </div>
-                    <div class="flex align-items-center ml-5">
-                        <p-checkbox inputId="consulta" formControlName="consulta" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'consulta'" class="control-label mb-0">Consulta</label>
-                    </div>
-                    <div class="flex align-items-center ml-5">
-                        <p-checkbox inputId="modificar" formControlName="modificar" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'modificar'" class="control-label mb-0">Modificar</label>
-                    </div>
-                    <div class="flex align-items-center ml-5">
-                        <p-checkbox inputId="imprimir" formControlName="imprimir" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'imprimir'" class="control-label mb-0">Imprimir</label>
-                    </div>
-                </div>
-            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="nivel">Nivel:</label>
+                <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones" placeholder="Seleccionar el nivel">
+                </p-dropdown>
+            </div>          
         </div>
         <div class="row mt-6">
             <div class="col-md-12 flex justify-content-end">
