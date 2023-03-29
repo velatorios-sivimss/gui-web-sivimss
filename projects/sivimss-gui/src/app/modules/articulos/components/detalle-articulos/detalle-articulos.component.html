@@ -37,18 +37,19 @@
     <ng-template appCustomTemplate="right-header">
       <div class="table-panel-header-column">
           <div class="flex flex-column">
-              <span>Estatus</span>
-              <div>
-                  <span class="activo" *ngIf="articuloSeleccionado?.estatus">Activo</span>
-                  <span class="inactivo" *ngIf="!articuloSeleccionado?.estatus">Inactivo</span>
-              </div>
+            <span>Estatus</span>
+            <div>
+              <span class="activo" *ngIf="articuloSeleccionado?.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!articuloSeleccionado?.estatus">Inactivo</span>
+            </div>
           </div>
           <div class="flex flex-column ml-5" *ngIf="(origen == 'detalle')">
-              <a (click)="overlayPanel.toggle($event)">
-                  <img
-                    src="assets/images/imagen-icono-barras-horizontales.svg"
-                    alt="icono barras horizontales">
-                </a>
+            <!-- <a (click)="overlayPanel.toggle($event)"></a> -->
+            <a (click)="overlayPanel.toggle($event)">
+              <img
+                src="assets/images/imagen-icono-barras-horizontales.svg"
+                alt="icono barras horizontales">
+            </a>
           </div>
       </div>
     </ng-template>

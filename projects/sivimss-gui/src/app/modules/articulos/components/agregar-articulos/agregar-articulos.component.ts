@@ -6,7 +6,6 @@ import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { mapearArregloTipoDropdown } from 'projects/sivimss-gui/src/app/utils/funciones';
-import { CATALOGOS_DUMMIES } from '../../constants/dummies';
 import { Articulo, ConfirmacionServicio } from '../../models/articulos.interface';
 import { ArticulosService } from '../../services/articulos.service';
 
@@ -61,10 +60,10 @@ export class AgregarArticulosComponent implements OnInit {
     this.catalogoCuentasContables = mapearArregloTipoDropdown(respuesta[this.POSICION_CATALOGO_CUENTAS_CONTABLES]?.datos, 'numCuentaContable', 'idCuentaContable');
     this.catalogoClavesSat = mapearArregloTipoDropdown(respuesta[this.POSICION_CATALOGO_CLAVES_SAT]?.datos, 'desClaveSAT', 'claveSAT');
     this.estatus = true;
-    this.inicializarAgregarServicioForm();
+    this.inicializarAgregarArticuloForm();
   }
 
-  inicializarAgregarServicioForm(): void {
+  inicializarAgregarArticuloForm(): void {
     this.agregarArticuloForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }],
       categoria: [{ value: null, disabled: false }, [Validators.required]],
@@ -84,7 +83,7 @@ export class AgregarArticulosComponent implements OnInit {
     });
   }
 
-  agregarServicio(): void {
+  confirmarAgregarArticulo(): void {
     this.agregarArticuloForm.markAllAsTouched();
     if (this.agregarArticuloForm.valid) {
       this.articuloSeleccionado = this.obtenerArticuloParaDetalle();

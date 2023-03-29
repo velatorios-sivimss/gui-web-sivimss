@@ -34,23 +34,26 @@ export class DetalleArticulosComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.config?.data) {
-      this.articuloSeleccionado = this.config.data.articulo;
       this.origen = this.config.data.origen;
+      if (this.origen !== 'modificar') {
+        this.articuloSeleccionado = this.config.data.articulo;
+      }
     }
   }
 
   abrirModalModificarServicio(): void {
     this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
-      header: "Modificar servicio",
+      header: "Modificar artículo",
       width: "920px",
-    })
+      data: { articulo: this.articuloSeleccionado, origen: "modificar" },
+    });
 
     this.creacionRef.onClose.subscribe((estatus: boolean) => {
       if (estatus) {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo modificado correctamente');
         this.ref.close();
       }
-    })
+    });
   }
 
   aceptar(): void {
@@ -72,7 +75,7 @@ export class DetalleArticulosComponent implements OnInit {
           if (this.articuloSeleccionado.estatus) {
             this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo desactivado correctamente');
           } else {
-            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');            
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
           }
           this.ref.close(this.articuloSeleccionado);
         }

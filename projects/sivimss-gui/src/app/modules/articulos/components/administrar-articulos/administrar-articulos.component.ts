@@ -99,9 +99,11 @@ export class AdministrarArticulosComponent implements OnInit {
       header: "Registro de artículo nuevo",
       width: "920px"
     });
+
     this.creacionRef.onClose.subscribe((estatus: boolean) => {
       if (estatus) {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo agregado correctamente');
+        this.paginar();
       }
     })
   }
@@ -110,11 +112,13 @@ export class AdministrarArticulosComponent implements OnInit {
     this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
       header: "Modificar artículo",
       width: "920px",
-    })
+      data: { articulo: this.articuloSeleccionado, origen: "modificar" },
+    });
 
     this.creacionRef.onClose.subscribe((estatus: boolean) => {
       if (estatus) {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo modificado correctamente');
+        this.paginar();
       }
     })
   }
@@ -146,7 +150,11 @@ export class AdministrarArticulosComponent implements OnInit {
   }
 
   paginar(event?: LazyLoadEvent): void {
-    this.articulosService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.buscarPorFiltros();
+  }
+
+  buscarPorFiltros(): void {
+    this.articulosService.buscarPorFiltros(this.obtenerObjetoParaFiltrado(), this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.articulos = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
@@ -158,14 +166,10 @@ export class AdministrarArticulosComponent implements OnInit {
     );
   }
 
-  consultaServicioEspecifico(): string {
-    return "";
-  }
-
   buscarArticulo() {
     this.clearValidatorsFiltroForm();
     if (validarAlMenosUnCampoConValor(this.filtroForm.value)) {
-      console.log('Datos a buscar', this.filtroForm.value);
+      this.buscarPorFiltros();
     } else {
       this.f.delegacion.setValidators(Validators.required);
       this.f.delegacion.updateValueAndValidity();
@@ -177,9 +181,25 @@ export class AdministrarArticulosComponent implements OnInit {
     }
   }
 
+  obtenerObjetoParaFiltrado(): object {
+    return {
+      nivel: null,
+      nombreArticulo: this.obtenerNombreArticuloDescripcion() || null,
+    }
+  }
+
+  obtenerNombreArticuloDescripcion(): string {
+    let query = this.f.nombreArticulo?.value || '';
+    if (typeof this.f.nombreArticulo?.value === 'object') {
+      query = this.f.nombreArticulo?.value?.label;
+    }
+    return query?.toLowerCase();
+  }
+
   limpiar(): void {
     this.filtroForm.reset();
     this.clearValidatorsFiltroForm();
+    this.buscarPorFiltros();
   }
 
   clearValidatorsFiltroForm() {
@@ -192,19 +212,25 @@ export class AdministrarArticulosComponent implements OnInit {
   }
 
   filtrarArticulos() {
-    let query = this.f.nombreArticulo?.value;
-    if (typeof this.f.nombreArticulo?.value === 'object') {
-      query = this.f.nombreArticulo?.value?.label;
-    }
+    let query = this.obtenerNombreArticuloDescripcion();
     if (query?.length >= 3) {
-      let filtrado: TipoDropdown[] = [];
-      for (let i = 0; i < this.articulosServicio.length; i++) {
-        let articulo = this.articulosServicio[i];
-        if (articulo.label.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-          filtrado.push(articulo);
+      this.articulosService.buscarPorFiltros(this.obtenerObjetoParaFiltrado(), this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+        (respuesta) => {
+          let filtrado: TipoDropdown[] = [];
+          if (respuesta!.datos.content.length > 0) {
+            respuesta!.datos.content.forEach((e: any) => {
+              filtrado.push({
+                label: e.desArticulo,
+                value: e.idArticulo,
+              });
+            });
+            this.articuloServicioFiltrados = filtrado;
+          }
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
         }
-      }
-      this.articuloServicioFiltrados = filtrado;
+      );
     }
   }
 

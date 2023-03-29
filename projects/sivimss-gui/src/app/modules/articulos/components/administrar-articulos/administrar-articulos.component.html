@@ -29,7 +29,7 @@
           [style]="{'width':'100%'}" [minLength]="3" class="p-autocomplete" placeholder="Ingresa el artículo" field="label"
           [inputStyleClass]="filtroForm.valid ? 'input-autocomplete' : 'input-autocomplete input-autocomplete-error'"
           >
-          <ng-template let-articulo pTemplate="item" class="ok">
+          <ng-template let-articulo pTemplate="item">
             <div class="autocomplete-item">
               <div>{{articulo.label}}</div>
             </div>

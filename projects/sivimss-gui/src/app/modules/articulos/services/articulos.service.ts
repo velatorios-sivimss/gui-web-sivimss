@@ -19,30 +19,20 @@ export class ArticulosService extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams()
       .append("pagina", pagina)
       .append("tamanio", tamanio);
-    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/art-buscar`, filtros, { headers, params });
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/${this._paginado}`, filtros, { headers, params });
   }
 
-  buscarPorPagina(pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
-    let obj = {
-      "nivel": null,
-      "nombreArticulo": "ata"
-    }
-    const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-    const params = new HttpParams()
-      .append("pagina", pagina)
-      .append("tamanio", tamanio)
-      .append("servicio", this._paginado)
-    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/art-buscar?pagina=0&tamanio=10`, obj, { headers, params })
-  }
-
-  // cambiarEstatus(id: any): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+  // buscarPorPagina(pagina: number, tamanio: number, obj: object): Observable<HttpRespuesta<any>> {
   //   let obj = {
-  //     idArticulo: id
+  //     "nivel": null,
+  //     "nombreArticulo": ""
   //   }
-  //   const formData = new FormData();
-  //   const params = new HttpParams().append('datos', JSON.stringify(obj));
-  //   return this._http.put<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/${this._estatus}`, formData, { headers, params });
+  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+  //   const params = new HttpParams()
+  //     .append("pagina", pagina)
+  //     .append("tamanio", tamanio)
+  //     .append("servicio", this._paginado)
+  //   return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/art-buscar?pagina=0&tamanio=10`, obj, { headers, params })
   // }
 
   obtenerCatalogoCategorias(): Observable<HttpRespuesta<any>> {
