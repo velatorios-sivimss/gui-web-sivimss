@@ -64,10 +64,6 @@ export class ServiciosFunerariosComponent implements OnInit {
     });
   }
 
-  abrirModalRegistrarPlan(): void {
-
-  }
-
   paginar(event: LazyLoadEvent): void {
     setTimeout(() => {
       this.servicioFunerario = [
@@ -95,9 +91,15 @@ export class ServiciosFunerariosComponent implements OnInit {
 
 
   detallePago(): void {
-
-
     this.router.navigate(["servicios-funerarios/detalle-pago/1"])
+  }
+
+  cancelarPago(): void {
+    this.router.navigate(["servicios-funerarios/cancelar-pago/1"])
+  }
+
+  modificarPago(): void {
+    this.router.navigate(["servicios-funerarios/modificar-pago/1"])
   }
 
 }
