@@ -71,7 +71,14 @@ export class AgregarVelatorioComponent implements OnInit {
     this.velatorioService.obtenerCP(cp).subscribe(
       (respuesta) => {
         const {datos} = respuesta;
-        if (datos.length === 0 || !datos) return;
+        if (datos.length === 0 || !datos) {
+          this.velatorioForm.get("desMunicipio")?.patchValue("");
+          this.velatorioForm.get("desEstado")?.patchValue("");
+          this.velatorioForm.get("desColonia")?.patchValue("");
+          this.velatorioForm.get("desColonia")?.disable();
+          this.colonias = [];
+          return
+        };
         const {estado, municipio} = datos[0];
         this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}))
         this.velatorioForm.get("desMunicipio")?.patchValue(municipio);
@@ -112,7 +119,7 @@ export class AgregarVelatorioComponent implements OnInit {
     return {
       administrador: "",
       capillas: 0,
-      cveAsignacion: 0,
+      cveAsignacion: this.velatorioForm.get("asignacion")?.value,
       cveCp: this.velatorioForm.get("codigoPostal")?.value,
       desCalle: this.velatorioForm.get("desCalle")?.value,
       desColonia: colonia,

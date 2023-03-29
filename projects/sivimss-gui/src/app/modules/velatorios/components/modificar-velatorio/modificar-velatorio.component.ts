@@ -34,30 +34,29 @@ export class ModificarVelatorioComponent implements OnInit {
     this.velatorioForm = this.formBuilder.group({
       id: [{value: velatorio.idVelatorio, disabled: true}],
       nombre: [{value: velatorio.nomVelatorio, disabled: false}, [Validators.required]],
-      administrador: [{value: velatorio.administrador, disabled: false}, [Validators.required]],
+      administrador: [{value: velatorio.administrador, disabled: true}, [Validators.required]],
       responsableSanitario: [{value: velatorio.nomRespoSanitario, disabled: false}, [Validators.required]],
-      capillasVelacion: [{value: velatorio.capillas, disabled: false}, [Validators.required]],
-      salasCremacion: [{value: velatorio.salasCremacion, disabled: false}, [Validators.required]],
-      salasEmbalsamamiento: [{value: velatorio.salasEmbalsamamiento, disabled: false}, [Validators.required]],
+      capillasVelacion: [{value: velatorio.capillas, disabled: true}, [Validators.required]],
+      salasCremacion: [{value: velatorio.salasCremacion, disabled: true}, [Validators.required]],
+      salasEmbalsamamiento: [{value: velatorio.salasEmbalsamamiento, disabled: true}, [Validators.required]],
       asignacion: [{value: velatorio.cveAsignacion, disabled: false}, [Validators.required]],
       codigoPostal: [{value: velatorio.idCodigoPostal, disabled: false}, [Validators.required]],
       direccionCalle: [{value: velatorio.desCalle, disabled: false}, [Validators.required]],
       numeroExterior: [{value: velatorio.numExterior, disabled: false}, [Validators.required]],
       colonia: [{value: velatorio.desColonia, disabled: false}, [Validators.required]],
-      municipio: [{value: velatorio.desMunicipio, disabled: false}, [Validators.required]],
-      estado: [{value: velatorio.desEstado, disabled: false}, [Validators.required]],
+      municipio: [{value: velatorio.desMunicipio, disabled: true}, [Validators.required]],
+      estado: [{value: velatorio.desEstado, disabled: true}, [Validators.required]],
       telefono: [{value: velatorio.numTelefono, disabled: false}, [Validators.required]],
       estatus: [{value: velatorio.estatus, disabled: false}, [Validators.required]],
     });
   }
 
   cancelarModificacion(): void {
-    if (this.indice === 0) {
-      this.indice++;
-      this.nuevoVelatorio = {...this.velatorioForm.value};
+    if (this.indice === 1) {
+      this.indice--;
       return;
     }
-    this.ref.close()
+    this.ref.close();
   }
 
   modificarVelatorio(): void {
