@@ -10,7 +10,7 @@ import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 
 type NuevoVelatorio = Omit<Velatorio, "desMunicipio" | "desEstado" | "idVelatorio" | "salasEmbalsamamiento" |
-  "salasCremacion" | "capillas" | "administrador" | "desColonia" | "estatus" | "desDelegacion" | "cveCp">
+  "salasCremacion" | "capillas" | "administrador" | "desColonia" | "estatus" | "desDelegacion" | "cveCp" | "idCp">
 
 interface ValorCP {
   idCodigoPostal: number,
@@ -78,7 +78,7 @@ export class AgregarVelatorioComponent implements OnInit {
           this.velatorioForm.get("desColonia")?.disable();
           this.colonias = [];
           return
-        };
+        }
         const {estado, municipio} = datos[0];
         this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}))
         this.velatorioForm.get("desMunicipio")?.patchValue(municipio);
@@ -135,7 +135,8 @@ export class AgregarVelatorioComponent implements OnInit {
       numExterior: this.velatorioForm.get("numExterior")?.value,
       numTelefono: this.velatorioForm.get("numTelefono")?.value,
       salasCremacion: 0,
-      salasEmbalsamamiento: 0
+      salasEmbalsamamiento: 0,
+      idCp: 0
     }
   }
 

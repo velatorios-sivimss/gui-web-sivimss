@@ -70,11 +70,13 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
   }
 
   abrirModalModificacionVelatorio(): void {
-    this.modificarRef = this.dialogService.open(ModificarVelatorioComponent, {
+    const MODIFICACION_CONFIG: DynamicDialogConfig = {
       header: 'Modificar velatorio',
       data: this.velatorioSeleccionado,
-      width: "920px"
-    });
+      width: MAX_WIDTH,
+    }
+    this.modificarRef = this.dialogService.open(ModificarVelatorioComponent, MODIFICACION_CONFIG);
+    this.modificarRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
   abrirModalActivarVelatorio(): void {

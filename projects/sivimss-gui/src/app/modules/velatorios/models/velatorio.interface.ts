@@ -17,5 +17,6 @@ export interface Velatorio {
   estatus: boolean,
   idDelegacion: number,
   desDelegacion: string,
-  cveCp: number
+  cveCp: number,
+  idCp: number
 }
