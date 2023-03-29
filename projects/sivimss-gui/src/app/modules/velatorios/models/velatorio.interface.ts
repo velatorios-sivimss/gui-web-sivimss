@@ -8,7 +8,6 @@ export interface Velatorio {
   capillas: number,
   cveAsignacion: number,
   desCalle: string,
-  numExt: number,
   numExterior: number,
   idCodigoPostal: number,
   desColonia: string,
@@ -17,5 +16,6 @@ export interface Velatorio {
   numTelefono: number,
   estatus: boolean,
   idDelegacion: number,
-  desDelegacion: string
+  desDelegacion: string,
+  cveCp: number
 }

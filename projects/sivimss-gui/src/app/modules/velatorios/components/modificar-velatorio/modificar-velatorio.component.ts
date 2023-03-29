@@ -42,7 +42,7 @@ export class ModificarVelatorioComponent implements OnInit {
       asignacion: [{value: velatorio.cveAsignacion, disabled: false}, [Validators.required]],
       codigoPostal: [{value: velatorio.idCodigoPostal, disabled: false}, [Validators.required]],
       direccionCalle: [{value: velatorio.desCalle, disabled: false}, [Validators.required]],
-      numeroExterior: [{value: velatorio.numExt, disabled: false}, [Validators.required]],
+      numeroExterior: [{value: velatorio.numExterior, disabled: false}, [Validators.required]],
       colonia: [{value: velatorio.desColonia, disabled: false}, [Validators.required]],
       municipio: [{value: velatorio.desMunicipio, disabled: false}, [Validators.required]],
       estado: [{value: velatorio.desEstado, disabled: false}, [Validators.required]],

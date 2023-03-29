@@ -10,7 +10,7 @@ import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 
 type NuevoVelatorio = Omit<Velatorio, "desMunicipio" | "desEstado" | "idVelatorio" | "salasEmbalsamamiento" |
-  "salasCremacion" | "capillas" | "administrador"  | "desColonia" | "estatus" | "desDelegacion" | "numExt">
+  "salasCremacion" | "capillas" | "administrador"  | "desColonia" | "estatus" | "desDelegacion" | "cveCp">
 
 @Component({
   selector: 'app-agregar-velatorio',

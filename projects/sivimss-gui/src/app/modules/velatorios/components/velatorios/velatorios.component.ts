@@ -79,11 +79,13 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
 
   abrirModalActivarVelatorio(): void {
     const header = this.velatorioSeleccionado.estatus ? 'Desactivar' : 'Activar';
-    this.activarRef = this.dialogService.open(ActivarVelatorioComponent, {
+    const ACTIVAR_CONFIG: DynamicDialogConfig = {
       header: `${header} velatorio`,
       data: this.velatorioSeleccionado,
-      width: "920px"
-    });
+      width: MAX_WIDTH,
+    }
+    this.activarRef = this.dialogService.open(ActivarVelatorioComponent, ACTIVAR_CONFIG);
+    this.activarRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
   abrirModalCreacionVelatorio(): void {
