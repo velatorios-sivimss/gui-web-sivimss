@@ -19,5 +19,7 @@ export interface Beneficiarios {
   estatus?: boolean;
   parentesco?: string;
   edad?: string;
+  velatorio?: string;
+  fecha?: string;
 
   }
