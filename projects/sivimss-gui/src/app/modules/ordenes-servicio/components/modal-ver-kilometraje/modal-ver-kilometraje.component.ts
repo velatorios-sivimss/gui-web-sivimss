@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
 
 @Component({
-  selector: 'app-ver-kilometraje',
-  templateUrl: './ver-kilometraje.component.html',
-  styleUrls: ['./ver-kilometraje.component.scss']
+  selector: 'app-modal-ver-kilometraje',
+  templateUrl: './modal-ver-kilometraje.component.html',
+  styleUrls: ['./modal-ver-kilometraje.component.scss']
 })
-export class VerKilometrajeComponent implements OnInit {
+export class ModalVerKilometrajeComponent implements OnInit {
 
   dummy!: string;
 

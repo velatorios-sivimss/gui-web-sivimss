@@ -5,7 +5,7 @@ import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { ModalAgregarAlPaqueteComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-al-paquete/modal-agregar-al-paquete.component";
 import { ModalAgregarAlPresupuestoComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-al-presupuesto/modal-agregar-al-presupuesto.component";
 import { ModalAgregarServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-servicio/modal-agregar-servicio.component";
-import { VerKilometrajeComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-kilometraje/ver-kilometraje.component";
+import { ModalVerKilometrajeComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-ver-kilometraje/modal-ver-kilometraje.component";
 
 @Component({
   selector: 'app-caracteristicas-presupuesto',
@@ -135,15 +135,15 @@ export class CaracteristicasPresupuestoComponent implements OnInit {
   }
 
   abrirModalVerKm(): void {
-    const ref = this.dialogService.open(VerKilometrajeComponent, {
+    const ref = this.dialogService.open(ModalVerKilometrajeComponent, {
       header: 'Ver kilometraje',
       style: {maxWidth: '876px', width: '100%'},
       data: {
-        dummy: '' //Pasa info a VerKilometrajeComponent
+        dummy: '' //Pasa info a ModalVerKilometrajeComponent
       }
     });
     ref.onClose.subscribe((val: boolean) => {
-      if (val) { //Obtener info cuando se cierre el modal en VerKilometrajeComponent
+      if (val) { //Obtener info cuando se cierre el modal en ModalVerKilometrajeComponent
       }
     });
   }

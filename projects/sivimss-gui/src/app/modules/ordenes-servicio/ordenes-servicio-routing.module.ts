@@ -6,7 +6,9 @@ import {
 import {
   GenerarOrdenServicioComponent
 } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/generar-orden-servicio/generar-orden-servicio.component";
-import { ModificarOrdenServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-orden-servicio/modificar-orden-servicio.component";
+import { ModificarDatosContratanteComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-datos-contratante/modificar-datos-contratante.component";
+import { ModificarDatosFinadoComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-datos-finado/modificar-datos-finado.component";
+import { ModificarInformacionServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-informacion-servicio/modificar-informacion-servicio.component";
 import {
   OrdenesServicioComponent
 } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
@@ -34,17 +36,25 @@ const routes: Routes = [
     component: VerOrdenServicioComponent
   },
   {
-    path: 'modificar-orden-de-servicio',
-    component: ModificarOrdenServicioComponent
-  },
-  {
     path: 'resumen-orden-complementaria',
     component: ResumenOrdenComplementariaComponent
   },
   {
     path: 'ver-orden-complementaria',
     component: VerOrdenComplementariaComponent
-  }
+  },
+  {
+    path: 'modificar-datos-contratante',
+    component: ModificarDatosContratanteComponent
+  },
+  {
+    path: 'modificar-datos-finado',
+    component: ModificarDatosFinadoComponent
+  },
+  {
+    path: 'modificar-informacion-servicio',
+    component: ModificarInformacionServicioComponent
+  },
 ];
 
 @NgModule({
