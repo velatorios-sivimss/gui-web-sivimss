@@ -23,26 +23,17 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
 
   guardar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
-    const body = new FormData();
-    body.append('datos', t);
-    const params = new HttpParams().append('datos', this._agregar);
-    return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, body, {headers, params});
+    return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, t, {headers});
   }
 
   actualizar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
-    const body = new FormData();
-    body.append('datos', t);
-    const params = new HttpParams().append('datos', this._actualizar);
-    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._actualizar}`, body, {headers, params});
+    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._actualizar}`, t, {headers});
   }
 
   cambiarEstatus(id: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
-    const body = new FormData();
-    body.append('datos', id);
-    const params = new HttpParams().append('datos', id);
-    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._estatus}`, body, {headers, params});
+    return this._http.put<T>(this._base + `${this._funcionalidad}/${this._estatus}`, id, {headers});
   }
 
   buscarPorId(id: ID): Observable<T> {

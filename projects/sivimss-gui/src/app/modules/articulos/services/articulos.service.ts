@@ -22,19 +22,6 @@ export class ArticulosService extends BaseService<HttpRespuesta<any>, any> {
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/${this._paginado}`, filtros, { headers, params });
   }
 
-  // buscarPorPagina(pagina: number, tamanio: number, obj: object): Observable<HttpRespuesta<any>> {
-  //   let obj = {
-  //     "nivel": null,
-  //     "nombreArticulo": ""
-  //   }
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams()
-  //     .append("pagina", pagina)
-  //     .append("tamanio", tamanio)
-  //     .append("servicio", this._paginado)
-  //   return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/art-buscar?pagina=0&tamanio=10`, obj, { headers, params })
-  // }
-
   obtenerCatalogoCategorias(): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
     const params = new HttpParams().append("servicio", "art-categoria")
