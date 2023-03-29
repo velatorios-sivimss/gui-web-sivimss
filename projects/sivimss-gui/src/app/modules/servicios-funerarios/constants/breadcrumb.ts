@@ -14,3 +14,10 @@ export const SERVICIO_BREADCRUMB: ElementoBreadcrumb[] = [
     titulo: 'Orden de entrada'
   }
 ]
+
+export const SERVICIO_BREADCRUMB_CLEAR: ElementoBreadcrumb[] = [
+  {
+    icono: '',
+    titulo: ''
+  },
+]

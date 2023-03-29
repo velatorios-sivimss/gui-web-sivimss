@@ -5,6 +5,15 @@ import {ServiciosFunerariosComponent} from "./components/servicios-funerarios/se
 import {
   DetalleServiciosFunerariosComponent
 } from "./components/detalle-servicios-funerarios/detalle-servicios-funerarios.component";
+import {
+  AltaServiciosFunerariosComponent
+} from "./components/alta-servicios-funerarios/alta-servicios-funerarios.component";
+import {
+  CancelarServiciosFunerariosComponent
+} from "./components/cancelar-servicios-funerarios/cancelar-servicios-funerarios.component";
+import {
+  ModificarServiciosFunerariosComponent
+} from "./components/modificar-servicios-funerarios/modificar-servicios-funerarios.component";
 
 const routes: Routes = [
   {
@@ -14,6 +23,18 @@ const routes: Routes = [
   {
     path:'detalle-pago/:id',
     component: DetalleServiciosFunerariosComponent,
+  },
+  {
+    path:'cancelar-pago/:id',
+    component: CancelarServiciosFunerariosComponent,
+  },
+  {
+    path:'modificar-pago/:id',
+    component: ModificarServiciosFunerariosComponent,
+  },
+  {
+    path:'registrar-nuevo-plan-sfpa',
+    component: AltaServiciosFunerariosComponent,
   }
 ];
 
