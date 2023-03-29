@@ -64,21 +64,21 @@
     </ng-template>
     <ng-template pTemplate="body" let-velatorio>
       <tr>
-        <td>{{ velatorio.id }}</td>
-        <td>{{ velatorio.nombre }}</td>
+        <td>{{ velatorio.idVelatorio }}</td>
+        <td>{{ velatorio.nomVelatorio }}</td>
         <td>{{ velatorio.administrador }}</td>
-        <td>{{ velatorio.responsableSanitario}}</td>
+        <td>{{ velatorio.NomRespoSanitario}}</td>
         <td>{{ velatorio.salasCremacion}}</td>
         <td>{{ velatorio.salasEmbalsamamiento}}</td>
-        <td>{{ velatorio.capillasVelacion}}</td>
-        <td>{{ velatorio.asignacion}}</td>
-        <td>{{ velatorio.direccionCalle}}</td>
-        <td>{{velatorio.numeroExterior}}</td>
-        <td>{{velatorio.codigoPostal}}</td>
-        <td>{{velatorio.colonia}}</td>
-        <td>{{velatorio.municipio}}</td>
-        <td>{{velatorio.estado}}</td>
-        <td>{{velatorio.telefono}}</td>
+        <td>{{ velatorio.capillas}}</td>
+        <td>{{ velatorio.cveAsignacion}}</td>
+        <td>{{ velatorio.desCalle}}</td>
+        <td>{{velatorio.numExt}}</td>
+        <td>{{velatorio.cveCp}}</td>
+        <td>{{velatorio.desColonia}}</td>
+        <td>{{velatorio.desMunicipio}}</td>
+        <td>{{velatorio.desEstado}}</td>
+        <td>{{velatorio.numTelefono}}</td>
         <td>
           <div class="contenedor-inputswitch">
             <p-inputSwitch [(ngModel)]="velatorio.estatus" [disabled]="true"></p-inputSwitch>

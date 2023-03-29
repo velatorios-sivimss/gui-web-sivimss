@@ -9,8 +9,8 @@ import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/aler
 import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 
-type NuevoVelatorio = Omit<Velatorio, "municipio" | "estado" | "id" | "salasEmbalsamamiento" |
-  "salasCremacion" | "capillasVelacion" | "administrador" | "idDelegacion" | "colonia" | "estatus"> & { "idDelegacion": number }
+type NuevoVelatorio = Omit<Velatorio, "desMunicipio" | "desEstado" | "idVelatorio" | "salasEmbalsamamiento" |
+  "salasCremacion" | "capillas" | "administrador"  | "desColonia" | "estatus" | "desDelegacion" | "numExt">
 
 @Component({
   selector: 'app-agregar-velatorio',
@@ -66,7 +66,7 @@ export class AgregarVelatorioComponent implements OnInit {
     const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
     const velatorio: NuevoVelatorio = this.crearVelatorio();
     const solicitudVelatorio: string = JSON.stringify(velatorio);
-    this.velatorioService.guardar(solicitudVelatorio).subscribe(
+    this.velatorioService.guardar(velatorio).subscribe(
       () => {
         this.ref.close(respuesta);
       },
@@ -89,11 +89,6 @@ export class AgregarVelatorioComponent implements OnInit {
       numTelefono: this.velatorioForm.get("telefono")?.value,
       idDelegacion : 30
     }
-  }
-
-  obtenerEstatus(): number {
-    const estatus = this.velatorioForm.get("estatus")?.value;
-    return estatus ? 1 : 0;
   }
 
   cancelarCreacion(): void {

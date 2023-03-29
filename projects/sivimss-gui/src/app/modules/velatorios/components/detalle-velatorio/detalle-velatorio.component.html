@@ -2,7 +2,7 @@
   <ng-template appCustomTemplate="left-header">
     <div class="table-panel-header-column">
       <span class="font-bold mr-2">ID</span>
-      <span class="activo">{{velatorio.id}}</span>
+      <span class="activo">{{velatorio.idVelatorio}}</span>
     </div>
   </ng-template>
   <ng-template appCustomTemplate="right-header">
@@ -42,7 +42,7 @@
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>No. capillas</label>
-        <span>{{velatorio?.capillasVelacion}}</span>
+        <span>{{velatorio?.capillas}}</span>
       </div>
     </div>
     <div class="col-md-4">
@@ -85,7 +85,7 @@
     <div class="col-md-6">
       <div class="table-panel-column">
         <label>No. exterior</label>
-        <span>{{velatorio?.numExterior}}</span>
+        <span>{{velatorio?.numExt}}</span>
       </div>
     </div>
   </div>
@@ -93,19 +93,19 @@
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Colonia</label>
-        <span>{{velatorio?.colonia}}</span>
+        <span>{{velatorio?.desColonia}}</span>
       </div>
     </div>
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Municipio</label>
-        <span>{{velatorio?.municipio}}</span>
+        <span>{{velatorio?.desMunicipio}}</span>
       </div>
     </div>
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Estado</label>
-        <span>{{velatorio?.estado}}</span>
+        <span>{{velatorio?.desEstado}}</span>
       </div>
     </div>
   </div>
