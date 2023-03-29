@@ -9,7 +9,6 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Usuario} from '../../models/usuario.interface';
 import {UsuarioService} from '../../services/usuario.service';
-import {HttpRespuesta} from '../../../../models/http-respuesta.interface';
 
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
@@ -175,8 +174,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cambiarEstatus(id: number): void {
     const idUsuario: SolicitudEstatus = {id}
-    const solicitudId = JSON.stringify(idUsuario);
-    this.usuarioService.cambiarEstatus(solicitudId).subscribe(
+    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
       },
