@@ -11,16 +11,22 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'usuarios',
+    loadChildren: () => import('./modules/inicio/inicio.module').then((m) => m.InicioModule),
+    // canActivate: [PermiteUsuarioLogueadoGuard],
+    // canActivateChild: [PermiteUsuarioLogueadoGuard],
     pathMatch: 'full'
   },
   {
     path: 'inicio',
     loadChildren: () => import('./modules/inicio/inicio.module').then((m) => m.InicioModule),
+    // canActivate: [PermiteUsuarioLogueadoGuard],
+    // canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'inicio-sesion',
     loadChildren: () => import('./modules/autenticacion/autenticacion.module').then((m) => m.AutenticacionModule),
+    // canActivate: [BloqueaUsuarioLogueadoGuard],
+    // canActivateChild: [BloqueaUsuarioLogueadoGuard]
   },
   {
     path: 'roles',
