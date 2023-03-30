@@ -146,7 +146,7 @@ export class AgregarVelatorioComponent implements OnInit {
       cveAsignacion: 0,
       desCalle: this.velatorioForm.get("desCalle")?.value,
       idCodigoPostal: +this.velatorioForm.get("desColonia")?.value,
-      nomRespoSanitario: this.velatorioForm.get("responsableSanitario")?.value,
+      nomRespoSanitario: this.velatorioForm.get("nomRespoSanitario")?.value,
       nomVelatorio: this.velatorioForm.get("nomVelatorio")?.value,
       numExterior: +this.velatorioForm.get("numExterior")?.value,
       numTelefono: this.velatorioForm.get("numTelefono")?.value,

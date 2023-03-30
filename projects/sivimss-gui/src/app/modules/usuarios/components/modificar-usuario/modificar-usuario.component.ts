@@ -28,6 +28,7 @@ export class ModificarUsuarioComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   indice: number = 0;
   catRol: TipoDropdown[] = [];
+  fechaActual: Date =  new Date();
 
   constructor(
     private route: ActivatedRoute,

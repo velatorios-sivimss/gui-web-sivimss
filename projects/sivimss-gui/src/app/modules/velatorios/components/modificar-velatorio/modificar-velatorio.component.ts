@@ -18,7 +18,7 @@ interface ValorCP {
 
 type VelatorioModificado =
   Omit<Velatorio, "desMunicipio" | "desEstado" | "salasEmbalsamamiento" | "salasCremacion" | "capillas"
-    | "administrador" | "desColonia" | "estatus" | "desDelegacion" | "cveCp" | "idCp" >
+    | "administrador" | "desColonia" | "estatus" | "desDelegacion" | "cveCp" | "idCp">
   | { indEstatus: number }
 
 @Component({

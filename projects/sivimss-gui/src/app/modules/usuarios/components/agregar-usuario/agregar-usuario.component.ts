@@ -31,6 +31,7 @@ export class AgregarUsuarioComponent implements OnInit {
   curpValida: boolean = false;
   matriculaValida: boolean = false;
   catRol: TipoDropdown[] = [];
+  fechaActual: Date =  new Date();
 
   constructor(
     private route: ActivatedRoute,
