@@ -29,7 +29,7 @@ export class AdministrarArticulosComponent implements OnInit {
   overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
-  cantElementosPorPagina: number = 2;
+  cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
 
