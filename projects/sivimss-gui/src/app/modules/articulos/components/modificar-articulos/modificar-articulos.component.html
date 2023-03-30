@@ -13,19 +13,19 @@
         <p-dropdown appendTo="body" id="categoria" class="form-control" formControlName="categoria"
           [options]="catalogoCategorias" placeholder="Selecciona el artículo">
         </p-dropdown>
+        <span class="campo-obligatorio"
+          *ngIf="fma.categoria?.errors?.required && (fma.categoria?.dirty || fma.categoria?.touched)">Campo
+          obligatorio</span>
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <label class="control-label" for="tipoArticulo">Tipo de artículo<span class="req">*:</span></label>
+        <label class="control-label" for="tipoArticulo">Tipo de artículo:</label>
         <p-dropdown appendTo="body" id="tipoArticulo" class="form-control" formControlName="tipoArticulo"
           optionValue="value" [options]="catalogoTiposArticulos" placeholder="Selecciona el tipo de artículo"
           (onChange)="handleChangeTipoArticulo();">
         </p-dropdown>
-        <span class="campo-obligatorio"
-          *ngIf="fma.tipoArticulo?.errors?.required && (fma.tipoArticulo?.dirty || fma.tipoArticulo?.touched)">Campo
-          obligatorio</span>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="tipoMaterial">Tipo de material<span class="req">*:</span></label>
@@ -74,7 +74,7 @@
       <div class="col-md-12">
         <label class="control-label" for="descripcionProducto">Descripción del artículo<span
             class="req">*</span>:</label>
-        <input id="descripcionProducto" class="form-control" formControlName="descripcionProducto"
+        <input id="descripcionProducto" class="form-control" formControlName="descripcionProducto" maxlength="70"
           placeholder="Ingresa la descripción" textOnly trimmer>
         <span class="campo-obligatorio"
           *ngIf="fma.descripcionProducto?.errors?.required && (fma.descripcionProducto?.dirty || fma.descripcionProducto?.touched)">Campo
@@ -84,31 +84,25 @@
 
     <div class="row mb-3">
       <div class="col-md-4">
-        <label class="control-label" for="largo">Largo<span class="req">*</span>:</label>
+        <label class="control-label" for="largo">Largo:</label>
         <input id="largo" class="form-control" formControlName="largo" placeholder="Ingresa el largo" numbersOnly
           trimmer maxlength="3">
-        <span class="campo-obligatorio"
-          *ngIf="fma.largo?.errors?.required && (fma.largo?.dirty || fma.largo?.touched)">Campo obligatorio</span>
       </div>
       <div class="col-md-4">
-        <label class="control-label" for="ancho">Ancho<span class="req">*</span>:</label>
+        <label class="control-label" for="ancho">Ancho:</label>
         <input id="ancho" class="form-control" formControlName="ancho" placeholder="Ingresa el ancho" numbersOnly
           trimmer maxlength="3">
-        <span class="campo-obligatorio"
-          *ngIf="fma.ancho?.errors?.required && (fma.ancho?.dirty || fma.ancho?.touched)">Campo obligatorio</span>
       </div>
       <div class="col-md-4">
-        <label class="control-label" for="alto">Alto<span class="req">*</span>:</label>
+        <label class="control-label" for="alto">Alto:</label>
         <input id="alto" class="form-control" formControlName="alto" placeholder="Ingresa el alto" numbersOnly trimmer
           maxlength="3">
-        <span class="campo-obligatorio"
-          *ngIf="fma.ancho?.errors?.required && (fma.ancho?.dirty || fma.ancho?.touched)">Campo obligatorio</span>
       </div>
     </div>
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <label class="control-label" for="partidaPresupuestal">Partida Presupuestal<span class="req">*:</span></label>
+        <label class="control-label" for="partidaPresupuestal">Partida Presupuestal<span class="req" *ngIf="fma.tipoArticulo.value === this.ID_ARTICULO_COMPLEMENTARIO">*</span>:</label>
         <p-dropdown appendTo="body" id="partidaPresupuestal" class="form-control" formControlName="partidaPresupuestal"
           [options]="catalogoPartidasPresupuestales" placeholder="Selecciona la partida presupuestal">
         </p-dropdown>
@@ -117,7 +111,7 @@
           obligatorio</span>
       </div>
       <div class="col-md-6">
-        <label class="control-label" for="cuentaContable">Cuenta contable<span class="req">*:</span></label>
+        <label class="control-label" for="cuentaContable">Cuenta contable<span class="req" *ngIf="fma.tipoArticulo.value === this.ID_ARTICULO_COMPLEMENTARIO">*</span>:</label>
         <p-dropdown appendTo="body" id="cuentaContable" class="form-control" formControlName="cuentaContable"
           [options]="catalogoCuentasContables" placeholder="Selecciona la cuenta contable">
         </p-dropdown>
@@ -129,13 +123,10 @@
 
     <div class="row mb-3">
       <div class="col-md-12">
-        <label class="control-label" for="productoServicios">Clave SAT<span class="req"></span></label>
+        <label class="control-label" for="productoServicios">Clave SAT:</label>
         <p-dropdown appendTo="body" id="productoServicios" class="form-control" formControlName="productoServicios"
           [options]="catalogoClavesSat" placeholder="Selecciona la clave de artículo SAT">
         </p-dropdown>
-        <span class="campo-obligatorio"
-          *ngIf="fma.productoServicios?.errors?.required && (fma.productoServicios?.dirty || fma.productoServicios?.touched)">Campo
-          obligatorio</span>
       </div>
     </div>
 

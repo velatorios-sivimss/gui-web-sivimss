@@ -22,12 +22,17 @@ export class ArticulosService extends BaseService<HttpRespuesta<any>, any> {
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/${this._paginado}`, filtros, { headers, params });
   }
 
+  buscarTodosPorFiltros(filtros: any): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar-filtros/art-buscar-general`, filtros, { headers });
+  }
+
   obtenerCatalogoCategorias(): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
     const params = new HttpParams().append("servicio", "art-categoria")
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   }
-  
+
   obtenerCatalogoTiposArticulos(): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
     const params = new HttpParams().append("servicio", "art-tipo-articulo")

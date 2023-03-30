@@ -71,20 +71,21 @@ export class ModificarArticulosComponent implements OnInit {
     this.modificarArticuloForm = this.formBuilder.group({
       id: [{ value: this.articuloSeleccionado.idArticulo, disabled: true }],
       categoria: [{ value: this.articuloSeleccionado.idCategoriaArticulo, disabled: false }, [Validators.required]],
-      tipoArticulo: [{ value: this.articuloSeleccionado.idTipoArticulo, disabled: false }, [Validators.required]],
+      tipoArticulo: [{ value: this.articuloSeleccionado.idTipoArticulo, disabled: false }, []],
       tipoMaterial: [{ value: this.articuloSeleccionado.idTipoMaterial, disabled: false }, [Validators.required]],
       tamanio: [{ value: this.articuloSeleccionado.idTamanio, disabled: false }, [Validators.required]],
       clasificacionProducto: [{ value: this.articuloSeleccionado.idClasificacionProducto, disabled: false }, [Validators.required]],
       modeloArticulo: [{ value: this.articuloSeleccionado.modeloArticulo, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      descripcionProducto: [{ value: this.articuloSeleccionado.desArticulo, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      largo: [{ value: this.articuloSeleccionado.largo, disabled: false }, [Validators.maxLength(3), Validators.required]],
-      ancho: [{ value: this.articuloSeleccionado.ancho, disabled: false }, [Validators.maxLength(3), Validators.required]],
-      alto: [{ value: this.articuloSeleccionado.alto, disabled: false }, [Validators.maxLength(3), Validators.required]],
+      descripcionProducto: [{ value: this.articuloSeleccionado.desArticulo, disabled: true }, [Validators.maxLength(70), Validators.required]],
+      largo: [{ value: this.articuloSeleccionado.largo, disabled: false }, [Validators.maxLength(3)]],
+      ancho: [{ value: this.articuloSeleccionado.ancho, disabled: false }, [Validators.maxLength(3)]],
+      alto: [{ value: this.articuloSeleccionado.alto, disabled: false }, [Validators.maxLength(3)]],
       estatus: [{ value: this.articuloSeleccionado.estatus, disabled: true }],
-      productoServicios: [{ value: this.articuloSeleccionado.idProductosServicios, disabled: false }, [Validators.required]],
       cuentaContable: [{ value: this.articuloSeleccionado.idCuentaPartPresupuestal, disabled: this.articuloSeleccionado.idTipoArticulo !== this.ID_ARTICULO_COMPLEMENTARIO }, []],
       partidaPresupuestal: [{ value: this.articuloSeleccionado.idPartPresupuestal, disabled: this.articuloSeleccionado.idTipoArticulo !== this.ID_ARTICULO_COMPLEMENTARIO }, []],
+      productoServicios: [{ value: this.articuloSeleccionado.idProductosServicios, disabled: false }, []],
     });
+    this.handleChangeTipoArticulo();
   }
 
   confirmarModificarArticulo(): void {
@@ -100,7 +101,7 @@ export class ModificarArticulosComponent implements OnInit {
       idCategoriaArticulo: this.fma.categoria.value,
       categoriaArticulo: this.catalogoCategorias.find((e: TipoDropdown) => e.value === this.fma.categoria.value)?.label,
       idTipoArticulo: this.fma.tipoArticulo.value,
-      tipoArticulo: this.catalogoTiposArticulos.find((e: TipoDropdown) => e.value === this.fma.tipoArticulo.value)?.label,
+      tipoArticulo: this.catalogoTiposArticulos.find((e: TipoDropdown) => e.value === this.fma.tipoArticulo.value)?.label || '',
       idTipoMaterial: this.fma.tipoMaterial.value,
       tipoMaterial: this.catalogoTiposMateriales.find((e: TipoDropdown) => e.value === this.fma.tipoMaterial.value)?.label,
       idTamanio: this.fma.tamanio.value,
@@ -118,7 +119,7 @@ export class ModificarArticulosComponent implements OnInit {
       idCuentaPartPresupuestal: this.fma.cuentaContable.value,
       numCuentaPartPresupuestal: this.catalogoCuentasContables.find((e: TipoDropdown) => e.value === this.fma.cuentaContable.value)?.label || '',
       idProductosServicios: this.fma.productoServicios.value,
-      productoServicios: this.catalogoClavesSat.find((e: TipoDropdown) => e.value === this.fma.productoServicios.value)?.label,
+      productoServicios: this.catalogoClavesSat.find((e: TipoDropdown) => e.value === this.fma.productoServicios.value)?.label || '',
     }
   }
 
@@ -160,20 +161,20 @@ export class ModificarArticulosComponent implements OnInit {
     return {
       idArticulo: this.fma.id.value,
       idCategoria: this.fma.categoria.value,
-      idTipoArticulo: this.fma.tipoArticulo.value,
+      idTipoArticulo: this.fma.tipoArticulo.value  || null,
       idTipoMaterial: this.fma.tipoMaterial.value,
       idTamanio: this.fma.tamanio.value,
       idClasificacionProducto: this.fma.clasificacionProducto.value,
       modeloArticulo: this.fma.modeloArticulo.value,
       descripcionArticulo: this.fma.descripcionProducto.value,
       medidas: {
-        largo: this.fma.largo.value,
-        ancho: this.fma.ancho.value,
-        alto: this.fma.alto.value,
+        largo: this.fma.largo.value || null,
+        ancho: this.fma.ancho.value || null,
+        alto: this.fma.alto.value  || null,
       },
-      idPartidaPresupuestal: this.fma.partidaPresupuestal.value,
-      idCuentaContable: this.fma.cuentaContable.value,
-      idClaveSAT: this.fma.productoServicios.value,
+      idPartidaPresupuestal: this.fma.partidaPresupuestal.value || null,
+      idCuentaContable: this.fma.cuentaContable.value || null,
+      idClaveSAT: this.fma.productoServicios.value || null,
     }
   }
 

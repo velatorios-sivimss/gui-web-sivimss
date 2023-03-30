@@ -29,7 +29,7 @@ export class AdministrarArticulosComponent implements OnInit {
   overlayPanel!: OverlayPanel;
 
   numPaginaActual: number = 0;
-  cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
+  cantElementosPorPagina: number = 2;
   totalElementos: number = 0;
 
 
@@ -150,6 +150,11 @@ export class AdministrarArticulosComponent implements OnInit {
   }
 
   paginar(event?: LazyLoadEvent): void {
+    if (event && event.first !== undefined && event.rows !== undefined) {
+      this.numPaginaActual = Math.floor(event.first / event.rows);
+    } else {
+      this.numPaginaActual = 0;
+    }
     this.buscarPorFiltros();
   }
 
@@ -169,7 +174,7 @@ export class AdministrarArticulosComponent implements OnInit {
   buscarArticulo() {
     this.clearValidatorsFiltroForm();
     if (validarAlMenosUnCampoConValor(this.filtroForm.value)) {
-      this.buscarPorFiltros();
+      this.paginar();
     } else {
       this.f.delegacion.setValidators(Validators.required);
       this.f.delegacion.updateValueAndValidity();
@@ -199,7 +204,7 @@ export class AdministrarArticulosComponent implements OnInit {
   limpiar(): void {
     this.filtroForm.reset();
     this.clearValidatorsFiltroForm();
-    this.buscarPorFiltros();
+    this.paginar();
   }
 
   clearValidatorsFiltroForm() {
@@ -214,11 +219,11 @@ export class AdministrarArticulosComponent implements OnInit {
   filtrarArticulos() {
     let query = this.obtenerNombreArticuloDescripcion();
     if (query?.length >= 3) {
-      this.articulosService.buscarPorFiltros(this.obtenerObjetoParaFiltrado(), this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      this.articulosService.buscarTodosPorFiltros(this.obtenerObjetoParaFiltrado()).subscribe(
         (respuesta) => {
           let filtrado: TipoDropdown[] = [];
-          if (respuesta!.datos.content.length > 0) {
-            respuesta!.datos.content.forEach((e: any) => {
+          if (respuesta!.datos.length > 0) {
+            respuesta!.datos.forEach((e: any) => {
               filtrado.push({
                 label: e.desArticulo,
                 value: e.idArticulo,

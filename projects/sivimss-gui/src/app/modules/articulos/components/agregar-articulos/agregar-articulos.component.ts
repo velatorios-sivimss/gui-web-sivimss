@@ -67,19 +67,19 @@ export class AgregarArticulosComponent implements OnInit {
     this.agregarArticuloForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }],
       categoria: [{ value: null, disabled: false }, [Validators.required]],
-      tipoArticulo: [{ value: null, disabled: false }, [Validators.required]],
+      tipoArticulo: [{ value: null, disabled: false }, []],
       tipoMaterial: [{ value: null, disabled: false }, [Validators.required]],
       tamanio: [{ value: null, disabled: false }, [Validators.required]],
       clasificacionProducto: [{ value: null, disabled: false }, [Validators.required]],
       modeloArticulo: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
       descripcionProducto: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      largo: [{ value: null, disabled: false }, [Validators.maxLength(3), Validators.required]],
-      ancho: [{ value: null, disabled: false }, [Validators.maxLength(3), Validators.required]],
-      alto: [{ value: null, disabled: false }, [Validators.maxLength(3), Validators.required]],
+      largo: [{ value: null, disabled: false }, [Validators.maxLength(3)]],
+      ancho: [{ value: null, disabled: false }, [Validators.maxLength(3)]],
+      alto: [{ value: null, disabled: false }, [Validators.maxLength(3)]],
       estatus: [{ value: true, disabled: false }],
-      productoServicios: [{ value: null, disabled: false }, [Validators.required]],
       cuentaContable: [{ value: null, disabled: true }, []],
       partidaPresupuestal: [{ value: null, disabled: true }, []],
+      productoServicios: [{ value: null, disabled: false }, []],
     });
   }
 
@@ -96,7 +96,7 @@ export class AgregarArticulosComponent implements OnInit {
       idCategoriaArticulo: this.faa.categoria.value,
       categoriaArticulo: this.catalogoCategorias.find((e: TipoDropdown) => e.value === this.faa.categoria.value)?.label,
       idTipoArticulo: this.faa.tipoArticulo.value,
-      tipoArticulo: this.catalogoTiposArticulos.find((e: TipoDropdown) => e.value === this.faa.tipoArticulo.value)?.label,
+      tipoArticulo: this.catalogoTiposArticulos.find((e: TipoDropdown) => e.value === this.faa.tipoArticulo.value)?.label || '',
       idTipoMaterial: this.faa.tipoMaterial.value,
       tipoMaterial: this.catalogoTiposMateriales.find((e: TipoDropdown) => e.value === this.faa.tipoMaterial.value)?.label,
       idTamanio: this.faa.tamanio.value,
@@ -105,16 +105,16 @@ export class AgregarArticulosComponent implements OnInit {
       clasificacionProducto: this.catalogoClasificacionProductos.find((e: TipoDropdown) => e.value === this.faa.clasificacionProducto.value)?.label,
       modeloArticulo: this.faa.modeloArticulo.value,
       desArticulo: this.faa.descripcionProducto.value,
-      largo:  this.faa.largo.value,
-      ancho:  this.faa.ancho.value,
-      alto:  this.faa.alto.value,
+      largo: this.faa.largo.value,
+      ancho: this.faa.ancho.value,
+      alto: this.faa.alto.value,
       estatus: true,
       idPartPresupuestal: this.faa.partidaPresupuestal.value,
       partPresupuestal: this.catalogoPartidasPresupuestales.find((e: TipoDropdown) => e.value === this.faa.partidaPresupuestal.value)?.label || '',
       idCuentaPartPresupuestal: this.faa.cuentaContable.value,
       numCuentaPartPresupuestal: this.catalogoCuentasContables.find((e: TipoDropdown) => e.value === this.faa.cuentaContable.value)?.label || '',
       idProductosServicios: this.faa.productoServicios.value,
-      productoServicios: this.catalogoClavesSat.find((e: TipoDropdown) => e.value === this.faa.productoServicios.value)?.label,
+      productoServicios: this.catalogoClavesSat.find((e: TipoDropdown) => e.value === this.faa.productoServicios.value)?.label || '',
     }
   }
 
@@ -141,8 +141,9 @@ export class AgregarArticulosComponent implements OnInit {
   agregarArticulo() {
     this.articulosService.guardar(this.obtenerArticuloAgregar()).subscribe(
       (respuesta) => {
-        console.log(respuesta);
-        this.ref.close(true);
+        if (respuesta) {
+          this.ref.close(true);
+        }
       },
       (error: HttpErrorResponse) => {
         console.error(error);
