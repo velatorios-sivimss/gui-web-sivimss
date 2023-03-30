@@ -8,16 +8,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
+import {ValorCP} from "../../models/valorCp.interface";
 
 type NuevoVelatorio = Omit<Velatorio, "desMunicipio" | "desEstado" | "idVelatorio" | "salasEmbalsamamiento" |
   "salasCremacion" | "capillas" | "administrador" | "desColonia" | "estatus" | "desDelegacion" | "cveCp" | "idCp">
-
-interface ValorCP {
-  idCodigoPostal: number,
-  colonia: string,
-  municipio: string,
-  estado: string
-}
 
 @Component({
   selector: 'app-agregar-velatorio',

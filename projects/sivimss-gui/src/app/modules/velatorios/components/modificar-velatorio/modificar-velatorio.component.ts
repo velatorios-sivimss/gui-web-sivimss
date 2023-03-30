@@ -8,13 +8,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
-
-interface ValorCP {
-  idCodigoPostal: number,
-  colonia: string,
-  municipio: string,
-  estado: string
-}
+import {ValorCP} from "../../models/valorCp.interface";
 
 type VelatorioModificado =
   Omit<Velatorio, "desMunicipio" | "desEstado" | "salasEmbalsamamiento" | "salasCremacion" | "capillas"
