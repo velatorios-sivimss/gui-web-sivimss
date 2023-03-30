@@ -87,7 +87,6 @@ export class RolesComponent implements OnInit {
   }
 
   paginarConFiltros(): void {
-    debugger
     const filtros = this.crearSolicitudFiltros();
     const solicitudFiltros = JSON.stringify(filtros);
     this.rolService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.totalElementos).subscribe(
