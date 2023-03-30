@@ -190,6 +190,8 @@
 
 .menu-sidebar {
   transform: translateX(-100%);
+  background-color: white;
+
   &.activo {
     transform: translateX(0);
   }

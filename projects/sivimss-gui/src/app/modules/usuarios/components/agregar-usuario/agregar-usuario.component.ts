@@ -10,8 +10,8 @@ import {DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
-import {MENSAJES_CURP, OPCIONES_CURP} from "../../constants/validacionCURP";
-import {MENSAJES_MATRICULA, OPCIONES_MATRICULA} from "../../constants/validacionMatricula";
+import {MENSAJES_CURP} from "../../constants/validacionCURP";
+import {MENSAJES_MATRICULA} from "../../constants/validacionMatricula";
 import {ActivatedRoute} from '@angular/router';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
@@ -92,7 +92,7 @@ export class AgregarUsuarioComponent implements OnInit {
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
-        if (!OPCIONES_CURP.includes(valor)) return;
+        if (!MENSAJES_CURP.has(valor)) return;
         const {mensaje, tipo, valido} = MENSAJES_CURP.get(valor);
         this.curpValida = valido;
         this.alertaService.mostrar(tipo, mensaje);
@@ -111,7 +111,7 @@ export class AgregarUsuarioComponent implements OnInit {
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
-        if (!OPCIONES_MATRICULA.includes(valor)) return;
+        if (!MENSAJES_MATRICULA.has(valor)) return;
         const {mensaje, tipo, valido} = MENSAJES_MATRICULA.get(valor);
         this.matriculaValida = valido;
         this.alertaService.mostrar(tipo, mensaje);

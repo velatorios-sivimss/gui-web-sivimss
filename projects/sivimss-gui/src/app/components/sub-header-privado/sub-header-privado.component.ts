@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 
 @Component({
   selector: 'app-sub-header-privado',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SubHeaderPrivadoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly autenticacionService:AutenticacionService) { }
 
   ngOnInit(): void {
+  }
+
+  cerrarSesion():void{
+    this.autenticacionService.cerrarSesion();
   }
 
 }

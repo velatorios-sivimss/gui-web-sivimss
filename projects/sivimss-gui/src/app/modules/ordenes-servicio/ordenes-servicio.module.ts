@@ -11,6 +11,9 @@ import { RadioButtonModule } from "primeng-lts/radiobutton";
 import { TableModule } from "primeng-lts/table";
 import { AccordionModule } from 'primeng-lts/accordion';
 import { DialogService, DynamicDialogModule } from 'primeng-lts/dynamicdialog';
+import { ModalAgregarServicioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-agregar-servicio/modal-agregar-servicio.component";
+import { ModalGenerarTarjetaIdentificacionComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-generar-tarjeta-identificacion/modal-generar-tarjeta-identificacion.component";
+import { ModalVerTarjetaIdentificacionComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-ver-tarjeta-identificacion/modal-ver-tarjeta-identificacion.component";
 import { OrdenesServicioRoutingModule } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/ordenes-servicio-routing.module';
 import { OrdenesServicioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ordenes-servicio/ordenes-servicio.component';
 import { EtapasModule } from "projects/sivimss-gui/src/app/shared/etapas/etapas.module";
@@ -22,13 +25,23 @@ import { DatosContratanteComponent } from './components/datos-contratante/datos-
 import { DatosFinadoComponent } from './components/datos-finado/datos-finado.component';
 import { CancelarOrdenServicioComponent } from './components/cancelar-orden-servicio/cancelar-orden-servicio.component';
 import { VerOrdenServicioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/ver-orden-de-servicio/ver-orden-servicio.component';
-import { GenerarTarjetaIdentificacionComponent } from './components/generar-tarjeta-identificacion/generar-tarjeta-identificacion.component';
-import { ModificarOrdenServicioComponent } from './components/modificar-orden-servicio/modificar-orden-servicio.component';
-import { VerTarjetaIdentificacionComponent } from './components/ver-tarjeta-identificacion/ver-tarjeta-identificacion.component';
-import { SeleccionarBeneficiarioComponent } from './components/seleccionar-beneficiario/seleccionar-beneficiario.component';
+import { ModificarDatosContratanteComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modificar-datos-contratante/modificar-datos-contratante.component';
+import { ModalSeleccionarBeneficiarioComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-seleccionar-beneficiario/modal-seleccionar-beneficiario.component';
 import { CaracteristicasPresupuestoComponent } from './components/caracteristicas-presupuesto/caracteristicas-presupuesto.component';
-import { AgregarServicioComponent } from './components/agregar-servicio/agregar-servicio.component';
-
+import { ModalVerKilometrajeComponent } from 'projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-ver-kilometraje/modal-ver-kilometraje.component';
+import { InformacionServicioComponent } from './components/informacion-servicio/informacion-servicio.component';
+import { ResumenOrdenComplementariaComponent } from './components/resumen-orden-complementaria/resumen-orden-complementaria.component';
+import { VerOrdenComplementariaComponent } from './components/ver-orden-complementaria/ver-orden-complementaria.component';
+import { ModalAgregarAlPresupuestoComponent } from './components/modal-agregar-al-presupuesto/modal-agregar-al-presupuesto.component';
+import { ModalAgregarAlPaqueteComponent } from './components/modal-agregar-al-paquete/modal-agregar-al-paquete.component';
+import { ModalAgregarAtaudComponent } from './components/modal-agregar-ataud/modal-agregar-ataud.component';
+import { ModalEliminarArticuloComponent } from './components/modal-eliminar-articulo/modal-eliminar-articulo.component';
+import { ModalNoUtilizarArticuloComponent } from './components/modal-no-utilizar-articulo/modal-no-utilizar-articulo.component';
+import { ModalNoUtilizarServicioComponent } from './components/modal-no-utilizar-servicio/modal-no-utilizar-servicio.component';
+import { ModalDonarArticuloComponent } from './components/modal-donar-articulo/modal-donar-articulo.component';
+import { ModalAgregarPanteonComponent } from './components/modal-agregar-panteon/modal-agregar-panteon.component';
+import { ModificarDatosFinadoComponent } from './components/modificar-datos-finado/modificar-datos-finado.component';
+import { ModificarInformacionServicioComponent } from './components/modificar-informacion-servicio/modificar-informacion-servicio.component';
 
 @NgModule({
   declarations: [
@@ -38,12 +51,26 @@ import { AgregarServicioComponent } from './components/agregar-servicio/agregar-
     DatosFinadoComponent,
     CancelarOrdenServicioComponent,
     VerOrdenServicioComponent,
-    GenerarTarjetaIdentificacionComponent,
-    ModificarOrdenServicioComponent,
-    VerTarjetaIdentificacionComponent,
-    SeleccionarBeneficiarioComponent,
+    ModalGenerarTarjetaIdentificacionComponent,
+    ModificarDatosContratanteComponent,
+    ModalVerTarjetaIdentificacionComponent,
+    ModalSeleccionarBeneficiarioComponent,
     CaracteristicasPresupuestoComponent,
-    AgregarServicioComponent
+    ModalVerKilometrajeComponent,
+    ModalAgregarServicioComponent,
+    InformacionServicioComponent,
+    ResumenOrdenComplementariaComponent,
+    VerOrdenComplementariaComponent,
+    ModalAgregarAlPresupuestoComponent,
+    ModalAgregarAlPaqueteComponent,
+    ModalAgregarAtaudComponent,
+    ModalEliminarArticuloComponent,
+    ModalNoUtilizarArticuloComponent,
+    ModalNoUtilizarServicioComponent,
+    ModalDonarArticuloComponent,
+    ModalAgregarPanteonComponent,
+    ModificarDatosFinadoComponent,
+    ModificarInformacionServicioComponent
   ],
   imports: [
     CommonModule,

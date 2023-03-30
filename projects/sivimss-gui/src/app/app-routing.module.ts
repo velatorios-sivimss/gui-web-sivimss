@@ -11,16 +11,22 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'usuarios',
+    loadChildren: () => import('./modules/inicio/inicio.module').then((m) => m.InicioModule),
+    // canActivate: [PermiteUsuarioLogueadoGuard],
+    // canActivateChild: [PermiteUsuarioLogueadoGuard],
     pathMatch: 'full'
   },
   {
     path: 'inicio',
     loadChildren: () => import('./modules/inicio/inicio.module').then((m) => m.InicioModule),
+    // canActivate: [PermiteUsuarioLogueadoGuard],
+    // canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'inicio-sesion',
     loadChildren: () => import('./modules/autenticacion/autenticacion.module').then((m) => m.AutenticacionModule),
+    // canActivate: [BloqueaUsuarioLogueadoGuard],
+    // canActivateChild: [BloqueaUsuarioLogueadoGuard]
   },
   {
     path: 'roles',
@@ -105,6 +111,10 @@ const routes: Routes = [
   {
     path: 'contratantes',
     loadChildren: () => import('./modules/contratantes/contratantes.module').then(m => m.ContratantesModule)
+  },
+  {
+    path: 'servicios-funerarios',
+    loadChildren: () => import('./modules/servicios-funerarios/servicios-funerarios.module').then(m => m.ServiciosFunerariosModule)
   },
   {
     path: '**',
