@@ -87,7 +87,7 @@ export class AgregarRolPermisosComponent implements OnInit {
        this.permisos = funcionalidad.imprimir==true? this.permisos+="6":  this.permisos;
       this.rolPermisos = {
           idRol: this.agregarRolForm.get("rol")?.value,
-          idFuncionalidad:  funcionalidad.id,
+          idFuncionalidad:  1,
           permiso: this.permisos
         }
         this.rolPermisosService.guardar(this.rolPermisos).subscribe(
@@ -116,7 +116,7 @@ export class AgregarRolPermisosComponent implements OnInit {
 
   abrirModalModificarFuncionalidad(): void {
     this.formFuncionalidad = this.formBuilder.group({
-      id: [{value: this.funcionalidadSeleccionada.id, disabled: false}, [Validators.required]],
+      id: [{value: this.funcionalidadSeleccionada.id, disabled: false}],
       alta: [{value: this.funcionalidadSeleccionada.alta, disabled: false}],
       baja: [{value: this.funcionalidadSeleccionada.baja, disabled: false}],
       aprobacion: [{value: this.funcionalidadSeleccionada.aprobacion, disabled: false}],
@@ -130,7 +130,7 @@ export class AgregarRolPermisosComponent implements OnInit {
   crearFormGroupFuncionalidad(): void {
     debugger
     this.formFuncionalidad = this.formBuilder.group({
-      id: [{value: null, disabled: false}, [Validators.required]],
+      id: [{value: null, disabled: false}],
       nombre: [{value: null, disabled: false}],
       alta: [{value: false, disabled: false}],
       baja: [{value: false, disabled: false}],
@@ -143,6 +143,12 @@ export class AgregarRolPermisosComponent implements OnInit {
 
   agregarFuncionalidad(): void {
     debugger
+    if (this.funcionalidades.indexOf(this.formFuncionalidad.value.id) === -1) {
+      console.log('La nueva colección de vegetales es: ' + this.funcionalidades);
+    } else if (this.funcionalidades.indexOf(this.formFuncionalidad.value.id) > -1) {
+     // console.log(this.formFuncionalidad.value.id + ' Lya existe en la colección de verduras.');
+      this.alertaService.mostrar(TipoAlerta.Error, 'La funcionalidad ya fue agregada');
+    }
     this.formArrayFuncionalidades.push(this.formFuncionalidad);
     //this.alertaService.mostrar(TipoAlerta.Exito, 'Exito');
     this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();

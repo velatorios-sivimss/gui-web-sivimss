@@ -16,6 +16,7 @@ import { RolPermisosService } from '../../services/rol-permisos.service';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import { FiltrosRol } from '../../models/filtrosRol.interface';
 import {VerDetalleRolPermisosComponent} from "../ver-detalle-rol-permisos/ver-detalle-rol-permisos.component";
+import {ModificarRolPermisosComponent} from "../modificar-rol-permisos/modificar-rol-permisos.component";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
 
 type SolicitudEstatus = Pick<Rol, "idRol">; 
@@ -43,7 +44,8 @@ export class RolesPermisosComponent implements OnInit {
   roles: Rol[] = [];
   rolSeleccionado!: Rol;
   mostrarModalDetalleRol: boolean = false;
-  creacionRef!: DynamicDialogRef
+  detalleRef!: DynamicDialogRef;
+  modificacionRef!: DynamicDialogRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -166,8 +168,18 @@ export class RolesPermisosComponent implements OnInit {
       width: MAX_WIDTH,
       data: rol
     }
-    this.creacionRef = this.dialogService.open(VerDetalleRolPermisosComponent, DETALLE_CONFIG);
-    this.creacionRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
+    this.detalleRef = this.dialogService.open(VerDetalleRolPermisosComponent, DETALLE_CONFIG);
+    this.detalleRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
+  }
+
+  abrirModalModificarRolPermisos(): void {
+    const MODIFICAR_CONFIG: DynamicDialogConfig = {
+      header: "Modificar rol permisos",
+      width: MAX_WIDTH,
+      data: this.rolSeleccionado
+    }
+    this.modificacionRef = this.dialogService.open(ModificarRolPermisosComponent, MODIFICAR_CONFIG);
+    this.modificacionRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
   }
 
   procesarRespuestaModal(respuesta: RespuestaModalRol = {}): void {
@@ -179,6 +191,14 @@ export class RolesPermisosComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(): void {
+    if (this.detalleRef) {
+      this.detalleRef.destroy();
+    }
+    if (this.modificacionRef) {
+      this.modificacionRef.destroy();
+    }
+  }
 
 
 }
