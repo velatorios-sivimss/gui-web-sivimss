@@ -52,7 +52,6 @@ export class ModificarVelatorioComponent implements OnInit {
   }
 
   inicializarFormVelatorio(velatorio: Velatorio): void {
-    console.log(velatorio)
     this.velatorioForm = this.formBuilder.group({
       idVelatorio: [{value: velatorio.idVelatorio, disabled: true}],
       nomVelatorio: [{value: velatorio.nomVelatorio, disabled: false}, [Validators.required]],
