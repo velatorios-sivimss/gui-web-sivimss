@@ -2,13 +2,37 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { Usuario } from '../../modules/usuarios/models/usuario.interface';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
+import { map, tap } from "rxjs/operators";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
+export const SIVIMSS_TOKEN = "sivimss_token";
+export const SIVIMSS_USUARIO = "sivimss_usuario";
 
+interface RespuestaHttp<T> {
+  error: boolean;
+  codigo: number;
+  mensaje: string;
+  datos: T;
+}
 
-export const TRANSPORTES_TOKEN = "transportes_token";
-export const TRANSPORTES_USUARIO = "transportes_usuario";
+interface RespuestaUsuarioActivo {
+  contrasenaProximaVencer: boolean;
+  token: string;
+}
+
+interface Usuario {
+  idVelatorio: string;
+  idRol: string;
+  desRol: string;
+  idDelegacion: string;
+  idOficina: string;
+  idUsuario: string;
+  cveUsuario: string;
+  cveMatricula: string;
+  nombre: string;
+  curp: string;
+}
 
 @Injectable()
 export class AutenticacionService {
@@ -17,54 +41,51 @@ export class AutenticacionService {
   usuario$: Observable<Usuario | null> = this.usuarioSubject.asObservable();
   estaLogueado$!: Observable<boolean>;
   noEstaLogueado$!: Observable<boolean>;
-  subsSesionInactivaTemporizador!: Subscription;
+
+  //subsSesionInactivaTemporizador!: Subscription;
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private controladorInactividadUsuarioService: BnNgIdleService,
+    // private controladorInactividadUsuarioService: BnNgIdleService,
     // @Inject(TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION) private tiempoMaximoInactividad: number
   ) {
-
-    // this.estaLogueado$ = this.usuario$.pipe(map(usuario => !!usuario));
-    // this.noEstaLogueado$ = this.estaLogueado$.pipe(map(estaLogueado => !estaLogueado));
-    // const usuario = localStorage.getItem(TRANSPORTES_USUARIO);
-    // if (usuario) {
-    //   this.usuarioSubject.next(JSON.parse(usuario));
-     // this.iniciarTemporizadorSesion();
-    // }
+    this.estaLogueado$ = this.usuario$.pipe(map(usuario => !!usuario));
+    this.noEstaLogueado$ = this.estaLogueado$.pipe(map(estaLogueado => !estaLogueado));
+    const usuario = localStorage.getItem(SIVIMSS_USUARIO);
+    if (usuario) {
+      this.usuarioSubject.next(JSON.parse(usuario));
+      //this.iniciarTemporizadorSesion();
+    }
   }
 
   estaUsuarioLogueado() {
     return !!this.usuarioSubject.getValue();
   }
 
-  // iniciarSesion(usuario: string, password: string): Observable<any> {
-  //   return this.http.post<any>(`${environment.api.mssintetransOauth}/login`, { usuario, password })
-  //     .pipe(
-  //       tap(respuesta => {
-  //         if (respuesta.data) {
-  //           let usuario: Usuario = {
-  //             matricula: respuesta.data.datosUsuario.matricula,
-  //             nombreUsuario: respuesta.data.datosUsuario.nombreUsuario,
-  //             ooad: respuesta.data.datosUsuario.ooad,
-  //             rol: respuesta.data.datosUsuario.rol,
-  //             menu: respuesta.data.menu
-  //           };
-  //           this.usuarioSubject.next(usuario);
-  //           localStorage.setItem(TRANSPORTES_USUARIO, JSON.stringify(usuario));
-  //           localStorage.setItem(TRANSPORTES_TOKEN, respuesta.data.token);
-  //           this.iniciarTemporizadorSesion();
-  //         }
-  //       }),
-  //     );
-  // }
-
-  // validarMatricula(matricula: string): Observable<any> {
-  //   return this.http.post<any>(`${environment.api.mssintetransOauth}/`, {
-  //     usuario: matricula
-  //   });
-  // }
+  iniciarSesion(usuario: string, contrasena: string): Observable<any> {
+    //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
+    return of<RespuestaHttp<RespuestaUsuarioActivo>>({
+      error: false,
+      codigo: 200,
+      mensaje: "Exito",
+      datos: {
+        "contrasenaProximaVencer": false,
+        "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
+      }
+    }).pipe(
+      tap((respuesta: RespuestaHttp<RespuestaUsuarioActivo>) => {
+        if (respuesta.datos) {
+          const jwtHelperService: JwtHelperService = new JwtHelperService();
+          const usuario: Usuario | null = jwtHelperService.decodeToken<Usuario>(respuesta.datos.token);
+          this.usuarioSubject.next(usuario);
+          localStorage.setItem(SIVIMSS_USUARIO, JSON.stringify(usuario));
+          localStorage.setItem(SIVIMSS_TOKEN, respuesta.datos.token);
+          //this.iniciarTemporizadorSesion();
+        }
+      }),
+    );
+  }
 
   // actualizarContrasena(idUsuario: string, nuevaContrasena: string, confirmacionContrasena: string): Observable<any> {
   //   return this.http.put<any>(`${environment.api.mssintetransOauth}/`, {
@@ -76,10 +97,10 @@ export class AutenticacionService {
 
   cerrarSesion() {
     this.usuarioSubject.next(null);
-    localStorage.removeItem(TRANSPORTES_USUARIO);
-    localStorage.removeItem(TRANSPORTES_TOKEN);
+    localStorage.removeItem(SIVIMSS_USUARIO);
+    localStorage.removeItem(SIVIMSS_TOKEN);
     this.router.navigateByUrl('/inicio-sesion');
-    this.detenerTemporizadorSesion();
+    //this.detenerTemporizadorSesion();
   }
 
   // iniciarTemporizadorSesion() {
@@ -92,11 +113,11 @@ export class AutenticacionService {
   //     });
   // }
 
-  detenerTemporizadorSesion() {
-    this.controladorInactividadUsuarioService.stopTimer();
-    if (this.subsSesionInactivaTemporizador) {
-      this.subsSesionInactivaTemporizador.unsubscribe();
-    }
-  }
+  // detenerTemporizadorSesion() {
+  //   this.controladorInactividadUsuarioService.stopTimer();
+  //   if (this.subsSesionInactivaTemporizador) {
+  //     this.subsSesionInactivaTemporizador.unsubscribe();
+  //   }
+  // }
 
 }
