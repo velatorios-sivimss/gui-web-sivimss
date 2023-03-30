@@ -28,7 +28,7 @@ interface Payload {
   sub: string;
 }
 
-interface Usuario {
+export interface Usuario {
   idVelatorio: string;
   idRol: string;
   desRol: string;
