@@ -18,6 +18,7 @@ import { OverlayPanelOpcionesModule } from "../../shared/overlay-panel-opciones/
 import { TablePanelModule } from "../../shared/table-panel/table-panel.module";
 import { PermisosPipe } from './pipes/permisos.pipe';
 import { VerDetalleRolComponent } from './components/ver-detalle-rol/ver-detalle-rol.component';
+import { ModificarRolComponent } from './components/modificar-rol/modificar-rol.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { VerDetalleRolComponent } from './components/ver-detalle-rol/ver-detalle
     RolesComponent,
     AgregarRolComponent,
     PermisosPipe,
-    VerDetalleRolComponent
+    VerDetalleRolComponent,
+    ModificarRolComponent
   ],
   imports: [
     CommonModule,

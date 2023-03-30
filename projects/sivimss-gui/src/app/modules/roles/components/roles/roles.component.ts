@@ -16,6 +16,7 @@ import { RolService } from '../../services/rol.service';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import { FiltrosRol } from '../../models/filtrosRol.interface';
 import {VerDetalleRolComponent} from "../ver-detalle-rol/ver-detalle-rol.component";
+import {ModificarRolComponent} from "../modificar-rol/modificar-rol.component";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
 
 type SolicitudEstatus = Pick<Rol, "idRol">; 
@@ -43,7 +44,8 @@ export class RolesComponent implements OnInit {
   roles: Rol[] = [];
   rolSeleccionado!: Rol;
   mostrarModalDetalleRol: boolean = false;
-  creacionRef!: DynamicDialogRef
+  detalleRef!: DynamicDialogRef;
+  modificacionRef!: DynamicDialogRef;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,7 +58,6 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     const roles = this.route.snapshot.data["respuesta"].datos;
     this.catRol = roles.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
@@ -72,7 +73,6 @@ export class RolesComponent implements OnInit {
   }
 
   paginar(): void {
-    debugger
     this.rolService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.roles = respuesta!.datos.content;
@@ -87,6 +87,7 @@ export class RolesComponent implements OnInit {
   }
 
   paginarConFiltros(): void {
+    debugger
     const filtros = this.crearSolicitudFiltros();
     const solicitudFiltros = JSON.stringify(filtros);
     this.rolService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.totalElementos).subscribe(
@@ -123,9 +124,12 @@ export class RolesComponent implements OnInit {
     this.paginar();
   }
 
-  cambiarEstatus(idRol: number): void {
-    const id: SolicitudEstatus = {idRol}
-    const solicitudId = JSON.stringify(id);
+  cambiarEstatus(rol: Rol): void {
+    const rolEstatus = {
+      "idRol": rol.idRol,
+      "estatusRol": rol.estatus ? 1 : 0 
+    }
+    const solicitudId = JSON.stringify(rolEstatus);
     this.rolService.cambiarEstatus(solicitudId).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
@@ -166,8 +170,18 @@ export class RolesComponent implements OnInit {
       width: MAX_WIDTH,
       data: rol
     }
-    this.creacionRef = this.dialogService.open(VerDetalleRolComponent, DETALLE_CONFIG);
-    this.creacionRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
+    this.detalleRef = this.dialogService.open(VerDetalleRolComponent, DETALLE_CONFIG);
+    this.detalleRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
+  }
+
+  abrirModalModificarRol(): void {
+    const MODIFICAR_CONFIG: DynamicDialogConfig = {
+      header: "Modificar rol",
+      width: MAX_WIDTH,
+      data: this.rolSeleccionado
+    }
+    this.modificacionRef = this.dialogService.open(ModificarRolComponent, MODIFICAR_CONFIG);
+    this.modificacionRef.onClose.subscribe((respuesta: RespuestaModalRol) => this.procesarRespuestaModal(respuesta));
   }
 
   procesarRespuestaModal(respuesta: RespuestaModalRol = {}): void {
@@ -179,6 +193,13 @@ export class RolesComponent implements OnInit {
     }
   }
 
-
+  ngOnDestroy(): void {
+    if (this.detalleRef) {
+      this.detalleRef.destroy();
+    }
+    if (this.modificacionRef) {
+      this.modificacionRef.destroy();
+    }
+  }
 
 }

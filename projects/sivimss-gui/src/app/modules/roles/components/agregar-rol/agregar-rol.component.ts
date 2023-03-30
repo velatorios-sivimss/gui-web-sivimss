@@ -55,7 +55,7 @@ export class AgregarRolComponent implements OnInit {
 
   inicializarAgregarRolForm(): void {
     this.agregarRolForm = this.formBuilder.group({
-      nombre: [{value: null, disabled: false}, [Validators.required]],
+      nombre: [{value: null, disabled: false}, [Validators.required, Validators.maxLength(100)]],
       nivel: [{value: null, disabled: false}, [Validators.required]]
     });
   }
@@ -70,10 +70,9 @@ export class AgregarRolComponent implements OnInit {
 
   agregarRol(): void {
     debugger
-   // const respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
     const rolBo: NuevoRol = this.crearNuevoRol();
-    const solicitudRol: string = JSON.stringify(rolBo);
-    this.rolService.guardar(solicitudRol).subscribe(
+   // const solicitudRol: string = JSON.stringify(rolBo);
+    this.rolService.guardar(rolBo).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Alta satisfactoria');
       },

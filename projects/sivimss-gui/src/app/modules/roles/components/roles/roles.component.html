@@ -40,12 +40,12 @@
             <tr>
                 <td>{{rol.idRol}}</td>
                 <td>{{rol.desRol}}</td>
-                <td>{{rol.nivel}}</td>
+                <td>{{rol.desNivelOficina}}</td>
                 <td>{{rol.fCreacion}}</td>
                 <td>
                     <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
                         <div class="contenedor-inputswitch">
-                            <p-inputSwitch [(ngModel)]="rol.estatus" (ngModelChange)="cambiarEstatus(rol.idRol);"></p-inputSwitch>
+                            <p-inputSwitch [(ngModel)]="rol.estatus" (ngModelChange)="cambiarEstatus(rol);"></p-inputSwitch>
                             <span class="activo" *ngIf="rol.estatus">Activo</span>
                             <span class="inactivo" *ngIf="!rol.estatus">Inactivo</span>
                         </div>
@@ -83,7 +83,7 @@
 <p-overlayPanel #overlayPanel>
     <ng-template pTemplate="content">
         <app-overlay-panel-opciones>
-            <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
+            <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificarRol()"></app-overlay-panel-opcion>
         </app-overlay-panel-opciones>
     </ng-template>
 </p-overlayPanel>

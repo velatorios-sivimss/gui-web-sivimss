@@ -1,5 +1,5 @@
 <!-- VER DETALLE ROL-->
-<app-table-panel>
+<app-table-panel  *ngIf="rolSeleccionado">
     <ng-template appCustomTemplate="left-header">
         <div class="table-panel-header-column">
             <span class="font-bold">ID {{rolSeleccionado.idRol}}</span>
@@ -10,7 +10,7 @@
             <div class="flex flex-column">
                 <span>Estatus</span>
                 <div class="contenedor-inputswitch">
-                    <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus" (ngModelChange)="cambiarEstatus(rolSeleccionado.idRol);"></p-inputSwitch>
+                    <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus" (ngModelChange)="cambiarEstatus(rolSeleccionado);"></p-inputSwitch>
                     <span class="activo" *ngIf="rolSeleccionado.estatus">Activo</span>
                     <span class="inactivo" *ngIf="!rolSeleccionado.estatus">Inactivo</span>
                 </div>
@@ -38,52 +38,16 @@
         <div class="col-md-4">
             <div class="table-panel-column">
                 <label>Nivel</label>
-                <span>{{rolSeleccionado.nivel}}</span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="table-panel-column">
-                <label>Delegacion</label>
-                <span>{{rolSeleccionado.delegacion}}</span>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="table-panel-column">
-                <label>Velatorio</label>
-                <span>{{rolSeleccionado.velatorio}}</span>
-            </div>
-        </div>
-    </div>
-    <div class="row table-panel-row">
-        <div class="col-md-12">
-            <div class="table-panel-column">
-                <label>Descripción del artículo</label>
-                <table class="table-panel-inner-table mt-3">
-                    <thead>
-                        <tr>
-                            <th>ID funcionalidad</th>
-                            <th>Nombre</th>
-                            <th>Permisos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let funcionalidad of rolSeleccionado.funcionalidades">
-                            <td>{{funcionalidad.id}}</td>
-                            <td>{{funcionalidad.nombre}}</td>
-                            <td>{{funcionalidad | cadenaPermisos}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <span>{{rolSeleccionado.desNivelOficina}}</span>
             </div>
         </div>
     </div>
 </app-table-panel>
 <p-overlayPanel #overlayPanel>
-    <ng-template pTemplate="footer">
-        <div class="flex justify-content-end">
-            <button class="ml-4 btn btn-primary btn-md" (click)="aceptar()">
-            Aceptar
-            </button>
-        </div>
+    <ng-template pTemplate="content">
+      <app-overlay-panel-opciones>
+        <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificarRol()"></app-overlay-panel-opcion>
+      </app-overlay-panel-opciones>
     </ng-template>
-</p-overlayPanel>
+  </p-overlayPanel>
+  
