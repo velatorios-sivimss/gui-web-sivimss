@@ -165,6 +165,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule)
   },
   {
+    path: 'reservar-capilla',
+    loadChildren: () => import('./modules/capilla-reservacion/capilla-reservacion.module').then(m => m.CapillaReservacionModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

@@ -64,6 +64,12 @@ export class MenuSidebarComponent implements OnInit {
           ruta: 'consulta-donaciones',
           activo: false
         },
+        {
+          icono: '',
+          texto: 'Reservar capilla',
+          ruta: 'reservar-capilla',
+          activo: false
+        },
       ]
     },
     {
