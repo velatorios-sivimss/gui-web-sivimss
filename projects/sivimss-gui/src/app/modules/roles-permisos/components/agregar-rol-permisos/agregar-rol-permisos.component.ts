@@ -100,7 +100,7 @@ export class AgregarRolPermisosComponent implements OnInit {
           }
         );
       })
-    }
+  }
 
   abrirPanel(event: MouseEvent, funcionalidadSeleccionada: Funcionalidad): void {
     this.funcionalidadSeleccionada = funcionalidadSeleccionada;
