@@ -43,6 +43,7 @@ export class AgregarRolPermisosComponent implements OnInit {
   permisos : any;
 
   funcionalidades: Funcionalidad[] = [];
+  arregloFuncionalidades: Funcionalidad[] = [];
   funcionalidadSeleccionada!: Funcionalidad;
 
   contadorFuncionalidades = 1;
@@ -76,7 +77,6 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   agregarRolPermisos(): void {
-    debugger
      this.funcionalidades.forEach(funcionalidad => {
       this.permisos="";
        this.permisos = funcionalidad.alta==true? this.permisos="1,":  this.permisos;
@@ -87,10 +87,11 @@ export class AgregarRolPermisosComponent implements OnInit {
        this.permisos = funcionalidad.imprimir==true? this.permisos+="6":  this.permisos;
       this.rolPermisos = {
           idRol: this.agregarRolForm.get("rol")?.value,
-          idFuncionalidad:  1,
-          permiso: this.permisos
+          idFuncionalidad:  funcionalidad.id,
+          permisos: this.permisos
         }
-        this.rolPermisosService.guardar(this.rolPermisos).subscribe(
+       const solicitudRolPermisos = JSON.stringify(this.rolPermisos);
+        this.rolPermisosService.guardar( solicitudRolPermisos).subscribe(
           () => {
             this.alertaService.mostrar(TipoAlerta.Exito, 'Alta satisfactoria');
             this.router.navigate(["../"], { relativeTo: this.route });
@@ -109,7 +110,6 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   abrirModalAgregarFuncionalidad(): void {
-    debugger
     this.crearFormGroupFuncionalidad();
     this.mostrarModalAgregarFunc = true;
   }
@@ -128,9 +128,8 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   crearFormGroupFuncionalidad(): void {
-    debugger
     this.formFuncionalidad = this.formBuilder.group({
-      id: [{value: null, disabled: false}],
+      id: [{value: null, disabled: false}, [Validators.required]],
       nombre: [{value: null, disabled: false}],
       alta: [{value: false, disabled: false}],
       baja: [{value: false, disabled: false}],
@@ -141,27 +140,27 @@ export class AgregarRolPermisosComponent implements OnInit {
     });
   }
 
-  agregarFuncionalidad(): void {
-    debugger
-    if (this.funcionalidades.indexOf(this.formFuncionalidad.value.id) === -1) {
-      console.log('La nueva colección de vegetales es: ' + this.funcionalidades);
-    } else if (this.funcionalidades.indexOf(this.formFuncionalidad.value.id) > -1) {
-     // console.log(this.formFuncionalidad.value.id + ' Lya existe en la colección de verduras.');
-      this.alertaService.mostrar(TipoAlerta.Error, 'La funcionalidad ya fue agregada');
+   agregarFuncionalidad(): void {    
+    const hasValue = this.funcionalidades.some(funcionalidad => funcionalidad.id === this.formFuncionalidad.getRawValue().id);
+    if(hasValue){
+      this.alertaService.mostrar(TipoAlerta.Error, 'Funcionalidad agregada');
+      return 
     }
     this.formArrayFuncionalidades.push(this.formFuncionalidad);
-    //this.alertaService.mostrar(TipoAlerta.Exito, 'Exito');
     this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();
     this.mostrarModalAgregarFunc = false;
-    //  this.contadorFuncionalidades++;
   }
 
   modificarFuncionalidad(): void {
-    debugger
     let indiceFuncionalidad: number = this.buscarIndiceFuncionalidadEnFormArray();
     this.reemplazarFuncionalidadEnFormArray(indiceFuncionalidad, this.formFuncionalidad);
     this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();
     this.mostrarModalModificarFunc = false;
+  }
+
+  eliminarFuncionalidad(): void {
+    this.funcionalidades= this.funcionalidades.filter(
+    (listaFun:any) => listaFun.id !== this.funcionalidadSeleccionada.id);
   }
 
   reemplazarFuncionalidadEnFormArray(indice: number, formGroup: FormGroup) {
@@ -169,7 +168,6 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   buscarIndiceFuncionalidadEnFormArray(): number {
-    debugger
     return this.formArrayFuncionalidades.controls.findIndex((control: AbstractControl) => control.value.id === this.formFuncionalidad.value.id);
   }
 

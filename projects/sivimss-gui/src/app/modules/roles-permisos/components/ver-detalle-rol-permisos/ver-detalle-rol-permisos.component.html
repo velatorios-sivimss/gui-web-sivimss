@@ -5,21 +5,6 @@
             <span class="font-bold">ID {{rolSeleccionado.idRol}}</span>
         </div>
     </ng-template>
-    <ng-template appCustomTemplate="right-header">
-        <div class="table-panel-header-column">
-            <div class="flex flex-column">
-                <span>Estatus</span>
-                <div class="contenedor-inputswitch">
-                    <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus"></p-inputSwitch>
-                    <span class="activo" *ngIf="rolSeleccionado.estatus">Activo</span>
-                    <span class="inactivo" *ngIf="!rolSeleccionado.estatus">Inactivo</span>
-                </div>
-            </div>
-            <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
-                <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
-            </a>
-        </div>
-    </ng-template>
     <div class="row table-panel-row">
         <div class="col-md-9">
             <div class="table-panel-column">
@@ -65,12 +50,3 @@
         </div>
     </div>
 </app-table-panel>
-<p-overlayPanel #overlayPanel>
-    <ng-template pTemplate="footer">
-        <div class="flex justify-content-end">
-            <button class="ml-4 btn btn-primary btn-md" (click)="aceptar()">
-            Aceptar
-            </button>
-        </div>
-    </ng-template>
-</p-overlayPanel>

@@ -59,6 +59,7 @@ export class ModificarRolPermisosComponent implements OnInit {
   }
 
   inicializarModificarRolPermisoForm(rolPermisos: Rol): void {
+    debugger
     this.modificarRolPermisoForm = this.formBuilder.group({
       idRol: [{value: rolPermisos.idRol, disabled: true}, [Validators.required]],
       id: [{value: rolPermisos.idFuncionalidad, disabled: true}, [Validators.required]],
@@ -85,7 +86,7 @@ export class ModificarRolPermisosComponent implements OnInit {
     };
   }
 
-  modificarUsuario(): void {
+  modificarRolPermisos(): void {
     const respuesta: RespuestaModalRol = {mensaje: "Actualización satisfactoria", actualizar: true}
     this.permisos="";
     this.permisos = this.rolPermisosModificado.alta==true? this.permisos="1,":  this.permisos;
@@ -97,9 +98,10 @@ export class ModificarRolPermisosComponent implements OnInit {
    this.rolPermisos = {
        idRol: this.modificarRolPermisoForm.get("idRol")?.value,
        idFuncionalidad: this.modificarRolPermisoForm.get("id")?.value,
-       permiso: this.permisos
+       permisos: this.permisos
      }
-    this.rolPermisoService.actualizar(this.rolPermisos).subscribe(
+     const solicitudRolPermisos = JSON.stringify(this.rolPermisos);
+    this.rolPermisoService.actualizar(solicitudRolPermisos).subscribe(
       () => {
         this.ref.close(respuesta);
       },
@@ -129,7 +131,7 @@ export class ModificarRolPermisosComponent implements OnInit {
     if (this.indice === 0) {
       this.indice++;
       this.rolPermisosModificado = this.crearRolPermisosModificado();
-      this.modificarUsuario();
+      this.modificarRolPermisos();
       return;
     }
   }

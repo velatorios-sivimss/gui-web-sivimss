@@ -1,5 +1,5 @@
 <ng-container *ngIf="indice === 0">
-    <form [formGroup]="modificarRolPermisoForm" (submit)="modificarUsuario()">
+    <form [formGroup]="modificarRolPermisoForm" (submit)="modificarRolPermisos()">
         <div class="row mb-3">
             <div class="col-md-12">
                 <label class="control-label" for="idMod">Rol<span class="req">*</span>:</label>
@@ -11,7 +11,7 @@
         <div class="row mb-3">
             <div class="col-md-12">
                 <label class="control-label" for="idMod">Funcionalidad<span class="req">*</span>:</label>
-                <p-dropdown id="idMod" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad">
+                <p-dropdown id="id" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad">
                 </p-dropdown>
                 <span class="campo-obligatorio" *ngIf="fmu.id?.errors?.required && (fmu.id?.dirty || fmu.id?.touched)">Campo obligatorio</span>
             </div>
