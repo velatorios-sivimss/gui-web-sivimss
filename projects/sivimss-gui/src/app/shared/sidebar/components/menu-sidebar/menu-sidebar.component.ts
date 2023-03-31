@@ -58,6 +58,12 @@ export class MenuSidebarComponent implements OnInit {
             },
           ]
         },
+        {
+          icono: '',
+          texto: 'Consultar donaciones',
+          ruta: 'consulta-donaciones',
+          activo: false
+        },
       ]
     },
     {

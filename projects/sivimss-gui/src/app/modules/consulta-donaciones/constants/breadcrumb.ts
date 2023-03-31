@@ -7,17 +7,6 @@ export const SERVICIO_BREADCRUMB: ElementoBreadcrumb[] = [
   },
   {
     icono: '',
-    titulo: 'Órdenes'
-  },
-  {
-    icono: '',
-    titulo: 'Orden de entrada'
-  }
-]
-
-export const SERVICIO_BREADCRUMB_CLEAR: ElementoBreadcrumb[] = [
-  {
-    icono: '',
-    titulo: ''
+    titulo: 'Control de existencias de donados'
   },
 ]

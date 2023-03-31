@@ -161,6 +161,10 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'consulta-donaciones',
+    loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
