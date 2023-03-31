@@ -7,20 +7,20 @@ import { AutenticacionService } from "./autenticacion.service";
 @Injectable()
 export class BloqueaUsuarioLogueadoGuard implements CanActivate, CanActivateChild {
 
-    constructor(private aut: AutenticacionService, private router: Router) {
+  constructor(private aut: AutenticacionService, private router: Router) {
 
-    }
+  }
 
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-        return this.validarSiEstaAutenticado();
-    }
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    return this.validarSiEstaAutenticado();
+  }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-        return this.validarSiEstaAutenticado();
-    }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    return this.validarSiEstaAutenticado();
+  }
 
-    private validarSiEstaAutenticado() {
-        return this.aut.estaLogueado$.pipe(map(estaLogueado => estaLogueado ? false : true));
-    }
+  private validarSiEstaAutenticado(): Observable<boolean | UrlTree> {
+    return this.aut.estaLogueado$.pipe(map(estaLogueado => estaLogueado ? this.router.parseUrl('/') : true));
+  }
 
 }
