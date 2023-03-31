@@ -5,7 +5,7 @@ import { Funcionalidad } from "projects/sivimss-gui/src/app/modules/roles/models
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { RespuestaModalUsuario } from '../../../usuarios/models/respuestaModal.interface';
 import {HttpErrorResponse} from "@angular/common/http";
 import {CATALOGOS} from '../../../usuarios/constants/catalogos_dummies';
@@ -40,6 +40,7 @@ export class AgregarRolComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private rolService: RolService,
@@ -75,6 +76,7 @@ export class AgregarRolComponent implements OnInit {
     this.rolService.guardar(rolBo).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Alta satisfactoria');
+        this.router.navigate(["../"], { relativeTo: this.route });
       },
       (error: HttpErrorResponse) => {
         this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');

@@ -43,7 +43,7 @@ export class ModificarRolComponent implements OnInit {
     this.modificarRolForm = this.formBuilder.group({
       id: [{value: rol.idRol, disabled: true}, [Validators.required]],
       nombre: [{value: rol.desRol, disabled: false}, [Validators.required, Validators.maxLength(100)]],
-      nivel: [{value: rol.desNivelOficina, disabled: false}, [Validators.required]],
+      nivel: [{value: rol.nivelOficina, disabled: false}, [Validators.required]],
       estatus : [{value: rol.estatus, disabled: false}],
     });
   }
