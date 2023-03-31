@@ -18,7 +18,7 @@ import {RegistrarSalidaComponent} from "../registrar-salida/registrar-salida.com
 })
 export class CapillaReservacionComponent implements OnInit {
 
-  calendarOptions: any;
+  // calendarOptions: any;
 
   registrarEntradaForm!: FormGroup;
   registrarSalidaForm!: FormGroup;

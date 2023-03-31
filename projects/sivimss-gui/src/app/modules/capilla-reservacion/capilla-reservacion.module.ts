@@ -5,7 +5,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DialogModule} from "primeng-lts/dialog";
 import {DropdownModule} from "primeng-lts/dropdown";
 import {DynamicDialogModule} from "primeng-lts/dynamicdialog";
-import {FullCalendarModule} from "primeng-lts/fullcalendar";
+// import {FullCalendarModule} from "primeng-lts/fullcalendar";
 import {OverlayPanelModule} from "primeng-lts/overlaypanel";
 import {SelectButtonModule} from "primeng-lts/selectbutton";
 
@@ -36,7 +36,7 @@ import { RegistrarSalidaComponent } from './components/registrar-salida/registra
     TablePanelModule,
     SelectButtonModule,
     CalendarModule,
-    FullCalendarModule
+    // FullCalendarModule
   ],
   providers:[
     CapillaReservacionService
