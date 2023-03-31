@@ -4,7 +4,7 @@
         <div class="row mb-3">
             <div class="col-md-6">
                 <label class="control-label" for="rol">Rol:</label>
-                <p-dropdown id="rol" class="form-control" formControlName="estatus" [options]="catRol" placeholder="Seleccionar el rol">
+                <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catRol" placeholder="Seleccionar el rol">
                 </p-dropdown>
             </div>
             <div class="col-md-6">
@@ -23,11 +23,7 @@
                     </div>
                     <div class="flex align-items-center ml-5">
                         <p-checkbox inputId="baja" formControlName="baja" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'baja'" class="control-label mb-0">Alta</label>
-                    </div>
-                    <div class="flex align-items-center ml-5">
-                        <p-checkbox inputId="aprobacion" formControlName="aprobacion" styleClass="mr-3" [binary]="true"></p-checkbox>
-                        <label [for]="'aprobacion'" class="control-label mb-0">Aprobacion</label>
+                        <label [for]="'baja'" class="control-label mb-0">baja</label>
                     </div>
                     <div class="flex align-items-center ml-5">
                         <p-checkbox inputId="consulta" formControlName="consulta" styleClass="mr-3" [binary]="true"></p-checkbox>
@@ -36,6 +32,10 @@
                     <div class="flex align-items-center ml-5">
                         <p-checkbox inputId="modificar" formControlName="modificar" styleClass="mr-3" [binary]="true"></p-checkbox>
                         <label [for]="'modificar'" class="control-label mb-0">Modificar</label>
+                    </div>
+                    <div class="flex align-items-center ml-5">
+                        <p-checkbox inputId="aprobacion" formControlName="aprobacion" styleClass="mr-3" [binary]="true"></p-checkbox>
+                        <label [for]="'aprobacion'" class="control-label mb-0">Aprobacion</label>
                     </div>
                     <div class="flex align-items-center ml-5">
                         <p-checkbox inputId="imprimir" formControlName="imprimir" styleClass="mr-3" [binary]="true"></p-checkbox>

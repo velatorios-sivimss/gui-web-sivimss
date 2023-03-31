@@ -29,6 +29,7 @@ export class AgregarRolPermisosComponent implements OnInit {
 
   readonly POSICION_CATALOGO_ROL = 0;
   readonly POSICION_CATALOGO_FUNCIONALIDAD = 1;
+  rolSeleccionado: any="";
   rolPermisos: any="";
   opciones: TipoDropdown[] = CATALOGOS;
   catRol: TipoDropdown[] = [];
@@ -61,11 +62,8 @@ export class AgregarRolPermisosComponent implements OnInit {
   ngOnInit(): void {
     debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
-    const roles = this.route.snapshot.data["respuesta"];
-    this.catRol = roles[this.POSICION_CATALOGO_ROL].datos.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
-    const funcionalidades = this.route.snapshot.data["respuesta"];
-    this.catFuncionalidad = funcionalidades[this.POSICION_CATALOGO_FUNCIONALIDAD].datos.map((funcionalidad: Catalogo) => ({label: funcionalidad.nombre, value: funcionalidad.id})) || [];
     this.inicializarAgregarRolForm();
+    this.catalogoRoles();
   }
 
   inicializarAgregarRolForm(): void {
@@ -128,6 +126,7 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   crearFormGroupFuncionalidad(): void {
+    debugger
     this.formFuncionalidad = this.formBuilder.group({
       id: [{value: null, disabled: false}, [Validators.required]],
       nombre: [{value: null, disabled: false}],
@@ -138,6 +137,7 @@ export class AgregarRolPermisosComponent implements OnInit {
       modificar: [{value: false, disabled: false}],
       imprimir: [{value: false, disabled: false}],
     });
+    this.catalogoFuncionalidad();
   }
 
    agregarFuncionalidad(): void {    
@@ -159,12 +159,19 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   eliminarFuncionalidad(): void {
+    debugger
     this.funcionalidades= this.funcionalidades.filter(
     (listaFun:any) => listaFun.id !== this.funcionalidadSeleccionada.id);
+    let indiceFuncionalidad: number = this.buscarIndiceFuncionalidad();
+    this.formArrayFuncionalidades.removeAt(indiceFuncionalidad);
   }
 
   reemplazarFuncionalidadEnFormArray(indice: number, formGroup: FormGroup) {
     this.formArrayFuncionalidades.setControl(indice, formGroup);
+  }
+
+  buscarIndiceFuncionalidad(): number {
+    return this.formArrayFuncionalidades.controls.findIndex((control: AbstractControl) => control.value.id === this.funcionalidadSeleccionada.id);
   }
 
   buscarIndiceFuncionalidadEnFormArray(): number {
@@ -174,6 +181,34 @@ export class AgregarRolPermisosComponent implements OnInit {
   obtenerFuncionalidadesDeFormArray(): Funcionalidad[] {
     debugger
     return this.formArrayFuncionalidades.controls.map((formGroup: AbstractControl) => formGroup.value as Funcionalidad);
+  }
+
+  catalogoRoles(): void { 
+    this.rolPermisosService.obtenerCatRoles().subscribe(
+      (respuesta) => {
+        this.catRol = respuesta!.datos.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  catalogoFuncionalidad(): void {
+    this.rolSeleccionado = {
+      idRol: this.agregarRolForm.get("rol")?.value
+    }
+    const solicitudRolFuncionalidad = JSON.stringify(this.rolSeleccionado);
+    this.rolPermisosService.obtenerCatFuncionalidad(solicitudRolFuncionalidad).subscribe(
+      (respuesta) => {
+        this.catFuncionalidad = respuesta!.datos.map((funcionalidad: Catalogo) => ({label: funcionalidad.nombre, value: funcionalidad.id})) || [];
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
   }
 
   get f() {

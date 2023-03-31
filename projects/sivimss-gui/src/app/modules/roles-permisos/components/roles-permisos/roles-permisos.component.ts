@@ -38,7 +38,8 @@ export class RolesPermisosComponent implements OnInit {
   totalElementos: number = 0;
   paginacionConFiltrado: boolean = false;
   filtroForm!: FormGroup;
-
+  permisos:any;
+  rolPermisos: any="";
   opciones: TipoDropdown[] = CATALOGOS;
   catRol: any[] = [];
   roles: Rol[] = [];
@@ -46,7 +47,7 @@ export class RolesPermisosComponent implements OnInit {
   mostrarModalDetalleRol: boolean = false;
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
-
+  
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -60,9 +61,24 @@ export class RolesPermisosComponent implements OnInit {
   ngOnInit(): void {
     debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
-    const roles = this.route.snapshot.data["respuesta"];
-    this.catRol = roles[0].datos.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
     this.inicializarFiltroForm();
+    this.catalogoRoles();
+  }
+
+  inicializarFiltroForm():void {
+    this.filtroForm = this.formBuilder.group({
+      rol: [{value: null, disabled: false}],
+      nivel: [{value: null, disabled: false}],
+      velatorio: [{value: null, disabled: false}],
+      delegacion: [{value: null, disabled: false}],
+      estatus: [{value: null, disabled: false}],
+      alta: [{value: false, disabled: false}],
+      baja: [{value: false, disabled: false}],
+      aprobacion: [{value: false, disabled: false}],
+      consulta: [{value: false, disabled: false}],
+      modificar: [{value: false, disabled: false}],
+      imprimir: [{value: false, disabled: false}]
+    });
   }
 
   seleccionarPaginacion(): void {
@@ -89,8 +105,19 @@ export class RolesPermisosComponent implements OnInit {
   }
 
   paginarConFiltros(): void {
-    const filtros = this.crearSolicitudFiltros();
-    const solicitudFiltros = JSON.stringify(filtros);
+   this.permisos="";
+   this.permisos = this.filtroForm.get("alta")?.value==true? this.permisos="1,":  this.permisos;
+   this.permisos = this.filtroForm.get("baja")?.value==true? this.permisos+="2,":  this.permisos;
+   this.permisos = this.filtroForm.get("consulta")?.value==true? this.permisos+="3,":  this.permisos;
+   this.permisos = this.filtroForm.get("modificar")?.value==true? this.permisos+="4,":  this.permisos;
+   this.permisos = this.filtroForm.get("aprobacion")?.value==true? this.permisos+="5,":  this.permisos;
+   this.permisos = this.filtroForm.get("imprimir")?.value==true? this.permisos+="6":  this.permisos;
+   this.rolPermisos = {
+     idRol: this.filtroForm.get("rol")?.value,
+     nivel: this.filtroForm.get("nivel")?.value,
+     permisos: this.permisos
+   }
+    const solicitudFiltros = JSON.stringify(this.rolPermisos);
     this.rolPermisosService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.totalElementos).subscribe(
       (respuesta) => {
         this.roles = respuesta!.datos.content;
@@ -109,15 +136,6 @@ export class RolesPermisosComponent implements OnInit {
     this.paginarConFiltros();
   }
 
-  crearSolicitudFiltros(): FiltrosRol {
-    return {
-      idOficina: this.filtroForm.get("nivel")?.value,
-      idVelatorio: this.filtroForm.get("velatorio")?.value,
-      idRol: this.filtroForm.get("rol")?.value,
-      idDelegacion: this.filtroForm.get("delegacion")?.value
-    };
-  }
-  
   limpiar(): void {
     this.paginacionConFiltrado = false;
     this.filtroForm.reset();
@@ -137,22 +155,6 @@ export class RolesPermisosComponent implements OnInit {
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
-  }
-
-
-  inicializarFiltroForm():void {
-    this.filtroForm = this.formBuilder.group({
-      nivel: [{value: null, disabled: false}],
-      velatorio: [{value: null, disabled: false}],
-      delegacion: [{value: null, disabled: false}],
-      estatus: [{value: null, disabled: false}],
-      alta: [{value: false, disabled: false}],
-      baja: [{value: false, disabled: false}],
-      aprobacion: [{value: false, disabled: false}],
-      consulta: [{value: false, disabled: false}],
-      modificar: [{value: false, disabled: false}],
-      imprimir: [{value: false, disabled: false}]
-    });
   }
 
 
@@ -189,6 +191,22 @@ export class RolesPermisosComponent implements OnInit {
     if (respuesta.mensaje) {
       this.alertaService.mostrar(TipoAlerta.Exito, respuesta.mensaje);
     }
+  }
+
+  catalogoRoles(): void { 
+    this.rolPermisosService.obtenerCatRoles().subscribe(
+      (respuesta) => {
+        this.catRol = respuesta!.datos.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  funcionalidadSelect(): void { 
+
   }
 
   ngOnDestroy(): void {

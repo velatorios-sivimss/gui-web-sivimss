@@ -8,16 +8,16 @@ const routes: Routes = [
   {
     path: '', 
     component: RolesPermisosComponent,
-    resolve: {
+  /*  resolve: {
       respuesta: RolPermisosResolver,
-    },
+    },*/
   },
   {
     path: 'agregar-rol-permisos',
     component: AgregarRolPermisosComponent,
-    resolve: {
+   /* resolve: {
       respuesta: RolPermisosResolver,
-    },
+    }, */
   }
 ];
 

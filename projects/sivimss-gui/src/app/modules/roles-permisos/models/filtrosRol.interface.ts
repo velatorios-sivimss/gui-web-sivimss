@@ -1,6 +1,5 @@
 export interface FiltrosRol {
-  idOficina: number,
-  idVelatorio: number,
   idRol: number,
-  idDelegacion: number
+  nivel: number,
+  permisos: string,
 }

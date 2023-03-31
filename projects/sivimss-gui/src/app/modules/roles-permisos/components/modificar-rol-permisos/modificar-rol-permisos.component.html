@@ -10,10 +10,10 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-12">
-                <label class="control-label" for="idMod">Funcionalidad<span class="req">*</span>:</label>
-                <p-dropdown id="id" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad">
-                </p-dropdown>
-                <span class="campo-obligatorio" *ngIf="fmu.id?.errors?.required && (fmu.id?.dirty || fmu.id?.touched)">Campo obligatorio</span>
+                <input id="idFuncionalidad" type="hidden" class="form-control" formControlName="idFuncionalidad">
+                <label class="control-label" for="nombreFun">Nombre de la funcionalidad<span class="req">*</span></label>
+                <input id="nombreFun" class="form-control" formControlName="nombreFun">
+                <span class="campo-obligatorio" *ngIf="fmu?.nombreFun?.errors?.required && (fmu?.nombreFun?.dirty || fmu?.nombreFun?.touched)">Campo obligatorio</span>
             </div>
         </div>
         <div class="row mb-3">

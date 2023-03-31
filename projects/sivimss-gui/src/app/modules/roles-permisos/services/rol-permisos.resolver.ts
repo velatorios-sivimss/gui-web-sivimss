@@ -12,7 +12,7 @@ export class RolPermisosResolver  implements Resolve<any>{
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         debugger
         const catRol$ = this.rolPermisosService.obtenerCatRoles();
-        const catFuncionalidades$ = this.rolPermisosService.obtenerCatFuncionalidad();
-        return forkJoin([catRol$, catFuncionalidades$]);
+        //const catFuncionalidades$ = this.rolPermisosService.obtenerCatFuncionalidad();
+        return catRol$;
     }
 }

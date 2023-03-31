@@ -21,7 +21,7 @@
     <section class="mt-6">
         <div class="flex justify-content-between align-items-center">
             <h2 class="subtitulo">Funcionalidades y permisos</h2>
-            <button class="ml-4 btn btn-primary btn-lg" (click)="abrirModalAgregarFuncionalidad()">
+            <button class="ml-4 btn btn-primary btn-lg" [disabled]="agregarRolForm.invalid" (click)="abrirModalAgregarFuncionalidad()">
         Agregar funcionalidad
       </button>
         </div>
