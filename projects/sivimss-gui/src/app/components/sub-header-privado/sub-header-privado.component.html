@@ -8,10 +8,11 @@
       <img src="assets/images/imagen-icono-usuario.svg" alt="imagen usuario" class="imagen-usuario">
     </div>
     <div class="contenedor-curp">
-      <span>CURP GOEG7712036Y7HDFN00</span>
-      <span>FBS_Sistemas nivel Central</span>
+      <span>CURP {{(usuario$ | async)?.curp}}</span>
+      <span>{{(usuario$ | async)?.desRol}}</span>
     </div>
-
   </div>
-  <a class="btn-cerrar-sesion"><img class="icon-cerrar-sesion" src="assets/images/imagen-icono-cerrar-sesion.svg" alt="icono cerrar sesion">Cerrar sesión</a>
+  <a class="btn-cerrar-sesion" (click)="cerrarSesion()"><img class="icon-cerrar-sesion"
+                                                             src="assets/images/imagen-icono-cerrar-sesion.svg"
+                                                             alt="icono cerrar sesion">Cerrar sesión</a>
 </div>
