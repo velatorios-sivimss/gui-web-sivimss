@@ -6,12 +6,10 @@ import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/a
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {ActivatedRoute, Router} from '@angular/router';
-import { RespuestaModalUsuario } from '../../../usuarios/models/respuestaModal.interface';
 import {HttpErrorResponse} from "@angular/common/http";
 import {CATALOGOS} from '../../../usuarios/constants/catalogos_dummies';
 import {RolService} from '../../services/rol.service';
 import {Rol} from "../../models/rol.interface";
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {USUARIOS_BREADCRUMB} from '../../../usuarios/constants/breadcrumb';
 
 type NuevoRol = Omit<Rol, "idRol" >;
@@ -29,13 +27,9 @@ export class AgregarRolComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   catRol: TipoDropdown[] = [];
   agregarRolForm!: FormGroup;
-
   formFuncionalidad!: FormGroup;
-  permisos : any;
-
   funcionalidades: Funcionalidad[] = [];
   funcionalidadSeleccionada!: Funcionalidad;
-
   contadorFuncionalidades = 1;
 
   constructor(
@@ -72,7 +66,6 @@ export class AgregarRolComponent implements OnInit {
   agregarRol(): void {
     debugger
     const rolBo: NuevoRol = this.crearNuevoRol();
-   // const solicitudRol: string = JSON.stringify(rolBo);
     this.rolService.guardar(rolBo).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Alta satisfactoria');

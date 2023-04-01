@@ -40,7 +40,7 @@ export class RolesComponent implements OnInit {
   filtroForm!: FormGroup;
 
   opciones: TipoDropdown[] = CATALOGOS;
-  catRol: any[] = [];
+  catRol: Rol[] = [];
   roles: Rol[] = [];
   rolSeleccionado!: Rol;
   mostrarModalDetalleRol: boolean = false;
@@ -137,7 +137,6 @@ export class RolesComponent implements OnInit {
       }
     );
   }
-
 
   inicializarFiltroForm():void {
     this.filtroForm = this.formBuilder.group({

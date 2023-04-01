@@ -34,8 +34,7 @@ export class ModificarRolComponent implements OnInit {
 
   ngOnInit(): void {
     debugger
-    const rol =  this.config.data;
-    //this.breadcrumbService.actualizar([]);
+    const rol =  this.config.data;;
     this.inicializarModificarRolForm(rol);
   }
 
