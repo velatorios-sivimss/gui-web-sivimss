@@ -109,10 +109,8 @@ export class RolesComponent implements OnInit {
 
   crearSolicitudFiltros(): FiltrosRol {
     return {
-      idOficina: this.filtroForm.get("nivel")?.value,
-      idVelatorio: this.filtroForm.get("velatorio")?.value,
       idRol: this.filtroForm.get("rol")?.value,
-      idDelegacion: this.filtroForm.get("delegacion")?.value
+      nivel: this.filtroForm.get("nivel")?.value
     };
   }
   
@@ -143,16 +141,8 @@ export class RolesComponent implements OnInit {
 
   inicializarFiltroForm():void {
     this.filtroForm = this.formBuilder.group({
+      rol: [{value: null, disabled: false}],
       nivel: [{value: null, disabled: false}],
-      velatorio: [{value: null, disabled: false}],
-      delegacion: [{value: null, disabled: false}],
-      estatus: [{value: null, disabled: false}],
-      alta: [{value: false, disabled: false}],
-      baja: [{value: false, disabled: false}],
-      aprobacion: [{value: false, disabled: false}],
-      consulta: [{value: false, disabled: false}],
-      modificar: [{value: false, disabled: false}],
-      imprimir: [{value: false, disabled: false}]
     });
   }
 
