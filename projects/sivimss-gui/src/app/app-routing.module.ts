@@ -159,6 +159,10 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'seguimiento-nuevo-convenio',
+    loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
