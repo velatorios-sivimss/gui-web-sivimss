@@ -5,15 +5,32 @@ import { TipoDropdown } from "../../../models/tipo-dropdown";
 
 export const CATALOGOS_DUMMIES: TipoDropdown[] = [
     {
-        value: 'Opcion 1',
+        value: 1,
         label: 'Opcion 1'
     },
     {
-        value: 'Opcion 2',
+        value: 2,
         label: 'Opcion 2'
     },
     {
-        value: 'Opcion 3',
+        value: 3,
         label: 'Opcion 3'
     },
-]
+];
+
+export const CATALOGO_NIVEL: TipoDropdown[] = [
+    {
+        value: 1,
+        label: 'Nivel central',
+    },
+    {
+        value: 2,
+        label: 'Nivel delegacional',
+    },
+    {
+        value: 3,
+        label: 'Nivel velatorio',
+    },
+];
+
+

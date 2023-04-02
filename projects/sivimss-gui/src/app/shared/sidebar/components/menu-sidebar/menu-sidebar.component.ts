@@ -86,7 +86,7 @@ export class MenuSidebarComponent implements OnInit {
         {
           icono: '',
           texto: 'Artículos',
-          ruta: 'artículos',
+          ruta: 'articulos',
           activo: false
         },
         {

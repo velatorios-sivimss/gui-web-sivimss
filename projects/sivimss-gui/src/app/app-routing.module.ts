@@ -119,10 +119,8 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
-    path: 'artículos',
-    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule),
-    canActivate: [PermiteUsuarioLogueadoGuard],
-    canActivateChild: [PermiteUsuarioLogueadoGuard]
+    path: 'articulos',
+    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
     path: 'convenios-prevision-funeraria',
