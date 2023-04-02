@@ -1,15 +1,11 @@
 import { ModificarArticulosComponent } from './../modificar-articulos/modificar-articulos.component';
-import { Articulos, ConfirmacionServicio } from './../../models/articulos.interface';
+import { Articulo, ConfirmacionServicio } from './../../models/articulos.interface';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-export enum TipoAlerta {
-  Exito = 'success',
-  Info = 'info',
-  Precaucion = 'warning',
-  Error = 'error'
-}
+import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { ArticulosService } from '../../services/articulos.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-detalle-articulos',
@@ -18,7 +14,7 @@ export enum TipoAlerta {
 })
 export class DetalleArticulosComponent implements OnInit {
 
-  @Input() articuloSeleccionado!: Articulos;
+  @Input() articuloSeleccionado!: Articulo;
   @Input() origen!: string;
   @Output() confirmacionAceptar = new EventEmitter<ConfirmacionServicio>();
 
@@ -32,49 +28,71 @@ export class DetalleArticulosComponent implements OnInit {
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     public dialogService: DialogService,
-    private alertaService: AlertaService) { }
+    private alertaService: AlertaService,
+    private articulosService: ArticulosService,
+  ) { }
 
-ngOnInit(): void {
+  ngOnInit(): void {
+    if (this.config?.data) {
+      this.origen = this.config.data.origen;
+      if (this.origen !== 'modificar') {
+        this.articuloSeleccionado = this.config.data.articulo;
+      }
+    }
+  }
 
-//Escenario selección ícono 'ojo' detalle o cambio estatus vista rápida
-if(this.config?.data){
-this.articuloSeleccionado = this.config.data.servicio;
-this.origen = this.config.data.origen;
-}
-}
+  abrirModalModificarServicio(): void {
+    this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
+      header: "Modificar artículo",
+      width: "920px",
+      data: { articulo: this.articuloSeleccionado, origen: "modificar" },
+    });
 
-abrirModalModificarServicio():void{
-  this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
-    header:"Modificar servicio",
-    width:"920px",
-  })
+    this.creacionRef.onClose.subscribe((estatus: boolean) => {
+      if (estatus) {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo modificado correctamente');
+        this.ref.close();
+      }
+    });
+  }
 
-  this.creacionRef.onClose.subscribe((estatus:boolean) => {
-    if(estatus){
-       this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio modificado correctamente');
+  aceptar(): void {
+    if (this.origen == "detalle") {
       this.ref.close();
     }
-  })
-}
+    if (this.origen == "agregar" || this.origen == "modificar") {
+      this.confirmacionAceptar.emit({ estatus: true, origen: this.origen });
+    }
+    if (this.origen == "estatus") {
+      this.cambiarEstatus();
+    }
+  }
 
-aceptar():void {
-  if(this.origen == "detalle"){
+  cambiarEstatus() {
+    this.articulosService.cambiarEstatus({ idArticulo: this.articuloSeleccionado.idArticulo }).subscribe(
+      (respuesta) => {
+        if (respuesta.codigo === 200) {
+          if (this.articuloSeleccionado.estatus) {
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo desactivado correctamente');
+          } else {
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
+          }
+          this.ref.close(this.articuloSeleccionado);
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  regresar(): void {
+    this.confirmacionAceptar.emit({ estatus: true, origen: "regresar" });
+  }
+
+  cerrar(): void {
     this.ref.close();
   }
-  if(this.origen == "agregar" || this.origen == "modificar" ){
-    this.confirmacionAceptar.emit({estatus:true,origen:this.origen});
-  }
-  if(this.origen == "estatus"){
-    this.ref.close(this.articuloSeleccionado);
-  }
-}
-
-regresar(): void{
-  this.confirmacionAceptar.emit({estatus:true,origen:"regresar"});
-}
-
-cerrar(): void {
-  this.ref.close();
-}
 
 }

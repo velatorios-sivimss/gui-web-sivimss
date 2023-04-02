@@ -5,6 +5,7 @@ import { TwoDigitDecimaNumbersDirective } from './directives/two-digit-decimal-n
 import { LettersDirective } from './directives/only-letters.directive';
 import { AlphanumericDirective } from './directives/only-alphanumeric.directive';
 import { TrimmerDirective } from './directives/trimmer.directive';
+import { TextDirective } from './directives/only-text.directive';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { TrimmerDirective } from './directives/trimmer.directive';
     LettersDirective,
     AlphanumericDirective,
     TrimmerDirective,
+    TextDirective,
   ],
   imports: [
     CommonModule
@@ -22,7 +24,8 @@ import { TrimmerDirective } from './directives/trimmer.directive';
     TwoDigitDecimaNumbersDirective,
     LettersDirective,
     AlphanumericDirective,
-    TrimmerDirective
+    TrimmerDirective,
+    TextDirective,
   ]
 })
 export class UtileriaModule { }
