@@ -7,17 +7,6 @@ export const SERVICIO_BREADCRUMB: ElementoBreadcrumb[] = [
   },
   {
     icono: '',
-    titulo: 'Órdenes'
-  },
-  {
-    icono: '',
-    titulo: 'Orden de entrada'
+    titulo: 'Registrar capilla'
   }
-]
-
-export const SERVICIO_BREADCRUMB_CLEAR: ElementoBreadcrumb[] = [
-  {
-    icono: '',
-    titulo: ''
-  },
 ]
