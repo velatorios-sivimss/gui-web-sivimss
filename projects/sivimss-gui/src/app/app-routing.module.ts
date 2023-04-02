@@ -165,6 +165,12 @@ const routes: Routes = [
     loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
   },
   {
+    path: 'programar-mantenimiento-vehicular',
+    loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
+    // canActivate: [PermiteUsuarioLogueadoGuard],
+    // canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
