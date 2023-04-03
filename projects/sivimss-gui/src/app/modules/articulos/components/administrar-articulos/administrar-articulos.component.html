@@ -1,36 +1,45 @@
 <app-titulo-principal titulo="Administración de artículos"></app-titulo-principal>
 <div class="border-panel">
-  <form [formGroup]="filtroForm">
+  <form [formGroup]="filtroForm" (ngSubmit)="buscarArticulo()">
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="niveles"
-                    placeholder="Seleccionar el nivel">
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="catNiveles"
+                    placeholder="Selecciona el nivel">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="delegacion">Delegación:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="velatorios"
-                    placeholder="Seleccionar delegación">
+        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones"
+                    placeholder="Selecciona la delegación">
         </p-dropdown>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorios"
-                    placeholder="Seleccionar el velatorio">
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
+                    placeholder="Selecciona el velatorio">
         </p-dropdown>
       </div>
       <div class="col-md-6">
-        <label class="control-label" for="nivel">Nombre de artículo:</label>
-        <input id="nivel" class="form-control" formControlName="nivel"
-               placeholder="Ingresa el articulo" (keyup)="consultaServicioEspecifico()">
+        <label class="control-label" for="nombreArticulo">Nombre del artículo:</label>
+        <p-autoComplete id="nombreArticulo" class="form-control" formControlName="nombreArticulo" (onFocus)="filtrarArticulos()"
+          [showEmptyMessage]="true" [suggestions]="articuloServicioFiltrados" (completeMethod)="filtrarArticulos()"
+          [style]="{'width':'100%'}" [minLength]="3" class="p-autocomplete" placeholder="Ingresa el artículo" field="label"
+          [inputStyleClass]="filtroForm.valid ? 'input-autocomplete' : 'input-autocomplete input-autocomplete-error'"
+          >
+          <ng-template let-articulo pTemplate="item">
+            <div class="autocomplete-item">
+              <div>{{articulo.label}}</div>
+            </div>
+          </ng-template>
+        </p-autoComplete>
       </div>
     </div>
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
-        <button type="submit" class="btn btn-default btn-md" (click)="limpiar()" >Limpiar</button>
+        <button type="button" class="btn btn-default btn-md" (click)="limpiar()" >Limpiar</button>
         <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
       </div>
     </div>
@@ -51,28 +60,37 @@
     <ng-template pTemplate="header">
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Categoria artículo</th>
-        <th scope="col">Típo de (artículo)</th>
-        <th scope="col">Típo de Material</th>
+        <th scope="col">Categoría (artículo)</th>
+        <th scope="col">Tipo de artículo</th>
+        <th scope="col">Tipo de material</th>
         <th scope="col">Tamaño</th>
-        <th scope="col">Clasificación de prducto</th>
-        <!-- <th scope="col">Modelo de artículo</th> -->
+        <th scope="col">Clasificación del producto</th>
+        <th scope="col">Modelo de artículo</th>
+        <th scope="col">Largo</th>
+        <th scope="col">Ancho</th>
+        <th scope="col">Alto</th>
         <th scope="col">Estatus</th>
         <th scope="col"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-articulo>
       <tr>
-        <td> {{articulo.id}} </td>
-        <td> {{articulo.categoria}} </td>
-        <td> {{articulo.tipoDeArticulo}} </td>
-        <td> {{articulo.tipoDeMaterial}} </td>
+        <td> {{articulo.idArticulo}} </td>
+        <td> {{articulo.categoriaArticulo}} </td>
+        <td> {{articulo.tipoArticulo}} </td>
+        <td> {{articulo.tipoMaterial}} </td>
         <td> {{articulo.tamanio}} </td>
-        <td> {{articulo.clasificacionDeProducto}} </td>
-        <!-- <td> {{articulo.observaciones}} </td> -->
+        <td> {{articulo.clasificacionProducto}} </td>
+        <td> {{articulo.modeloArticulo}} </td>
+        <td> {{articulo.largo}} </td>
+        <td> {{articulo.ancho}} </td>
+        <td> {{articulo.alto}} </td>
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="articulo.estatus" (onChange)="abrirModalCambioEstatus(articulo)"></p-inputSwitch>
+            <p-inputSwitch
+              [(ngModel)]="articulo.estatus"
+              (click)="articulo.estatus = !articulo.estatus; abrirModalCambioEstatus(articulo)">
+            </p-inputSwitch>
             <span class="activo" *ngIf="articulo.estatus">Activo</span>
             <span class="inactivo" *ngIf="!articulo.estatus">Inactivo</span>
           </div>

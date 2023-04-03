@@ -4,7 +4,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="velatorios"
                     placeholder="Seleccionar el velatorio">
         </p-dropdown>
       </div>
@@ -23,8 +23,8 @@
     </div>
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
-        <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+        <button type="submit" class="btn btn-default btn-md" (click)="limpiar()">Limpiar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5" [disabled]="filtroForm.invalid" (click)="buscar()">Buscar</button>
       </div>
     </div>
   </form>
@@ -34,10 +34,10 @@
     <h2 class="subtitulo">Lista de capillas</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarCapilla()">Agregar capilla</button>
   </div>
-  <p-table styleClass="mt-5 mb-8" [value]="capillas" [paginator]="capillas.length > 0"
+  <p-table styleClass="mt-5 mb-8" [value]="capillas"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-           (onLazyLoad)="paginar($event)">
+         >
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -51,11 +51,11 @@
     </ng-template>
     <ng-template pTemplate="body" let-capilla>
       <tr>
-        <td>{{capilla.id}}</td>
+        <td>{{capilla.capillaId}}</td>
         <td>{{capilla.nombre}}</td>
         <td>{{capilla.largo}}</td>
         <td>{{capilla.alto}}</td>
-        <td>{{capilla.areaTotal}}</td>
+        <td>{{capilla.largo}}</td>
         <td>
           <div class="contenedor-inputswitch">
             <p-inputSwitch [(ngModel)]="capilla.estatus"></p-inputSwitch>
@@ -110,6 +110,13 @@
           [modal]="true"
           [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
+
+
+
+
+
+
+
     <form [formGroup]="agregarCapillaForm">
       <div class="row mb-3">
         <div class="col-md-8">
@@ -127,7 +134,6 @@
           <span class="campo-obligatorio"
                 *ngIf="fac.nombre?.errors?.required && (fac.nombre?.dirty || fac.nombre?.touched)">Campo obligatorio</span>
         </div>
-
       </div>
       <div class="row mb-3">
         <div class="col-md-6">
@@ -140,7 +146,7 @@
         <div class="col-md-6">
           <label class="control-label" for="velatorioAgregar">Velatorio<span class="req">*</span></label>
           <p-dropdown appendTo="body" id="velatorioAgregar" class="form-control" formControlName="velatorio"
-                      [options]="opciones"
+                      [options]="velatorios"
                       placeholder="Seleccione el velatorio">
           </p-dropdown>
           <span class="campo-obligatorio"
@@ -176,119 +182,14 @@
         </div>
       </div>
     </form>
+
   </ng-template>
   <ng-template pTemplate="footer">
     <div class="flex justify-content-end">
       <button class="btn btn-default btn-md" (click)="mostrarModalAgregarCapilla = false">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="agregarCapilla()">
+      <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid"  (click)="abrirModalAgregarCapilla()">
         Agregar
       </button>
     </div>
   </ng-template>
 </p-dialog>
-
-
-<!-- VER DETALLE USUARIO-->
-<!--<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Ver detalle"-->
-<!--          [(visible)]="mostrarModalDetalleUsuario"-->
-<!--          [modal]="true"-->
-<!--          [draggable]="false" [resizable]="false">-->
-<!--  <ng-template pTemplate="content">-->
-<!--    <app-table-panel>-->
-<!--      <ng-template appCustomTemplate="left-header">-->
-<!--        <div class="table-panel-header-column">-->
-<!--          <span class="font-bold">ID 1</span>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--      <ng-template appCustomTemplate="right-header">-->
-<!--        <div class="table-panel-header-column">-->
-<!--          <div class="flex flex-column">-->
-<!--            <span>Estatus</span>-->
-<!--            <div class="contenedor-inputswitch">-->
-<!--              <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus"></p-inputSwitch>-->
-<!--              <span class="activo" *ngIf="usuarioSeleccionado.estatus">Activo</span>-->
-<!--              <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">-->
-<!--            <img-->
-<!--              src="assets/images/imagen-icono-barras-horizontales.svg"-->
-<!--              alt="icono barras horizontales">-->
-<!--          </a>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--      <div class="row table-panel-row">-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>CURP</label>-->
-<!--            <span>{{usuarioSeleccionado.curp}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Matrícula</label>-->
-<!--            <span>{{usuarioSeleccionado.matricula}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="row table-panel-row">-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Nombre</label>-->
-<!--            <span>{{usuarioSeleccionado.nombre}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Usuario</label>-->
-<!--            <span>{{usuarioSeleccionado.usuario}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="row table-panel-row">-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Primer apellido</label>-->
-<!--            <span>{{usuarioSeleccionado.primerApellido}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Segundo apellido</label>-->
-<!--            <span>{{usuarioSeleccionado.segundoApellido}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="row table-panel-row">-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Correo electrónico</label>-->
-<!--            <span>{{usuarioSeleccionado.correoElectronico}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-md-6">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Nivel</label>-->
-<!--            <span>{{usuarioSeleccionado.nivel}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="row table-panel-row">-->
-<!--        <div class="col-md-12">-->
-<!--          <div class="table-panel-column">-->
-<!--            <label>Rol</label>-->
-<!--            <span>{{usuarioSeleccionado.rol}}</span>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </app-table-panel>-->
-
-<!--  </ng-template>-->
-<!--  <ng-template pTemplate="footer">-->
-<!--    <div class="flex justify-content-end">-->
-<!--      <button class="ml-4 btn btn-primary btn-md" (click)="mostrarModalDetalleUsuario = false">-->
-<!--        Aceptar-->
-<!--      </button>-->
-<!--    </div>-->
-<!--  </ng-template>-->
-<!--</p-dialog>-->

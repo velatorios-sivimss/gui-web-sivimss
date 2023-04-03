@@ -1,0 +1,80 @@
+<!-- <ng-container *ngIf="!ventanaConfirmacion"> -->
+  <form [formGroup]="modificarcapillaForm">
+
+    <form [formGroup]="modificarcapillaForm">
+      <div class="row mb-3">
+        <div class="col-md-8">
+          <label class="control-label" for="idCapilla">ID<span class="req">*</span>:</label>
+          <input id="idCapilla" class="form-control" formControlName="idCapilla" placeholder="ID">
+          <span class="campo-obligatorio"
+                *ngIf="fmc.idCapilla?.errors?.required && (fmc.idCapilla?.dirty || fmc.idCapilla?.touched)">Campo obligatorio</span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-12">
+          <label class="control-label" for="nombre">Nombre<span class="req">*</span>:</label>
+          <input id="nombre" class="form-control" formControlName="nombre"
+                 placeholder="Ingresa el nombre de la capilla ">
+          <span class="campo-obligatorio"
+                *ngIf="fmc.nombre?.errors?.required && (fmc.nombre?.dirty || fmc.nombre?.touched)">Campo obligatorio</span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="control-label" for="capacidad">Capacidad<span class="req">*</span>:</label>
+          <input id="capacidad" class="form-control" formControlName="capacidad"
+                 placeholder="Ingresa la capacidad">
+          <span class="campo-obligatorio"
+                *ngIf="fmc.capacidad?.errors?.required && (fmc.capacidad?.dirty || fmc.capacidad?.touched)">Campo obligatorio</span>
+        </div>
+        <div class="col-md-6">
+          <label class="control-label" for="velatorio">Velatorio<span class="req">*</span></label>
+          <p-dropdown appendTo="body" id="velatorio" class="form-control" formControlName="velatorio"
+                      [options]="velatorios"
+                      placeholder="Seleccione el velatorio">
+          </p-dropdown>
+          <span class="campo-obligatorio"
+                *ngIf="fmc.velatorio?.errors?.required && (fmc.velatorio?.dirty || fmc.velatorio?.touched)">Campo obligatorio</span>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label class="control-label" for="largo">Largo<span class="req">*</span>:</label>
+          <input id="largo" class="form-control" formControlName="largo"
+                 placeholder="Ingresa el largo">
+          <span class="campo-obligatorio"
+                *ngIf="fmc.largo?.errors?.required && (fmc.largo?.dirty || fmc.largo?.touched)">Campo obligatorio</span>
+        </div>
+        <div class="col-md-4">
+          <label class="control-label" for="ancho">Ancho<span class="req">*</span>:</label>
+          <input id="ancho" class="form-control" formControlName="ancho"
+                 placeholder="Ingresa el ancho">
+          <span class="campo-obligatorio"
+                *ngIf="fmc.ancho?.errors?.required && (fmc.ancho?.dirty || fmc.ancho?.touched)">Campo obligatorio</span>
+        </div>
+        <div class="col-md-4">
+          <label class="control-label" for="areaTotal">Área total<span class="req">*</span>:</label>
+          <input id="areaTotal" class="form-control" formControlName="areaTotal"
+                 placeholder="Ingresa el área">
+          <span class="campo-obligatorio"
+                *ngIf="fmc.areaTotal?.errors?.required && (fmc.areaTotal?.dirty || fmc.areaTotal?.touched)">Campo obligatorio</span>
+        </div>
+      </div>
+      <div class="row mb-2">
+        <div class="col-md-12">
+          <span>*Campos obligatorios</span>
+        </div>
+      </div>
+    </form>
+
+  <div class="flex justify-content-end">
+    <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="modificarcapillaForm.invalid" (click)="modificarCapilla()">
+      Agregar
+    </button>
+  </div>
+
+<!-- <ng-container *ngIf="ventanaConfirmacion">
+  <app-detalle-capilla [capillaSeleccionada]="capillaSeleccionada" [origen]="'agregar'"
+    (confirmacionAceptar)="cerrar()"></app-detalle-capilla>
+</ng-container> -->

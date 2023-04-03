@@ -14,6 +14,7 @@ import { OverlayPanelOpcionesModule } from '../../shared/overlay-panel-opciones/
 import { TablePanelModule } from '../../shared/table-panel/table-panel.module';
 import { DialogModule } from 'primeng-lts/dialog';
 import { StepsModule } from 'primeng-lts/steps';
+import { AutoCompleteModule } from 'primeng-lts/autocomplete';
 
 import { CalendarModule } from 'primeng-lts/calendar';
 import { AccordionModule } from 'primeng-lts/accordion';
@@ -23,18 +24,14 @@ import { ArticulosRoutingModule } from './articulos.routing.module';
 import { AgregarArticulosComponent } from './components/agregar-articulos/agregar-articulos.component';
 import { DetalleArticulosComponent } from './components/detalle-articulos/detalle-articulos.component';
 import { ModificarArticulosComponent } from './components/modificar-articulos/modificar-articulos.component';
+import { UtileriaModule } from '../../shared/utileria/utileria.module';
 
-//as
 @NgModule({
   declarations: [
     AdministrarArticulosComponent,
     AgregarArticulosComponent,
     DetalleArticulosComponent,
     ModificarArticulosComponent,
-    // DetalleProveedorComponent,
-    // AgregarProveedorComponent,
-    // VerDetalleProveedorComponent,
-    // ModificarProveedorComponent,
   ],
   imports: [
     CalendarModule,
@@ -52,7 +49,9 @@ import { ModificarArticulosComponent } from './components/modificar-articulos/mo
     TablePanelModule,
     TituloPrincipalModule,
     StepsModule,
-    AccordionModule
+    AccordionModule,
+    AutoCompleteModule,
+    UtileriaModule,
   ],
   providers: [ArticulosService]
 })
