@@ -35,8 +35,28 @@ export class MenuSidebarComponent implements OnInit {
         {
           icono: 'pagos',
           texto: 'Pagos',
-          ruta: 'pagos',
-          activo: false
+          ruta: '',
+          activo: false,
+          submenus: [
+            {
+              icono: '',
+              texto: 'Realizar pago',
+              ruta: 'pagos/realizar-pago',
+              activo: false
+            },
+            {
+              icono: '',
+              texto: 'Generar recibo de pago',
+              ruta: 'pagos/generar-recibo-pago',
+              activo: false
+            },
+            {
+              icono: '',
+              texto: 'Generar formato de pagaré',
+              ruta: 'pagos/generar-formato-pagare',
+              activo: false
+            },
+          ]
         },
         {
           icono: 'pagos',
