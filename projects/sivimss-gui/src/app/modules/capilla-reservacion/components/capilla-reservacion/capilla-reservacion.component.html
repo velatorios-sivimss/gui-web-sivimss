@@ -94,7 +94,20 @@
   </div>
 </ng-container>
 <ng-container *ngIf="value == 1">
-<!--  <p-fullCalendar [options]="calendarOptions"></p-fullCalendar>-->
+  <section class="my-4">
+    <form [formGroup]="calendarioForm">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="control-label" for="velatorioCalendario">Velatorio</label>
+          <p-dropdown appendTo="body" id="velatorioCalendario" class="form-control" formControlName="velatorio"
+                      [options]="velatorio"
+                      placeholder="Selecciona el velatorio">
+          </p-dropdown>
+        </div>
+      </div>
+    </form>
+    <app-calendario></app-calendario>
+  </section>
 </ng-container>
 
 
