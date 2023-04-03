@@ -106,16 +106,19 @@ export class RolesPermisosComponent implements OnInit {
 
   paginarConFiltros(): void {
    this.permisos="";
-   this.permisos = this.filtroForm.get("alta")?.value==true? this.permisos="1".concat(','):  this.permisos;
-   this.permisos = this.filtroForm.get("baja")?.value==true? this.permisos+="2".concat(','):  this.permisos;
-   this.permisos = this.filtroForm.get("consulta")?.value==true? this.permisos+="3".concat(','):  this.permisos;
-   this.permisos = this.filtroForm.get("modificar")?.value==true? this.permisos+="4".concat(','):  this.permisos;
-   this.permisos = this.filtroForm.get("aprobacion")?.value==true? this.permisos+="5".concat(','):  this.permisos;
-   this.permisos = this.filtroForm.get("imprimir")?.value==true? this.permisos+="6":  this.permisos;
+   this.filtroForm.get("alta")?.value==true? this.permisos="1": this.permisos;
+   this.filtroForm.get("baja")?.value==true? this.permisos+="2":  this.permisos;
+   this.filtroForm.get("consulta")?.value==true? this.permisos+="3":  this.permisos;
+   this.filtroForm.get("modificar")?.value==true? this.permisos+="4":  this.permisos;
+   this.filtroForm.get("aprobacion")?.value==true? this.permisos+="5":  this.permisos;
+   this.filtroForm.get("imprimir")?.value==true? this.permisos+="6":  this.permisos;
+  const separar = this.permisos.split('');
+  const cadenaPermisos = separar.toString(separar)
+
    this.rolPermisos = {
      idRol: this.filtroForm.get("rol")?.value,
      nivel: this.filtroForm.get("nivel")?.value,
-     permisos: this.permisos,
+     permisos: cadenaPermisos,
      estatus:1
    }
     const solicitudFiltros = JSON.stringify(this.rolPermisos);

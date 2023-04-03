@@ -6,7 +6,7 @@
             <div class="row mb-3">
                 <div class="col-md-12">
                     <label class="control-label" for="rol">Rol<span class="req">*</span>:</label>
-                    <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catRol" placeholder="Seleccionar el rol">
+                    <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catRol" (ngModelChange)="catalogoFuncionalidad($event)" placeholder="Seleccionar el rol">
                     </p-dropdown>
                     <span class="campo-obligatorio" *ngIf="f.rol?.errors?.required && (f.rol?.dirty || f.rol?.touched)">Campo obligatorio</span>
                 </div>
@@ -57,14 +57,6 @@
                 </tr>
             </ng-template>
         </p-table>
-        <div>
-            <label class="control-label">Estatus<span class="req">*</span></label>
-            <div class="contenedor-inputswitch">
-                <p-inputSwitch formControlName="estatus"></p-inputSwitch>
-                <span class="activo" *ngIf="f.estatus?.value">Activo</span>
-                <span class="inactivo" *ngIf="!f.estatus?.value">Inactivo</span>
-            </div>
-        </div>
     </section>
 
     <div class="flex justify-content-end mb-6">
@@ -82,8 +74,8 @@
         <form [formGroup]="formFuncionalidad">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label class="control-label" for="nombre">Funcionalidad<span class="req">*</span>:</label>
-                    <p-dropdown id="id" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad">
+                    <label class="control-label" for="id">Funcionalidad<span class="req">*</span>:</label>
+                    <p-dropdown id="id" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad" optionLabel="label">
                     </p-dropdown>
                     <span class="campo-obligatorio" *ngIf="funcionalidad.id?.errors?.required && (funcionalidad.id?.dirty || funcionalidad.id?.touched)">Campo obligatorio</span>
                 </div>
@@ -131,7 +123,7 @@
             <button class="ml-4 btn btn-gold btn-md" (click)="mostrarModalAgregarFunc = false">
         Cancelar
       </button>
-            <button class="ml-4 btn btn-primary btn-md" [disabled]="formFuncionalidad.invalid" (click)="agregarFuncionalidad()">
+            <button class="ml-4 btn btn-primary btn-md" [disabled]="formFuncionalidad.invalid" (click)="agregarFuncionalidad(funcionalidad.id.value)">
         Aceptar
       </button>
         </div>
@@ -144,8 +136,8 @@
         <form [formGroup]="formFuncionalidad">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <label class="control-label" for="idMod">Funcionalidad<span class="req">*</span>:</label>
-                    <p-dropdown id="idMod" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad">
+                    <label class="control-label" for="id">Funcionalidad<span class="req">*</span>:</label>
+                    <p-dropdown id="id" class="form-control" formControlName="id" [options]="catFuncionalidad" placeholder="Seleccionar funcionalidad">
                     </p-dropdown>
                     <span class="campo-obligatorio" *ngIf="funcionalidad.id?.errors?.required && (funcionalidad.id?.dirty || funcionalidad.id?.touched)">Campo obligatorio</span>
                 </div>

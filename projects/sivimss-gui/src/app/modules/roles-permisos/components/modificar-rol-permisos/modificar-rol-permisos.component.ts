@@ -27,7 +27,6 @@ export class ModificarRolPermisosComponent implements OnInit {
   formFuncionalidad!: FormGroup;
   modificarRolPermisoForm!: FormGroup;
   rolPermisosModificado!: RolPermisosModificado;
- // opciones: TipoDropdown[] = CATALOGOS;
  readonly POSICION_CATALOGO_ROL = 0;
  readonly POSICION_CATALOGO_FUNCIONALIDAD = 1;
  listaPermisos:any;
@@ -50,14 +49,12 @@ export class ModificarRolPermisosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     const rolPermisos = this.config.data;
     this.inicializarModificarRolPermisoForm(rolPermisos);
     this.catalogoRoles();
   }
 
   inicializarModificarRolPermisoForm(rolPermisos: Rol): void {
-    debugger
     this.modificarRolPermisoForm = this.formBuilder.group({
       idRol: [{value: rolPermisos.idRol, disabled: true}, [Validators.required]],
       idFuncionalidad: [{value: rolPermisos.idFuncionalidad, disabled: true}, [Validators.required]],

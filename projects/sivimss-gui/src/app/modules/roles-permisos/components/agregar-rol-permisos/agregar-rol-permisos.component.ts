@@ -46,7 +46,8 @@ export class AgregarRolPermisosComponent implements OnInit {
   funcionalidades: Funcionalidad[] = [];
   arregloFuncionalidades: Funcionalidad[] = [];
   funcionalidadSeleccionada!: Funcionalidad;
-
+  nombrefuncionalidadSeleccionada!: Funcionalidad;
+  idFuncionalidadSeleccionada !: Funcionalidad;
   contadorFuncionalidades = 1;
 
   constructor(
@@ -69,7 +70,6 @@ export class AgregarRolPermisosComponent implements OnInit {
   inicializarAgregarRolForm(): void {
     this.agregarRolForm = this.formBuilder.group({
       rol: [{value: null, disabled: false}, [Validators.required]],
-      estatus: [{value: true, disabled: false}],
       funcionalidades: this.formBuilder.array([])
     });
   }
@@ -114,7 +114,8 @@ export class AgregarRolPermisosComponent implements OnInit {
 
   abrirModalModificarFuncionalidad(): void {
     this.formFuncionalidad = this.formBuilder.group({
-      id: [{value: this.funcionalidadSeleccionada.id, disabled: false}],
+      id: [{value: this.funcionalidadSeleccionada.id, disabled: true}],
+      nombre: [{value: this.funcionalidadSeleccionada.nombre, disabled: false}],
       alta: [{value: this.funcionalidadSeleccionada.alta, disabled: false}],
       baja: [{value: this.funcionalidadSeleccionada.baja, disabled: false}],
       aprobacion: [{value: this.funcionalidadSeleccionada.aprobacion, disabled: false}],
@@ -126,7 +127,6 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   crearFormGroupFuncionalidad(): void {
-    debugger
     this.formFuncionalidad = this.formBuilder.group({
       id: [{value: null, disabled: false}, [Validators.required]],
       nombre: [{value: null, disabled: false}],
@@ -137,15 +137,25 @@ export class AgregarRolPermisosComponent implements OnInit {
       modificar: [{value: false, disabled: false}],
       imprimir: [{value: false, disabled: false}],
     });
-    this.catalogoFuncionalidad();
   }
 
-   agregarFuncionalidad(): void {    
-    const hasValue = this.funcionalidades.some(funcionalidad => funcionalidad.id === this.formFuncionalidad.getRawValue().id);
+   agregarFuncionalidad(funcionalidadSeleccionada :any): void {    
+    const hasValue = this.funcionalidades.some(funcionalidad => funcionalidad.id === this.formFuncionalidad.getRawValue().id.value);
     if(hasValue){
       this.alertaService.mostrar(TipoAlerta.Error, 'Funcionalidad agregada');
       return 
     }
+    this.formFuncionalidad = this.formBuilder.group({
+      id: funcionalidadSeleccionada.value,
+      nombre: funcionalidadSeleccionada.label,
+      alta: this.formFuncionalidad.get("alta")?.value,
+      baja:  this.formFuncionalidad.get("baja")?.value,
+      aprobacion:  this.formFuncionalidad.get("aprobacion")?.value,
+      consulta:  this.formFuncionalidad.get("consulta")?.value,
+      modificar:  this.formFuncionalidad.get("modificar")?.value,
+      imprimir:  this.formFuncionalidad.get("imprimir")?.value,
+    });
+
     this.formArrayFuncionalidades.push(this.formFuncionalidad);
     this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();
     this.mostrarModalAgregarFunc = false;
@@ -153,13 +163,23 @@ export class AgregarRolPermisosComponent implements OnInit {
 
   modificarFuncionalidad(): void {
     let indiceFuncionalidad: number = this.buscarIndiceFuncionalidadEnFormArray();
+    this.formFuncionalidad = this.formBuilder.group({
+      id:  this.formFuncionalidad.get("id")?.value,
+      nombre:  this.funcionalidadSeleccionada.nombre,
+      alta: this.formFuncionalidad.get("alta")?.value,
+      baja:  this.formFuncionalidad.get("baja")?.value,
+      aprobacion:  this.formFuncionalidad.get("aprobacion")?.value,
+      consulta:  this.formFuncionalidad.get("consulta")?.value,
+      modificar:  this.formFuncionalidad.get("modificar")?.value,
+      imprimir:  this.formFuncionalidad.get("imprimir")?.value,
+    });
+
     this.reemplazarFuncionalidadEnFormArray(indiceFuncionalidad, this.formFuncionalidad);
     this.funcionalidades = this.obtenerFuncionalidadesDeFormArray();
     this.mostrarModalModificarFunc = false;
   }
 
   eliminarFuncionalidad(): void {
-    debugger
     this.funcionalidades= this.funcionalidades.filter(
     (listaFun:any) => listaFun.id !== this.funcionalidadSeleccionada.id);
     let indiceFuncionalidad: number = this.buscarIndiceFuncionalidad();
@@ -175,11 +195,10 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   buscarIndiceFuncionalidadEnFormArray(): number {
-    return this.formArrayFuncionalidades.controls.findIndex((control: AbstractControl) => control.value.id === this.formFuncionalidad.value.id);
+    return this.formArrayFuncionalidades.controls.findIndex((control: AbstractControl) => control.value.id === this.funcionalidadSeleccionada.id);
   }
 
   obtenerFuncionalidadesDeFormArray(): Funcionalidad[] {
-    debugger
     return this.formArrayFuncionalidades.controls.map((formGroup: AbstractControl) => formGroup.value as Funcionalidad);
   }
 
@@ -195,7 +214,7 @@ export class AgregarRolPermisosComponent implements OnInit {
     );
   }
 
-  catalogoFuncionalidad(): void {
+  catalogoFuncionalidad(e: Event): void {
     this.rolSeleccionado = {
       idRol: this.agregarRolForm.get("rol")?.value
     }
