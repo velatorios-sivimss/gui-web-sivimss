@@ -11,6 +11,6 @@ export interface Rol {
   velatorio: string;
   idFuncionalidad: number;
   funcionalidad: string;
-  permiso: string;
+  permisos: string;
   funcionalidades: Funcionalidad[];
 }

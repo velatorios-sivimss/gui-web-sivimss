@@ -59,14 +59,14 @@ export class ModificarRolPermisosComponent implements OnInit {
       idRol: [{value: rolPermisos.idRol, disabled: true}, [Validators.required]],
       idFuncionalidad: [{value: rolPermisos.idFuncionalidad, disabled: true}, [Validators.required]],
       nombreFun: [{value: rolPermisos.funcionalidad, disabled: true}, [Validators.required]],
-      alta: [{value: rolPermisos.permiso.includes('ALTA')? true: false, disabled: false}, [Validators.required]],
-      baja: [{value: rolPermisos.permiso.includes('BAJA')? true: false, disabled: false}, [Validators.required]],
-      aprobacion: [{value: rolPermisos.permiso.includes('APROBACIÓN')? true: false, disabled: false}, [Validators.required]],
-      consulta: [{value: rolPermisos.permiso.includes('CONSULTA')? true: false, disabled: false}, [Validators.required]],
-      modificar: [{value: rolPermisos.permiso.includes('MODIFICAR')? true: false, disabled: false}, [Validators.required]],
-      imprimir: [{value: rolPermisos.permiso.includes('IMPRIMIR')? true: false, disabled: false}, [Validators.required]]
+      alta: [{value: rolPermisos.permisos.includes('ALTA')? true: false, disabled: false}, [Validators.required]],
+      baja: [{value: rolPermisos.permisos.includes('BAJA')? true: false, disabled: false}, [Validators.required]],
+      aprobacion: [{value: rolPermisos.permisos.includes('APROBACIÓN')? true: false, disabled: false}, [Validators.required]],
+      consulta: [{value: rolPermisos.permisos.includes('CONSULTA')? true: false, disabled: false}, [Validators.required]],
+      modificar: [{value: rolPermisos.permisos.includes('MODIFICAR')? true: false, disabled: false}, [Validators.required]],
+      imprimir: [{value: rolPermisos.permisos.includes('IMPRIMIR')? true: false, disabled: false}, [Validators.required]]
     });
-    this.listaPermisos= rolPermisos.permiso;
+    this.listaPermisos= rolPermisos.permisos;
 
   }
 
