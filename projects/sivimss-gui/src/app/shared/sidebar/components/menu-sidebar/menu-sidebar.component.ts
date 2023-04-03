@@ -58,6 +58,18 @@ export class MenuSidebarComponent implements OnInit {
             },
           ]
         },
+        {
+          icono: '',
+          texto: 'Consultar donaciones',
+          ruta: 'consulta-donaciones',
+          activo: false
+        },
+        {
+          icono: '',
+          texto: 'Reservar capilla',
+          ruta: 'reservar-capilla',
+          activo: false
+        },
       ]
     },
     {
@@ -86,7 +98,7 @@ export class MenuSidebarComponent implements OnInit {
         {
           icono: '',
           texto: 'Artículos',
-          ruta: 'artículos',
+          ruta: 'articulos',
           activo: false
         },
         {

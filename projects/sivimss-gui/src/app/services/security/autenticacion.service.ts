@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { dummyMenuResponse } from "projects/sivimss-gui/src/app/services/security/menu-dummy";
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { map, tap } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
-export const SIVIMSS_TOKEN = "sivimss_token";
-export const SIVIMSS_USUARIO = "sivimss_usuario";
+export const SIVIMSS_TOKEN: string = "sivimss_token";
+export const SIVIMSS_USUARIO: string = "sivimss_usuario";
 
-interface RespuestaHttp<T> {
+export interface RespuestaHttp<T> {
   error: boolean;
   codigo: number;
   mensaje: string;
@@ -21,7 +22,13 @@ interface RespuestaUsuarioActivo {
   token: string;
 }
 
-interface Usuario {
+interface Payload {
+  exp: number;
+  iat: number;
+  sub: string;
+}
+
+export interface Usuario {
   idVelatorio: string;
   idRol: string;
   desRol: string;
@@ -34,10 +41,20 @@ interface Usuario {
   curp: string;
 }
 
+export interface Modulo {
+  idTablaMenu: string;
+  idTablaPadre: string | null;
+  idModulo: string;
+  descIcono: string;
+  titulo: string;
+  modulos: Modulo[] | null;
+  activo?:boolean;
+}
+
 @Injectable()
 export class AutenticacionService {
 
-  private usuarioSubject = new BehaviorSubject<Usuario | null>(null);
+  private usuarioSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
   usuario$: Observable<Usuario | null> = this.usuarioSubject.asObservable();
   estaLogueado$!: Observable<boolean>;
   noEstaLogueado$!: Observable<boolean>;
@@ -45,14 +62,14 @@ export class AutenticacionService {
   //subsSesionInactivaTemporizador!: Subscription;
 
   constructor(
-    private http: HttpClient,
+    private httpClient: HttpClient,
     private router: Router,
     // private controladorInactividadUsuarioService: BnNgIdleService,
     // @Inject(TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION) private tiempoMaximoInactividad: number
   ) {
-    this.estaLogueado$ = this.usuario$.pipe(map(usuario => !!usuario));
-    this.noEstaLogueado$ = this.estaLogueado$.pipe(map(estaLogueado => !estaLogueado));
-    const usuario = localStorage.getItem(SIVIMSS_USUARIO);
+    this.estaLogueado$ = this.usuario$.pipe(map((usuario: Usuario | null) => !!usuario));
+    this.noEstaLogueado$ = this.estaLogueado$.pipe(map((estaLogueado: boolean) => !estaLogueado));
+    const usuario: string | null = localStorage.getItem(SIVIMSS_USUARIO);
     if (usuario) {
       this.usuarioSubject.next(JSON.parse(usuario));
       //this.iniciarTemporizadorSesion();
@@ -77,10 +94,13 @@ export class AutenticacionService {
       tap((respuesta: RespuestaHttp<RespuestaUsuarioActivo>) => {
         if (respuesta.datos) {
           const jwtHelperService: JwtHelperService = new JwtHelperService();
-          const usuario: Usuario | null = jwtHelperService.decodeToken<Usuario>(respuesta.datos.token);
+          const payload: Payload | null = jwtHelperService.decodeToken<Payload>(respuesta.datos.token);
+          const usuario: Usuario = JSON.parse(payload!.sub);
+          console.log(usuario);
           this.usuarioSubject.next(usuario);
           localStorage.setItem(SIVIMSS_USUARIO, JSON.stringify(usuario));
           localStorage.setItem(SIVIMSS_TOKEN, respuesta.datos.token);
+
           //this.iniciarTemporizadorSesion();
         }
       }),
@@ -101,6 +121,11 @@ export class AutenticacionService {
     localStorage.removeItem(SIVIMSS_TOKEN);
     this.router.navigateByUrl('/inicio-sesion');
     //this.detenerTemporizadorSesion();
+  }
+
+  obtenerModulosPorIdRol(idRol: string): Observable<RespuestaHttp<Modulo[]>> {
+    //this.httpClient.get<RespuestaHttp<Modulo>>('');
+    return of<RespuestaHttp<Modulo[]>>(dummyMenuResponse);
   }
 
   // iniciarTemporizadorSesion() {
