@@ -1,8 +1,14 @@
 export interface Capilla {
-  id: string;
-  nombre: string;
-  largo: string;
-  alto: string;
-  areaTotal: string;
-  estatus: boolean;
+  nombreVelatorio?: string;
+  capillaId?: number;
+  idCapilla?: number;
+  idVelatorio?: number;
+  estatus?: boolean;
+  largo?: number;
+  alto?: number;
+  nombre?: string;
+  ancho?: number;
+  velatorio?: string;
+  capacidad?: number;
+  areaTotal?: number;
 }

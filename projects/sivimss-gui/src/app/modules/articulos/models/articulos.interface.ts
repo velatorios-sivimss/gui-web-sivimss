@@ -1,20 +1,27 @@
-export interface Articulos {
-id?: number;
-categoria?: string;
-tipoDeArticulo?: string;
-tipoDeMaterial?: string;
-tamanio?: string;
-clasificacionDeProducto?: string;
-modeloDeArticulo?: string;
-descripcionDeProducto?: string;
-largo?: string;
-ancho?: string;
-alto?: string;
-estatus?: boolean;
-claveSAT?:string;
-partidaPresupuestal?:string;
-cuentaClave?:string;
-cuentaContable?:string;
+export interface Articulo {
+  idArticulo?: number;
+  categoriaArticulo?: string;
+  idCategoriaArticulo?: number;
+  idTipoArticulo?: number;
+  tipoArticulo?: string;
+  tipoMaterial?: string;
+  idTipoMaterial?: number;
+  idTamanio?: number;
+  tamanio?: string;
+  idClasificacionProducto?: number;
+  clasificacionProducto?: string;
+  modeloArticulo?: string;
+  desArticulo?: string;
+  largo?: string;
+  ancho?: string;
+  alto?: string;
+  estatus?: boolean;  
+  idPartPresupuestal?: number;
+  partPresupuestal?: string;
+  idCuentaPartPresupuestal?: number;
+  numCuentaPartPresupuestal?: string;
+  idProductosServicios?: number;
+  productoServicios?: string;
 }
 
 export interface ConfirmacionServicio {

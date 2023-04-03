@@ -3,7 +3,7 @@ import {OverlayPanel} from "primeng-lts/overlaypanel";
 import {ServiciosFunerariosInterface, DetallePago} from "../../models/servicios-funerarios.interface";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {LazyLoadEvent} from "primeng-lts/api";
-import {Articulos} from "../../../articulos/models/articulos.interface";
+import {Articulo} from "../../../articulos/models/articulos.interface";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
