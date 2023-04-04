@@ -33,6 +33,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
   }
 
   cambiarEstatus(id: any): Observable<T> {
+    debugger
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     return this._http.put<T>(this._base + `${this._funcionalidad}/${this._estatus}`, id, {headers});
   }

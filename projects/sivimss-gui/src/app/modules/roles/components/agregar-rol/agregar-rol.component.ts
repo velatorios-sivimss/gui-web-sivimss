@@ -1,17 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { Funcionalidad } from "projects/sivimss-gui/src/app/modules/roles/models/funcionalidad.interface";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {ActivatedRoute} from '@angular/router';
-import { RespuestaModalUsuario } from '../../../usuarios/models/respuestaModal.interface';
 import {HttpErrorResponse} from "@angular/common/http";
 import {CATALOGOS} from '../../../usuarios/constants/catalogos_dummies';
 import {RolService} from '../../services/rol.service';
 import {Rol} from "../../models/rol.interface";
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {USUARIOS_BREADCRUMB} from '../../../usuarios/constants/breadcrumb';
 
 type NuevoRol = Omit<Rol, "idRol" >;
@@ -39,7 +36,6 @@ export class AgregarRolComponent implements OnInit {
   contadorFuncionalidades = 1;
 
   constructor(
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private rolService: RolService,
@@ -48,7 +44,6 @@ export class AgregarRolComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     this.inicializarAgregarRolForm();
   }
@@ -61,7 +56,6 @@ export class AgregarRolComponent implements OnInit {
   }
 
   crearNuevoRol(): any {
-    debugger
     return {
       desRol : this.agregarRolForm.get("nombre")?.value,
       nivel: this.agregarRolForm.get("nivel")?.value
@@ -69,7 +63,6 @@ export class AgregarRolComponent implements OnInit {
   }
 
   agregarRol(): void {
-    debugger
    // const respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
     const rolBo: NuevoRol = this.crearNuevoRol();
     const solicitudRol: string = JSON.stringify(rolBo);

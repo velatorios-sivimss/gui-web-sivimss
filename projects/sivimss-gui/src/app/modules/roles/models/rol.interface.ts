@@ -5,9 +5,11 @@ export interface Rol {
   idRol: number;
   desRol: string;
   nivel: string;
+  nivelOficina: string;
   fCreacion: string;
   estatus: boolean;
   delegacion: string;
   velatorio: string;
+  desNivelOficina: string;
   funcionalidades: Funcionalidad[];
 }
