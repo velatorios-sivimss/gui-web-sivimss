@@ -1,6 +1,5 @@
 import { ModificarCapillaComponent } from './../modificar-capilla/modificar-capilla.component';
 import { AgregarCapillaComponent } from './../agregar-capilla/agregar-capilla.component';
-import { Velatorio } from './../../../velatorios/modelos/velatorio.interface';
 import { HttpRespuesta } from './../../../../models/http-respuesta.interface';
 import { CapillaService } from "../../services/capilla.service";
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';

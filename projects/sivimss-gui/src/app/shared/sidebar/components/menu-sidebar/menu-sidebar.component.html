@@ -1,33 +1,6 @@
-<div [class.activo]="activo$ | async" class="menu-sidebar" appTiempoTransicion appWidthMenuSidebar>
-  <p-accordion>
-    <p-accordionTab *ngFor="let titulo of menu">
-      <ng-template pTemplate="header">
-        <ul class="menu-titulos">
-          <li class="menu-titulo">
-            <i class="menu-titulo-icono fs fs-{{titulo.icono}}"></i>
-            <a class="menu-titulo-texto">{{titulo.texto}}</a>
-          </li>
-        </ul>
-      </ng-template>
-      <ng-template pTemplate="content">
-        <ul class="menu-subtitulos">
-          <li [ngClass]="{'menu-subtitulo': !subtitulo?.submenus}" [class.activo]="subtitulo.activo" (click)="!subtitulo?.submenus && navegar(subtitulo)"
-              *ngFor="let subtitulo of titulo.subtitulos">
-
-            <div [ngClass]="{'menu-subtitulo': subtitulo?.submenus}" [class.activo]="subtitulo.activo">
-              <i class="menu-subtitulo-icono fs fs-{{subtitulo.icono}}"></i>
-              <a class="menu-subtitulo-texto">{{subtitulo.texto}}</a>
-            </div>
-
-            <ul *ngIf="subtitulo?.submenus">
-              <li class="menu-subtitulo submenu-titulo" [class.activo]="submenu.activo" (click)="navegarDesdeSubmenu(subtitulo, submenu)"
-                *ngFor="let submenu of subtitulo.submenus">
-                <a class="menu-subtitulo-texto">{{submenu.texto}}</a> 
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </ng-template>
-    </p-accordionTab>
-  </p-accordion>
+<div [class.abierto]="abierto$ | async" class="menu-sidebar" appTiempoTransicion appWidthMenuSidebar>
+  <div class="modulos">
+    <app-modulo (click)="abrirModulo($event,modulo)" [esModuloRaiz]="true" [modulo]="modulo"
+                *ngFor="let modulo of modulos"></app-modulo>
+  </div>
 </div>

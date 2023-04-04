@@ -11,7 +11,7 @@ import { Observable } from "rxjs";
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  estaLogueado$!: Observable<boolean>;
+  existeUnaSesion$!: Observable<boolean>;
 
   constructor(
     private primengConfig: PrimeNGConfig,
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.estaLogueado$ = this.aut.estaLogueado$;
+    this.existeUnaSesion$ = this.aut.existeUnaSesion$;
     this.permitirAnimacionRippleComponentesPrime();
     this.establecerIdiomaGeneral('es');
   }

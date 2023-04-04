@@ -2,7 +2,7 @@
   <ng-template appCustomTemplate="left-header">
     <div class="table-panel-header-column">
       <span class="font-bold mr-2">ID</span>
-      <span class="activo">{{velatorio.id}}</span>
+      <span class="activo" *ngIf="velatorio.idVelatorio !== 0">{{velatorio.idVelatorio}}</span>
     </div>
   </ng-template>
   <ng-template appCustomTemplate="right-header">
@@ -20,7 +20,7 @@
     <div class="col-md-12">
       <div class="table-panel-column">
         <label>Nombre</label>
-        <span>{{velatorio?.nombre}}</span>
+        <span>{{velatorio?.nomVelatorio}}</span>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@
     <div class="col-md-6">
       <div class="table-panel-column">
         <label>Responsable</label>
-        <span>{{velatorio?.responsableSanitario}}</span>
+        <span>{{velatorio?.nomRespoSanitario}}</span>
       </div>
     </div>
   </div>
@@ -42,7 +42,7 @@
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>No. capillas</label>
-        <span>{{velatorio?.capillasVelacion}}</span>
+        <span>{{velatorio?.capillas}}</span>
       </div>
     </div>
     <div class="col-md-4">
@@ -62,7 +62,7 @@
     <div class="col-md-12">
       <div class="table-panel-column">
         <label>Asignación</label>
-        <span>{{velatorio?.asignacion}}</span>
+        <span>{{velatorio?.cveAsignacion}}</span>
       </div>
     </div>
   </div>
@@ -71,7 +71,7 @@
       <div class="table-panel-column">
         <div class="subtitulo mb-2">Dirección</div>
         <label>Código postal</label>
-        <span>{{velatorio?.codigoPostal}}</span>
+        <span>{{velatorio?.cveCp}}</span>
       </div>
     </div>
   </div>
@@ -79,13 +79,13 @@
     <div class="col-md-6">
       <div class="table-panel-column">
         <label>Calle</label>
-        <span>{{velatorio?.direccionCalle}}</span>
+        <span>{{velatorio?.desCalle}}</span>
       </div>
     </div>
     <div class="col-md-6">
       <div class="table-panel-column">
         <label>No. exterior</label>
-        <span>{{velatorio?.numeroExterior}}</span>
+        <span>{{velatorio?.numExterior}}</span>
       </div>
     </div>
   </div>
@@ -93,19 +93,19 @@
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Colonia</label>
-        <span>{{velatorio?.colonia}}</span>
+        <span>{{velatorio?.desColonia}}</span>
       </div>
     </div>
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Municipio</label>
-        <span>{{velatorio?.municipio}}</span>
+        <span>{{velatorio?.desMunicipio}}</span>
       </div>
     </div>
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Estado</label>
-        <span>{{velatorio?.estado}}</span>
+        <span>{{velatorio?.desEstado}}</span>
       </div>
     </div>
   </div>
@@ -113,7 +113,7 @@
     <div class="col-md-12">
       <div class="table-panel-column">
         <label>Telefono</label>
-        <span>{{velatorio?.telefono}}</span>
+        <span>{{velatorio?.numTelefono}}</span>
       </div>
     </div>
   </div>
