@@ -119,10 +119,8 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
-    path: 'artículos',
-    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule),
-    canActivate: [PermiteUsuarioLogueadoGuard],
-    canActivateChild: [PermiteUsuarioLogueadoGuard]
+    path: 'articulos',
+    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
     path: 'convenios-prevision-funeraria',
@@ -159,6 +157,18 @@ const routes: Routes = [
     loadChildren: () => import('./modules/servicios-funerarios/servicios-funerarios.module').then(m => m.ServiciosFunerariosModule),
     canActivate: [PermiteUsuarioLogueadoGuard],
     canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'consulta-donaciones',
+    loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule)
+  },
+  {
+    path: 'reservar-capilla',
+    loadChildren: () => import('./modules/capilla-reservacion/capilla-reservacion.module').then(m => m.CapillaReservacionModule)
+  },
+  {
+    path: 'seguimiento-nuevo-convenio',
+    loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
   },
   {
     path: '**',

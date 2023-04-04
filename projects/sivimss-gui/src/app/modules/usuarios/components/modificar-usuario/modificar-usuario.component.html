@@ -47,7 +47,8 @@
             <div class="col-md-6">
                 <label class="control-label" for="fechaNacimientoModificar">Fecha nacimiento<span
           class="req">*</span>:</label>
-                <p-calendar id="fechaNacimientoModificar" formControlName="fechaNacimiento" styleClass="form-control" [showIcon]="true" placeholder="dd/mm/aaaa" dateFormat="dd/mm/yy" appendTo="body">
+                <p-calendar id="fechaNacimientoModificar" formControlName="fechaNacimiento" styleClass="form-control" [showIcon]="true" placeholder="dd/mm/aaaa" dateFormat="dd/mm/yy" appendTo="body"
+                            [maxDate]="fechaActual" >
                 </p-calendar>
                 <span class="campo-obligatorio" *ngIf="fmu?.fechaNacimiento?.errors?.required && (fmu?.fechaNacimiento?.dirty || fmu?.fechaNacimiento?.touched)">Campo obligatorio</span>
             </div>

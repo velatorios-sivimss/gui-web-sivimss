@@ -9,7 +9,6 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Usuario} from '../../models/usuario.interface';
 import {UsuarioService} from '../../services/usuario.service';
-import {HttpRespuesta} from '../../../../models/http-respuesta.interface';
 
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
@@ -23,7 +22,7 @@ import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type SolicitudEstatus = Pick<Usuario, "id">;
-const MAX_WIDTH: string = "876px";
+const MAX_WIDTH: string = "920px";
 
 @Component({
   selector: 'app-usuarios',
@@ -138,8 +137,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   paginarConFiltros(): void {
     const filtros = this.crearSolicitudFiltros();
-    const solicitudFiltros = JSON.stringify(filtros);
-    this.usuarioService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.usuarios = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
@@ -175,8 +173,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cambiarEstatus(id: number): void {
     const idUsuario: SolicitudEstatus = {id}
-    const solicitudId = JSON.stringify(idUsuario);
-    this.usuarioService.cambiarEstatus(solicitudId).subscribe(
+    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
       },
