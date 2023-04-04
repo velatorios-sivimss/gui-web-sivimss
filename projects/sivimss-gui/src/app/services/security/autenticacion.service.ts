@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { dummyMenuResponse } from "projects/sivimss-gui/src/app/services/security/menu-dummy";
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import { map, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
+import { concatMap, map, tap } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 export const SIVIMSS_TOKEN: string = "sivimss_token";
-export const SIVIMSS_USUARIO: string = "sivimss_usuario";
 
 export interface RespuestaHttp<T> {
   error: boolean;
@@ -42,23 +41,22 @@ export interface Usuario {
 }
 
 export interface Modulo {
-  idTablaMenu: string;
-  idTablaPadre: string | null;
+  idModuloPadre: string | null;
+  idFuncionalidad:string | null;
   idModulo: string;
-  descIcono: string;
   titulo: string;
   modulos: Modulo[] | null;
-  activo?:boolean;
+  activo?: boolean;
+  ruta?:string;
+  icono?:string;
 }
 
 @Injectable()
 export class AutenticacionService {
 
-  private usuarioSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
-  usuario$: Observable<Usuario | null> = this.usuarioSubject.asObservable();
-  estaLogueado$!: Observable<boolean>;
-  noEstaLogueado$!: Observable<boolean>;
-
+  private usuarioEnSesionSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
+  usuarioEnSesion$: Observable<Usuario | null> = this.usuarioEnSesionSubject.asObservable();
+  existeUnaSesion$!: Observable<boolean>;
   //subsSesionInactivaTemporizador!: Subscription;
 
   constructor(
@@ -67,20 +65,15 @@ export class AutenticacionService {
     // private controladorInactividadUsuarioService: BnNgIdleService,
     // @Inject(TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION) private tiempoMaximoInactividad: number
   ) {
-    this.estaLogueado$ = this.usuario$.pipe(map((usuario: Usuario | null) => !!usuario));
-    this.noEstaLogueado$ = this.estaLogueado$.pipe(map((estaLogueado: boolean) => !estaLogueado));
-    const usuario: string | null = localStorage.getItem(SIVIMSS_USUARIO);
+    this.existeUnaSesion$ = this.usuarioEnSesion$.pipe(tap(() => console.log('Se ejecuta esta logueado')), map((usuario: Usuario | null) => !!usuario));
+    const usuario: Usuario | null = this.obtenerUsuarioDePayload(localStorage.getItem(SIVIMSS_TOKEN) as string);
     if (usuario) {
-      this.usuarioSubject.next(JSON.parse(usuario));
+      this.usuarioEnSesionSubject.next(usuario);
       //this.iniciarTemporizadorSesion();
     }
   }
 
-  estaUsuarioLogueado() {
-    return !!this.usuarioSubject.getValue();
-  }
-
-  iniciarSesion(usuario: string, contrasena: string): Observable<any> {
+  iniciarSesion(usuario: string, contrasenia: string): Observable<any> {
     //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
     return of<RespuestaHttp<RespuestaUsuarioActivo>>({
       error: false,
@@ -91,33 +84,43 @@ export class AutenticacionService {
         "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
       }
     }).pipe(
-      tap((respuesta: RespuestaHttp<RespuestaUsuarioActivo>) => {
-        if (respuesta.datos) {
-          const jwtHelperService: JwtHelperService = new JwtHelperService();
-          const payload: Payload | null = jwtHelperService.decodeToken<Payload>(respuesta.datos.token);
-          const usuario: Usuario = JSON.parse(payload!.sub);
-          console.log(usuario);
-          this.usuarioSubject.next(usuario);
-          localStorage.setItem(SIVIMSS_USUARIO, JSON.stringify(usuario));
-          localStorage.setItem(SIVIMSS_TOKEN, respuesta.datos.token);
-
-          //this.iniciarTemporizadorSesion();
+      concatMap((respuesta: RespuestaHttp<any>) => {
+        if (respuesta.datos?.token) {
+          this.crearSesion(respuesta.datos.token);
+          return respuesta.datos?.contraseniaProximaVencer ? of('CONTRASENIA_PROXIMA_VENCER') : of('OK');
+        } else if (respuesta.mensaje === 'CONTRASENIA_INCORRECTA') {
+          return of('CONTRASENIA_INCORRECTA');
+        } else if (respuesta.mensaje === 'INTENTOS_FALLIDOS') {
+          return of('INTENTOS_FALLIDOS');
+        } else if (respuesta.mensaje === 'FECHA_CONTRASENIA_VENCIDA') {
+          return of('CONTRASENIA_VENCIDA');
+        } else if (respuesta.datos?.preActivo) {
+          return of('USUARIO_PREACTIVO');
+        } else {
+          return throwError('Ocurrió un error al intentar iniciar sesión');
         }
-      }),
+      })
     );
   }
 
-  // actualizarContrasena(idUsuario: string, nuevaContrasena: string, confirmacionContrasena: string): Observable<any> {
-  //   return this.http.put<any>(`${environment.api.mssintetransOauth}/`, {
-  //     idUsuario,
-  //     password: nuevaContrasena,
-  //     verificarPassword: confirmacionContrasena
-  //   });
-  // }
+  crearSesion(token: string): void | never {
+    const usuario: Usuario | null = this.obtenerUsuarioDePayload(token);
+    if (usuario) {
+      this.usuarioEnSesionSubject.next(usuario);
+      localStorage.setItem(SIVIMSS_TOKEN, token);
+    }else{
+      throw new Error('Error al intentar obtener el usuario del payload en el token');
+    }
+  }
+
+  obtenerUsuarioDePayload(token: string): Usuario | null {
+    const jwtHelperService: JwtHelperService = new JwtHelperService();
+    const payload: Payload | null = jwtHelperService.decodeToken<Payload>(token);
+    return payload ? JSON.parse(payload.sub) : null;
+  }
 
   cerrarSesion() {
-    this.usuarioSubject.next(null);
-    localStorage.removeItem(SIVIMSS_USUARIO);
+    this.usuarioEnSesionSubject.next(null);
     localStorage.removeItem(SIVIMSS_TOKEN);
     this.router.navigateByUrl('/inicio-sesion');
     //this.detenerTemporizadorSesion();

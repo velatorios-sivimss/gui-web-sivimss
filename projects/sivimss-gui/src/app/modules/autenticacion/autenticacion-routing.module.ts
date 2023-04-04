@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InicioAutenticacionComponent } from './components/inicio-autenticacion/inicio-autenticacion.component';
 import { InicioSesionComponent } from './components/inicio-sesion/inicio-sesion.component';
-import { NuevaContrasenaComponent } from './components/nueva-contrasena/nueva-contrasena.component';
+import { ActualizarContraseniaComponent } from 'projects/sivimss-gui/src/app/modules/autenticacion/components/actualizar-contrasenia/actualizar-contrasenia.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
         path: 'recuperar-contrasena', component: RecuperarContrasenaComponent
       },
       {
-        path: 'nueva-contrasena', component: NuevaContrasenaComponent
+        path: 'actualizar-contrasenia', component: ActualizarContraseniaComponent
       }
     ]
   }

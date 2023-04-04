@@ -40,7 +40,7 @@ export class RecuperarContrasenaComponent implements OnInit {
     //     if (respuesta.mensaje === 'usuarioInvalido') {
     //       this.alertaFlotantService.mostrar(TipoAlerta.Info, 'Usuario inválido');
     //     } else if (respuesta.mensaje === 'Exito') {
-    //       this.router.navigate(['../nueva-contrasena', respuesta.idUsuario], { relativeTo: this.activatedRoute });
+    //       this.router.navigate(['../actualizar-contrasenia', respuesta.idUsuario], { relativeTo: this.activatedRoute });
     //     }
     //   },
     //   (httpErrorResponse: HttpErrorResponse) => {
