@@ -1,5 +1,6 @@
 export interface Funcionalidad {
-  id: number;
+  idRol: number;
+  idFuncionalidad: number;
   nombre: string;
   alta:boolean;
   baja:boolean;
