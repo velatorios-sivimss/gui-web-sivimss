@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import {LazyLoadEvent} from "primeng-lts/api";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 import { USUARIOS_BREADCRUMB } from '../../../usuarios/constants/breadcrumb';
@@ -10,11 +9,9 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/
 import {Rol} from "../../models/rol.interface";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {HttpErrorResponse} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
 import { CATALOGOS } from '../../../usuarios/constants/catalogos_dummies';
 import { RolPermisosService } from '../../services/rol-permisos.service';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
-import { FiltrosRol } from '../../models/filtrosRol.interface';
 import {VerDetalleRolPermisosComponent} from "../ver-detalle-rol-permisos/ver-detalle-rol-permisos.component";
 import {ModificarRolPermisosComponent} from "../modificar-rol-permisos/modificar-rol-permisos.component";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
@@ -49,7 +46,6 @@ export class RolesPermisosComponent implements OnInit {
   modificacionRef!: DynamicDialogRef;
   
   constructor(
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private rolPermisosService: RolPermisosService,
     private alertaService: AlertaService,
@@ -59,7 +55,6 @@ export class RolesPermisosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     this.inicializarFiltroForm();
     this.catalogoRoles();
@@ -90,7 +85,6 @@ export class RolesPermisosComponent implements OnInit {
   }
 
   paginar(): void {
-    debugger
     this.rolPermisosService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.roles = respuesta!.datos.content;

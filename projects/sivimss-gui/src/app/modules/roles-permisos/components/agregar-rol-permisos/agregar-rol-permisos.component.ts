@@ -6,14 +6,12 @@ import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/a
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {ActivatedRoute, Router} from '@angular/router';
-import { RespuestaModalUsuario } from '../../../usuarios/models/respuestaModal.interface';
 import {HttpErrorResponse} from "@angular/common/http";
 import {CATALOGOS} from '../../../usuarios/constants/catalogos_dummies';
 import {RolPermisosService} from '../../services/rol-permisos.service';
 import {Rol} from "../../models/rol.interface";
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {USUARIOS_BREADCRUMB} from '../../../usuarios/constants/breadcrumb';
-import { concat } from 'rxjs';
 
 type NuevoRol = Omit<Rol, "idRol" >;
 
@@ -61,7 +59,6 @@ export class AgregarRolPermisosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     this.inicializarAgregarRolForm();
     this.catalogoRoles();

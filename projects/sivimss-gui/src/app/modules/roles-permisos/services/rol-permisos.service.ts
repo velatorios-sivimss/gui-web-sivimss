@@ -4,7 +4,6 @@ import { Observable, of } from "rxjs";
 import { HttpRespuesta } from "../../../models/http-respuesta.interface";
 import { BaseService } from "../../../utils/base-service";
 import { environment } from '../../../../environments/environment';
-import { Header } from "primeng-lts/api";
 
 @Injectable()
 export class RolPermisosService extends BaseService<HttpRespuesta<any>, any> {
@@ -27,7 +26,6 @@ export class RolPermisosService extends BaseService<HttpRespuesta<any>, any> {
   }
 
   obtenerCatRoles(): Observable<HttpRespuesta<any>> {
-    debugger
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token3}`, 'Content-Type': 'application/json'});
     const params = new HttpParams()
       .append("servicio", "catalogo-roles")
@@ -35,9 +33,9 @@ export class RolPermisosService extends BaseService<HttpRespuesta<any>, any> {
   }
 
 
-  obtenerCatFuncionalidad(id: any): Observable<HttpRespuesta<any>> {
+  obtenerCatFuncionalidad(idRol: any): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token3}`, 'Content-Type': 'application/json'});
-    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/consultar-funcional`, id, {headers});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/consultar-funcional`, idRol, {headers});
   }
 
 }

@@ -26,12 +26,10 @@ export class VerDetalleRolPermisosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.rolSeleccionado = this.config.data;
   }
 
   cambiarEstatus(id: number): void {
-    debugger
     const idUsuario: SolicitudEstatus = {id}
     const solicitudId = JSON.stringify(idUsuario);
     this.rolPermisosService.cambiarEstatus(solicitudId).subscribe(

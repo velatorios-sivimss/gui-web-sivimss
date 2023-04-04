@@ -2,16 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Rol} from '../../models/rol.interface';
 import {Funcionalidad} from '../../models/funcionalidad.interface';
-import * as moment from "moment/moment";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RolPermisosService} from "../../services/rol-permisos.service";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {PATRON_CORREO} from "../../../../utils/constantes";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-//import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
-import {diferenciaUTC} from "../../../../utils/funciones";
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {ActivatedRoute} from '@angular/router';
 
