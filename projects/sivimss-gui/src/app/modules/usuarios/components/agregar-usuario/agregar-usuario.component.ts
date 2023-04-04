@@ -31,6 +31,7 @@ export class AgregarUsuarioComponent implements OnInit {
   curpValida: boolean = false;
   matriculaValida: boolean = false;
   catRol: TipoDropdown[] = [];
+  fechaActual: Date =  new Date();
 
   constructor(
     private route: ActivatedRoute,
@@ -66,7 +67,7 @@ export class AgregarUsuarioComponent implements OnInit {
     });
   }
 
-  crearNuevoUsuario(): NuevoUsuario {
+  crearUsuario(): NuevoUsuario {
     return {
       materno: this.agregarUsuarioForm.get("segundoApellido")?.value,
       nombre: this.agregarUsuarioForm.get("nombre")?.value,
@@ -87,8 +88,7 @@ export class AgregarUsuarioComponent implements OnInit {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
     if (!curp.curp) return;
     if (!PATRON_CURP.test(curp.curp)) return;
-    const solicitudCurp: string = JSON.stringify(curp);
-    this.usuarioService.validarCurp(solicitudCurp).subscribe(
+    this.usuarioService.validarCurp(curp).subscribe(
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
@@ -107,8 +107,7 @@ export class AgregarUsuarioComponent implements OnInit {
   validarMatricula(): void {
     const matricula: SolicitudMatricula = {claveMatricula: this.agregarUsuarioForm.get("matricula")?.value};
     if (!matricula.claveMatricula) return;
-    const solicitudMatricula: string = JSON.stringify(matricula);
-    this.usuarioService.validarMatricula(solicitudMatricula).subscribe(
+    this.usuarioService.validarMatricula(matricula).subscribe(
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
@@ -126,9 +125,8 @@ export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuario(): void {
     const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
-    const usuario: NuevoUsuario = this.crearNuevoUsuario();
-    const solicitudUsuario: string = JSON.stringify(usuario);
-    this.usuarioService.guardar(solicitudUsuario).subscribe(
+    const usuario: NuevoUsuario = this.crearUsuario();
+    this.usuarioService.guardar(usuario).subscribe(
       () => {
         this.ref.close(respuesta)
       },

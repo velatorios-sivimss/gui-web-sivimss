@@ -1,7 +1,6 @@
 <app-header-imss-publico></app-header-imss-publico>
 
-<!--Esta implementación es temporal hasta tener los servicios de autenticacion-->
-<ng-container [ngTemplateOutlet]="rutaActual === '/inicio-sesion' ? paginaPublica:paginaPrivada"></ng-container>
+<ng-container [ngTemplateOutlet]="(existeUnaSesion$ | async) ? paginaPrivada:paginaPublica"></ng-container>
 
 <ng-template #paginaPublica>
   <router-outlet></router-outlet>

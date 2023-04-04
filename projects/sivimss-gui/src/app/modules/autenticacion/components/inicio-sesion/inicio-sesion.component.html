@@ -1,5 +1,5 @@
 <div class="inicio-sesion">
-  <form [formGroup]="form" (ngSubmit)="iniciarSesion()">
+  <form [formGroup]="form" (ngSubmit)="acceder()">
 
     <h1>Inicio de sesión</h1>
     <h2>Captura tu usuario y contraseña para ingresar</h2>
@@ -12,43 +12,44 @@
     </div>
     <div class="form-group mb-0">
       <div class="flex justify-content-between align-items-center">
-        <label class="control-label" for="password">Contraseña<span class="req">*</span>:</label>
+        <label class="control-label" for="contrasenia">Contraseña<span class="req">*</span>:</label>
         <span class="olvidaste-contrasena">¿Olvidaste tu contraseña?</span>
       </div>
       <div class="form-icon">
-        <input #input class="form-control" id="password" formControlName="contrasena"
+        <input #input class="form-control" id="contrasenia" formControlName="contrasenia"
                placeholder="Ingresar contraseña" type="password" [maxlength]="16">
         <i class="cursor-pointer icon pi pi-eye"
            (click)="input.type = input.type==='password'?'text':'password'"></i>
       </div>
       <span class="campo-obligatorio"
-            *ngIf="f.contrasena?.errors?.required && (f.contrasena?.dirty || f.contrasena?.touched)">Campo obligatorio</span>
+            *ngIf="f.contrasenia?.errors?.required && (f.contrasenia?.dirty || f.contrasenia?.touched)">Campo obligatorio</span>
     </div>
     <div class="mt-3">
       <span class="req">*Campos obligatorios</span>
     </div>
     <div class="flex justify-content-end align-items-center mt-3 mb-4 flex-wrap">
-      <button type="button" class="btn btn-primary btn-lg ml-5" (click)="mostrarAlerta()">Acceder</button>
+      <button class="btn btn-primary btn-lg ml-5" [disabled]="form.invalid">Acceder
+      </button>
     </div>
 
-    <div class="mt-5">Modales que se usarán</div>
-    <div class="flex flex-wrap gap-4">
-      <button type="button" class="btn btn-primary btn-lg" (click)="modales.intentosAgotados = true">
-        Intentos agotados
-      </button>
-      <button type="button" class="btn btn-primary btn-lg" (click)="modales.restablecerContrasena = true">Restablecer
-        contraseña
-      </button>
-      <button type="button" class="btn btn-primary btn-lg" (click)="modales.cuentaDesactivada = true">Cuenta desactivada
-      </button>
-      <button type="button" class="btn btn-primary btn-lg" (click)="modales.requiereCambioContrasena = true">Requiere
-        cambio
-        contraseña
-      </button>
-      <button type="button" class="btn btn-primary btn-lg" (click)="modales.cambiarContrasena = true">Cambiar
-        contraseña
-      </button>
-    </div>
+    <!--    <div class="mt-5">Modales que se usarán</div>-->
+    <!--    <div class="flex flex-wrap gap-4">-->
+    <!--      <button type="button" class="btn btn-primary btn-lg" (click)="modales.intentosAgotados = true">-->
+    <!--        Intentos agotados-->
+    <!--      </button>-->
+    <!--      <button type="button" class="btn btn-primary btn-lg" (click)="modales.restablecerContrasena = true">Restablecer-->
+    <!--        contraseña-->
+    <!--      </button>-->
+    <!--      <button type="button" class="btn btn-primary btn-lg" (click)="modales.cuentaDesactivada = true">Cuenta desactivada-->
+    <!--      </button>-->
+    <!--      <button type="button" class="btn btn-primary btn-lg" (click)="modales.requiereCambioContrasena = true">Requiere-->
+    <!--        cambio-->
+    <!--        contraseña-->
+    <!--      </button>-->
+    <!--      <button type="button" class="btn btn-primary btn-lg" (click)="modales.cambiarContrasena = true">Cambiar-->
+    <!--        contraseña-->
+    <!--      </button>-->
+    <!--    </div>-->
 
   </form>
 </div>
