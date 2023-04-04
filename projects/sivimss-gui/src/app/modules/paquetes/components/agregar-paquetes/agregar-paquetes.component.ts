@@ -14,7 +14,12 @@ import {VerDetallePaquetesComponent} from '../ver-detalle-paquetes/ver-detalle-p
 import {Paquete} from '../../models/paquetes.interface';
 import {PAQUETES_BREADCRUMB} from "../../constants/breadcrumb";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGO_REGIONES, CATALOGOS_CLAVES_SAT} from "../../constants/catalogos";
+import {
+  CATALOGO_REGIONES,
+  CATALOGO_VELATORIOS,
+  CATALOGOS_CLAVES_SAT,
+  CATALOGOS_TIPO_ARTICULOS
+} from "../../constants/catalogos";
 
 interface Catalogo {
   nombre: string,
@@ -129,30 +134,11 @@ export class AgregarPaquetesComponent implements OnInit {
   paginar(event: LazyLoadEvent): void {
   }
 
-  obtenerVelatorio() {
-    this.velatorios = [
-      {descripcion: 'No. 01 Doctores'},
-      {descripcion: 'No. 03 Chihuahua'},
-      {descripcion: 'No. 05 Mérida'},
-      {descripcion: 'No. 06 Torreón'},
-      {descripcion: 'No. 07 Cd. Juárez'},
-      {descripcion: 'No. 08 Guadalajara'},
-      {descripcion: 'No. 09 Toluca'},
-      {descripcion: 'No. 10 Monterrey'},
-      {descripcion: 'No. 11 Puebla'},
-      {descripcion: 'No. 12 Veracruz'},
-      {descripcion: 'No. 13 Querétaro'},
-      {descripcion: 'No. 14 San Luis Potosí y CD Valles'},
-      {descripcion: 'No. 15 Pachuca'},
-      {descripcion: 'No. 17 Tapachula'},
-      {descripcion: 'No. 18 Tequesquináhuac'},
-      {descripcion: 'No. 20 Ecatepec'},
-      {descripcion: 'No. 21 Tampico'},
-      {descripcion: 'No. 22 Villahermosa'},
-    ];
+  obtenerVelatorio(): void {
+    this.velatorios = CATALOGO_VELATORIOS;
   }
 
-  inicializarAgregarPaqueteForm() {
+  inicializarAgregarPaqueteForm(): void {
     this.agregarPaqueteForm = this.formBuilder.group({
       id: [{value: null, disabled: true}, Validators.required],
       nombrePaquete: [{value: null, disabled: false}, [Validators.maxLength(70), Validators.required]],
@@ -166,22 +152,18 @@ export class AgregarPaquetesComponent implements OnInit {
     });
   }
 
-  inicializarAgregarServicioForm() {
+  inicializarAgregarServicioForm(): void {
     this.agregarServicioForm = this.formBuilder.group({
       tipoServicio: [{value: null, disabled: false}, [Validators.required]],
       servicio: [{value: null, disabled: false}, [Validators.required]],
     });
   }
 
-  inicializarAgregarArticuloForm() {
+  inicializarAgregarArticuloForm(): void {
     this.agregarArticuloForm = this.formBuilder.group({
       articulo: [{value: null, disabled: false}, [Validators.required]],
       tipoArticulo: [{value: null, disabled: false}, []],
     });
-  }
-
-  abrirModalDetallePaquete(paquete: Servicio) {
-    return 0;
   }
 
   abrirPanel(event: MouseEvent, servicioSeleccionado: Servicio): void {
@@ -190,6 +172,7 @@ export class AgregarPaquetesComponent implements OnInit {
   }
 
   agregarPaquete(): void {
+    const paquete = this.crearPaquete();
     this.alertaService.mostrar(TipoAlerta.Exito, 'Paquete guardado');
   }
 
@@ -266,6 +249,17 @@ export class AgregarPaquetesComponent implements OnInit {
     this.tituloEliminar = 'Eliminar artículo al paquete';
   }
 
+  crearPaquete(): any {
+    return {
+      nomPaquete: "",
+      desPaquete: "TERCER PAQUETE",
+      costo : 7.55,
+      precio: 8.44,
+      isRegion: true,
+      idProducto: 1
+    }
+  }
+
   eliminarServicio(): void {
     const foundIndex = this.servicios.findIndex((item: Servicio) => item.id === this.servicioSeleccionado.id);
     this.servicios.splice(foundIndex, 1);
@@ -285,20 +279,7 @@ export class AgregarPaquetesComponent implements OnInit {
   handleChangeCatArticulo() {
     this.faa.tipoArticulo.reset();
     if (this.faa.articulo.value === 'Ataúd') {
-      this.tipoArticulos = [
-        {
-          label: 'Económico',
-          value: 0,
-        },
-        {
-          label: 'Donado',
-          value: 1,
-        },
-        {
-          label: 'Consignado',
-          value: 2,
-        },
-      ];
+      this.tipoArticulos = CATALOGOS_TIPO_ARTICULOS;
       this.faa.tipoArticulo.setValidators(Validators.required);
     } else {
       this.tipoArticulos = [];
