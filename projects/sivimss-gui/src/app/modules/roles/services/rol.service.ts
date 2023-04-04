@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { HttpRespuesta } from "../../../models/http-respuesta.interface";
 import { BaseService } from "../../../utils/base-service";
 import { environment } from '../../../../environments/environment';
-import { Header } from "primeng-lts/api";
 
 @Injectable()
 export class RolService extends BaseService<HttpRespuesta<any>, any> {

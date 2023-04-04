@@ -7,7 +7,6 @@ import {RolService} from "../../services/rol.service";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
 import {ModificarRolComponent} from "../modificar-rol/modificar-rol.component";
 
-type SolicitudEstatus = Pick<Rol, "id">
 const MAX_WIDTH: string = "876px";
 
 @Component({
@@ -31,18 +30,15 @@ export class VerDetalleRolComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     this.rolSeleccionado = this.config.data;
    // this.obtenerRol(this.rolSeleccionado);
   }
 
   cambiarEstatus(rol: Rol): void {
-    debugger
     const rolEstatus = {
       "idRol": rol.idRol,
       "estatusRol": rol.estatus ? 1 : 0 
     }
-   // const idUsuario: SolicitudEstatus = {id}
     const solicitudId = JSON.stringify(rolEstatus);
     this.rolService.cambiarEstatus(solicitudId).subscribe(
       () => {
@@ -71,7 +67,6 @@ export class VerDetalleRolComponent implements OnInit {
   }
 
   obtenerRol(id: number): void {
-    debugger
     this.rolService.buscarPorId(id).subscribe(
       (respuesta) => {
         this.rolSeleccionado = respuesta.datos[0];

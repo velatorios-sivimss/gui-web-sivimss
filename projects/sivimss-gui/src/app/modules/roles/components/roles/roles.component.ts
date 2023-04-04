@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import {LazyLoadEvent} from "primeng-lts/api";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 import { USUARIOS_BREADCRUMB } from '../../../usuarios/constants/breadcrumb';
@@ -19,7 +18,6 @@ import {VerDetalleRolComponent} from "../ver-detalle-rol/ver-detalle-rol.compone
 import {ModificarRolComponent} from "../modificar-rol/modificar-rol.component";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
 
-type SolicitudEstatus = Pick<Rol, "idRol">; 
 const MAX_WIDTH: string = "876px";
 
 @Component({

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../../usuarios/constants/catalogos_dummies";
@@ -33,7 +32,6 @@ export class ModificarRolComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger
     const rol =  this.config.data;;
     this.inicializarModificarRolForm(rol);
   }
@@ -57,7 +55,6 @@ export class ModificarRolComponent implements OnInit {
   }
 
   modificarRol(): void {
-    debugger
     const respuesta: RespuestaModalRol = {mensaje: "Actualización satisfactoria", actualizar: true}
     const solicitudUsuario = JSON.stringify(this.rolModificado);
     this.rolService.actualizar(solicitudUsuario).subscribe(
@@ -85,7 +82,6 @@ export class ModificarRolComponent implements OnInit {
   }
 
   confirmarModificacion(): void {
-    debugger
     if (this.indice === 0) {
       this.indice++;
       this.rolModificado = this.crearUsuarioModificado();
