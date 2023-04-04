@@ -22,8 +22,25 @@ export class PaquetesService extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams()
       .append("pagina", pagina)
       .append("tamanio", tamanio);
-    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/buscar-paquetes`, filtros, {headers, params});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/buscar-paquetes`,
+      filtros, {headers, params});
   }
 
+  obtenerTiposServicio(): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    const params = new HttpParams()
+      .append("servicio", "paquetes-tip-serv");
+    return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`,
+      {headers, params});
 
+  }
+
+  obtenerTiposArticulos(): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    const params = new HttpParams()
+      .append("servicio", "paquetes-tip-arti");
+    return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`,
+      {headers, params});
+
+  }
 }

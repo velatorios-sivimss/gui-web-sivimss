@@ -150,7 +150,7 @@
     </div>
     <div class="col-md-6">
       <label class="control-label" for="clave">Clave SAT *:</label>
-      <p-dropdown id="clave" class="form-control" formControlName="clave" [options]="opciones"
+      <p-dropdown id="clave" class="form-control" formControlName="clave" [options]="clavesSat"
                 placeholder="Selecciona la clave de articulo SAT">
       </p-dropdown>
       <span class="campo-obligatorio" *ngIf="f.clave?.errors?.required && (f.clave?.dirty || f.clave?.touched)">Campo
@@ -226,7 +226,7 @@
         <div class="col-md-6">
           <label class="control-label" for="tipoServicio">Tipo de servicio<span class="req">*</span>:</label>
           <p-dropdown appendTo="body" id="tipoServicio" class="form-control" formControlName="tipoServicio"
-                      [options]="opciones" placeholder="Selecciona el tipo de servicio" optionValue="label">
+                      [options]="tipoServicios" placeholder="Selecciona el tipo de servicio" optionValue="label">
           </p-dropdown>
           <span class="campo-obligatorio"
                 *ngIf="fas.tipoServicio?.errors?.required && (fas.tipoServicio?.dirty || fas.tipoServicio?.touched)">Campo obligatorio
