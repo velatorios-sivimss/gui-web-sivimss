@@ -114,13 +114,20 @@ export class RolesPermisosComponent implements OnInit {
    this.filtroForm.get("imprimir")?.value==true? this.permisos+="6":  this.permisos;
   const separar = this.permisos.split('');
   const cadenaPermisos = separar.toString(separar)
-
-   this.rolPermisos = {
-     idRol: this.filtroForm.get("rol")?.value,
-     nivel: this.filtroForm.get("nivel")?.value,
-     permisos: cadenaPermisos,
-     estatus:1
-   }
+    if(cadenaPermisos != ""){
+      this.rolPermisos = {
+        idRol: this.filtroForm.get("rol")?.value,
+        nivel: this.filtroForm.get("nivel")?.value,
+        permisos: cadenaPermisos,
+        estatus:1
+      }
+    }else{
+      this.rolPermisos = {
+        idRol: this.filtroForm.get("rol")?.value,
+        nivel: this.filtroForm.get("nivel")?.value,
+        estatus:1
+      }
+    }
     const solicitudFiltros = JSON.stringify(this.rolPermisos);
     this.rolPermisosService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
