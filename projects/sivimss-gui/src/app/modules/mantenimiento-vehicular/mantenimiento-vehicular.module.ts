@@ -28,6 +28,8 @@ import { RegistroMantenimientoComponent } from './components/registro-mantenimie
 import { DetalleRegistroMantenimientoComponent } from './components/registro-mantenimiento/detalle-registro-mantenimiento/detalle-registro-mantenimiento.component';
 import { MantenimientoPredictivoComponent } from './components/mantenimiento-predictivo/mantenimiento-predictivo.component';
 import { ReporteEncargadoComponent } from './components/reporte-encargado/reporte-encargado.component';
+import { CheckboxModule } from 'primeng-lts/checkbox';
+import { RadioButtonModule } from 'primeng-lts/radiobutton';
 
 //as
 @NgModule({
@@ -58,7 +60,9 @@ import { ReporteEncargadoComponent } from './components/reporte-encargado/report
     TablePanelModule,
     TituloPrincipalModule,
     StepsModule,
-    AccordionModule
+    AccordionModule,
+    CheckboxModule,
+    RadioButtonModule,
   ],
   providers: [MantenimientoVehicularService]
 })

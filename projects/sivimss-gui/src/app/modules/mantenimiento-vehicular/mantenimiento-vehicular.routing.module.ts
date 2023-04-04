@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
 import { Route, RouterModule } from '@angular/router'
 import { ProgramarMantenimientoVehicularComponent } from './components/programar-mantenimiento-vehicular/programar-mantenimiento-vehicular.component'
-import { MantenimientoVehicularResolver } from './services/mantenimiento-vehicular.resilver'
+import { MantenimientoVehicularResolver } from './services/mantenimiento-vehicular.resolver'
 import { NuevaVerificacionComponent } from './components/nueva-verificacion/nueva-verificacion/nueva-verificacion.component'
 import { DetalleNuevaVerificacionComponent } from './components/nueva-verificacion/detalle-nueva-verificacion/detalle-nueva-verificacion.component'
 import { SolicitudMantenimientoComponent } from './components/solicitud-mantenimiento/solicitud-mantenimiento/solicitud-mantenimiento.component'
@@ -42,7 +42,7 @@ const routes: Route[] = [
     component: DetalleRegistroMantenimientoComponent,
   },
   {
-    path: 'mantenimiento-productivo',
+    path: 'mantenimiento-predictivo',
     component: MantenimientoPredictivoComponent,
   },
   {
