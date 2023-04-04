@@ -2,11 +2,14 @@ import {Funcionalidad} from "./funcionalidad.interface";
 
 export interface Rol {
   id: number;
-  nombre: string;
+  idRol: number;
+  desRol: string;
   nivel: string;
-  fechaCreacion: string;
+  nivelOficina: string;
+  fCreacion: string;
   estatus: boolean;
   delegacion: string;
   velatorio: string;
+  desNivelOficina: string;
   funcionalidades: Funcionalidad[];
 }
