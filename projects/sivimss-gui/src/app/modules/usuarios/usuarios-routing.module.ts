@@ -5,17 +5,15 @@ import {UsuarioResolver} from './services/usuario.resolver';
 
 const routes: Routes = [{
   path: '', component: UsuariosComponent,
-   resolve: {
+  resolve: {
     respuesta: UsuarioResolver,
-   },
+  },
 }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [
-    UsuarioResolver,
-  ],
+  providers: [UsuarioResolver],
 })
 export class UsuariosRoutingModule {
 }
