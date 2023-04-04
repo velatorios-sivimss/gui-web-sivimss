@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Router } from "@angular/router";
+import { AutenticacionService, Modulo, RespuestaHttp } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
+import { idsModulos } from "projects/sivimss-gui/src/app/utils/constantes-menu";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'app-menu-sidebar',
@@ -11,212 +14,66 @@ import { Observable } from "rxjs";
 export class MenuSidebarComponent implements OnInit {
 
   opcionAnteriorSeleccionada: any = null;
-  opcionSubmenuAnteriorSeleccionada: any = null;
-  activo$!: Observable<boolean>;
-
-  menu: any[] = [
-    {
-      icono: 'operacion-sivimss',
-      texto: 'Operación SIVIMSS',
-      activo: false,
-      subtitulos: [
-        {
-          icono: 'ordenes-de-servicio',
-          texto: 'Órdenes de servicio',
-          ruta: 'ordenes-de-servicio',
-          activo: false
-        },
-        {
-          icono: 'ordenes-de-subrogacion',
-          texto: 'Órdenes de subrogación',
-          ruta: 'ordenes-de-subrogacion',
-          activo: false
-        },
-        {
-          icono: 'pagos',
-          texto: 'Pagos',
-          ruta: 'pagos',
-          activo: false
-        },
-        {
-          icono: 'pagos',
-          texto: 'Contratos PUTR',
-          ruta: 'contratos-putr',
-          activo: false,
-          submenus: [
-            {
-              icono: '',
-              texto: 'Administrar contratos',
-              ruta: 'contratos-putr/administrar-contratos',
-              activo: false
-            },
-            {
-              icono: '',
-              texto: 'Seguimiento de pagos',
-              ruta: 'contratos-putr/seguimiento-de-pagos',
-              activo: false
-            },
-          ]
-        },
-        {
-          icono: '',
-          texto: 'Consultar donaciones',
-          ruta: 'consulta-donaciones',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Reservar capilla',
-          ruta: 'reservar-capilla',
-          activo: false
-        },
-      ]
-    },
-    {
-      icono: 'imagen-icono-operacion-sivimss.svg',
-      texto: 'Administrar',
-      activo: false,
-      subtitulos: [
-        {
-          icono: '',
-          texto: 'Usuarios',
-          ruta: 'usuarios',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Roles',
-          ruta: 'roles',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Capillas',
-          ruta: 'capillas',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Artículos',
-          ruta: 'articulos',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Servicios',
-          ruta: 'servicios',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Velatorios',
-          ruta: 'velatorios',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Proveedores',
-          ruta: 'proveedores',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Contratantes',
-          ruta: 'contratantes',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Vehicular',
-          ruta: 'inventario-vehicular',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Panteones',
-          ruta: 'panteones',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Salas',
-          ruta: 'salas',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Traslados',
-          ruta: 'traslados',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Inhábiles',
-          ruta: 'inhabiles',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Interno',
-          ruta: 'interno',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Paquetes',
-          ruta: 'paquetes',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Promotores',
-          ruta: 'promotores',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Ordenes de entrada',
-          ruta: 'ordenes-de-entrada',
-          activo: false
-        },
-      ]
-    }
-  ]
+  abierto$!: Observable<boolean>;
+  modulos: Modulo[] = [];
 
   constructor(
-    private router: Router,
-    private menuSidebarService: MenuSidebarService
+    private readonly router: Router,
+    private readonly menuSidebarService: MenuSidebarService,
+    private readonly autenticacionService: AutenticacionService,
+    private readonly renderer: Renderer2
   ) {
   }
 
   ngOnInit(): void {
-    this.activo$ = this.menuSidebarService.menuSidebar$;
+    this.abierto$ = this.menuSidebarService.menuSidebar$;
+    this.autenticacionService.obtenerModulosPorIdRol('1').pipe(
+      map((respuesta: RespuestaHttp<Modulo[]>): Modulo[] => {
+        let modulos: Modulo[] = [];
+
+        for (const modulo of respuesta.datos) {
+
+        }
+        return respuesta.datos.map((modulo: Modulo): Modulo => {
+
+          return {
+            ...modulo,
+            activo: false,
+            ruta: idsModulos[modulo.idModulo].ruta,
+            icono: idsModulos[modulo.idModulo].icono
+          }
+        });
+      })
+    ).subscribe(
+      (modulos: Modulo[]): void => {
+        console.log(modulos);
+        this.modulos = modulos;
+      }
+    );
   }
 
-  navegar(opcionSeleccionada: any) {
-    if (this.opcionAnteriorSeleccionada) {
-      this.opcionAnteriorSeleccionada.activo = false;
-    }
-    if (this.opcionSubmenuAnteriorSeleccionada) {
-      this.opcionSubmenuAnteriorSeleccionada.activo = false;
-    }
-    opcionSeleccionada.activo = true;
-    this.router.navigate([opcionSeleccionada.ruta]);
-    this.opcionAnteriorSeleccionada = opcionSeleccionada;
+  // obtenerModuloMapeado(modulo: Modulo): any {
+  //   if(!modulo.modulos){
+  //     return;
+  //   }
+  //   return {
+  //     ...this.obtenerModuloMapeado(modulo),
+  //   };
+  // }
+
+  abrirModulo(event: MouseEvent, moduloSeleccionado: Modulo) {
+    event.stopPropagation();
+    this.navegar(moduloSeleccionado.ruta);
   }
 
-  navegarDesdeSubmenu(menuSeleccionado: any, submenuSeleccionado: any) {
-    if (this.opcionAnteriorSeleccionada) {
-      this.opcionAnteriorSeleccionada.activo = false;
+  navegar(ruta: string | undefined): void {
+    if (ruta) {
+      this.router.navigate([ruta]).then((navegacionCorrecta: boolean) => {
+        if (!navegacionCorrecta) {
+          console.error(`Ocurrió un error con la siguiente ruta:  [ ${ruta} ] `);
+        }
+      });
     }
-    if (this.opcionSubmenuAnteriorSeleccionada) {
-      this.opcionSubmenuAnteriorSeleccionada.activo = false;
-    }
-    menuSeleccionado.activo = true;
-    submenuSeleccionado.activo = true;
-    this.router.navigate([submenuSeleccionado.ruta]);
-    this.opcionAnteriorSeleccionada = menuSeleccionado;
-    this.opcionSubmenuAnteriorSeleccionada = submenuSeleccionado;
   }
 
 }

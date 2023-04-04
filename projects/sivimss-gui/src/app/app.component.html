@@ -1,6 +1,6 @@
 <app-header-imss-publico></app-header-imss-publico>
 
-<ng-container [ngTemplateOutlet]="(estaLogueado$ | async) ? paginaPrivada:paginaPublica"></ng-container>
+<ng-container [ngTemplateOutlet]="(existeUnaSesion$ | async) ? paginaPrivada:paginaPublica"></ng-container>
 
 <ng-template #paginaPublica>
   <router-outlet></router-outlet>

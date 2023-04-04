@@ -8,8 +8,8 @@
       <img src="assets/images/imagen-icono-usuario.svg" alt="imagen usuario" class="imagen-usuario">
     </div>
     <div class="contenedor-curp">
-      <span>CURP {{(usuario$ | async)?.curp}}</span>
-      <span>{{(usuario$ | async)?.desRol}}</span>
+      <span>CURP {{usuarioEnSesion?.curp}}</span>
+      <span>{{usuarioEnSesion?.desRol}}</span>
     </div>
   </div>
   <a class="btn-cerrar-sesion" (click)="cerrarSesion()"><img class="icon-cerrar-sesion"

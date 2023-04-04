@@ -7,20 +7,20 @@ import { AutenticacionService } from "./autenticacion.service";
 @Injectable()
 export class PermiteUsuarioLogueadoGuard implements CanActivate, CanActivateChild {
 
-    constructor(private aut: AutenticacionService, private router: Router) {
+  constructor(private aut: AutenticacionService, private router: Router) {
 
-    }
+  }
 
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-        return this.validarSiEstaAutenticado();
-    }
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    return this.validarSiEstaAutenticado();
+  }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-        return this.validarSiEstaAutenticado();
-    }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    return this.validarSiEstaAutenticado();
+  }
 
-    private validarSiEstaAutenticado() {
-        return this.aut.estaLogueado$.pipe(map(estaLogueado => estaLogueado ? true : this.router.parseUrl('/inicio-sesion')));
-    }
-    
+  private validarSiEstaAutenticado() {
+    return this.aut.existeUnaSesion$.pipe(map((existeUnaSesion: boolean) => existeUnaSesion ? true : this.router.parseUrl('/inicio-sesion')));
+  }
+
 }

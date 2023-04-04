@@ -31,11 +31,11 @@ export class InicioSesionComponent implements OnInit {
   usuarioRestablecer!: string;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private loaderService: LoaderService,
-    private autenticacionService: AutenticacionService,
-    private router: Router,
-    private alertaService: AlertaService
+    private readonly formBuilder: FormBuilder,
+    private readonly loaderService: LoaderService,
+    private readonly autenticacionService: AutenticacionService,
+    private readonly router: Router,
+    private readonly alertaService: AlertaService
   ) {
   }
 
@@ -46,7 +46,7 @@ export class InicioSesionComponent implements OnInit {
   inicializarForm(): void {
     this.form = this.formBuilder.group({
       usuario: ['', Validators.required],
-      contrasena: ['', Validators.required]
+      contrasenia: ['', Validators.required]
     });
 
     this.formRestContraUsuario = this.formBuilder.group({
@@ -62,15 +62,30 @@ export class InicioSesionComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const usuario: string = this.form.get('usuario')?.value;
-    const contrasena: string = this.form.get('contrasena')?.value;
+    const {usuario, contrasenia} = this.form.value;
     this.loaderService.activar();
-    this.autenticacionService.iniciarSesion(usuario, contrasena)
+    this.autenticacionService.iniciarSesion(usuario, contrasenia)
       .pipe(
         finalize(() => this.loaderService.desactivar())
       ).subscribe(
-      (respuesta) => {
-        this.router.navigateByUrl('/inicio');
+      (respuesta: string) => {
+        switch (respuesta) {
+          case 'OK':
+            this.router.navigateByUrl('/inicio');
+            break;
+          case 'CONTRASENIA_PROXIMA_VENCER':
+            break;
+          case 'CONTRASENIA_INCORRECTA':
+            break;
+          case 'INTENTOS_FALLIDOS':
+            break;
+          case 'CONTRASENIA_VENCIDA':
+            break;
+          case 'USUARIO_PREACTIVO':
+            break;
+        }
+
+
         // if (respuesta.data) {
         //   this.router.navigateByUrl('/inicio');
         // }

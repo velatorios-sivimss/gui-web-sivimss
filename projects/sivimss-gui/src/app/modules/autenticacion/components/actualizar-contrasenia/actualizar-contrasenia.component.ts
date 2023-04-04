@@ -5,20 +5,20 @@ import { AutenticacionService } from "projects/sivimss-gui/src/app/services/secu
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 
 @Component({
-  selector: 'app-nueva-contrasena',
-  templateUrl: './nueva-contrasena.component.html',
-  styleUrls: ['./nueva-contrasena.component.scss']
+  selector: 'app-actualizar-contrasenia',
+  templateUrl: './actualizar-contrasenia.component.html',
+  styleUrls: ['./actualizar-contrasenia.component.scss']
 })
-export class NuevaContrasenaComponent implements OnInit {
+export class ActualizarContraseniaComponent implements OnInit {
 
   form!: FormGroup;
 
   constructor(
-    private autenticacionService: AutenticacionService,
+    private readonly autenticacionService: AutenticacionService,
     // private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private alertaService: AlertaService,
-    private formBuilder: FormBuilder
+    private readonly router: Router,
+    private readonly alertaService: AlertaService,
+    private readonly formBuilder: FormBuilder
   ) {
   }
 
@@ -28,9 +28,9 @@ export class NuevaContrasenaComponent implements OnInit {
 
   inicializarForm(): void {
     this.form = this.formBuilder.group({
-      matricula: ['', Validators.required],
-      nuevaContrasena: ['', Validators.required],
-      confirmacionContrasena: ['', Validators.required]
+      contraseniaAnterior: ['', Validators.required],
+      nuevaContrasenia: ['', Validators.required],
+      confirmarContrasenia: ['', Validators.required]
     });
   }
 
@@ -64,7 +64,7 @@ export class NuevaContrasenaComponent implements OnInit {
     //       } else {
     //         this.alertasFlotantesService.mostrar('error', 'Las contraseñas no coinciden.');
     //       }
-    //       // this.router.navigate(['../nueva-contrasena', respuesta.idUsuario], { relativeTo: this.activatedRoute });
+    //       // this.router.navigate(['../actualizar-contrasenia', respuesta.idUsuario], { relativeTo: this.activatedRoute });
     //     }
     //   },
     //   (httpErrorResponse: HttpErrorResponse) => {
@@ -75,11 +75,8 @@ export class NuevaContrasenaComponent implements OnInit {
 
   }
 
-  get fdc() {
-    return this.form.get('datosContratante');
+  get f() {
+    return this.form.controls;
   }
 
-  get fd(){
-    return this.form.get('direccion');
-  }
 }
