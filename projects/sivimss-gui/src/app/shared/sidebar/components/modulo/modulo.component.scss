@@ -7,6 +7,10 @@
 
   &.es-raiz {
     padding-left: 0;
+
+    &>.modulo-contenido {
+      padding-top: 2rem;
+    }
   }
 
   &.seleccionado {
