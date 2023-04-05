@@ -43,8 +43,8 @@ const routes: Routes = [
   {
     path: 'capillas',
     loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule),
-    canActivate: [PermiteUsuarioLogueadoGuard],
-    canActivateChild: [PermiteUsuarioLogueadoGuard]
+    // canActivate: [PermiteUsuarioLogueadoGuard],
+    // canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'paquetes',

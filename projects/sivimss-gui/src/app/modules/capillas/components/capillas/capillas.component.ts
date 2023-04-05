@@ -69,6 +69,8 @@ export class CapillasComponent implements OnInit {
   mostrarModalModificarCapilla: boolean = false;
   usuarios: any;
 
+  paginacionConFiltrado: boolean = false;
+
   velatorio:any;
   idCap:any;
   nomCap:any;
@@ -86,8 +88,8 @@ export class CapillasComponent implements OnInit {
   ngOnInit(): void {
     this.actualizarBreadcrumb();
     this.inicializarFiltroForm();
-    this.obtenerObjetoParaFiltrado();
-    this.paginar();
+    //  this.obtenerObjetoParaFiltrado();
+      // this.paginar();
   }
 
 
@@ -95,18 +97,11 @@ export class CapillasComponent implements OnInit {
     this.breadcrumbService.actualizar(SERVICIO_BREADCRUMB);
   }
 
-  buscar(): void {
-    this.numPaginaActual = 0;
-    // this.paginacionConFiltrado = true;
-    this.buscarPorFiltros();
-  }
-
-
   obtenerObjetoParaFiltrado(): FiltroCapilla {
     return {
         idVelatorio: parseInt(this.filtroForm.get("velatorio")?.value),
-        nombreCapilla: this.filtroForm.get("nombre")?.value,
-        idCapilla:  parseInt(this.filtroForm.get("id")?.value)
+        idCapilla:  parseInt(this.filtroForm.get("id")?.value),
+        nombre: this.filtroForm.get("nombre")?.value,
     };
   }
 
@@ -118,17 +113,10 @@ export class CapillasComponent implements OnInit {
     });
   }
 
-  obtenerNombreArticuloDescripcion(): string {
-    let query = this.f.nombreArticulo?.value || '';
-    if (typeof this.f.nombreArticulo?.value === 'object') {
-      query = this.f.nombreArticulo?.value?.label;
-    }
-    return query?.toLowerCase();
-  }
-
   limpiar(): void {
     this.filtroForm.reset();
     console.log('limpiar');
+    this.paginarPorFiltros();
   }
 
   abrirModalDetalleCapilla(capilla: Capilla) {
@@ -139,40 +127,44 @@ export class CapillasComponent implements OnInit {
     });
   }
 
+  abrirModalcambiarEstatusCapilla(capilla: Capilla) {
+    this.creacionRef = this.dialogService.open(DetalleCapillaComponent, {
+      header: "Detalle de capilla",
+      width: "920px",
+      data: { capilla, origen: "estatus" },
+    });
+  }
 
   abrirPanel(event: MouseEvent, capillaSeleccionada: Capilla): void {
     this.capillaSeleccionada = capillaSeleccionada;
     this.overlayPanel.toggle(event);
   }
 
-  inicializarAgregarCapillaForm() {
-    this.agregarCapillaForm = this.formBuilder.group({
-      id: [{value: null, disabled: true}],
-      nombre: [{value: null, disabled: false}, [Validators.required]],
-      capacidad: [{value: null, disabled: false}, [Validators.required]],
-      velatorio: [{value: null, disabled: false}, [Validators.required]],
-      largo: [{value: null, disabled: false}, [Validators.required]],
-      ancho: [{value: null, disabled: false}, [Validators.required]],
-      areaTotal: [{value: null, disabled: false}, [Validators.required]]
-    });
-  }
-
-  agregarCapilla(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Usuario guardado');
+  buscar(): void {
+    this.numPaginaActual = 0;
+    this.paginacionConFiltrado = true;
+    this.paginarPorFiltros();
   }
 
 
-  paginar(event?: LazyLoadEvent): void {
-    this.buscarPorFiltros();
+  seleccionarPaginacion(): void {
+    if (this.paginacionConFiltrado) {
+      this.paginarPorFiltros();
+    } else {
+      this.paginarPorFiltros();
+    }
   }
 
-  buscarPorFiltros(): void {
+  paginarPorFiltros(): void {
     const filtros = this.obtenerObjetoParaFiltrado();
     const solicitudFiltros = JSON.stringify(filtros);
-    this.capillaService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.capillaService.buscarPorFiltros2(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.capillas = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
+        if(this.totalElementos == 0){
+          this.alertaService.mostrar(TipoAlerta.Error, 'No se encontró información relacionada a tu búsqueda.');
+        }
             },
       (error: HttpErrorResponse) => {
         console.error(error);
@@ -191,7 +183,7 @@ export class CapillasComponent implements OnInit {
     this.creacionRef.onClose.subscribe((estatus: boolean) => {
       if (estatus) {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Capilla modificada correctamente');
-        this.paginar();
+        this.paginarPorFiltros();
       }
     })
   }
@@ -217,10 +209,13 @@ export class CapillasComponent implements OnInit {
     this.creacionRef.onClose.subscribe((estatus: boolean) => {
       if (estatus) {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Capilla agregada correctamente');
-        this.paginar();
+        // this.paginar();
       }
     })
   }
 
+//   cambiarEstatus(capilla: Capilla){
+// this.abrirModalcambiarEstatusCapilla(capilla);
+//   }
 
 }

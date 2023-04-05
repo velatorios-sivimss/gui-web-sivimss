@@ -23,6 +23,10 @@ export class DetalleCapillaComponent implements OnInit {
   overlayPanel: OverlayPanel | undefined;
 
   abrirModificar: boolean = false;
+  mostrarModalAgregarCapilla: boolean = false;
+  areaTotal: any;
+  alt: any;
+  anch: any;
 
   constructor(public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
@@ -32,11 +36,15 @@ export class DetalleCapillaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     if (this.config?.data) {
       this.origen = this.config.data.origen;
       if (this.origen !== 'modificar') {
         this.capillaSeleccionada = this.config.data.capilla;
       }
+      this.alt = this.capillaSeleccionada.alto
+      this.anch = this.capillaSeleccionada.largo
+      this.areaTotal = this.alt * this.anch
     }
   }
 
@@ -70,9 +78,9 @@ export class DetalleCapillaComponent implements OnInit {
       (respuesta) => {
         if (respuesta.codigo === 200) {
           if (this.capillaSeleccionada.estatus) {
-            this.alertaService.mostrar(TipoAlerta.Exito, 'Capilla desactivada correctamente');
-          } else {
             this.alertaService.mostrar(TipoAlerta.Exito, 'Capilla activada correctamente');
+          } else {
+            this.alertaService.mostrar(TipoAlerta.Exito, 'Capilla desactivada correctamente');
           }
           this.ref.close(this.capillaSeleccionada);
         }

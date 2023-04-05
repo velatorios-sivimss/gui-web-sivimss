@@ -27,9 +27,13 @@ export class ModificarCapillaComponent implements OnInit {
 
   @ViewChild(OverlayPanel)
   overlayPanel: OverlayPanel | undefined;
+  ventanaConfirmacion: boolean = false;
 
   modificarcapillaForm!: FormGroup;
-  capillaModificada!: Capilla;
+  capillaParaModificar!: Capilla;
+  areaTotal: any;
+  alt: any;
+  anch: any;
 
   velatorios: any[] = [
     {
@@ -47,6 +51,9 @@ export class ModificarCapillaComponent implements OnInit {
   ];
 
   indice: number = 0;
+
+
+  capillas: Capilla = {};
 
 
 
@@ -68,6 +75,9 @@ export class ModificarCapillaComponent implements OnInit {
         this.capillaSeleccionada = this.config.data.capilla;
       }
     }
+    this.alt = this.capillaSeleccionada.alto
+    this.anch = this.capillaSeleccionada.largo
+    this.areaTotal = this.alt * this.anch
     this.inicializarAgregarCapillaForm(this.capillaSeleccionada );
   }
 
@@ -77,10 +87,11 @@ export class ModificarCapillaComponent implements OnInit {
       idCapilla: [{value: capillaSeleccionada.idCapilla, disabled: true}],
       nombre: [{value: capillaSeleccionada.nombre, disabled: false}, [Validators.required]],
       capacidad: [{value: capillaSeleccionada.capacidad, disabled: false}, [Validators.required]],
-      velatorio: [{value: capillaSeleccionada.velatorio, disabled: false}, [Validators.required]],
+      idVelatorio: [{value: capillaSeleccionada.idVelatorio, disabled: false}, [Validators.required]],
+      alto: [{value: capillaSeleccionada.alto, disabled: false}, [Validators.required]],
       largo: [{value: capillaSeleccionada.largo, disabled: false}, [Validators.required]],
-      ancho: [{value: capillaSeleccionada.ancho, disabled: false}, [Validators.required]],
-      areaTotal: [{value: capillaSeleccionada.areaTotal, disabled: false}, [Validators.required]]
+      // ancho: [{value: capillaSeleccionada.ancho, disabled: false}, [Validators.required]],
+      areaTotal: [{value: this.areaTotal, disabled: false}, [Validators.required]]
     });
   }
 
@@ -93,15 +104,37 @@ export class ModificarCapillaComponent implements OnInit {
        idVelatorio: parseInt(this.modificarcapillaForm.get("idVelatorio")?.value),
        largo: parseInt(this.modificarcapillaForm.get("largo")?.value),
        alto: parseInt(this.modificarcapillaForm.get("alto")?.value),
+      //  ancho: parseInt(this.modificarcapillaForm.get("ancho")?.value),
+       areaTotal: this.modificarcapillaForm.get("areaTotal")?.value,
+   }
+  }
+
+  crearCapillaParaDetalle(): void{
+    this.capillas = {
+      // idCapilla: this.agregarCapillaForm.get("id")?.value,
+       nombre: this.modificarcapillaForm.get('nombre')?.value,
+       capacidad: parseInt(this.modificarcapillaForm.get("capacidad")?.value),
+       idVelatorio: parseInt(this.modificarcapillaForm.get("idVelatorio")?.value),
+       largo: parseInt(this.modificarcapillaForm.get("largo")?.value),
+       alto: parseInt(this.modificarcapillaForm.get("alto")?.value),
        ancho: parseInt(this.modificarcapillaForm.get("ancho")?.value),
        areaTotal: this.modificarcapillaForm.get("areaTotal")?.value,
-     };
+       velatorio: this.modificarcapillaForm.get('areaTotal')?.value,
   }
+   }
+
+
+   abrirModalDetalleCapilla() {
+    this.ventanaConfirmacion = true
+    this.crearCapillaParaDetalle();
+   }
+
 
   modificarCapilla(): void {
     const respuesta: RespuestaModalcapilla = {mensaje: "Actualización satisfactoria", actualizar: true}
-    const solicitudCapilla = JSON.stringify(this.capillaModificada);
-    this.capillaService.actualizar(solicitudCapilla).subscribe(
+    const solicitudCapilla = JSON.stringify(this.crearCapillaModificada());
+    console.log('capilla para modificar__:'+  solicitudCapilla)
+    this.capillaService.actualizar2(solicitudCapilla).subscribe(
       () => {
         this.ref.close(respuesta)
       },

@@ -1,19 +1,18 @@
 <ng-container *ngIf="!ventanaConfirmacion">
-  <form [formGroup]="agregarCapillaForm">
-
+  <ng [formGroup]="agregarCapillaForm">
     <form [formGroup]="agregarCapillaForm">
       <div class="row mb-3">
         <div class="col-md-8">
-          <label class="control-label" for="idAgregar">ID<span class="req">*</span>:</label>
-          <input id="idAgregar" class="form-control" formControlName="id" placeholder="ID">
+          <label class="control-label" for="id">ID<span class="req">*</span>:</label>
+          <input id="id" class="form-control" formControlName="id" placeholder="ID">
           <span class="campo-obligatorio"
                 *ngIf="fac.id?.errors?.required && (fac.id?.dirty || fac.id?.touched)">Campo obligatorio</span>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-12">
-          <label class="control-label" for="nombreAgregar">Nombre<span class="req">*</span>:</label>
-          <input id="nombreAgregar" class="form-control" formControlName="nombre"
+          <label id="nombre" class="control-label" for="nombre">Nombre<span class="req">*</span>:</label>
+          <input id="nombre" class="form-control" formControlName="nombre"
                  placeholder="Ingresa el nombre de la capilla ">
           <span class="campo-obligatorio"
                 *ngIf="fac.nombre?.errors?.required && (fac.nombre?.dirty || fac.nombre?.touched)">Campo obligatorio</span>
@@ -21,40 +20,40 @@
       </div>
       <div class="row mb-3">
         <div class="col-md-6">
-          <label class="control-label" for="capacidadAgregar">Capacidad<span class="req">*</span>:</label>
-          <input id="capacidadAgregar" class="form-control" formControlName="capacidad"
+          <label class="control-label" for="capacidad">Capacidad<span class="req">*</span>:</label>
+          <input id="capacidad" class="form-control" formControlName="capacidad" type="number"
                  placeholder="Ingresa la capacidad">
           <span class="campo-obligatorio"
                 *ngIf="fac.capacidad?.errors?.required && (fac.capacidad?.dirty || fac.capacidad?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-6">
-          <label class="control-label" for="velatorioAgregar">Velatorio<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="velatorioAgregar" class="form-control" formControlName="velatorio"
-                      [options]="velatorios"
+          <label class="control-label" for="idVelatorio">Velatorio<span class="req">*</span></label>
+          <p-dropdown appendTo="body" id="idVelatorio" class="form-control" formControlName="idVelatorio"
+                      [options]="velatorios" [(ngModel)]="selectedOption" (onChange)="onDropdownChange($event)"
                       placeholder="Seleccione el velatorio">
           </p-dropdown>
           <span class="campo-obligatorio"
-                *ngIf="fac.velatorio?.errors?.required && (fac.velatorio?.dirty || fac.velatorio?.touched)">Campo obligatorio</span>
+                *ngIf="fac.idVelatorio?.errors?.required && (fac.idVelatorio?.dirty || fac.idVelatorio?.touched)">Campo obligatorio</span>
         </div>
       </div>
       <div class="row mb-3">
         <div class="col-md-4">
-          <label class="control-label" for="largoAgregar">Largo<span class="req">*</span>:</label>
-          <input id="largoAgregar" class="form-control" formControlName="largo"
+          <label class="control-label" for="largo">Largo<span class="req">*</span>:</label>
+          <input id="largo" class="form-control" formControlName="largo"  type="number"
                  placeholder="Ingresa el largo">
           <span class="campo-obligatorio"
                 *ngIf="fac.largo?.errors?.required && (fac.largo?.dirty || fac.largo?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
-          <label class="control-label" for="anchoAgregar">Ancho<span class="req">*</span>:</label>
-          <input id="anchoAgregar" class="form-control" formControlName="ancho"
-                 placeholder="Ingresa el ancho">
+          <label class="control-label" for="alto">Alto<span class="req">*</span>:</label>
+          <input id="alto" class="form-control" formControlName="alto"  type="number"
+                 placeholder="Ingresa el alto">
           <span class="campo-obligatorio"
-                *ngIf="fac.ancho?.errors?.required && (fac.ancho?.dirty || fac.ancho?.touched)">Campo obligatorio</span>
+                *ngIf="fac.alto?.errors?.required && (fac.alto?.dirty || fac.alto?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
-          <label class="control-label" for="areaTotalAgregar">Área total<span class="req">*</span>:</label>
-          <input id="areaTotalAgregar" class="form-control" formControlName="areaTotal"
+          <label class="control-label" for="areaTotal">Área total<span class="req">*</span>:</label>
+          <input id="areaTotal" class="form-control" formControlName="areaTotal"  type="number"
                  placeholder="Ingresa el área">
           <span class="campo-obligatorio"
                 *ngIf="fac.areaTotal?.errors?.required && (fac.areaTotal?.dirty || fac.areaTotal?.touched)">Campo obligatorio</span>
@@ -66,15 +65,94 @@
         </div>
       </div>
     </form>
-
   <div class="flex justify-content-end">
     <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="AgregarCapilla()">
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="abrirModalDetalleCapilla()">
+    <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="crearNuevaCapillaParaDetalle()"> -->
       Agregar
     </button>
   </div>
+</ng>
+</ng-container>
 
-<ng-container *ngIf="ventanaConfirmacion">
-  <app-detalle-capilla [capillaSeleccionada]="capillaSeleccionada" [origen]="'agregar'"
-    (confirmacionAceptar)="cerrar()"></app-detalle-capilla>
+
+
+
+<ng-container *ngIf="ventanaConfirmacion == true">
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column">
+        <span class="font-bold">
+          ID <span [ngClass]="capillas.estatus ? 'activo' : 'inactivo'">{{capillas.idCapilla}}</span>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+          <div class="flex flex-column">
+            <span>Estatus</span>
+            <div>
+              <span class="activo" *ngIf="capillas?.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!capillas?.estatus">Inactivo</span>
+            </div>
+          </div>
+
+      </div>
+    </ng-template>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Nombre</label>
+          <span> {{capillas.nombre}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Capacidad</label>
+          <span> {{capillas.capacidad}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Largo</label>
+          <span> {{capillas.largo}} </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Alto</label>
+          <span> {{capillas.alto}} </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Area total</label>
+          <span> {{capillas.areaTotal}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Velatorio</label>
+          <span> {{capillas.velatorio}} </span>
+        </div>
+      </div>
+    </div>
+  </app-table-panel>
+</ng-container>
+
+
+<ng-container *ngIf="ventanaConfirmacion == true">
+<div class="flex justify-content-end separardor">
+  <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
+  <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="agregarCapilla()">
+  <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="crearNuevaCapillaParaDetalle()"> -->
+    Agregar
+  </button>
+</div>
 </ng-container>

@@ -1,6 +1,6 @@
 export interface FiltroCapilla {
   idVelatorio?: number,
   idCapilla?: number,
-  nombreCapilla?: string,
+  nombre?: string,
   // idDelegacion: number
 }
