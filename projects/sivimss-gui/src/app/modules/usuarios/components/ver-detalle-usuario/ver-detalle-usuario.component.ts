@@ -17,6 +17,7 @@ type DetalleUsuario = Required<Usuario> & { oficina: string, rol: string, delega
 export class VerDetalleUsuarioComponent implements OnInit {
 
   usuarioSeleccionado!: DetalleUsuario;
+  id!: number;
 
   constructor(
     private alertaService: AlertaService,
@@ -27,26 +28,23 @@ export class VerDetalleUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.config.data;
-    this.obtenerUsuario(id);
+    this.id = this.config.data;
+    this.obtenerUsuario(this.id);
   }
 
-  cambiarEstatus(id: number): void {
-    const idUsuario: SolicitudEstatus = {id}
+  cambiarEstatus(): void {
+    const idUsuario: SolicitudEstatus = {id: this.id}
+    const mensaje = 'Cambio de estatus realizado';
     this.usuarioService.cambiarEstatus(idUsuario).subscribe(
       () => {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
+        const respuesta: RespuestaModalUsuario = {actualizar: true, mensaje};
+        this.ref.close(respuesta);
       },
       (error: HttpErrorResponse) => {
         console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
-  }
-
-  aceptar(): void {
-    const respuesta: RespuestaModalUsuario = {actualizar: true};
-    this.ref.close(respuesta);
   }
 
   abrirModalModificarUsuario(): void {

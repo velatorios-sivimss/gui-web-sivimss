@@ -9,8 +9,7 @@
       <div class="flex flex-column">
         <span>Estatus</span>
         <div class="contenedor-inputswitch">
-          <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus"
-                         (ngModelChange)="cambiarEstatus(usuarioSeleccionado.id);"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus"></p-inputSwitch>
           <span class="activo" *ngIf="usuarioSeleccionado.estatus">Activo</span>
           <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>
         </div>
@@ -100,7 +99,7 @@
   </div>
 </app-table-panel>
 <div class="flex justify-content-end mt-4 mb-3">
-  <button class="ml-4 btn btn-primary btn-md" (click)="aceptar()">
+  <button class="ml-4 btn btn-primary btn-md" (click)="cambiarEstatus()">
     Aceptar
   </button>
 </div>
