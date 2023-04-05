@@ -2,36 +2,35 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CeldaStickyModule } from "projects/sivimss-gui/src/app/shared/celda-sticky/celda-sticky.module";
 
-import { RolesRoutingModule } from './roles-routing.module';
-import { RolesComponent } from './components/roles/roles.component';
+import { RolPermisosRoutingModule } from './rol-permisos-routing.module';
+import { RolesPermisosComponent } from './components/roles-permisos/roles-permisos.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TituloPrincipalModule } from "../../shared/titulo-principal/titulo-principal.module";
-import { RolService } from "./services/rol.service";
+import { RolPermisosService } from "./services/rol-permisos.service";
 import { DropdownModule } from "primeng-lts/dropdown";
 import { TableModule } from "primeng-lts/table";
 import { InputSwitchModule } from "primeng-lts/inputswitch";
 import { DialogModule } from "primeng-lts/dialog";
 import { CheckboxModule } from "primeng-lts/checkbox";
-import { AgregarRolComponent } from './components/agregar-rol/agregar-rol.component';
+import { AgregarRolPermisosComponent } from './components/agregar-rol-permisos/agregar-rol-permisos.component';
 import { OverlayPanelModule } from "primeng-lts/overlaypanel";
 import { OverlayPanelOpcionesModule } from "../../shared/overlay-panel-opciones/overlay-panel-opciones.module";
 import { TablePanelModule } from "../../shared/table-panel/table-panel.module";
 import { PermisosPipe } from './pipes/permisos.pipe';
-import { VerDetalleRolComponent } from './components/ver-detalle-rol/ver-detalle-rol.component';
-import { ModificarRolComponent } from './components/modificar-rol/modificar-rol.component';
-
+import { VerDetalleRolPermisosComponent } from './components/ver-detalle-rol-permisos/ver-detalle-rol-permisos.component';
+import { ModificarRolPermisosComponent } from './components/modificar-rol-permisos/modificar-rol-permisos.component';
 
 @NgModule({
   declarations: [
-    RolesComponent,
-    AgregarRolComponent,
+    RolesPermisosComponent,
+    AgregarRolPermisosComponent,
     PermisosPipe,
-    VerDetalleRolComponent,
-    ModificarRolComponent
+    VerDetalleRolPermisosComponent,
+    ModificarRolPermisosComponent
   ],
   imports: [
     CommonModule,
-    RolesRoutingModule,
+    RolPermisosRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
@@ -46,8 +45,8 @@ import { ModificarRolComponent } from './components/modificar-rol/modificar-rol.
     CeldaStickyModule
   ],
   providers: [
-    RolService
+    RolPermisosService
   ]
 })
-export class RolesModule {
+export class RolesPermisosModule {
 }

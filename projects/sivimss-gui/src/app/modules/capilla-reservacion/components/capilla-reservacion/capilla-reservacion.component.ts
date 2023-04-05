@@ -18,10 +18,12 @@ import {RegistrarSalidaComponent} from "../registrar-salida/registrar-salida.com
 })
 export class CapillaReservacionComponent implements OnInit {
 
-  // calendarOptions: any;
+
 
   registrarEntradaForm!: FormGroup;
   registrarSalidaForm!: FormGroup;
+  calendarioForm!: FormGroup;
+
 
   agregarEntradaRef!: DynamicDialogRef;
   agregarSalidaRef!: DynamicDialogRef;
@@ -47,6 +49,7 @@ export class CapillaReservacionComponent implements OnInit {
     this.actualizarBreadcrumb();
     this.inicializarRegistroEntradaForm();
     this.inicializarRegistroSalidaForm();
+    this.inicializarCalendarioForm();
   }
 
   actualizarBreadcrumb(): void{
@@ -67,6 +70,12 @@ export class CapillaReservacionComponent implements OnInit {
       fechaSalida: [{value: null, disabled: false}, [Validators.required]],
       horaSalida: [{value: null, disabled: false}, [Validators.required]],
     })
+  }
+
+  inicializarCalendarioForm(): void {
+    this.calendarioForm = this.formBuilder.group( {
+      velatorio: [{value: null, disabled: false}],
+    });
   }
 
   abrirModalAgregarEntrada(): void {

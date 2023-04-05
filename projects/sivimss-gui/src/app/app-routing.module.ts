@@ -35,6 +35,10 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'roles-permisos',
+    loadChildren: () => import('./modules/roles-permisos/roles-permisos.module').then(m => m.RolesPermisosModule)
+  },
+  {
     path: 'usuarios',
     loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule),
     canActivate: [PermiteUsuarioLogueadoGuard],
