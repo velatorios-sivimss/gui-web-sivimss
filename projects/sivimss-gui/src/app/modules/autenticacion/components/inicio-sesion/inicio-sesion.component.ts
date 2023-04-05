@@ -2,6 +2,7 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
@@ -28,14 +29,13 @@ export class InicioSesionComponent implements OnInit {
 
   pasoRestablecerContrasena: number = 1;
 
-  usuarioRestablecer!: string;
-
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly loaderService: LoaderService,
     private readonly autenticacionService: AutenticacionService,
     private readonly router: Router,
-    private readonly alertaService: AlertaService
+    private readonly alertaService: AlertaService,
+    private readonly breadcrumbService: BreadcrumbService
   ) {
   }
 
@@ -69,9 +69,10 @@ export class InicioSesionComponent implements OnInit {
         finalize(() => this.loaderService.desactivar())
       ).subscribe(
       (respuesta: string) => {
+
         switch (respuesta) {
           case 'OK':
-            this.router.navigateByUrl('/inicio');
+            this.router.navigate(["/inicio"]);
             break;
           case 'CONTRASENIA_PROXIMA_VENCER':
             break;
@@ -126,6 +127,5 @@ export class InicioSesionComponent implements OnInit {
   get frcc() {
     return this.formRestContraCodigo.controls;
   }
-
 
 }

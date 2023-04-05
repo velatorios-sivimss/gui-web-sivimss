@@ -63,7 +63,6 @@ export class AceptacionDonacionComponent implements OnInit {
     });
 
     this.ataudDonadoRef.onClose.subscribe((ataud:AtaudDonado) => {
-      // debugger;
       this.ataudDonado.push(ataud);
     });
   }

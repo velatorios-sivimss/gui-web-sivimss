@@ -134,7 +134,6 @@ export class ServiciosComponent implements OnInit {
   }
 
   paginar(event: LazyLoadEvent): void{
-    console.log(event);
     setTimeout(() =>{
       this.servicios = [
         {

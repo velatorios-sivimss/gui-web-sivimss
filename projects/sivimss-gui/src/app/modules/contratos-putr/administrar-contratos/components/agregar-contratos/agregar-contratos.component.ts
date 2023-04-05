@@ -168,7 +168,6 @@ export class AgregarContratosComponent implements OnInit {
       });
 
       detalleRef.onClose.subscribe((res: HttpResponse) => {
-        debugger;
         if (res && res.respuesta === 'Ok') {
           this.cerrarDialogo();
         }

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
+import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
 import { SIVIMSS_TOKEN } from "projects/sivimss-gui/src/app/utils/constantes";
 import { dummyMenuResponse } from "projects/sivimss-gui/src/app/utils/menu-dummy";
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { concatMap, map, tap } from "rxjs/operators";
+import { concatMap, map } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
-
 
 
 interface RespuestaUsuarioActivo {
@@ -58,10 +59,14 @@ export class AutenticacionService {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
+    private menuSidebarService: MenuSidebarService,
+    private breadcrumbService: BreadcrumbService
     // private controladorInactividadUsuarioService: BnNgIdleService,
     // @Inject(TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION) private tiempoMaximoInactividad: number
   ) {
-    this.existeUnaSesion$ = this.usuarioEnSesion$.pipe(map((usuario: Usuario | null) => !!usuario));
+    this.existeUnaSesion$ = this.usuarioEnSesion$.pipe(
+      map((usuario: Usuario | null) => !!usuario)
+    );
     const usuario: Usuario | null = this.obtenerUsuarioDePayload(localStorage.getItem(SIVIMSS_TOKEN) as string);
     if (usuario) {
       this.usuarioEnSesionSubject.next(usuario);
@@ -118,9 +123,11 @@ export class AutenticacionService {
   }
 
   cerrarSesion() {
+    this.breadcrumbService.limpiar();
+    this.menuSidebarService.limpiarRutaSeleccionada();
     this.usuarioEnSesionSubject.next(null);
     localStorage.removeItem(SIVIMSS_TOKEN);
-    this.router.navigateByUrl('/inicio-sesion');
+    this.router.navigate(['/inicio-sesion']);
     //this.detenerTemporizadorSesion();
   }
 

@@ -9,7 +9,6 @@ export class RolResolver implements Resolve<HttpRespuesta<any>>{
 
     constructor(private rolService: RolService) { }
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<HttpRespuesta<any>> {
-        debugger
         return this.rolService.obtenerCatRoles();
     }
 }

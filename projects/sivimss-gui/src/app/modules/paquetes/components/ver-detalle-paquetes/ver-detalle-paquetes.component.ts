@@ -38,7 +38,6 @@ export class VerDetallePaquetesComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
   ) {
-    // console.log(this.config.data);
     this.paqueteSeleccionado = this.config.data?.paquete;
     this.accionEntrada = this.config.data?.modo;
   }

@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AutenticacionService, Usuario } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
-import { Observable, Subscription } from "rxjs";
-import { filter, map } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-sub-header-privado',

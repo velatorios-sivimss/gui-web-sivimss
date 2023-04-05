@@ -10,7 +10,6 @@ export class RolPermisosResolver  implements Resolve<any>{
     constructor(private rolPermisosService: RolPermisosService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        debugger
         const catRol$ = this.rolPermisosService.obtenerCatRoles();
         //const catFuncionalidades$ = this.rolPermisosService.obtenerCatFuncionalidad();
         return catRol$;

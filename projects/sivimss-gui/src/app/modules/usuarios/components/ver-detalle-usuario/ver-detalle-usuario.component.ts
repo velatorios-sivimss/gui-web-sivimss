@@ -61,7 +61,7 @@ export class VerDetalleUsuarioComponent implements OnInit {
         this.usuarioSeleccionado = respuesta.datos[0];
       },
       (error: HttpErrorResponse) => {
-        console.log(error);
+        console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
