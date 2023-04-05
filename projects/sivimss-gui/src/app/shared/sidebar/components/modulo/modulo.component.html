@@ -3,7 +3,7 @@
     <img class="modulo-icono" src="assets/images/menu/{{modulo.icono}}" alt=""><span
       class="modulo-titulo">{{modulo.titulo}}</span>
   </div>
-  <div class="modulos" *ngIf="modulo.modulos && abierto">
+  <div class="modulos" *ngIf="modulo.modulos && modulo.modulos.length > 0 && abierto">
     <app-modulo [modulo]="moduloHijo" *ngFor="let moduloHijo of modulo.modulos"></app-modulo>
   </div>
 </div>

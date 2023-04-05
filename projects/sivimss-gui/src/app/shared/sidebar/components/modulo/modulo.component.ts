@@ -1,5 +1,6 @@
-import { AfterViewChecked, AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
 
 @Component({
   selector: 'app-modulo',
@@ -15,16 +16,22 @@ export class ModuloComponent implements OnInit {
   esModuloRaiz: boolean = false;
 
   @Input()
-  abierto:boolean = false;
+  abierto: boolean = false;
 
-  constructor() {
+  constructor(private readonly menuSidebarService: MenuSidebarService) {
   }
 
   ngOnInit(): void {
   }
 
-  abrirCerrarModulo(){
+  abrirCerrarModulo() {
     this.abierto = !this.abierto;
+  }
+
+  @HostListener('click', ['$event'])
+  seleccionarModulo(event: MouseEvent) {
+    event.stopPropagation();
+    this.menuSidebarService.seleccionarOpcionMenu(this.modulo.ruta as string);
   }
 
   get clasesModulo() {

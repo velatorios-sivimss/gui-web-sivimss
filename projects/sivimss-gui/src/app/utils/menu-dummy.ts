@@ -1,7 +1,8 @@
 import { HttpResponse } from "@angular/common/http";
-import { Modulo, RespuestaHttp } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
+import { Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 
-export const dummyMenuResponse:RespuestaHttp<Modulo[]> = {
+export const dummyMenuResponse:HttpRespuesta<Modulo[]> = {
   "error": false,
   "codigo": 200,
   "mensaje": "Exito",
@@ -17,37 +18,7 @@ export const dummyMenuResponse:RespuestaHttp<Modulo[]> = {
           "idModulo": "2",
           "idFuncionalidad": "2",
           "titulo": "Administración de usuarios del sistema",
-          "modulos": [
-            {
-              "idModuloPadre": "2",
-              "idModulo": "50",
-              "idFuncionalidad": "2",
-              "titulo": "Alta",
-              "modulos": null
-            },
-            {
-              "idModuloPadre": "2",
-              "idModulo": "51",
-              "idFuncionalidad": "2",
-              "titulo": "Baja",
-              "modulos": [
-                {
-                  "idModuloPadre": "51",
-                  "idModulo": "60",
-                  "idFuncionalidad": "2",
-                  "titulo": "Opcion 1",
-                  "modulos": null
-                },
-                {
-                  "idModuloPadre": "51",
-                  "idModulo": "61",
-                  "idFuncionalidad": "2",
-                  "titulo": "Opcion 2",
-                  "modulos": null
-                },
-              ]
-            },
-          ]
+          "modulos": null
         },
         {
           "idModuloPadre": "1",

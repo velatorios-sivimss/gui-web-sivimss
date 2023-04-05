@@ -2,19 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
-import { dummyMenuResponse } from "projects/sivimss-gui/src/app/services/security/menu-dummy";
-import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
+import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
+import { SIVIMSS_TOKEN } from "projects/sivimss-gui/src/app/utils/constantes";
+import { dummyMenuResponse } from "projects/sivimss-gui/src/app/utils/menu-dummy";
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { concatMap, map, tap } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
-export const SIVIMSS_TOKEN: string = "sivimss_token";
 
-export interface RespuestaHttp<T> {
-  error: boolean;
-  codigo: number;
-  mensaje: string;
-  datos: T;
-}
 
 interface RespuestaUsuarioActivo {
   contrasenaProximaVencer: boolean;
@@ -42,13 +37,13 @@ export interface Usuario {
 
 export interface Modulo {
   idModuloPadre: string | null;
-  idFuncionalidad:string | null;
+  idFuncionalidad: string | null;
   idModulo: string;
   titulo: string;
   modulos: Modulo[] | null;
   activo?: boolean;
-  ruta?:string;
-  icono?:string;
+  ruta?: string;
+  icono?: string;
 }
 
 @Injectable()
@@ -57,6 +52,7 @@ export class AutenticacionService {
   private usuarioEnSesionSubject: BehaviorSubject<Usuario | null> = new BehaviorSubject<Usuario | null>(null);
   usuarioEnSesion$: Observable<Usuario | null> = this.usuarioEnSesionSubject.asObservable();
   existeUnaSesion$!: Observable<boolean>;
+
   //subsSesionInactivaTemporizador!: Subscription;
 
   constructor(
@@ -65,7 +61,7 @@ export class AutenticacionService {
     // private controladorInactividadUsuarioService: BnNgIdleService,
     // @Inject(TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION) private tiempoMaximoInactividad: number
   ) {
-    this.existeUnaSesion$ = this.usuarioEnSesion$.pipe(tap(() => console.log('Se ejecuta esta logueado')), map((usuario: Usuario | null) => !!usuario));
+    this.existeUnaSesion$ = this.usuarioEnSesion$.pipe(map((usuario: Usuario | null) => !!usuario));
     const usuario: Usuario | null = this.obtenerUsuarioDePayload(localStorage.getItem(SIVIMSS_TOKEN) as string);
     if (usuario) {
       this.usuarioEnSesionSubject.next(usuario);
@@ -75,7 +71,7 @@ export class AutenticacionService {
 
   iniciarSesion(usuario: string, contrasenia: string): Observable<any> {
     //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
-    return of<RespuestaHttp<RespuestaUsuarioActivo>>({
+    return of<HttpRespuesta<RespuestaUsuarioActivo>>({
       error: false,
       codigo: 200,
       mensaje: "Exito",
@@ -84,10 +80,12 @@ export class AutenticacionService {
         "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
       }
     }).pipe(
-      concatMap((respuesta: RespuestaHttp<any>) => {
-        if (respuesta.datos?.token) {
+      concatMap((respuesta: HttpRespuesta<any>) => {
+        if (respuesta.datos?.token && !respuesta.datos?.contraseniaProximaVencer) {
           this.crearSesion(respuesta.datos.token);
-          return respuesta.datos?.contraseniaProximaVencer ? of('CONTRASENIA_PROXIMA_VENCER') : of('OK');
+          return of('OK');
+        } else if (respuesta.datos?.contraseniaProximaVencer) {
+          return of('CONTRASENIA_PROXIMA_VENCER');
         } else if (respuesta.mensaje === 'CONTRASENIA_INCORRECTA') {
           return of('CONTRASENIA_INCORRECTA');
         } else if (respuesta.mensaje === 'INTENTOS_FALLIDOS') {
@@ -108,7 +106,7 @@ export class AutenticacionService {
     if (usuario) {
       this.usuarioEnSesionSubject.next(usuario);
       localStorage.setItem(SIVIMSS_TOKEN, token);
-    }else{
+    } else {
       throw new Error('Error al intentar obtener el usuario del payload en el token');
     }
   }
@@ -126,9 +124,9 @@ export class AutenticacionService {
     //this.detenerTemporizadorSesion();
   }
 
-  obtenerModulosPorIdRol(idRol: string): Observable<RespuestaHttp<Modulo[]>> {
+  obtenerModulosPorIdRol(idRol: string): Observable<HttpRespuesta<Modulo[]>> {
     //this.httpClient.get<RespuestaHttp<Modulo>>('');
-    return of<RespuestaHttp<Modulo[]>>(dummyMenuResponse);
+    return of<HttpRespuesta<Modulo[]>>(dummyMenuResponse);
   }
 
   // iniciarTemporizadorSesion() {

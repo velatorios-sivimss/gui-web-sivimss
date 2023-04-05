@@ -7,50 +7,53 @@ export interface DatoModulo {
 
 /**
  * Cada número representa el id de algún módulo.
+ * La ruta es absoluta y debe coincidir con la del app-routing
+ * El icono debe estar en assets/images/menu/[nombre-en-minusculas.svg]
  */
 export const idsModulos: DatoModulo = {
   1: {
-    icono: 'operacion-sivimss.svg',
+    ruta: '',
+    icono: 'operacion-sivimss.svg'
   },
   2: {
-    icono: 'administracion-usuarios.svg',
-    ruta: '/usuarios'
+    ruta: '/usuarios',
+    icono: 'administracion-usuarios.svg'
   },
   3: {
+    ruta: '/permisos',
     icono: '',
-    ruta: ''
   },
   4: {
+    ruta: '/roles',
     icono: '',
-    ruta: ''
   },
   5: {
-    icono: '',
-    ruta: ''
+    ruta: '/capillas',
+    icono: ''
   },
   6: {
-    icono: '',
-    ruta: ''
+    ruta: '/articulos',
+    icono: ''
   },
   7: {
-    icono: '',
-    ruta: ''
+    ruta: '/servicios',
+    icono: ''
   },
   8: {
-    icono: '',
-    ruta: ''
+    ruta: '/velatorios',
+    icono: ''
   },
   9: {
     icono: '',
     ruta: ''
   },
   10: {
-    icono: '',
-    ruta: ''
+    ruta: '/proveedores',
+    icono: ''
   },
   11: {
-    icono: '',
-    ruta: ''
+    ruta: '/contratantes',
+    icono: ''
   }
 };
 
