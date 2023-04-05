@@ -10,8 +10,7 @@ import {PATRON_CORREO} from "../../../../utils/constantes";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
-import {diferenciaUTC} from "../../../../utils/funciones";
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {diferenciaUTC, mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {ActivatedRoute} from '@angular/router';
 
 type UsuarioModificado = Omit<Usuario, "password">
@@ -47,7 +46,7 @@ export class ModificarUsuarioComponent implements OnInit {
   ngOnInit(): void {
     const usuario = this.config.data;
     const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.inicializarModificarUsuarioForm(usuario);
   }
 
@@ -115,10 +114,6 @@ export class ModificarUsuarioComponent implements OnInit {
     );
   }
 
-  get fmu() {
-    return this.modificarUsuarioForm.controls;
-  }
-
   cancelar(): void {
     if (this.indice === 1) {
       this.indice--;
@@ -137,4 +132,9 @@ export class ModificarUsuarioComponent implements OnInit {
     }
     this.modificarUsuario();
   }
+
+  get fmu() {
+    return this.modificarUsuarioForm.controls;
+  }
+
 }

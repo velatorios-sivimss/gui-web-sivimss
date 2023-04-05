@@ -33,8 +33,7 @@ export class VerDetalleUsuarioComponent implements OnInit {
 
   cambiarEstatus(id: number): void {
     const idUsuario: SolicitudEstatus = {id}
-    const solicitudId = JSON.stringify(idUsuario);
-    this.usuarioService.cambiarEstatus(solicitudId).subscribe(
+    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
       },

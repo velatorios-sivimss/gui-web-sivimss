@@ -19,7 +19,7 @@ import {FiltrosUsuario} from "../../models/filtrosUsuario.interface";
 import {VerDetalleUsuarioComponent} from "../ver-detalle-usuario/ver-detalle-usuario.component";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.component";
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -65,7 +65,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles?.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.inicializarFiltroForm();
   }
 
@@ -188,7 +188,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   procesarRespuestaModal(respuesta: RespuestaModalUsuario = {}): void {
     if (respuesta.actualizar) {
-      console.log('Actualizar')
       this.limpiar();
     }
     if (respuesta.mensaje) {
