@@ -31,6 +31,8 @@ export class ModificarUsuarioComponent implements OnInit {
   fechaActual: Date = new Date();
   rolResumen: string = "";
   nivelResumen: string = "";
+  delegacionResumen: string = "";
+  velatorioResumen: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -70,10 +72,6 @@ export class ModificarUsuarioComponent implements OnInit {
   }
 
   crearUsuarioModificado(): UsuarioModificado {
-    const rol = this.modificarUsuarioForm.get("rol")?.value;
-    const nivel = this.modificarUsuarioForm.get("nivel")?.value;
-    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
-    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
     return {
       id: this.modificarUsuarioForm.get("id")?.value,
       materno: this.modificarUsuarioForm.get("segundoApellido")?.value,
@@ -87,10 +85,21 @@ export class ModificarUsuarioComponent implements OnInit {
       estatus: this.modificarUsuarioForm.get("estatus")?.value ? 1 : 0,
       idOficina: this.modificarUsuarioForm.get("nivel")?.value,
       idVelatorio: this.modificarUsuarioForm.get("velatorio")?.value,
-      idRol: rol,
+      idRol: this.modificarUsuarioForm.get("rol")?.value,
       idDelegacion: this.modificarUsuarioForm.get("delegacion")?.value,
       matricula: this.modificarUsuarioForm.get("matricula")?.value
     };
+  }
+
+  creacionVariablesResumen(): void {
+    const rol = this.modificarUsuarioForm.get("rol")?.value;
+    const nivel = this.modificarUsuarioForm.get("nivel")?.value;
+    const delegacion = this.modificarUsuarioForm.get("delegacion")?.value;
+    const velatorio = this.modificarUsuarioForm.get("velatorio")?.value;
+    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
+    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
+    this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
+    this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
   }
 
   modificarUsuario(): void {
@@ -123,6 +132,7 @@ export class ModificarUsuarioComponent implements OnInit {
     if (this.indice === 0) {
       this.indice++;
       this.usuarioModificado = this.crearUsuarioModificado();
+      this.creacionVariablesResumen();
       return;
     }
     this.modificarUsuario();

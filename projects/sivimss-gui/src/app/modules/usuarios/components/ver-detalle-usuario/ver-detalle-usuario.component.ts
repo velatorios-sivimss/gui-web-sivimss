@@ -7,7 +7,7 @@ import {UsuarioService} from "../../services/usuario.service";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 
 type SolicitudEstatus = Pick<Usuario, "id">
-type DetalleUsuario = Required<Usuario> & { oficina: string, rol: string };
+type DetalleUsuario = Required<Usuario> & { oficina: string, rol: string, delegacion: string, velatorio: string };
 
 @Component({
   selector: 'app-ver-detalle-usuario',
