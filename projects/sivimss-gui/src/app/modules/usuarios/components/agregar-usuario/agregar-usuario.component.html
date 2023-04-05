@@ -48,7 +48,6 @@
             *ngIf="fau?.correoElectronico?.errors?.required && (fau?.correoElectronico?.dirty || fau?.correoElectronico?.touched)">Campo obligatorio</span>
       <span class="campo-obligatorio"
             *ngIf="fau?.correoElectronico?.errors?.pattern && (fau?.correoElectronico?.dirty || fau?.correoElectronico?.touched)">Formato incorrecto</span>
-
     </div>
     <div class="col-md-6">
       <label class="control-label" for="fechaNacimiento">Fecha nacimiento<span class="req">*</span>:</label>
@@ -114,7 +113,7 @@
     <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
     <button type="submit" class="ml-4 btn btn-primary btn-md"
             [disabled]="agregarUsuarioForm.invalid || !matriculaValida || !curpValida">
-      Agregar
+      Guardar
     </button>
   </div>
 </form>

@@ -30,6 +30,7 @@ export class ModificarUsuarioComponent implements OnInit {
   catRol: TipoDropdown[] = [];
   fechaActual: Date = new Date();
   rolResumen: string = "";
+  nivelResumen: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -70,7 +71,9 @@ export class ModificarUsuarioComponent implements OnInit {
 
   crearUsuarioModificado(): UsuarioModificado {
     const rol = this.modificarUsuarioForm.get("rol")?.value;
+    const nivel = this.modificarUsuarioForm.get("nivel")?.value;
     this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
+    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
     return {
       id: this.modificarUsuarioForm.get("id")?.value,
       materno: this.modificarUsuarioForm.get("segundoApellido")?.value,
@@ -91,7 +94,7 @@ export class ModificarUsuarioComponent implements OnInit {
   }
 
   modificarUsuario(): void {
-    const respuesta: RespuestaModalUsuario = {mensaje: "Actualización satisfactoria", actualizar: true}
+    const respuesta: RespuestaModalUsuario = {mensaje: "Usuario modificado correctamente", actualizar: true}
     this.usuarioService.actualizar(this.usuarioModificado).subscribe(
       () => {
         this.ref.close(respuesta)
@@ -103,11 +106,9 @@ export class ModificarUsuarioComponent implements OnInit {
     );
   }
 
-
   get fmu() {
     return this.modificarUsuarioForm.controls;
   }
-
 
   cancelar(): void {
     if (this.indice === 1) {

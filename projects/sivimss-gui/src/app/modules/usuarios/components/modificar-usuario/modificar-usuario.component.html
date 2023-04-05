@@ -52,6 +52,8 @@
                placeholder="Inserta el correo electrónico">
         <span class="campo-obligatorio"
               *ngIf="fmu?.correoElectronico?.errors?.required && (fmu?.correoElectronico?.dirty || fmu?.correoElectronico?.touched)">Campo obligatorio</span>
+        <span class="campo-obligatorio"
+              *ngIf="fmu?.correoElectronico?.errors?.pattern && (fmu?.correoElectronico?.dirty || fmu?.correoElectronico?.touched)">Formato incorrecto</span>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="fechaNacimientoModificar">Fecha nacimiento<span
@@ -119,7 +121,7 @@
     <div class="flex justify-content-end row">
       <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
       <button type="submit" class="ml-4 btn btn-primary btn-md" [disabled]="modificarUsuarioForm.invalid">
-        Modificar
+        Guardar
       </button>
     </div>
   </form>
@@ -129,6 +131,7 @@
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column">
         <span class="font-bold">ID</span>
+        <span class="ml-2 font-bold">{{usuarioModificado.id}}</span>
       </div>
     </ng-template>
     <ng-template appCustomTemplate="right-header">
@@ -205,10 +208,13 @@
       </div>
     </div>
   </app-table-panel>
+  <div class="mb-3 mt-3 row text-center">
+    ¿Estas seguro de modificar el registro de este nuevo usuario?
+  </div>
   <div class="flex justify-content-end mt-5">
     <button type="button" class="btn btn-default btn-md" (click)="cancelar()">Cancelar</button>
     <button type="button" class="ml-4 btn btn-primary btn-md" (click)="confirmarModificacion();">
-      Modificar
+      Guardar
     </button>
   </div>
 </ng-container>

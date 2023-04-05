@@ -124,7 +124,7 @@ export class AgregarUsuarioComponent implements OnInit {
   }
 
   agregarUsuario(): void {
-    const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
+    const respuesta: RespuestaModalUsuario = {mensaje: "Usuario agregado correctamente", actualizar: true}
     const usuario: NuevoUsuario = this.crearUsuario();
     this.usuarioService.guardar(usuario).subscribe(
       () => {
