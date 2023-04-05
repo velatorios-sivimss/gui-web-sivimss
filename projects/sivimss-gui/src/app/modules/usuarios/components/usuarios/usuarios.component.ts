@@ -65,7 +65,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.catRol = roles?.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
     this.inicializarFiltroForm();
   }
 
@@ -166,7 +166,9 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   limpiar(): void {
     this.paginacionConFiltrado = false;
-    this.filtroForm.reset();
+    if (this.filtroForm) {
+      this.filtroForm.reset();
+    }
     this.numPaginaActual = 0;
     this.paginar();
   }
@@ -186,6 +188,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   procesarRespuestaModal(respuesta: RespuestaModalUsuario = {}): void {
     if (respuesta.actualizar) {
+      console.log('Actualizar')
       this.limpiar();
     }
     if (respuesta.mensaje) {

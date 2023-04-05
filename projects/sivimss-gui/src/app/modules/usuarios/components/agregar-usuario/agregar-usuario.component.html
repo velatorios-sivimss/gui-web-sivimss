@@ -5,6 +5,7 @@
       <input id="curp" class="form-control" formControlName="curp" placeholder="Inserta el CURP"
              (blur)="validarCurp();">
       <span class="campo-obligatorio" *ngIf="fau?.curp?.errors?.required && (fau?.curp?.dirty || fau?.curp?.touched)">Campo obligatorio</span>
+      <span class="campo-obligatorio" *ngIf="fau?.curp?.errors?.pattern && (fau?.curp?.dirty || fau?.curp?.touched)">Formato incorrecto</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="matricula">Matrícula<span class="req">*</span></label>
@@ -45,6 +46,9 @@
              placeholder="Inserta el correo electrónico">
       <span class="campo-obligatorio"
             *ngIf="fau?.correoElectronico?.errors?.required && (fau?.correoElectronico?.dirty || fau?.correoElectronico?.touched)">Campo obligatorio</span>
+      <span class="campo-obligatorio"
+            *ngIf="fau?.correoElectronico?.errors?.pattern && (fau?.correoElectronico?.dirty || fau?.correoElectronico?.touched)">Formato incorrecto</span>
+
     </div>
     <div class="col-md-6">
       <label class="control-label" for="fechaNacimiento">Fecha nacimiento<span class="req">*</span>:</label>

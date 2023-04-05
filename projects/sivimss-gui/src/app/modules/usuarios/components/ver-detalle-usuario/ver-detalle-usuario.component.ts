@@ -7,7 +7,7 @@ import {UsuarioService} from "../../services/usuario.service";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 
 type SolicitudEstatus = Pick<Usuario, "id">
-type DetalleUsuario =  Required <Usuario> & { oficina: string, rol: string };
+type DetalleUsuario = Required<Usuario> & { oficina: string, rol: string };
 
 @Component({
   selector: 'app-ver-detalle-usuario',
@@ -27,7 +27,7 @@ export class VerDetalleUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id =  this.config.data;
+    const id = this.config.data;
     this.obtenerUsuario(id);
   }
 
@@ -46,12 +46,12 @@ export class VerDetalleUsuarioComponent implements OnInit {
   }
 
   aceptar(): void {
-    const respuesta: RespuestaModalUsuario = {};
+    const respuesta: RespuestaModalUsuario = {actualizar: true};
     this.ref.close(respuesta);
   }
 
   abrirModalModificarUsuario(): void {
-    const respuesta: RespuestaModalUsuario = { modificar: true };
+    const respuesta: RespuestaModalUsuario = {modificar: true};
     this.ref.close(respuesta);
   }
 

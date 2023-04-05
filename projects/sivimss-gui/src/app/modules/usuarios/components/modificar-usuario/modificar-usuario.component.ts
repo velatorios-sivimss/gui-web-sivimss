@@ -28,7 +28,8 @@ export class ModificarUsuarioComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   indice: number = 0;
   catRol: TipoDropdown[] = [];
-  fechaActual: Date =  new Date();
+  fechaActual: Date = new Date();
+  rolResumen: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -68,6 +69,8 @@ export class ModificarUsuarioComponent implements OnInit {
   }
 
   crearUsuarioModificado(): UsuarioModificado {
+    const rol = this.modificarUsuarioForm.get("rol")?.value;
+    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
     return {
       id: this.modificarUsuarioForm.get("id")?.value,
       materno: this.modificarUsuarioForm.get("segundoApellido")?.value,
@@ -81,7 +84,7 @@ export class ModificarUsuarioComponent implements OnInit {
       estatus: this.modificarUsuarioForm.get("estatus")?.value ? 1 : 0,
       idOficina: this.modificarUsuarioForm.get("nivel")?.value,
       idVelatorio: this.modificarUsuarioForm.get("velatorio")?.value,
-      idRol: this.modificarUsuarioForm.get("rol")?.value,
+      idRol: rol,
       idDelegacion: this.modificarUsuarioForm.get("delegacion")?.value,
       matricula: this.modificarUsuarioForm.get("matricula")?.value
     };
