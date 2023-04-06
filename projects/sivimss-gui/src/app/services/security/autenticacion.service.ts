@@ -47,7 +47,17 @@ const respuestaOk = {
   codigo: 200,
   mensaje: "Exito",
   datos: {
-    "contrasenaProximaVencer": false,
+    "contraseniaProximaVencer": false,
+    "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
+  }
+};
+
+const respuestaContraseniaProxVencer = {
+  error: false,
+  codigo: 200,
+  mensaje: "Exito",
+  datos: {
+    "contraseniaProximaVencer": true,
     "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
   }
 };
@@ -65,6 +75,20 @@ const respuestaCambioContrasenia = {
   "error": false,
   "codigo": 200,
   "mensaje": "Exito",
+  "datos": true
+};
+
+const respuestaContraseniaIncorrecta = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "CONTRASENIA_INCORRECTA",
+  "datos": true
+};
+
+const respuestaFechaContraseniaVencida = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "FECHA_CONTRASENIA_VENCIDA",
   "datos": true
 };
 
@@ -96,7 +120,7 @@ export class AutenticacionService {
     }
   }
 
-  iniciarSesion(usuario: string, contrasenia: string): Observable<any> {
+  iniciarSesion(usuario: string, contrasenia: string, mostrarMsjContraseniaProxVencer: boolean = true): Observable<any> {
     //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
     return of<HttpRespuesta<any>>(respuestaOk).pipe(
       concatMap((respuesta: HttpRespuesta<any>) => {
@@ -104,13 +128,18 @@ export class AutenticacionService {
           this.crearSesion(respuesta.datos.token);
           return of('OK');
         } else if (respuesta.datos?.contraseniaProximaVencer) {
-          return of('CONTRASENIA_PROXIMA_VENCER');
+          if (mostrarMsjContraseniaProxVencer) {
+            return of('CONTRASENIA_PROXIMA_VENCER');
+          } else {
+            this.crearSesion(respuesta.datos.token);
+            return of('OK');
+          }
         } else if (respuesta.mensaje === 'CONTRASENIA_INCORRECTA') {
           return of('CONTRASENIA_INCORRECTA');
         } else if (respuesta.mensaje === 'INTENTOS_FALLIDOS') {
           return of('INTENTOS_FALLIDOS');
         } else if (respuesta.mensaje === 'FECHA_CONTRASENIA_VENCIDA') {
-          return of('CONTRASENIA_VENCIDA');
+          return of('FECHA_CONTRASENIA_VENCIDA');
         } else if (respuesta.datos?.preActivo) {
           return of('USUARIO_PREACTIVO');
         } else {

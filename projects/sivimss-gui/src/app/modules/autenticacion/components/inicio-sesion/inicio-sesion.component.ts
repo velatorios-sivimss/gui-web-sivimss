@@ -2,7 +2,6 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
@@ -15,11 +14,14 @@ import { finalize } from "rxjs/operators";
 })
 export class InicioSesionComponent implements OnInit {
 
+  readonly NO_MOSTRAR_MSJ_CONTRASENIA_PROX_VENCER: boolean = false;
   form!: FormGroup;
   formRestContraUsuario!: FormGroup;
   formRestContraCodigo!: FormGroup;
 
   mostrarModalPreActivo: boolean = false;
+  mostrarModalContraseniaProxVencer: boolean = false;
+  mostrarModalFechaContraseniaVencida:boolean = false;
 
   modales = {
     requiereCambioContrasena: false,
@@ -59,13 +61,13 @@ export class InicioSesionComponent implements OnInit {
     });
   }
 
-  acceder() {
+  acceder(mostrarMsjContraseniaProxVencer: boolean = true) {
     if (this.form.invalid) {
       return;
     }
     const {usuario, contrasenia} = this.form.value;
     this.loaderService.activar();
-    this.autenticacionService.iniciarSesion(usuario, contrasenia)
+    this.autenticacionService.iniciarSesion(usuario, contrasenia, mostrarMsjContraseniaProxVencer)
       .pipe(
         finalize(() => this.loaderService.desactivar())
       ).subscribe(
@@ -75,12 +77,16 @@ export class InicioSesionComponent implements OnInit {
             this.router.navigate(["/inicio"]);
             break;
           case 'CONTRASENIA_PROXIMA_VENCER':
+            this.mostrarModalContraseniaProxVencer = true;
             break;
           case 'CONTRASENIA_INCORRECTA':
+            this.form.get('contrasenia')?.reset();
+            this.alertaService.mostrar(TipoAlerta.Error, 'Usuario o contraseña incorrecta');
             break;
           case 'INTENTOS_FALLIDOS':
             break;
-          case 'CONTRASENIA_VENCIDA':
+          case 'FECHA_CONTRASENIA_VENCIDA':
+            this.mostrarModalFechaContraseniaVencida = true;
             break;
           case 'USUARIO_PREACTIVO':
             this.mostrarModalPreActivo = true;

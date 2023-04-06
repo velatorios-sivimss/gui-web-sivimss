@@ -30,7 +30,6 @@ export class AlertaService {
       case TipoAlerta.Error: severity = 'error'; break;
       default: severity = 'info'; break;
     }
-    this.limpiar();
     this.messageService.add({ severity, detail: mensaje, sticky: !!fijo });
   }
 
