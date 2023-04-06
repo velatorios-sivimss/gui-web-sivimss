@@ -7,7 +7,7 @@ import {UsuarioService} from "../../services/usuario.service";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 
 type SolicitudEstatus = Pick<Usuario, "id">
-type DetalleUsuario =  Required <Usuario> & { oficina: string, rol: string };
+type DetalleUsuario = Required<Usuario> & { oficina: string, rol: string, delegacion: string, velatorio: string };
 
 @Component({
   selector: 'app-ver-detalle-usuario',
@@ -17,6 +17,7 @@ type DetalleUsuario =  Required <Usuario> & { oficina: string, rol: string };
 export class VerDetalleUsuarioComponent implements OnInit {
 
   usuarioSeleccionado!: DetalleUsuario;
+  id!: number;
 
   constructor(
     private alertaService: AlertaService,
@@ -27,16 +28,17 @@ export class VerDetalleUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id =  this.config.data;
-    this.obtenerUsuario(id);
+    this.id = this.config.data;
+    this.obtenerUsuario(this.id);
   }
 
-  cambiarEstatus(id: number): void {
-    const idUsuario: SolicitudEstatus = {id}
-    const solicitudId = JSON.stringify(idUsuario);
-    this.usuarioService.cambiarEstatus(solicitudId).subscribe(
+  cambiarEstatus(): void {
+    const idUsuario: SolicitudEstatus = {id: this.id}
+    const mensaje = 'Cambio de estatus realizado';
+    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
       () => {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
+        const respuesta: RespuestaModalUsuario = {actualizar: true, mensaje};
+        this.ref.close(respuesta);
       },
       (error: HttpErrorResponse) => {
         console.error(error);
@@ -45,13 +47,8 @@ export class VerDetalleUsuarioComponent implements OnInit {
     );
   }
 
-  aceptar(): void {
-    const respuesta: RespuestaModalUsuario = {};
-    this.ref.close(respuesta);
-  }
-
   abrirModalModificarUsuario(): void {
-    const respuesta: RespuestaModalUsuario = { modificar: true };
+    const respuesta: RespuestaModalUsuario = {modificar: true};
     this.ref.close(respuesta);
   }
 
