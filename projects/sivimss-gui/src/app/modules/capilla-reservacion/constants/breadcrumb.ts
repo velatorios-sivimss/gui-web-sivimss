@@ -7,6 +7,6 @@ export const SERVICIO_BREADCRUMB: ElementoBreadcrumb[] = [
   },
   {
     icono: '',
-    titulo: 'Registrar capilla'
+    titulo: 'Reservar capilla'
   }
 ]
