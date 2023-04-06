@@ -12,11 +12,6 @@ import { concatMap, map } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 
-interface RespuestaUsuarioActivo {
-  contrasenaProximaVencer: boolean;
-  token: string;
-}
-
 interface Payload {
   exp: number;
   iat: number;
@@ -47,6 +42,33 @@ export interface Modulo {
   icono?: string;
 }
 
+const respuestaOk = {
+  error: false,
+  codigo: 200,
+  mensaje: "Exito",
+  datos: {
+    "contrasenaProximaVencer": false,
+    "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
+  }
+};
+
+const respuestaPreActivo = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "USUARIO_PREACTIVO",
+  "datos": {
+    "preActivo": true
+  }
+};
+
+const respuestaCambioContrasenia = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "Exito",
+  "datos": true
+};
+
+
 @Injectable()
 export class AutenticacionService {
 
@@ -76,15 +98,7 @@ export class AutenticacionService {
 
   iniciarSesion(usuario: string, contrasenia: string): Observable<any> {
     //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
-    return of<HttpRespuesta<RespuestaUsuarioActivo>>({
-      error: false,
-      codigo: 200,
-      mensaje: "Exito",
-      datos: {
-        "contrasenaProximaVencer": false,
-        "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
-      }
-    }).pipe(
+    return of<HttpRespuesta<any>>(respuestaOk).pipe(
       concatMap((respuesta: HttpRespuesta<any>) => {
         if (respuesta.datos?.token && !respuesta.datos?.contraseniaProximaVencer) {
           this.crearSesion(respuesta.datos.token);
@@ -134,6 +148,11 @@ export class AutenticacionService {
   obtenerModulosPorIdRol(idRol: string): Observable<HttpRespuesta<Modulo[]>> {
     //this.httpClient.get<RespuestaHttp<Modulo>>('');
     return of<HttpRespuesta<Modulo[]>>(dummyMenuResponse);
+  }
+
+  actualizarContrasenia(usuario: string, contraseniaAnterior: string, contraseniaNueva: string): Observable<HttpRespuesta<any>> {
+    //return this.http.post<HttpRespuesta>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contraseniaAnterior, contraseniaNueva})
+    return of<HttpRespuesta<any>>(respuestaCambioContrasenia);
   }
 
   // iniciarTemporizadorSesion() {

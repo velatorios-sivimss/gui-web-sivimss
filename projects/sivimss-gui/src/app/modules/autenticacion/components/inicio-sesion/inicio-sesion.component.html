@@ -27,8 +27,7 @@
       <span class="req">*Campos obligatorios</span>
     </div>
     <div class="flex justify-content-end align-items-center mt-3 mb-4 flex-wrap">
-      <button class="btn btn-primary btn-lg ml-5" [disabled]="form.invalid">Acceder
-      </button>
+      <button class="btn btn-primary btn-lg ml-5" [disabled]="form.invalid">Acceder</button>
     </div>
 
     <!--    <div class="mt-5">Modales que se usarán</div>-->
@@ -71,20 +70,20 @@
 <!--  </ng-template>-->
 <!--</p-dialog>-->
 
-<!--<p-dialog [(visible)]="modales.requiereCambioContrasena" [modal]="true"-->
-<!--          [style]="{maxWidth:'544px',width: '100%'}"-->
-<!--          [draggable]="false" [resizable]="false" header="Cambiar contraseña">-->
-<!--  <ng-template pTemplate="content">-->
-<!--    <div class="flex flex-column align-items-center">-->
-<!--      <span>Se requiere el cambio de tu contraseña.</span>-->
-<!--    </div>-->
-<!--  </ng-template>-->
-<!--  <ng-template pTemplate="footer">-->
-<!--    <div class="flex justify-content-end">-->
-<!--      <button class="btn btn-primary btn-md" (click)="modales.requiereCambioContrasena = false">Aceptar</button>-->
-<!--    </div>-->
-<!--  </ng-template>-->
-<!--</p-dialog>-->
+<p-dialog [(visible)]="mostrarModalPreActivo" [modal]="true"
+          [style]="{maxWidth:'544px',width: '100%'}"
+          [draggable]="false" [resizable]="false" header="Cambiar contraseña">
+  <ng-template pTemplate="content">
+    <div class="flex flex-column align-items-center">
+      <span>Se requiere el cambio de tu contraseña.</span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-end">
+      <button class="btn btn-primary btn-md" (click)="actualizarContrasenia()">Aceptar</button>
+    </div>
+  </ng-template>
+</p-dialog>
 
 <!--<p-dialog [(visible)]="modales.cuentaDesactivada" [modal]="true"-->
 <!--          [style]="{maxWidth:'544px',width: '100%'}"-->

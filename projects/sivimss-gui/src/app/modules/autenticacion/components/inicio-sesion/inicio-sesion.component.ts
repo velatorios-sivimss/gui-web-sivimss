@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
@@ -19,8 +19,9 @@ export class InicioSesionComponent implements OnInit {
   formRestContraUsuario!: FormGroup;
   formRestContraCodigo!: FormGroup;
 
+  mostrarModalPreActivo: boolean = false;
+
   modales = {
-    cambiarContrasena: false,
     requiereCambioContrasena: false,
     cuentaDesactivada: false,
     restablecerContrasena: false,
@@ -35,7 +36,7 @@ export class InicioSesionComponent implements OnInit {
     private readonly autenticacionService: AutenticacionService,
     private readonly router: Router,
     private readonly alertaService: AlertaService,
-    private readonly breadcrumbService: BreadcrumbService
+    private readonly activatedRoute: ActivatedRoute,
   ) {
   }
 
@@ -69,7 +70,6 @@ export class InicioSesionComponent implements OnInit {
         finalize(() => this.loaderService.desactivar())
       ).subscribe(
       (respuesta: string) => {
-
         switch (respuesta) {
           case 'OK':
             this.router.navigate(["/inicio"]);
@@ -83,28 +83,22 @@ export class InicioSesionComponent implements OnInit {
           case 'CONTRASENIA_VENCIDA':
             break;
           case 'USUARIO_PREACTIVO':
+            this.mostrarModalPreActivo = true;
             break;
         }
-
-
-        // if (respuesta.data) {
-        //   this.router.navigateByUrl('/inicio');
-        // }
-        // else if (respuesta.mensaje === 'usuario-pasword') {
-        //   this.form.reset();
-        //   this.alertaService.mostrar(TipoAlerta.Error, 'Credenciales incorrectas');
-        // } else if (respuesta.mensaje === 'bloqueado') {
-        //   this.form.reset();
-        //   this.alertaService.mostrar(TipoAlerta.Error, 'Excediste el número de intentos permitidos, el usuario fue bloqueado.');
-        // } else if (respuesta.mensaje === 'fecha_expiro') {
-        //   this.form.reset();
-        //   this.alertaService.mostrar(TipoAlerta.Error, 'La contraseña ya expiró, por favor actualízala para iniciar sesión.');
-        // }
       },
       (error: HttpErrorResponse) => {
         console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, 'Ha ocurrido un error');
       }
     );
+  }
+
+  actualizarContrasenia() {
+    this.mostrarModalPreActivo = false;
+    this.router.navigate(["actualizar-contrasenia"], {
+      relativeTo: this.activatedRoute
+    });
   }
 
   cerrarModlRestablecerCont() {
@@ -113,7 +107,7 @@ export class InicioSesionComponent implements OnInit {
   }
 
   mostrarAlerta() {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Mensaje de prueba', true);
+    this.alertaService.mostrar(TipoAlerta.Exito, 'Mensaje de prueba');
   }
 
   get f() {
