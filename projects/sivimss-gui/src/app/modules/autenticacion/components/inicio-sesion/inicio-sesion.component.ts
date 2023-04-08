@@ -15,22 +15,22 @@ import { finalize } from "rxjs/operators";
 export class InicioSesionComponent implements OnInit {
 
   readonly NO_MOSTRAR_MSJ_CONTRASENIA_PROX_VENCER: boolean = false;
+  readonly SEGUNDOS_TEMPORIZADOR_INTENTOS: number = 300;
+
+  minutosTemporizadorIntentos: string = '';
+  segundosTemporizadorIntentos: string = '';
+
   form!: FormGroup;
   formRestContraUsuario!: FormGroup;
   formRestContraCodigo!: FormGroup;
 
   mostrarModalPreActivo: boolean = false;
   mostrarModalContraseniaProxVencer: boolean = false;
-  mostrarModalFechaContraseniaVencida:boolean = false;
+  mostrarModalFechaContraseniaVencida: boolean = false;
+  mostrarModalIntentosFallidos: boolean = false;
 
-  modales = {
-    requiereCambioContrasena: false,
-    cuentaDesactivada: false,
-    restablecerContrasena: false,
-    intentosAgotados: false
-  };
 
-  pasoRestablecerContrasena: number = 1;
+  //pasoRestablecerContrasena: number = 1;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -84,6 +84,8 @@ export class InicioSesionComponent implements OnInit {
             this.alertaService.mostrar(TipoAlerta.Error, 'Usuario o contraseña incorrecta');
             break;
           case 'INTENTOS_FALLIDOS':
+            this.mostrarModalIntentosFallidos = true;
+            this.empezarTemporizadorPorExcederIntentos();
             break;
           case 'FECHA_CONTRASENIA_VENCIDA':
             this.mostrarModalFechaContraseniaVencida = true;
@@ -107,14 +109,37 @@ export class InicioSesionComponent implements OnInit {
     });
   }
 
-  cerrarModlRestablecerCont() {
-    this.modales.restablecerContrasena = false;
-    this.pasoRestablecerContrasena = 1;
+  empezarTemporizadorPorExcederIntentos() {
+
+    let duracionEnSegundos = this.existeTemporizadorEnCurso() ? Number(localStorage.getItem('segundos_temporizador_intentos_sivimss')) : this.SEGUNDOS_TEMPORIZADOR_INTENTOS;
+    let refTemporador = setInterval(() => {
+      let minutos: string | number = Math.floor(duracionEnSegundos / 60);
+      let segundos: string | number = duracionEnSegundos % 60;
+      minutos = minutos < 10 ? '0' + minutos : minutos;
+      segundos = segundos < 10 ? '0' + segundos : segundos;
+      this.minutosTemporizadorIntentos = minutos as string;
+      this.segundosTemporizadorIntentos = segundos as string;
+      duracionEnSegundos--;
+      localStorage.setItem('segundos_temporizador_intentos_sivimss', String(duracionEnSegundos));
+      if (duracionEnSegundos < 0) {
+        clearInterval(refTemporador);
+        localStorage.removeItem('segundos_temporizador_intentos_sivimss');
+      }
+      // else {
+      //   console.log(`${minutos}:${segundos}`);
+      // }
+    }, 1000);
+
   }
 
-  mostrarAlerta() {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Mensaje de prueba');
+  existeTemporizadorEnCurso(): boolean {
+    return localStorage.getItem('segundos_temporizador_intentos_sivimss') !== null;
   }
+
+  // cerrarModlRestablecerCont() {
+  //   this.modales.restablecerContrasena = false;
+  //   this.pasoRestablecerContrasena = 1;
+  // }
 
   get f() {
     return this.form.controls;

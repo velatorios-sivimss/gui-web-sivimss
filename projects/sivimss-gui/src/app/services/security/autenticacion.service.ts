@@ -86,11 +86,18 @@ const respuestaContraseniaIncorrecta = {
 };
 
 const respuestaFechaContraseniaVencida = {
-  "error": false,
+  "error": true,
   "codigo": 200,
   "mensaje": "FECHA_CONTRASENIA_VENCIDA",
   "datos": true
 };
+
+const respuestaTresIntentosFallidos = {
+  "error": true,
+  "codigo": 200,
+  "mensaje": "INTENTOS_FALLIDOS",
+  "datos": "uri=/mssivimss-oauth/acceder"
+}
 
 
 @Injectable()
