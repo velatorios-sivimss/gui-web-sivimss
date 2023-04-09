@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Velatorio} from "../../modelos/velatorio.interface";
+import {Velatorio} from "../../models/velatorio.interface";
 
 @Component({
   selector: 'app-detalle-velatorio',

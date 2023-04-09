@@ -1,9 +1,8 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {PrimeNGConfig} from 'primeng-lts/api';
-import {TranslateService} from '@ngx-translate/core';
-import {NavigationEnd, Router} from "@angular/router";
-import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
-import { Observable } from "rxjs";
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { PrimeNGConfig } from 'primeng-lts/api';
+import { TranslateService } from '@ngx-translate/core';
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { Observable, Subscription } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -12,26 +11,17 @@ import { Observable } from "rxjs";
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  rutaActual!: string;
-
+  existeUnaSesion$!: Observable<boolean>;
 
   constructor(
     private primengConfig: PrimeNGConfig,
     private translateService: TranslateService,
-    private router: Router,
-
+    private autenticacionService: AutenticacionService
   ) {
-    /*Esta implementacion es temporal*/
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.rutaActual = event.url;
-      }
-    });
   }
 
-
   ngOnInit(): void {
-
+    this.existeUnaSesion$ = this.autenticacionService.existeUnaSesion$;
     this.permitirAnimacionRippleComponentesPrime();
     this.establecerIdiomaGeneral('es');
   }

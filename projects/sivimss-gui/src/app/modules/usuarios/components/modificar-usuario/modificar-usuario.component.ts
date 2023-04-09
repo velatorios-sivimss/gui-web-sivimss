@@ -10,8 +10,7 @@ import {PATRON_CORREO} from "../../../../utils/constantes";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
-import {diferenciaUTC} from "../../../../utils/funciones";
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {diferenciaUTC, mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {ActivatedRoute} from '@angular/router';
 
 type UsuarioModificado = Omit<Usuario, "password">
@@ -28,6 +27,11 @@ export class ModificarUsuarioComponent implements OnInit {
   opciones: TipoDropdown[] = CATALOGOS;
   indice: number = 0;
   catRol: TipoDropdown[] = [];
+  fechaActual: Date = new Date();
+  rolResumen: string = "";
+  nivelResumen: string = "";
+  delegacionResumen: string = "";
+  velatorioResumen: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -42,7 +46,7 @@ export class ModificarUsuarioComponent implements OnInit {
   ngOnInit(): void {
     const usuario = this.config.data;
     const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.inicializarModificarUsuarioForm(usuario);
   }
 
@@ -86,10 +90,20 @@ export class ModificarUsuarioComponent implements OnInit {
     };
   }
 
+  creacionVariablesResumen(): void {
+    const rol = this.modificarUsuarioForm.get("rol")?.value;
+    const nivel = this.modificarUsuarioForm.get("nivel")?.value;
+    const delegacion = this.modificarUsuarioForm.get("delegacion")?.value;
+    const velatorio = this.modificarUsuarioForm.get("velatorio")?.value;
+    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
+    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
+    this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
+    this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
+  }
+
   modificarUsuario(): void {
-    const respuesta: RespuestaModalUsuario = {mensaje: "Actualización satisfactoria", actualizar: true}
-    const solicitudUsuario = JSON.stringify(this.usuarioModificado);
-    this.usuarioService.actualizar(solicitudUsuario).subscribe(
+    const respuesta: RespuestaModalUsuario = {mensaje: "Usuario modificado correctamente", actualizar: true}
+    this.usuarioService.actualizar(this.usuarioModificado).subscribe(
       () => {
         this.ref.close(respuesta)
       },
@@ -99,12 +113,6 @@ export class ModificarUsuarioComponent implements OnInit {
       }
     );
   }
-
-
-  get fmu() {
-    return this.modificarUsuarioForm.controls;
-  }
-
 
   cancelar(): void {
     if (this.indice === 1) {
@@ -119,8 +127,14 @@ export class ModificarUsuarioComponent implements OnInit {
     if (this.indice === 0) {
       this.indice++;
       this.usuarioModificado = this.crearUsuarioModificado();
+      this.creacionVariablesResumen();
       return;
     }
     this.modificarUsuario();
   }
+
+  get fmu() {
+    return this.modificarUsuarioForm.controls;
+  }
+
 }

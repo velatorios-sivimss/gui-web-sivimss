@@ -1,267 +1,89 @@
 <app-titulo-principal titulo="Administrar roles"></app-titulo-principal>
 <div class="border-panel">
-  <form [formGroup]="filtroForm">
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones"
-                    placeholder="Seleccionar el nivel">
-        </p-dropdown>
-      </div>
-      <div class="col-md-6">
-        <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
-                    placeholder="Seleccionar el velatorio">
-        </p-dropdown>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-md-6">
-        <label class="control-label" for="delegacion">Delegación:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones"
-                    placeholder="Seleccionar la delegación">
-        </p-dropdown>
-      </div>
-      <div class="col-md-6">
-        <label class="control-label" for="rol">Rol:</label>
-        <p-dropdown id="rol" class="form-control" formControlName="estatus" [options]="opciones"
-                    placeholder="Seleccionar el rol">
-        </p-dropdown>
-      </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-md-12">
-        <label class="control-label">Permisos:</label>
-        <div class="flex">
-          <div class="flex align-items-center">
-            <p-checkbox inputId="alta" formControlName="alta" styleClass="mr-3" [binary]="true"></p-checkbox>
-            <label [for]="'alta'" class="control-label mb-0">Alta</label>
-          </div>
-          <div class="flex align-items-center ml-5">
-            <p-checkbox inputId="baja" formControlName="baja" styleClass="mr-3" [binary]="true"></p-checkbox>
-            <label [for]="'baja'" class="control-label mb-0">Alta</label>
-          </div>
-          <div class="flex align-items-center ml-5">
-            <p-checkbox inputId="aprobacion" formControlName="aprobacion" styleClass="mr-3"
-                        [binary]="true"></p-checkbox>
-            <label [for]="'aprobacion'" class="control-label mb-0">Aprobacion</label>
-          </div>
-          <div class="flex align-items-center ml-5">
-            <p-checkbox inputId="consulta" formControlName="consulta" styleClass="mr-3" [binary]="true"></p-checkbox>
-            <label [for]="'consulta'" class="control-label mb-0">Consulta</label>
-          </div>
-          <div class="flex align-items-center ml-5">
-            <p-checkbox inputId="modificar" formControlName="modificar" styleClass="mr-3" [binary]="true"></p-checkbox>
-            <label [for]="'modificar'" class="control-label mb-0">Modificar</label>
-          </div>
-          <div class="flex align-items-center ml-5">
-            <p-checkbox inputId="imprimir" formControlName="imprimir" styleClass="mr-3" [binary]="true"></p-checkbox>
-            <label [for]="'imprimir'" class="control-label mb-0">Imprimir</label>
-          </div>
+    <form [formGroup]="filtroForm">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="control-label" for="rol">Rol:</label>
+                <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catRol" placeholder="Seleccionar el rol">
+                </p-dropdown>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" for="nivel">Nivel:</label>
+                <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones" placeholder="Seleccionar el nivel">
+                </p-dropdown>
+            </div>          
         </div>
-      </div>
-    </div>
-    <div class="row mt-6">
-      <div class="col-md-12 flex justify-content-end">
-        <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
-      </div>
-    </div>
-  </form>
+        <div class="row mt-6">
+            <div class="col-md-12 flex justify-content-end">
+                <button type="submit" class="btn btn-default btn-md" (click)="limpiar();">Limpiar</button>
+                <button type="submit" class="btn btn-primary btn-md ml-5" (click)="buscar();">Buscar</button>
+            </div>
+        </div>
+    </form>
 </div>
 <section class="mt-5">
-  <div class="flex justify-content-between align-items-center">
-    <h2 class="subtitulo">Roles</h2>
-    <button type="button" class="btn btn-primary btn-lg" routerLink="agregar-rol">Agregar rol</button>
-  </div>
-  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="roles"
-           [paginator]="roles.length > 0"
-           [rows]="cantElementosPorPagina"
-           [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-           (onLazyLoad)="paginar($event)">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Nivel</th>
-        <th>Fecha de creación</th>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Nivel</th>
-        <th>Fecha de creación</th>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Nivel</th>
-        <th>Fecha de creación</th>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Nivel</th>
-        <th>Fecha de creación</th>
-        <th>Estatus</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-rol>
-      <tr>
-        <td>{{rol.id}}</td>
-        <td>{{rol.nombre}}</td>
-        <td>{{rol.nivel}}</td>
-        <td>{{rol.fechaCreacion}}</td>
-        <td>{{rol.id}}</td>
-        <td>{{rol.nombre}}</td>
-        <td>{{rol.nivel}}</td>
-        <td>{{rol.fechaCreacion}}</td>
-        <td>{{rol.id}}</td>
-        <td>{{rol.nombre}}</td>
-        <td>{{rol.nivel}}</td>
-        <td>{{rol.fechaCreacion}}</td>
-        <td>{{rol.id}}</td>
-        <td>{{rol.nombre}}</td>
-        <td>{{rol.nivel}}</td>
-        <td>{{rol.fechaCreacion}}</td>
-        <td>
-          <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
-            <div class="contenedor-inputswitch">
-              <p-inputSwitch [(ngModel)]="rol.estatus"></p-inputSwitch>
-              <span class="activo" *ngIf="rol.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!rol.estatus">Inactivo</span>
+    <div class="flex justify-content-between align-items-center">
+        <h2 class="subtitulo">Roles</h2>
+        <button type="button" class="btn btn-primary btn-lg" routerLink="agregar-rol">Agregar rol</button>
+    </div>
+    <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="roles" [paginator]="roles.length > 0" [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual" (onLazyLoad)="seleccionarPaginacion()">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Nivel</th>
+                <th>Fecha de creación</th>
+                <th>Estatus</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rol>
+            <tr>
+                <td>{{rol.idRol}}</td>
+                <td>{{rol.desRol}}</td>
+                <td>{{rol.desNivelOficina}}</td>
+                <td>{{rol.fCreacion}}</td>
+                <td>
+                    <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
+                        <div class="contenedor-inputswitch">
+                            <p-inputSwitch [(ngModel)]="rol.estatus" (ngModelChange)="cambiarEstatus(rol);"></p-inputSwitch>
+                            <span class="activo" *ngIf="rol.estatus">Activo</span>
+                            <span class="inactivo" *ngIf="!rol.estatus">Inactivo</span>
+                        </div>
+                        <div class="contenedor-celda-iconos">
+                            <a (click)="abrirModalDetalleRol(rol)">
+                                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+                            </a>
+                            <a (click)="abrirPanel($event,rol)">
+                                <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorleft">
+            <div class="paginator-template">
+                <span class="total-elements">{{roles.length}} de {{totalElementos}}</span>
             </div>
-            <div class="contenedor-celda-iconos">
-              <a (click)="abrirModalDetalleRol(rol)">
-                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
-              </a>
-              <a (click)="abrirPanel($event,rol)">
-                <img
-                  src="assets/images/imagen-icono-barras-horizontales.svg"
-                  alt="icono barras horizontales">
-              </a>
+        </ng-template>
+        <ng-template pTemplate="paginatorright">
+            <div class="paginator-template">
+                <div class="export-table">
+                    <span class="export-table-text">Exportar tabla</span>
+                    <div class="export-table-icons">
+                        <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
+                        <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel">
+                    </div>
+                </div>
             </div>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="paginatorleft">
-      <div class="paginator-template">
-        <span class="total-elements">{{roles.length}} de {{totalElementos}}</span>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="paginatorright">
-      <div class="paginator-template">
-        <div class="export-table">
-          <span class="export-table-text">Exportar tabla</span>
-          <div class="export-table-icons">
-            <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
-            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg"
-                 alt="exportar excel">
-          </div>
-        </div>
-      </div>
-    </ng-template>
-  </p-table>
+        </ng-template>
+    </p-table>
 </section>
 
 <p-overlayPanel #overlayPanel>
-  <ng-template pTemplate="content">
-    <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Modificar"></app-overlay-panel-opcion>
-    </app-overlay-panel-opciones>
-  </ng-template>
+    <ng-template pTemplate="content">
+        <app-overlay-panel-opciones>
+            <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificarRol()"></app-overlay-panel-opcion>
+        </app-overlay-panel-opciones>
+    </ng-template>
 </p-overlayPanel>
-
-
-<!-- VER DETALLE ROL-->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Detalle del rol"
-          [(visible)]="mostrarModalDetalleRol"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <app-table-panel>
-      <ng-template appCustomTemplate="left-header">
-        <div class="table-panel-header-column">
-          <span class="font-bold">ID 1</span>
-        </div>
-      </ng-template>
-      <ng-template appCustomTemplate="right-header">
-        <div class="table-panel-header-column">
-          <div class="flex flex-column">
-            <span>Estatus</span>
-            <div class="contenedor-inputswitch">
-              <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus"></p-inputSwitch>
-              <span class="activo" *ngIf="rolSeleccionado.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!rolSeleccionado.estatus">Inactivo</span>
-            </div>
-          </div>
-          <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
-            <img
-              src="assets/images/imagen-icono-barras-horizontales.svg"
-              alt="icono barras horizontales">
-          </a>
-        </div>
-      </ng-template>
-      <div class="row table-panel-row">
-        <div class="col-md-9">
-          <div class="table-panel-column">
-            <label>Nombre del Rol</label>
-            <span>{{rolSeleccionado.nombre}}</span>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="table-panel-column">
-            <label class="text-right">Fecha de creación</label>
-            <span class="text-right">{{rolSeleccionado.fechaCreacion}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Nivel</label>
-            <span>{{rolSeleccionado.nivel}}</span>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Delegacion</label>
-            <span>{{rolSeleccionado.delegacion}}</span>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="table-panel-column">
-            <label>Velatorio</label>
-            <span>{{rolSeleccionado.velatorio}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-12">
-          <div class="table-panel-column">
-            <label>Descripción del artículo</label>
-            <table class="table-panel-inner-table mt-3">
-              <thead>
-                <tr>
-                  <th>ID funcionalidad</th>
-                  <th>Nombre</th>
-                  <th>Permisos</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let funcionalidad of rolSeleccionado.funcionalidades">
-                  <td>{{funcionalidad.id}}</td>
-                  <td>{{funcionalidad.nombre}}</td>
-                  <td>{{funcionalidad | cadenaPermisos}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </app-table-panel>
-
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="ml-4 btn btn-primary btn-md" (click)="mostrarModalDetalleRol = false">
-        Aceptar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
