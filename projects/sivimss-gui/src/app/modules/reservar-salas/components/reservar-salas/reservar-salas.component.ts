@@ -22,6 +22,7 @@ export class ReservarSalasComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    this.router.navigate(["/reservar-salas", { outlets: { salas: [this.opcionSala.route] } }]);
     this.actualizarBreadcrumb();
   }
 

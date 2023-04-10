@@ -6,13 +6,34 @@
   </div>
 </div>
 <div class="row mb-3">
+
   <div class="col-md-12">
     <p-tabView>
       <p-tabPanel [header]="menu[0]">
+        <div class="flex justify-content-end">
+          <div class="col-md-6">
+            <ng-container *ngFor="let titulo of tituloSalas">
+              <div class="col-md-3">
+                <span class="circle" [style.background-color]="titulo?.borderColor"></span>
+                <b class="texto-base" [style.color]="titulo?.textColor"> {{titulo?.title}}</b>
+              </div>
+            </ng-container>
+          </div>
+        </div>
         <p-fullCalendar [options]="calendarOptions"></p-fullCalendar>
       </p-tabPanel>
       <p-tabPanel [header]="menu[1]">
-        
+        <div class="flex justify-content-end">
+          <div class="col-md-6">
+            <ng-container *ngFor="let titulo of tituloSalas">
+              <div class="col-md-3">
+                <span class="circle" [style.background-color]="titulo?.borderColor"></span>
+                <b class="texto-base" [style.color]="titulo?.textColor"> {{titulo?.title}}</b>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <p-fullCalendar [options]="calendarOptions"></p-fullCalendar>
       </p-tabPanel>
     </p-tabView>
   </div>

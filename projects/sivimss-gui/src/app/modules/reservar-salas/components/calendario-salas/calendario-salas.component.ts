@@ -3,11 +3,18 @@ import {CalendarOptions, DateSelectArg, EventApi, EventClickArg} from '@fullcale
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {MENU_SALAS} from "../../constants/menu-salas";
+import interactionPlugin from "@fullcalendar/interaction";
+import {
+  DetalleActividadDiaComponent
+} from "../../../capilla-reservacion/components/detalle-actividad-dia/detalle-actividad-dia.component";
+import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
+import {Calendario} from "../../models/calendario.interface";
 
 @Component({
   selector: 'app-calendario-salas',
   templateUrl: './calendario-salas.component.html',
-  styleUrls: ['./calendario-salas.component.scss']
+  styleUrls: ['./calendario-salas.component.scss'],
+  providers: [DialogService]
 })
 export class CalendarioSalasComponent implements OnInit {
 
@@ -17,10 +24,21 @@ export class CalendarioSalasComponent implements OnInit {
   velatorios: TipoDropdown[] = [];
   menu: string[] = MENU_SALAS;
 
-  constructor() {
+  fechaSeleccionada: string = "";
+  actividadRef!: DynamicDialogRef;
+
+  registroCalendario: Calendario[] = [];
+
+  tituloSalas: Calendario[] = [];
+
+  constructor(
+    public dialogService: DialogService,
+  ) {
   }
 
   ngOnInit(): void {
+    this.registroCalendario = this.inicializarRegistros();
+    this.tituloSalas = this.inicializarTitulosCalendario();
     this.inicializarCalendario();
   }
 
@@ -33,22 +51,71 @@ export class CalendarioSalasComponent implements OnInit {
   }
 
   inicializarCalendario(): void {
-    this.calendarOptions = {
+    // this.calendarOptions = {
       // headerToolbar: { end: "", start: "" },
       // validRange: {
       //   start: this.mesAnterior,
       //   end: this.mesAnteriorUltimoDia
       // },
-      initialView: 'dayGridMonth',
-      plugins: [dayGridPlugin],
+      // initialView: 'dayGridMonth',
+      // plugins: [dayGridPlugin],
       //initialEvents: this.registros,
       // defaultAllDay: true,
       // select: this.mostrarModal.bind(this),
-      locale: 'es-MX',
+      // locale: 'es-MX',
       // selectable: this.camposHabilitados,
-      editable: false,
+      // editable: false,
       // eventsSet: this.handleEvents.bind(this),
       // eventClick: this.mostrarEvento.bind(this)
-    };
+    // };
+
+      this.calendarOptions = {
+        headerToolbar: { end: "", start: "prev,next" },
+        initialView: 'dayGridMonth',
+        plugins: [interactionPlugin, dayGridPlugin],
+        initialEvents: this.registroCalendario,
+        defaultAllDay: true,
+        editable: false,
+        select: this.mostrarModal.bind(this),
+        locale: 'es-MX',
+        selectable: true,
+        dayHeaders:false,
+        eventClick: this.mostrarEvento.bind(this),
+        dayMaxEventRows:3,
+      };
+    }
+
+    mostrarModal(selectInfo: DateSelectArg) {
+      this.fechaSeleccionada = selectInfo.startStr;
+      this.actividadRef = this.dialogService.open(DetalleActividadDiaComponent,{
+        header: 'Ver actividad del día',
+        width: "920px",
+        data: this.fechaSeleccionada
+      })
+    }
+
+  mostrarEvento(clickInfo: EventClickArg) {
+    this.fechaSeleccionada = clickInfo.event._def.publicId;
+  }
+
+  inicializarRegistros(): Calendario[] {
+    return [
+      { title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { title: 'Miguel Hidalgo', date: '2023-04-04',textColor:"#5E217A", color:"#fff", borderColor: '#5E217A' },
+      { title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { title: 'Sor Juana Inés', date: '2023-04-04',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' },
+      { title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { title: 'Miguel Hidalgo', date: '2023-04-05',textColor:"#5E217A", color:"#fff", borderColor: '#5E217A' },
+      { title: 'Sor Juana Inés', date: '2023-04-06',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' }]
+  }
+
+  inicializarTitulosCalendario(): Calendario[] {
+    return [
+      { title: 'Ignacio Allende', textColor:"#217A6B",borderColor: '#217A6B' },
+      { title: 'Miguel Hidalo', textColor:"#5E217A", borderColor: '#5E217A' },
+      { title: 'Sor Juana Inés', textColor:"#E18F2D", borderColor: '#E18F2D' },
+    ]
   }
 }
