@@ -12,6 +12,8 @@ import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {diferenciaUTC, mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {ActivatedRoute} from '@angular/router';
+import {finalize} from "rxjs/operators";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
 
 type UsuarioModificado = Omit<Usuario, "password">
 
@@ -39,7 +41,8 @@ export class ModificarUsuarioComponent implements OnInit {
     private usuarioService: UsuarioService,
     private alertaService: AlertaService,
     public config: DynamicDialogConfig,
-    public ref: DynamicDialogRef
+    public ref: DynamicDialogRef,
+    private cargadorService: LoaderService
   ) {
   }
 
@@ -103,15 +106,18 @@ export class ModificarUsuarioComponent implements OnInit {
 
   modificarUsuario(): void {
     const respuesta: RespuestaModalUsuario = {mensaje: "Usuario modificado correctamente", actualizar: true}
-    this.usuarioService.actualizar(this.usuarioModificado).subscribe(
-      () => {
-        this.ref.close(respuesta)
-      },
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error, 'Actualización incorrecta');
-        console.error("ERROR: ", error)
-      }
-    );
+    this.cargadorService.activar();
+    this.usuarioService.actualizar(this.usuarioModificado)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        () => {
+          this.ref.close(respuesta)
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaService.mostrar(TipoAlerta.Error, 'Actualización incorrecta');
+          console.error("ERROR: ", error)
+        }
+      );
   }
 
   cancelar(): void {

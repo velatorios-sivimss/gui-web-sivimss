@@ -187,15 +187,18 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cambiarEstatus(id: number): void {
     const idUsuario: SolicitudEstatus = {id}
-    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
-      () => {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
-      },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
-      }
-    );
+    this.cargadorService.activar();
+    this.usuarioService.cambiarEstatus(idUsuario)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        () => {
+          this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      );
   }
 
   procesarRespuestaModal(respuesta: RespuestaModalUsuario = {}): void {
