@@ -25,6 +25,7 @@ export class AgregarArticulosComponent implements OnInit {
   readonly POSICION_CATALOGO_CUENTAS_CONTABLES: number = 6;
   readonly POSICION_CATALOGO_CLAVES_SAT: number = 7;
   readonly ID_ARTICULO_COMPLEMENTARIO: number = 2;
+  readonly MSG017: string = 'El tipo de artículo que deseas ingresar ya se encuentra registrado en el sistema.';
 
   agregarArticuloForm!: FormGroup;
   articulos: Articulo = {};
@@ -145,9 +146,12 @@ export class AgregarArticulosComponent implements OnInit {
           this.ref.close(true);
         }
       },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      (err: HttpErrorResponse) => {
+        if (err.error.mensaje === "Registro repetido") {
+          this.alertaService.mostrar(TipoAlerta.Error, this.MSG017);
+        } else {
+          this.alertaService.mostrar(TipoAlerta.Error, err.error.mensaje);
+        }
       }
     );
   }
