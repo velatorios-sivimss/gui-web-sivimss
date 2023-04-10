@@ -1,8 +1,34 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
 import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
-import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
+import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
+import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
+import { finalize } from "rxjs/operators";
+
+/**
+ * Valida que la contraseña anterior sea diferente a la nueva
+ */
+export function contraseniasDiferentesdValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const contraseniaAnterior = control.get('contraseniaAnterior');
+    const contraseniaNueva = control.get('contraseniaNueva');
+    console.log(contraseniaAnterior && contraseniaNueva && contraseniaAnterior.value !== contraseniaNueva.value ? null : {contraseniasIguales: true});
+    return contraseniaAnterior && contraseniaNueva && contraseniaAnterior.value !== contraseniaNueva.value ? null : {contraseniasIguales: true};
+  };
+}
+
+/**
+ * Valida que la contraseña nueva y la confirmacion de la nueva contraseña sean iguales.
+ */
+export const confirmacionContraseniadValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const contraseniaNueva = control.get('contraseniaNueva');
+  const contraseniaConfirmacion = control.get('contraseniaConfirmacion');
+  return contraseniaNueva && contraseniaConfirmacion && contraseniaNueva.value === contraseniaConfirmacion.value ? null : {contraseniasDiferentes: true};
+};
+
 
 @Component({
   selector: 'app-actualizar-contrasenia',
@@ -12,13 +38,15 @@ import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/servic
 export class ActualizarContraseniaComponent implements OnInit {
 
   form!: FormGroup;
+  private readonly contraseniaAnterior: string = '';
 
   constructor(
     private readonly autenticacionService: AutenticacionService,
-    // private activatedRoute: ActivatedRoute,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly alertaService: AlertaService,
-    private readonly formBuilder: FormBuilder
+    private readonly formBuilder: FormBuilder,
+    private readonly loaderService: LoaderService
   ) {
   }
 
@@ -28,51 +56,47 @@ export class ActualizarContraseniaComponent implements OnInit {
 
   inicializarForm(): void {
     this.form = this.formBuilder.group({
-      contraseniaAnterior: ['', Validators.required],
-      nuevaContrasenia: ['', Validators.required],
-      confirmarContrasenia: ['', Validators.required]
-    });
+        usuario: ['', Validators.required],
+        contraseniaAnterior: ['', Validators.required],
+        contraseniaNueva: ['', Validators.required],
+        contraseniaConfirmacion: ['', Validators.required]
+      },
+      {
+        validators: [
+          contraseniasDiferentesdValidator(),
+          confirmacionContraseniadValidator
+        ]
+      }
+    );
   }
 
-  actualizarContrasena(): void {
-    // let matricula = this.form.get('matricula')?.value;
-    // // let idUsuario: any = this.activatedRoute.snapshot.paramMap.get('idUsuario');
-    // let nuevaContrasena: string = this.form.get('nuevaContrasena')?.value;
-    // let confirmacionContrasena: string = this.form.get('confirmacionContrasena')?.value;
-    // this.autenticacionService.validarMatricula(matricula).subscribe(
-    //   (respuesta: any) => {
-    //     if (respuesta.mensaje === 'usuarioInvalido') {
-    //       this.alertasFlotantesService.mostrar('info', 'Usuario inválido');
-    //     } else if (respuesta.mensaje === 'Exito') {
-    //       if (nuevaContrasena === confirmacionContrasena) {
-    //         this.autenticacionService.actualizarContrasena(respuesta.idUsuario, nuevaContrasena, confirmacionContrasena).subscribe(
-    //           (respuesta: any) => {
-    //             if (respuesta.mensaje === 'Exito') {
-    //               this.alertasFlotantesService.mostrar('exito', 'La contraseña ha sido actualizada exitosamente.');
-    //               this.router.navigateByUrl('/inicio-sesion');
-    //             } else if (respuesta.error) {
-    //               this.alertasFlotantesService.mostrar('error', 'Ocurrió un error al intentar actualizar la contraseña.');
-    //               this.form.reset();
-    //             }
-    //           },
-    //           (httpErrorResponse: HttpErrorResponse) => {
-    //             console.error(httpErrorResponse);
-    //             this.form.reset();
-    //             this.alertasFlotantesService.mostrar('error', 'Ocurrió un error al consultar la matrícula');
-    //           }
-    //         )
-    //       } else {
-    //         this.alertasFlotantesService.mostrar('error', 'Las contraseñas no coinciden.');
-    //       }
-    //       // this.router.navigate(['../actualizar-contrasenia', respuesta.idUsuario], { relativeTo: this.activatedRoute });
-    //     }
-    //   },
-    //   (httpErrorResponse: HttpErrorResponse) => {
-    //     console.error(httpErrorResponse);
-    //     this.alertasFlotantesService.mostrar('error', 'Ocurrió un error al consultar la matrícula');
-    //   }
-    // );
 
+  actualizarContrasenia(): void {
+    if (this.form.invalid) {
+      return;
+    }
+    const {
+      usuario,
+      contraseniaAnterior,
+      contraseniaNueva
+    } = this.form.value;
+    this.loaderService.activar();
+    this.autenticacionService.actualizarContrasenia(usuario, contraseniaAnterior, contraseniaNueva).pipe(
+      finalize(() => this.loaderService.desactivar())
+    ).subscribe(
+      (respuesta: HttpRespuesta<unknown>) => {
+        if (respuesta.codigo === 200) {
+          this.alertaService.mostrar(TipoAlerta.Exito, 'Contraseña actualizada');
+          this.router.navigate(["../"], {
+            relativeTo: this.activatedRoute
+          });
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, 'Ha ocurrido un error');
+      }
+    );
   }
 
   get f() {
