@@ -53,7 +53,6 @@ export class VerDetallePaquetesComponent implements OnInit {
     private paquetesService: PaquetesService,
     private cargadorService: LoaderService
   ) {
-    // console.log(this.config.data);
     this.paqueteSeleccionado = this.config.data?.paquete;
     this.accionEntrada = this.config.data?.modo;
   }

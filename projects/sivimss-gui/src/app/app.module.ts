@@ -19,9 +19,6 @@ import { LoaderModule } from './shared/loader/loader.module';
 import { AlertaModule } from './shared/alerta/alerta.module';
 import { SubHeaderPrivadoComponent } from './components/sub-header-privado/sub-header-privado.component';
 import { BreadcrumbModule } from "./shared/breadcrumb/breadcrumb.module";
-import { AdministrarProveedoresComponent } from './modules/proveedores/components/administrar-proveedores/administrar-proveedores.component';
-// import { RenovacionExtemporaneaComponent } from './modules/convenios-prevision-funeraria/components/renovacion-extemporanea/renovacion-extemporanea.component';
-// import { AdministrarArticulosComponent } from './modules/articulos/components/administrar-articulos/administrar-articulos.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json')
@@ -32,8 +29,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppComponent,
     PaginaNoEncontradaComponent,
     HeaderImssPublicoComponent,
-    SubHeaderPrivadoComponent,
-    // RenovacionExtemporaneaComponent,
+    SubHeaderPrivadoComponent
   ],
   imports: [
     BrowserModule,

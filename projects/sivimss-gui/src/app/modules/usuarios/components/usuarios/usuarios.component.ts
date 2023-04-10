@@ -9,7 +9,6 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Usuario} from '../../models/usuario.interface';
 import {UsuarioService} from '../../services/usuario.service';
-import {HttpRespuesta} from '../../../../models/http-respuesta.interface';
 
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {CATALOGOS} from "../../constants/catalogos_dummies";
@@ -20,10 +19,10 @@ import {FiltrosUsuario} from "../../models/filtrosUsuario.interface";
 import {VerDetalleUsuarioComponent} from "../ver-detalle-usuario/ver-detalle-usuario.component";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.component";
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
-const MAX_WIDTH: string = "876px";
+const MAX_WIDTH: string = "920px";
 
 @Component({
   selector: 'app-usuarios',
@@ -66,7 +65,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.inicializarFiltroForm();
   }
 
@@ -138,8 +137,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   paginarConFiltros(): void {
     const filtros = this.crearSolicitudFiltros();
-    const solicitudFiltros = JSON.stringify(filtros);
-    this.usuarioService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.usuarios = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
@@ -168,15 +166,16 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   limpiar(): void {
     this.paginacionConFiltrado = false;
-    this.filtroForm.reset();
+    if (this.filtroForm) {
+      this.filtroForm.reset();
+    }
     this.numPaginaActual = 0;
     this.paginar();
   }
 
   cambiarEstatus(id: number): void {
     const idUsuario: SolicitudEstatus = {id}
-    const solicitudId = JSON.stringify(idUsuario);
-    this.usuarioService.cambiarEstatus(solicitudId).subscribe(
+    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
       () => {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
       },

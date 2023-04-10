@@ -7,7 +7,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
 //TO DO Cambiar el Id de la funcionalidad cuando se obtenga del oaut
 //      Cambiar auth_token2 por el token de la sesion del usuario
 
-  private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDExNjE5MiwiZXhwIjoxNjgwNzIwOTkyfQ.4SmASSJnQsF2Vnq0BuDZu90D1o7eUPUVscQLJ6UaBrE"
+  private auth_token: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDI5MjI4NCwiZXhwIjoxNjgwODk3MDg0fQ.IiVuYNHJLgizTOaGB_cbdO8GKMb7mvTQ0yvsja97-D8";
 
   protected constructor(
     protected _http: HttpClient,
@@ -25,6 +25,7 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, t, {headers});
   }
+
 
   actualizar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
@@ -51,5 +52,6 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
       .append("servicio", this._paginado)
     return this._http.get<T>(this._base + `${this._funcionalidad}`, {headers, params})
   }
+
 
 }
