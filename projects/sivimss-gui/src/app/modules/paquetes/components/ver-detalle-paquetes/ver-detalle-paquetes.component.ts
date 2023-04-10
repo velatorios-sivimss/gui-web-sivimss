@@ -1,12 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LazyLoadEvent } from 'primeng-lts/api/lazyloadevent';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from 'projects/sivimss-gui/src/app/utils/constantes';
-import { Articulo } from '../../models/articulos.interface';
-import { Paquete } from '../../models/paquetes.interface';
-import { Servicio } from '../../models/servicios.interface';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {LazyLoadEvent} from 'primeng-lts/api/lazyloadevent';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {AlertaService, TipoAlerta} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import {DIEZ_ELEMENTOS_POR_PAGINA, Accion} from 'projects/sivimss-gui/src/app/utils/constantes';
+import {Articulo} from '../../models/articulos.interface';
+import {Paquete} from '../../models/paquetes.interface';
+import {Servicio} from '../../models/servicios.interface';
+import {finalize} from "rxjs/operators";
+import {HttpErrorResponse} from "@angular/common/http";
+import {PaquetesService} from "../../services/paquetes.service";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
+
+interface NuevoPaquete {
+  nomPaquete: string,
+  desPaquete: string,
+  costo: number,
+  precio: number,
+  isRegion: boolean,
+  estatus: number
+}
 
 @Component({
   selector: 'app-ver-detalle-paquetes',
@@ -14,9 +27,9 @@ import { Servicio } from '../../models/servicios.interface';
   styleUrls: ['./ver-detalle-paquetes.component.scss']
 })
 export class VerDetallePaquetesComponent implements OnInit {
-  readonly MENSAJE_PAQUETE_AGREGADO = 'Paquete agregado correctamente';
-  readonly MENSAJE_PAQUETE_ACTIVADO = 'Paquete activado correctamente';
-  readonly MENSAJE_PAQUETE_DESACTIVADO = 'Paquete desactivado correctamente';
+  readonly MENSAJE_PAQUETE_AGREGADO: string = 'Paquete agregado correctamente';
+  readonly MENSAJE_PAQUETE_ACTIVADO: string = 'Paquete activado correctamente';
+  readonly MENSAJE_PAQUETE_DESACTIVADO: string = 'Paquete desactivado correctamente';
 
   numPaginaActual: number = 0;
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
@@ -37,6 +50,8 @@ export class VerDetallePaquetesComponent implements OnInit {
     private alertaService: AlertaService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private paquetesService: PaquetesService,
+    private cargadorService: LoaderService
   ) {
     // console.log(this.config.data);
     this.paqueteSeleccionado = this.config.data?.paquete;
@@ -96,13 +111,33 @@ export class VerDetallePaquetesComponent implements OnInit {
     this.alertaService.mostrar(TipoAlerta.Exito, this.mensajeConfirmacion);
   }
 
-  agregarPaquete() {
-    const nuevoPaquete: Paquete = { ...this.paqueteSeleccionado }
-    // TO DO Integrar servicio de back para Guardar
-    this.cerrarDialogo(nuevoPaquete);
-    this.alertaService.mostrar(TipoAlerta.Exito, this.mensajeConfirmacion);
-    this.router.navigate(['/paquetes'], {
-      relativeTo: this.activatedRoute
-    });
+  agregarPaquete(): void {
+    const nuevoPaquete: NuevoPaquete = this.crearPaquete();
+    this.cargadorService.activar();
+    this.paquetesService.guardar(nuevoPaquete)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        (respuesta) => {
+          this.cerrarDialogo();
+          this.alertaService.mostrar(TipoAlerta.Exito, this.mensajeConfirmacion);
+          this.router.navigate(['/paquetes'], {
+            relativeTo: this.activatedRoute
+          });
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      );
+  }
+
+  crearPaquete(): NuevoPaquete {
+    return {
+      costo: 0,
+      desPaquete: this.paqueteSeleccionado.descripcion || "",
+      isRegion: false,
+      nomPaquete: this.paqueteSeleccionado.nombrePaquete || "",
+      precio: 0,
+      estatus: this.paqueteSeleccionado.estatus === true ? 1 : 0
+    }
   }
 }

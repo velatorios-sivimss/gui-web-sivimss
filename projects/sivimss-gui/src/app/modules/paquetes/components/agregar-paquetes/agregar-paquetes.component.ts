@@ -20,6 +20,10 @@ import {
   CATALOGOS_CLAVES_SAT,
   CATALOGOS_TIPO_ARTICULOS
 } from "../../constants/catalogos";
+import {PaquetesService} from "../../services/paquetes.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {finalize} from "rxjs/operators";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
 
 interface Catalogo {
   nombre: string,
@@ -171,11 +175,6 @@ export class AgregarPaquetesComponent implements OnInit {
     this.overlayPanel.toggle(event);
   }
 
-  agregarPaquete(): void {
-    const paquete = this.crearPaquete();
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Paquete guardado');
-  }
-
   agregarServicio(): void {
     // TO DO Aplicar logica para no repetir Items y aplicar sumatoria para el campo Costo inicial
     this.servicios.push({
@@ -247,17 +246,6 @@ export class AgregarPaquetesComponent implements OnInit {
     this.articuloSeleccionado = articulo;
     this.mostrarModalEliminarArticulo = true;
     this.tituloEliminar = 'Eliminar artículo al paquete';
-  }
-
-  crearPaquete(): any {
-    return {
-      nomPaquete: "",
-      desPaquete: "TERCER PAQUETE",
-      costo : 7.55,
-      precio: 8.44,
-      isRegion: true,
-      idProducto: 1
-    }
   }
 
   eliminarServicio(): void {
