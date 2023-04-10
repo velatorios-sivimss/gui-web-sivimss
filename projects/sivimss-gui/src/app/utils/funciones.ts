@@ -19,7 +19,7 @@ export function mapearArregloTipoDropdown(arr: [] = [], label: string, value: st
   }));
 }
 
-export function obtenerDiferenciaEnAnios(fechaInicio: Date, fechaFin: Date) {
+export function obtenerDiferenciaEntreFechasEnAnios(fechaInicio: Date, fechaFin: Date) {
   const anioInicio: number = fechaInicio.getFullYear();
   const anioFin: number = fechaFin.getFullYear();
   const mesInicio: number = fechaInicio.getMonth();
