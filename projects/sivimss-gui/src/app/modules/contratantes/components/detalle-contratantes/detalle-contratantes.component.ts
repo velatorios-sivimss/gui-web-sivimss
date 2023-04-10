@@ -37,7 +37,6 @@ export class DetalleContratantesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.origen);
     if(this.contratante == undefined){
       if(this.config?.data){
           this.contratante = this.config.data.contratante;

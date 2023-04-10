@@ -20,7 +20,7 @@ export class BloqueaUsuarioLogueadoGuard implements CanActivate, CanActivateChil
   }
 
   private validarSiEstaAutenticado(): Observable<boolean | UrlTree> {
-    return this.aut.estaLogueado$.pipe(map(estaLogueado => estaLogueado ? this.router.parseUrl('/') : true));
+    return this.aut.existeUnaSesion$.pipe(map((existeUnaSesion: boolean) => existeUnaSesion ? this.router.parseUrl('/') : true));
   }
 
 }

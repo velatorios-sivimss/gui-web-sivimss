@@ -28,9 +28,16 @@ export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuarioForm!: FormGroup;
   opciones: TipoDropdown[] = CATALOGOS;
+  indice: number = 0;
   curpValida: boolean = false;
   matriculaValida: boolean = false;
   catRol: TipoDropdown[] = [];
+  fechaActual: Date = new Date();
+  nuevoUsuario!: NuevoUsuario;
+  rolResumen: string = "";
+  nivelResumen: string = "";
+  delegacionResumen: string = "";
+  velatorioResumen: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -66,7 +73,7 @@ export class AgregarUsuarioComponent implements OnInit {
     });
   }
 
-  crearNuevoUsuario(): NuevoUsuario {
+  crearUsuario(): NuevoUsuario {
     return {
       materno: this.agregarUsuarioForm.get("segundoApellido")?.value,
       nombre: this.agregarUsuarioForm.get("nombre")?.value,
@@ -83,12 +90,23 @@ export class AgregarUsuarioComponent implements OnInit {
     };
   }
 
+  creacionVariablesResumen(): void {
+    const rol = this.agregarUsuarioForm.get("rol")?.value;
+    const nivel = this.agregarUsuarioForm.get("nivel")?.value;
+    const delegacion = this.agregarUsuarioForm.get("delegacion")?.value;
+    const velatorio = this.agregarUsuarioForm.get("velatorio")?.value;
+    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
+    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
+    this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
+    this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
+  }
+
+
   validarCurp(): void {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
     if (!curp.curp) return;
     if (!PATRON_CURP.test(curp.curp)) return;
-    const solicitudCurp: string = JSON.stringify(curp);
-    this.usuarioService.validarCurp(solicitudCurp).subscribe(
+    this.usuarioService.validarCurp(curp).subscribe(
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
@@ -107,8 +125,7 @@ export class AgregarUsuarioComponent implements OnInit {
   validarMatricula(): void {
     const matricula: SolicitudMatricula = {claveMatricula: this.agregarUsuarioForm.get("matricula")?.value};
     if (!matricula.claveMatricula) return;
-    const solicitudMatricula: string = JSON.stringify(matricula);
-    this.usuarioService.validarMatricula(solicitudMatricula).subscribe(
+    this.usuarioService.validarMatricula(matricula).subscribe(
       (respuesta) => {
         if (!respuesta.datos || respuesta.datos.length === 0) return;
         const {valor} = respuesta.datos[0];
@@ -125,10 +142,8 @@ export class AgregarUsuarioComponent implements OnInit {
   }
 
   agregarUsuario(): void {
-    const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
-    const usuario: NuevoUsuario = this.crearNuevoUsuario();
-    const solicitudUsuario: string = JSON.stringify(usuario);
-    this.usuarioService.guardar(solicitudUsuario).subscribe(
+    const respuesta: RespuestaModalUsuario = {mensaje: "Usuario agregado correctamente", actualizar: true}
+    this.usuarioService.guardar(this.nuevoUsuario).subscribe(
       () => {
         this.ref.close(respuesta)
       },
@@ -144,7 +159,18 @@ export class AgregarUsuarioComponent implements OnInit {
     this.ref.close(respuesta);
   }
 
+  confirmarCreacion(): void {
+    if (this.indice === 0) {
+      this.indice++;
+      this.nuevoUsuario = this.crearUsuario();
+      this.creacionVariablesResumen();
+      return;
+    }
+    this.agregarUsuario();
+  }
+
   get fau() {
     return this.agregarUsuarioForm?.controls;
   }
+
 }

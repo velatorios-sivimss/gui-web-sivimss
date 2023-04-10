@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng-lts/api';
 import { TranslateService } from '@ngx-translate/core';
 import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -11,18 +11,17 @@ import { Observable } from "rxjs";
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  estaLogueado$!: Observable<boolean>;
+  existeUnaSesion$!: Observable<boolean>;
 
   constructor(
     private primengConfig: PrimeNGConfig,
     private translateService: TranslateService,
-    private aut: AutenticacionService
+    private autenticacionService: AutenticacionService
   ) {
   }
 
-
   ngOnInit(): void {
-    this.estaLogueado$ = this.aut.estaLogueado$;
+    this.existeUnaSesion$ = this.autenticacionService.existeUnaSesion$;
     this.permitirAnimacionRippleComponentesPrime();
     this.establecerIdiomaGeneral('es');
   }

@@ -35,6 +35,10 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'roles-permisos',
+    loadChildren: () => import('./modules/roles-permisos/roles-permisos.module').then(m => m.RolesPermisosModule)
+  },
+  {
     path: 'usuarios',
     loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule),
     canActivate: [PermiteUsuarioLogueadoGuard],
@@ -119,10 +123,8 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
-    path: 'artículos',
-    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule),
-    canActivate: [PermiteUsuarioLogueadoGuard],
-    canActivateChild: [PermiteUsuarioLogueadoGuard]
+    path: 'articulos',
+    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
   },
   {
     path: 'convenios-prevision-funeraria',
@@ -161,14 +163,24 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'consulta-donaciones',
+    loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule)
+  },
+  {
+    path: 'reservar-capilla',
+    loadChildren: () => import('./modules/capilla-reservacion/capilla-reservacion.module').then(m => m.CapillaReservacionModule)
+  },
+  {
     path: 'seguimiento-nuevo-convenio',
     loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
   },
   {
-    path: 'programar-mantenimiento-vehicular',
-    loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
-    // canActivate: [PermiteUsuarioLogueadoGuard],
-    // canActivateChild: [PermiteUsuarioLogueadoGuard]
+    path: 'reservar-capilla/velacion-en-domicilio',
+    loadChildren: () => import('./modules/velacion-domicilio/velacion-domicilio.module').then(m => m.VelacionDomicilioModule)
+  },
+  {
+  path: 'programar-mantenimiento-vehicular',
+  loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
   },
   {
     path: '**',

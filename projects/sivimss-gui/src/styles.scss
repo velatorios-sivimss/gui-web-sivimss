@@ -308,3 +308,29 @@ h1.subtitulo-base-lg {
 .sivimss-accordionColor.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
   background-color: #F3F3F3;
 }
+.p-autocomplete {
+  height: 40px;
+  width: 100%;
+}
+
+.autocomplete-item {
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #0c231e;
+  height: 30px;
+  padding-top: 10px;
+}
+
+.input-autocomplete {
+  font-size : 14px;
+  font-style : normal;
+  font-weight : 400;
+  width : 100%,
+}
+
+.input-autocomplete-error {
+  border: 1px solid #E10000;
+}
