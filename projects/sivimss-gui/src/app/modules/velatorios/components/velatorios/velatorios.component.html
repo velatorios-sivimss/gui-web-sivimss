@@ -40,7 +40,8 @@
   </div>
   <p-table styleClass="mt-5 mb-8" [value]="listaVelatorios" [paginator]="listaVelatorios.length > 0"
            [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3"
-           [(first)]="numPaginaActual" [resizableColumns]="true" (onLazyLoad)="seleccionarPaginacion($event)" >
+           [(first)]="numPaginaActual" [resizableColumns]="true" (onLazyLoad)="seleccionarPaginacion($event)"
+           appActivarUltimaCeldaSticky>
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
