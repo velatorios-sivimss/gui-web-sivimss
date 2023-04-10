@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DialogService } from "primeng-lts/dynamicdialog";
+import { ModalGenerarTarjetaIdentificacionComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-generar-tarjeta-identificacion/modal-generar-tarjeta-identificacion.component";
+import { ModalSeleccionarBeneficiarioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-seleccionar-beneficiario/modal-seleccionar-beneficiario.component";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
 
@@ -15,7 +18,8 @@ export class DatosFinadoComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private alertaService: AlertaService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private dialogService: DialogService
   ) {
   }
 
@@ -70,6 +74,20 @@ export class DatosFinadoComponent implements OnInit {
     });
 
     console.log(this.form);
+  }
+
+  abrirModalSeleccionBeneficiarios():void{
+    const ref = this.dialogService.open(ModalSeleccionarBeneficiarioComponent, {
+      header: 'Seleccionar beneficiario',
+      style: {maxWidth: '876px', width: '100%'},
+      data: {
+        dummy: '' //Pasa info a ModalSeleccionarBeneficiarioComponent
+      }
+    });
+    ref.onClose.subscribe((val: boolean) => {
+      if (val) { //Obtener info cuando se cierre el modal en ModalSeleccionarBeneficiarioComponent
+      }
+    });
   }
 
   get datosFinado() {

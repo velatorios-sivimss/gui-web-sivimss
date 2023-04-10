@@ -24,15 +24,15 @@
       </div>
       <div class="col-md-6">
         <label class="control-label" for="rol">Rol:</label>
-        <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="opciones"
+        <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catRol"
                     placeholder="Seleccionar el rol">
         </p-dropdown>
       </div>
     </div>
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
-        <button type="submit" class="btn btn-default btn-md">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar</button>
+        <button type="submit" class="btn btn-default btn-md" (click)="limpiar();">Limpiar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5" (click)="buscar();">Buscar</button>
       </div>
     </div>
   </form>
@@ -40,13 +40,11 @@
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
     <h2 class="subtitulo">Lista de usuarios</h2>
-    <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarUsuario()">Agregar usuario</button>
+    <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarUsuario()">Agregar</button>
   </div>
-  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="usuarios"
-           [paginator]="usuarios.length > 0"
-           [rows]="cantElementosPorPagina"
+  <p-table styleClass="mt-5 mb-8" [value]="usuarios" [paginator]="usuarios.length > 0" [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-           (onLazyLoad)="paginar($event)">
+           (onLazyLoad)="seleccionarPaginacion()">
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -56,14 +54,8 @@
         <th>Nombre</th>
         <th>Primer apellido</th>
         <th>Segundo apellido</th>
-        <th>ID</th>
-        <th>CURP</th>
-        <th>Matrícula</th>
-        <th>Usuario</th>
-        <th>Nombre</th>
-        <th>Primer apellido</th>
-        <th>Segundo apellido</th>
         <th>Estatus</th>
+        <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-usuario>
@@ -71,36 +63,33 @@
         <td>{{usuario.id}}</td>
         <td>{{usuario.curp}}</td>
         <td>{{usuario.matricula}}</td>
-        <td>{{usuario.usuario}}</td>
+        <td>{{usuario.claveMatricula}}</td>
         <td>{{usuario.nombre}}</td>
-        <td>{{usuario.primerApellido}}</td>
-        <td>{{usuario.segundoApellido}}</td>
-        <td>{{usuario.id}}</td>
-        <td>{{usuario.curp}}</td>
-        <td>{{usuario.matricula}}</td>
-        <td>{{usuario.usuario}}</td>
-        <td>{{usuario.nombre}}</td>
-        <td>{{usuario.primerApellido}}</td>
-        <td>{{usuario.segundoApellido}}</td>
+        <td>{{usuario.paterno}}</td>
+        <td>{{usuario.materno}}</td>
         <td>
-          <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'100px 80px'}">
-            <div class="contenedor-inputswitch">
-              <p-inputSwitch [(ngModel)]="usuario.estatus"></p-inputSwitch>
-              <span class="activo" *ngIf="usuario.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!usuario.estatus">Inactivo</span>
-            </div>
-            <div class="contenedor-celda-iconos">
-              <a (click)="abrirModalDetalleUsuario(usuario)">
-                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
-              </a>
-              <a (click)="abrirPanel($event,usuario)">
-                <img
-                  src="assets/images/imagen-icono-barras-horizontales.svg"
-                  alt="icono barras horizontales">
-              </a>
-            </div>
+          <div class="contenedor-inputswitch">
+            <p-inputSwitch [(ngModel)]="usuario.estatus" (ngModelChange)="cambiarEstatus(usuario.id);"></p-inputSwitch>
+            <span class="activo" *ngIf="usuario.estatus">Activo</span>
+            <span class="inactivo" *ngIf="!usuario.estatus">Inactivo</span>
+          </div>
+        <td>
+          <div class="contenedor-celda-iconos">
+            <a (click)="abrirModalDetalleUsuario(usuario)">
+              <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+            </a>
+            <a (click)="abrirPanel($event,usuario)">
+              <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
+            </a>
           </div>
         </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <th colspan="9" class="p-2 text-center font-bold text-xl">
+          No se encontro información relacionada a tu búsqueda
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="paginatorleft">
@@ -114,15 +103,13 @@
           <span class="export-table-text">Exportar tabla</span>
           <div class="export-table-icons">
             <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
-            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg"
-                 alt="exportar excel">
+            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel">
           </div>
         </div>
       </div>
     </ng-template>
   </p-table>
 </section>
-
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
@@ -130,487 +117,3 @@
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
-
-<!-- MODAL AGREGAR USUARIO-->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar usuario" [(visible)]="mostrarModalAgregarUsuario"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <form [formGroup]="agregarUsuarioForm">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="id">ID</label>
-          <input id="id" class="form-control" formControlName="id" placeholder="ID">
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="curp">CURP<span class="req">*</span></label>
-          <input id="curp" class="form-control" formControlName="curp" placeholder="Inserta el CURP">
-          <span class="campo-obligatorio"
-                *ngIf="fau?.curp?.errors?.required && (fau?.curp?.dirty || fau?.curp?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="matricula">Matrícula<span class="req">*</span></label>
-          <input id="matricula" class="form-control" formControlName="matricula" placeholder="Inserta la matrícula">
-          <span class="campo-obligatorio"
-                *ngIf="fau?.matricula?.errors?.required && (fau?.matricula?.dirty || fau?.matricula?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="nombre">Nombre(s)<span class="req">*</span></label>
-          <input id="nombre" class="form-control" formControlName="nombre" placeholder="Inserta el nombre">
-          <span class="campo-obligatorio"
-                *ngIf="fau?.nombre?.errors?.required && (fau?.nombre?.dirty || fau?.nombre?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="primerApellido">Primer apellido<span class="req">*</span></label>
-          <input id="primerApellido" class="form-control" formControlName="primerApellido"
-                 placeholder="Inserta el primer apellido">
-          <span class="campo-obligatorio"
-                *ngIf="fau?.primerApellido?.errors?.required && (fau?.primerApellido?.dirty || fau?.primerApellido?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="segundoApellido">Segundo apellido<span class="req">*</span></label>
-          <input id="segundoApellido" class="form-control" formControlName="segundoApellido"
-                 placeholder="Inserta el segundo apellido">
-          <span class="campo-obligatorio"
-                *ngIf="fau?.segundoApellido?.errors?.required && (fau?.segundoApellido?.dirty || fau?.segundoApellido?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="correoElectronico">Correo electrónico<span class="req">*</span></label>
-          <input id="correoElectronico" class="form-control" formControlName="correoElectronico"
-                 placeholder="Inserta el correo electrónico">
-          <span class="campo-obligatorio"
-                *ngIf="fau?.correoElectronico?.errors?.required && (fau?.correoElectronico?.dirty || fau?.correoElectronico?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="fechaNacimiento">Fecha nacimiento<span class="req">*</span>:</label>
-          <p-calendar id="fechaNacimiento" formControlName="fechaNacimiento" styleClass="form-control" [showIcon]="true"
-                      placeholder="dd/mm/aaaa" dateFormat="dd/mm/yy" appendTo="body">
-          </p-calendar>
-          <span class="campo-obligatorio"
-                *ngIf="fau?.fechaNacimiento?.errors?.required && (fau?.fechaNacimiento?.dirty || fau?.fechaNacimiento?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="nivelAgregarUsuario">Nivel<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="nivelAgregarUsuario" class="form-control" formControlName="nivel"
-                      [options]="opciones"
-                      placeholder="Seleccionar el nivel">
-          </p-dropdown>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="delegacionAgregarUsuario">Delegación<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="delegacionAgregarUsuario" class="form-control" formControlName="delegacion"
-                      [options]="opciones"
-                      placeholder="Seleccione el nivel">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fau?.delegacion?.errors?.required && (fau?.delegacion?.dirty || fau?.delegacion?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="velatorioAgregarUsuario">Velatorio<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="velatorioAgregarUsuario" class="form-control" formControlName="velatorio"
-                      [options]="opciones"
-                      placeholder="Seleccione la delegación">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fau?.velatorio?.errors?.required && (fau?.velatorio?.dirty || fau?.velatorio?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-6">
-        <div class="col-md-12">
-          <label class="control-label" for="rolAgregarUsuario">Rol<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="rolAgregarUsuario" class="form-control" formControlName="rol"
-                      [options]="opciones"
-                      placeholder="Seleccione el rol">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fau?.rol?.errors?.required && (fau?.rol?.dirty || fau?.rol?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-md-12">
-          <label class="control-label">Estatus<span class="req">*</span></label>
-          <div class="contenedor-inputswitch">
-            <p-inputSwitch formControlName="estatus"></p-inputSwitch>
-            <span class="activo" *ngIf="fau.estatus?.value">Activo</span>
-            <span class="inactivo" *ngIf="!fau.estatus?.value">Inactivo</span>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-md-12">
-          <span>*Campos obligatorios</span>
-        </div>
-      </div>
-    </form>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-default btn-md" (click)="mostrarModalAgregarUsuario = false">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarUsuarioForm.invalid" (click)="agregarUsuario()">
-        Agregar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
-
-
-<!-- MODAL MODIFICAR USUARIO-->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Modificar usuario"
-          [(visible)]="mostrarModalModificarUsuario"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <form [formGroup]="modificarUsuarioForm">
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="idModificar">ID</label>
-          <input id="idModificar" class="form-control" formControlName="id" placeholder="ID">
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="curpModificar">CURP<span class="req">*</span></label>
-          <input id="curpModificar" class="form-control" formControlName="curp" placeholder="Inserta el CURP">
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.curp?.errors?.required && (fmu?.curp?.dirty || fmu?.curp?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="matriculaModificar">Matrícula<span class="req">*</span></label>
-          <input id="matriculaModificar" class="form-control" formControlName="matricula"
-                 placeholder="Inserta la matrícula">
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.matricula?.errors?.required && (fmu?.matricula?.dirty || fmu?.matricula?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="nombreModificar">Nombre(s)<span class="req">*</span></label>
-          <input id="nombreModificar" class="form-control" formControlName="nombre" placeholder="Inserta el nombre">
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.nombre?.errors?.required && (fmu?.nombre?.dirty || fmu?.nombre?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="primerApellidoModificar">Primer apellido<span class="req">*</span></label>
-          <input id="primerApellidoModificar" class="form-control" formControlName="primerApellido"
-                 placeholder="Inserta el primer apellido">
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.primerApellido?.errors?.required && (fmu?.primerApellido?.dirty || fmu?.primerApellido?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="segundoApellidoModificar">Segundo apellido<span class="req">*</span></label>
-          <input id="segundoApellidoModificar" class="form-control" formControlName="segundoApellido"
-                 placeholder="Inserta el segundo apellido">
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.segundoApellido?.errors?.required && (fmu?.segundoApellido?.dirty || fmu?.segundoApellido?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="correoElectronicoModificar">Correo electrónico<span
-            class="req">*</span></label>
-          <input id="correoElectronicoModificar" class="form-control" formControlName="correoElectronico"
-                 placeholder="Inserta el correo electrónico">
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.correoElectronico?.errors?.required && (fmu?.correoElectronico?.dirty || fmu?.correoElectronico?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="fechaNacimientoModificar">Fecha nacimiento<span
-            class="req">*</span>:</label>
-          <p-calendar id="fechaNacimientoModificar" formControlName="fechaNacimiento" styleClass="form-control"
-                      [showIcon]="true"
-                      placeholder="dd/mm/aaaa" dateFormat="dd/mm/yy" appendTo="body">
-          </p-calendar>
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.fechaNacimiento?.errors?.required && (fmu?.fechaNacimiento?.dirty || fmu?.fechaNacimiento?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="nivelAgregarUsuarioModificar">Nivel<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="nivelAgregarUsuarioModificar" class="form-control" formControlName="nivel"
-                      [options]="opciones"
-                      placeholder="Seleccionar el nivel">
-          </p-dropdown>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="delegacionAgregarUsuarioModificar">Delegación<span
-            class="req">*</span></label>
-          <p-dropdown appendTo="body" id="delegacionAgregarUsuarioModificar" class="form-control"
-                      formControlName="delegacion"
-                      [options]="opciones"
-                      placeholder="Seleccione el nivel">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.delegacion?.errors?.required && (fmu?.delegacion?.dirty || fmu?.delegacion?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="velatorioAgregarUsuarioModificar">Velatorio<span
-            class="req">*</span></label>
-          <p-dropdown appendTo="body" id="velatorioAgregarUsuarioModificar" class="form-control"
-                      formControlName="velatorio"
-                      [options]="opciones"
-                      placeholder="Seleccione la delegación">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.velatorio?.errors?.required && (fmu?.velatorio?.dirty || fmu?.velatorio?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-6">
-        <div class="col-md-12">
-          <label class="control-label" for="rolAgregarUsuarioModificar">Rol<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="rolAgregarUsuarioModificar" class="form-control" formControlName="rol"
-                      [options]="opciones"
-                      placeholder="Seleccione el rol">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fmu?.rol?.errors?.required && (fmu?.rol?.dirty || fmu?.rol?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-md-12">
-          <label class="control-label">Estatus<span class="req">*</span></label>
-          <div class="contenedor-inputswitch">
-            <p-inputSwitch formControlName="estatus"></p-inputSwitch>
-            <span class="activo" *ngIf="fmu.estatus?.value">Activo</span>
-            <span class="inactivo" *ngIf="!fmu.estatus?.value">Inactivo</span>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-md-12">
-          <span>*Campos obligatorios</span>
-        </div>
-      </div>
-    </form>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-default btn-md" (click)="mostrarModalModificarUsuario = false">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md" [disabled]="modificarUsuarioForm.invalid"
-              (click)="mostrarModalConfModUsuario = true">
-        Modificar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
-
-
-<!-- MODAL CONFIRMACION MODIFICACION USUARIO-->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Modificar usuario"
-          [(visible)]="mostrarModalConfModUsuario"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <app-table-panel>
-      <ng-template appCustomTemplate="left-header">
-        <div class="table-panel-header-column">
-          <span class="font-bold">ID 1</span>
-        </div>
-      </ng-template>
-      <ng-template appCustomTemplate="right-header">
-        <div class="table-panel-header-column">
-          <div class="flex flex-column">
-            <span>Estatus</span>
-            <span class="activo" *ngIf="usuarioSeleccionado.estatus">Activo</span>
-            <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>
-          </div>
-        </div>
-      </ng-template>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>CURP</label>
-            <span>{{usuarioSeleccionado.curp}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Matrícula</label>
-            <span>{{usuarioSeleccionado.matricula}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Nombre</label>
-            <span>{{usuarioSeleccionado.nombre}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Usuario</label>
-            <span>{{usuarioSeleccionado.usuario}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Primer apellido</label>
-            <span>{{usuarioSeleccionado.primerApellido}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Segundo apellido</label>
-            <span>{{usuarioSeleccionado.segundoApellido}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Correo electrónico</label>
-            <span>{{usuarioSeleccionado.correoElectronico}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Nivel</label>
-            <span>{{usuarioSeleccionado.nivel}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-12">
-          <div class="table-panel-column">
-            <label>Rol</label>
-            <span>{{usuarioSeleccionado.rol}}</span>
-          </div>
-        </div>
-      </div>
-    </app-table-panel>
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-default btn-md" (click)="mostrarModalConfModUsuario = false">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md"
-              (click)="mostrarModalConfModUsuario = false">
-        Modificar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
-
-
-<!-- VER DETALLE USUARIO-->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Ver detalle"
-          [(visible)]="mostrarModalDetalleUsuario"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-    <app-table-panel>
-      <ng-template appCustomTemplate="left-header">
-        <div class="table-panel-header-column">
-          <span class="font-bold">ID 1</span>
-        </div>
-      </ng-template>
-      <ng-template appCustomTemplate="right-header">
-        <div class="table-panel-header-column">
-          <div class="flex flex-column">
-            <span>Estatus</span>
-            <div class="contenedor-inputswitch">
-              <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus"></p-inputSwitch>
-              <span class="activo" *ngIf="usuarioSeleccionado.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>
-            </div>
-          </div>
-          <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
-            <img
-              src="assets/images/imagen-icono-barras-horizontales.svg"
-              alt="icono barras horizontales">
-          </a>
-        </div>
-      </ng-template>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>CURP</label>
-            <span>{{usuarioSeleccionado.curp}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Matrícula</label>
-            <span>{{usuarioSeleccionado.matricula}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Nombre</label>
-            <span>{{usuarioSeleccionado.nombre}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Usuario</label>
-            <span>{{usuarioSeleccionado.usuario}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Primer apellido</label>
-            <span>{{usuarioSeleccionado.primerApellido}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Segundo apellido</label>
-            <span>{{usuarioSeleccionado.segundoApellido}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Correo electrónico</label>
-            <span>{{usuarioSeleccionado.correoElectronico}}</span>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="table-panel-column">
-            <label>Nivel</label>
-            <span>{{usuarioSeleccionado.nivel}}</span>
-          </div>
-        </div>
-      </div>
-      <div class="row table-panel-row">
-        <div class="col-md-12">
-          <div class="table-panel-column">
-            <label>Rol</label>
-            <span>{{usuarioSeleccionado.rol}}</span>
-          </div>
-        </div>
-      </div>
-    </app-table-panel>
-
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="ml-4 btn btn-primary btn-md" (click)="mostrarModalDetalleUsuario = false">
-        Aceptar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>

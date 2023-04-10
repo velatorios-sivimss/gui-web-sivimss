@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-cancelar-orden-servicio',
@@ -7,9 +8,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CancelarOrdenServicioComponent implements OnInit {
 
-  constructor() { }
+  form!: FormGroup;
 
-  ngOnInit(): void {
+  constructor(private formBuilder: FormBuilder) {
   }
 
+  ngOnInit(): void {
+    this.inicializarForm();
+  }
+
+  inicializarForm() {
+    this.form = this.formBuilder.group({
+      motivoCancelacion: [{value: null, disabled: false}, [Validators.required]]
+    });
+  }
+
+  guardar() {
+
+  }
+
+  get f() {
+    return this.form.controls;
+  }
 }

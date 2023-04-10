@@ -1,18 +1,21 @@
 import { DetalleArticulosComponent } from './../detalle-articulos/detalle-articulos.component';
 import { ModificarArticulosComponent } from './../modificar-articulos/modificar-articulos.component';
 import { AgregarArticulosComponent } from './../agregar-articulos/agregar-articulos.component';
-import { Articulos } from './../../models/articulos.interface';
+import { Articulo } from './../../models/articulos.interface';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
-import { CATALOGOS_DUMMIES } from '../../constants/dummies';
+import { CATALOGOS_DUMMIES, CATALOGO_NIVEL } from '../../constants/dummies';
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { LazyLoadEvent } from 'primeng-lts/api';
 import { SERVICIO_BREADCRUMB } from '../../constants/breadcrumb';
+import { validarAlMenosUnCampoConValor } from 'projects/sivimss-gui/src/app/utils/funciones';
+import { ArticulosService } from '../../services/articulos.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-administrar-articulos',
@@ -30,8 +33,8 @@ export class AdministrarArticulosComponent implements OnInit {
   totalElementos: number = 0;
 
 
-  articulos:Articulos[] = [];
-  articuloSeleccionado:Articulos = {};
+  articulos: Articulo[] = [];
+  articuloSeleccionado: Articulo = {};
 
   filtroForm!: FormGroup;
 
@@ -42,21 +45,34 @@ export class AdministrarArticulosComponent implements OnInit {
   mostrarModalEstatusArticulo: boolean = false;
 
   creacionRef!: DynamicDialogRef;
-  detalleRef!:DynamicDialogRef;
-  modificacionRef!:DynamicDialogRef;
+  detalleRef!: DynamicDialogRef;
+  modificacionRef!: DynamicDialogRef;
 
-  opciones:TipoDropdown[] = CATALOGOS_DUMMIES;
-  tipoServicio:TipoDropdown[] = CATALOGOS_DUMMIES;
-  partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES;
-  cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES;
-  niveles: TipoDropdown[] = CATALOGOS_DUMMIES;
-  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
+  catNiveles: TipoDropdown[] = CATALOGO_NIVEL;
+  opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
+  articulosServicio: TipoDropdown[] = [
+    {
+      value: 0,
+      label: 'Artículo Uno',
+    },
+    {
+      value: 1,
+      label: 'Artículo Dos',
+    },
+    {
+      value: 2,
+      label: 'Artículo Tres',
+    }
+  ];
+
+  articuloServicioFiltrados: TipoDropdown[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
     public dialogService: DialogService,
+    private articulosService: ArticulosService,
   ) { }
 
 
@@ -65,146 +81,165 @@ export class AdministrarArticulosComponent implements OnInit {
     this.inicializarFiltroForm();
   }
 
-  actualizarBreadcrumb(): void{
+  actualizarBreadcrumb(): void {
     this.breadcrumbService.actualizar(SERVICIO_BREADCRUMB);
   }
 
-  inicializarFiltroForm(){
+  inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
-      nivel:[{value: null, disabled:false}],
-      delegacion:[{value: null, disabled:false}],
-      velatorio:[{value: null, disabled:false}],
-      nombreArticulo:[{value: null, disabled:false}],
+      nivel: [{ value: 1, disabled: true }],
+      delegacion: [{ value: null, disabled: false }],
+      velatorio: [{ value: null, disabled: false }],
+      nombreArticulo: [{ value: null, disabled: false }],
     });
   }
 
   abrirModalAgregarServicio(): void {
-    this.creacionRef = this.dialogService.open(AgregarArticulosComponent,{
-      header:"Agregar artículo",
-      width:"920px"
+    this.creacionRef = this.dialogService.open(AgregarArticulosComponent, {
+      header: "Registro de artículo nuevo",
+      width: "920px"
     });
-    this.creacionRef.onClose.subscribe((estatus:boolean) => {
-      if(estatus){
+
+    this.creacionRef.onClose.subscribe((estatus: boolean) => {
+      if (estatus) {
         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo agregado correctamente');
+        this.paginar();
       }
     })
   }
 
   abrirModalModificarServicio(): void {
-     this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
-       header:"Modificar artículo",
-       width:"920px",
-     })
+    this.creacionRef = this.dialogService.open(ModificarArticulosComponent, {
+      header: "Modificar artículo",
+      width: "920px",
+      data: { articulo: this.articuloSeleccionado, origen: "modificar" },
+    });
 
-     this.creacionRef.onClose.subscribe((estatus:boolean) => {
-       if(estatus){
-         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo modificado correctamente');
-       }
-     })
+    this.creacionRef.onClose.subscribe((estatus: boolean) => {
+      if (estatus) {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo modificado correctamente');
+        this.paginar();
+      }
+    })
   }
 
-  abrirModalDetalleCapilla(servicio:Articulos){
-     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
-       header:"Detalle",
-       width:"920px",
-       data: {servicio:servicio, origen: "detalle"},
-     })
+  abrirModalDetalleCapilla(articulo: Articulo) {
+    this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
+      header: "Detalle de artículo",
+      width: "920px",
+      data: { articulo, origen: "detalle" },
+    });
   }
 
-  abrirModalCambioEstatus(servicio:Articulos){
-    /*Preguntar si se puede usar 'let'*/
-     let header:string = "" ;
-     servicio.estatus?header="Activar artículo":header="Desactivar artículo";
-     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
-       header:header,
-       width:"920px",
-       data: {servicio:servicio, origen: "estatus"},
-     })
+  abrirModalCambioEstatus(articulo: Articulo) {
+    const header: string = articulo.estatus ? "Desactivar artículo" : "Activar artículo";
+    this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
+      header: header,
+      width: "920px",
+      data: { articulo, origen: "estatus" },
+    });
 
-     this.creacionRef.onClose.subscribe((servicio:Articulos) => {
-       if(servicio.estatus){
-         this.alertaService.mostrar(TipoAlerta.Exito, 'Artículo activado correctamente');
-       }else{
-         this.alertaService.mostrar(TipoAlerta.Exito, 'Servicio desactivado correctamente');
-       }
-     })
-
+    this.creacionRef.onClose.subscribe((articulo: Articulo) => {
+      this.paginar();
+    });
   }
 
-  abrirPanel(event:MouseEvent,articuloSeleccionado:Articulos):void{
+  abrirPanel(event: MouseEvent, articuloSeleccionado: Articulo): void {
     this.articuloSeleccionado = articuloSeleccionado;
     this.overlayPanel.toggle(event);
   }
 
-  paginar(event: LazyLoadEvent): void{
-    console.log(event);
-    setTimeout(() =>{
-      this.articulos = [
-        {
-          id: 1,
-          categoria:"ataúd",
-          tipoDeArticulo:"Artículo complementario",
-          tipoDeMaterial:"Madera ecológica MDF",
-          tamanio:"Tambora",
-          clasificacionDeProducto:"Intermediaria",
-          modeloDeArticulo:"Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-          descripcionDeProducto:"Empaques contra humedad ",
-          largo:"10m",
-          ancho:"2m",
-          alto:"01m" ,
-          claveSAT:"253453453",
-          estatus: true ,
-          partidaPresupuestal: "21101",
-          cuentaContable: "12349876345687653",
-        },
-        {
-          id: 2,
-          categoria:"ataúd",
-          tipoDeArticulo:"Artículo complementario",
-          tipoDeMaterial:"Madera ecológica MDF",
-          tamanio:"Tambora",
-          clasificacionDeProducto:"Intermediaria",
-          modeloDeArticulo:"Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-          descripcionDeProducto:"Empaques contra humedad ",
-          largo:"10m",
-          ancho:"2m",
-          alto:"01m" ,
-          claveSAT:"253453453",
-          estatus: true ,
-          partidaPresupuestal: "21101",
-          cuentaContable: "12349876345687653",
-        },
-        {
-          id: 3,
-          categoria:"ataúd",
-          tipoDeArticulo:"Artículo complementario",
-          tipoDeMaterial:"Madera ecológica MDF",
-          tamanio:"Tambora",
-          clasificacionDeProducto:"Intermediaria",
-          modeloDeArticulo:"Ataudes contra humedad en la totalidad del territorio nacional Mexicano",
-          descripcionDeProducto:"Empaques contra humedad ",
-          largo:"10m",
-          ancho:"2m",
-          alto:"01m" ,
-          claveSAT:"253453453",
-          estatus: true ,
-          partidaPresupuestal: "21101",
-          cuentaContable: "12349876345687653",
-        }
-      ];
-      this.totalElementos = this.articulos.length;
-    },0)
+  paginar(event?: LazyLoadEvent): void {
+    if (event && event.first !== undefined && event.rows !== undefined) {
+      this.numPaginaActual = Math.floor(event.first / event.rows);
+    } else {
+      this.numPaginaActual = 0;
+    }
+    this.buscarPorFiltros();
   }
 
-  consultaServicioEspecifico():string{
-    return "";
+  buscarPorFiltros(): void {
+    this.articulosService.buscarPorFiltros(this.obtenerObjetoParaFiltrado(), this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.articulos = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  buscarArticulo() {
+    this.clearValidatorsFiltroForm();
+    if (validarAlMenosUnCampoConValor(this.filtroForm.value)) {
+      this.paginar();
+    } else {
+      this.f.delegacion.setValidators(Validators.required);
+      this.f.delegacion.updateValueAndValidity();
+      this.f.velatorio.setValidators(Validators.required);
+      this.f.velatorio.updateValueAndValidity();
+      this.f.nombreArticulo.setValidators(Validators.required);
+      this.f.nombreArticulo.updateValueAndValidity();
+      this.filtroForm.markAllAsTouched();
+    }
+  }
+
+  obtenerObjetoParaFiltrado(): object {
+    return {
+      nivel: null,
+      nombreArticulo: this.obtenerNombreArticuloDescripcion() || null,
+    }
+  }
+
+  obtenerNombreArticuloDescripcion(): string {
+    let query = this.f.nombreArticulo?.value || '';
+    if (typeof this.f.nombreArticulo?.value === 'object') {
+      query = this.f.nombreArticulo?.value?.label;
+    }
+    return query?.toLowerCase();
   }
 
   limpiar(): void {
     this.filtroForm.reset();
+    this.clearValidatorsFiltroForm();
+    this.paginar();
   }
 
-  get f(){
+  clearValidatorsFiltroForm() {
+    this.f.delegacion.clearValidators();
+    this.f.delegacion.updateValueAndValidity();
+    this.f.velatorio.clearValidators();
+    this.f.velatorio.updateValueAndValidity();
+    this.f.nombreArticulo.clearValidators();
+    this.f.nombreArticulo.updateValueAndValidity();
+  }
+
+  filtrarArticulos() {
+    let query = this.obtenerNombreArticuloDescripcion();
+    if (query?.length >= 3) {
+      this.articulosService.buscarTodosPorFiltros(this.obtenerObjetoParaFiltrado()).subscribe(
+        (respuesta) => {
+          let filtrado: TipoDropdown[] = [];
+          if (respuesta!.datos.length > 0) {
+            respuesta!.datos.forEach((e: any) => {
+              filtrado.push({
+                label: e.desArticulo,
+                value: e.idArticulo,
+              });
+            });
+            this.articuloServicioFiltrados = filtrado;
+          }
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+        }
+      );
+    }
+  }
+
+  get f() {
     return this.filtroForm?.controls;
   }
 

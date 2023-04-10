@@ -166,7 +166,7 @@ export class InventarioVehicularComponent implements OnInit {
     })
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.creacionRef) {
       this.creacionRef.destroy();
     }

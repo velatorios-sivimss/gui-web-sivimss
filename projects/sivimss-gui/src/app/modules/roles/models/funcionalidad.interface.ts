@@ -1,5 +1,5 @@
 export interface Funcionalidad {
-  id: string;
+  id: number;
   nombre: string;
   alta:boolean;
   baja:boolean;

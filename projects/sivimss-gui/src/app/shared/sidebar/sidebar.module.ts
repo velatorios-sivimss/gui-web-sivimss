@@ -19,6 +19,7 @@ import {
 } from "projects/sivimss-gui/src/app/shared/sidebar/tokens/sidebar.tokens";
 import { TiempoTransicionDirective } from 'projects/sivimss-gui/src/app/shared/sidebar/directives/tiempo-transicion.directive';
 import { WidthMenuSidebarDirective } from './directives/width-menu-sidebar.directive';
+import { ModuloComponent } from './components/modulo/modulo.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { WidthMenuSidebarDirective } from './directives/width-menu-sidebar.direc
     BotonHamburguesaComponent,
     TemplateWithSidebarComponent,
     WidthMenuSidebarDirective,
+    ModuloComponent,
   ],
   imports: [
     CommonModule,

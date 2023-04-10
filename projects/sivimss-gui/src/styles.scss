@@ -16,12 +16,15 @@ se debe agregar en [styles.scss].
 
 :root {
   --sivimss-max-width: 1440px;
+
   @media screen and (min-width: 1440px) {
     --sivimss-max-width: 1600px;
   }
+
   @media screen and (min-width: 1600px) {
     --sivimss-max-width: 1900px;
   }
+
   @media screen and (min-width: 1900px) {
     --sivimss-max-width: 2100px;
   }
@@ -137,16 +140,17 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    transform:scale(1.15) translateY(2px);
+    transform: scale(1.15) translateY(2px);
+    width: 100%;
   }
 
   a + a {
     margin-left: 1.75rem;
   }
 
-  i.fs{
+  i.fs {
     font-size: 20px;
-    color:#9D2449;
+    color: #9D2449;
   }
 }
 
@@ -194,6 +198,14 @@ body {
     font-size: 14px;
     color: #000000;
   }
+}
+
+.table-panel-column-title {
+  padding: 1.5rem 1.75rem 0rem 1.75rem;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #000000;
 }
 
 .table-panel-inner-table {
@@ -244,4 +256,66 @@ body {
   border: none;
   border-radius: 0px;
   overflow: hidden;
+}
+
+h2.subtitulo-base {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #484848;
+  margin: 1rem 0;
+}
+
+h1.subtitulo-base-lg {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  color: #484848;
+  margin: 1rem 0;
+}
+
+.etiqueta-base {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  color: #484848;
+  margin-bottom: 0;
+}
+
+.texto-base {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 30px;
+  color: #000000;
+}
+
+.mt-5-custom {
+  margin-top: 2.5rem !important;
+}
+
+.p-autocomplete {
+  height: 40px;
+  width: 100%;
+}
+
+.autocomplete-item {
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #0c231e;
+  height: 30px;
+  padding-top: 10px;
+}
+
+.input-autocomplete {
+  font-size : 14px;
+  font-style : normal;
+  font-weight : 400;
+  width : 100%,
+}
+
+.input-autocomplete-error {
+  border: 1px solid #E10000;
 }

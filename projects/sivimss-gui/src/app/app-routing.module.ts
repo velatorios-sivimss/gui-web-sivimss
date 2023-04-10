@@ -11,68 +11,172 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'usuarios',
-    pathMatch: 'full'
+    loadChildren: () => import('./modules/inicio/inicio.module').then((m) => m.InicioModule),
+    pathMatch: 'full',
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard],
   },
   {
     path: 'inicio',
     loadChildren: () => import('./modules/inicio/inicio.module').then((m) => m.InicioModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'inicio-sesion',
     loadChildren: () => import('./modules/autenticacion/autenticacion.module').then((m) => m.AutenticacionModule),
+    canActivate: [BloqueaUsuarioLogueadoGuard],
+    canActivateChild: [BloqueaUsuarioLogueadoGuard]
   },
   {
     path: 'roles',
-    loadChildren: () => import('./modules/roles/roles.module').then(m => m.RolesModule)
+    loadChildren: () => import('./modules/roles/roles.module').then(m => m.RolesModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'roles-permisos',
+    loadChildren: () => import('./modules/roles-permisos/roles-permisos.module').then(m => m.RolesPermisosModule)
   },
   {
     path: 'usuarios',
-    loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule)
+    loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'capillas',
-    loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule)
+    loadChildren: () => import('./modules/capillas/capillas.module').then(m => m.CapillasModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'paquetes',
+    loadChildren: () => import('./modules/paquetes/paquetes.module').then(m => m.PaquetesModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'ordenes-de-servicio',
-    loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule)
+    loadChildren: () => import('./modules/ordenes-servicio/ordenes-servicio.module').then(m => m.OrdenesServicioModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'contratos-putr/administrar-contratos',
+    loadChildren: () => import('./modules/contratos-putr/administrar-contratos/contratos.module').then(m => m.ContratosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'contratos-putr/seguimiento-de-pagos',
+    loadChildren: () => import('./modules/contratos-putr/seguimiento-de-pagos/cuotas.module').then(m => m.CuotasModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'inventario-vehicular',
-    loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule)
+    loadChildren: () => import('./modules/inventario-vehicular/inventario-vehicular.module').then(m => m.InventarioVehicularModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'servicios',
-    loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule)
+    loadChildren: () => import('./modules/servicios/servicios.module').then(m => m.ServiciosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'operadores-por-velatorio',
-    loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule)
+    loadChildren: () => import('./modules/operadores-por-velatorio/operadores-por-velatorio.module').then(m => m.OperadoresPorVelatorioModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'registro-otorgamiento-servicios',
-    loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule)
+    loadChildren: () => import('./modules/registro-otorgamiento-servicios/registro-otorgamiento-servicios.module').then(m => m.RegistroOtorgamientoServiciosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'panteones',
-    loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule)
+    loadChildren: () => import('./modules/panteones/panteones.module').then(m => m.PanteonesModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'salas',
-    loadChildren: () => import('./modules/salas/salas.module').then(m => m.SalasModule)
+    loadChildren: () => import('./modules/salas/salas.module').then(m => m.SalasModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'promotores',
-    loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule)
+    loadChildren: () => import('./modules/promotores/promotores.module').then(m => m.PromotoresModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'proveedores',
-    loadChildren: () => import('./modules/proveedores/proveedores.module').then(m => m.ProveedoresModule)
+    loadChildren: () => import('./modules/proveedores/proveedores.module').then(m => m.ProveedoresModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
-    path: 'artículos',
+    path: 'articulos',
     loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
+  },
+  {
+    path: 'convenios-prevision-funeraria',
+    loadChildren: () => import('./modules/convenios-prevision-funeraria/convenios-prevision-funeraria.module').then(m => m.ConveniosPrevisionFunerariaModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'renovar-convenio-pf',
+    loadChildren: () => import('./modules/renovar-convenio-pf/renovar-convenio-pf.module').then(m => m.RenovarConvenioPfModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'velatorios',
+    loadChildren: () => import('./modules/velatorios/velatorios.module').then(module => module.VelatoriosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'renovacion-extemporanea',
+    loadChildren: () => import('./modules/renovacion-extemporanea/renovacion-extemporanea.module').then(m => m.RenovacionExtemporaneaModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'contratantes',
+    loadChildren: () => import('./modules/contratantes/contratantes.module').then(m => m.ContratantesModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'servicios-funerarios',
+    loadChildren: () => import('./modules/servicios-funerarios/servicios-funerarios.module').then(m => m.ServiciosFunerariosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'consulta-donaciones',
+    loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule)
+  },
+  {
+    path: 'reservar-capilla',
+    loadChildren: () => import('./modules/capilla-reservacion/capilla-reservacion.module').then(m => m.CapillaReservacionModule)
+  },
+  {
+    path: 'seguimiento-nuevo-convenio',
+    loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
+  },
+  {
+    path: 'reservar-capilla/velacion-en-domicilio',
+    loadChildren: () => import('./modules/velacion-domicilio/velacion-domicilio.module').then(m => m.VelacionDomicilioModule)
   },
   {
     path: 'reservar-salas',

@@ -37,7 +37,8 @@
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarServicio()">Agregar servicio</button>
   </div>
 
-  <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="servicios" [paginator]="servicios.length > 0"
+  <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="servicios"
+           [paginator]="servicios.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
            (onLazyLoad)="paginar($event)">
@@ -65,23 +66,22 @@
         <td> {{servicio.descCuentaContable}} </td>
         <td> {{servicio.observaciones}} </td>
         <td>
-          <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="servicio.estatus" (onChange)="abrirModalCambioEstatus(servicio)"></p-inputSwitch>
-            <span class="activo" *ngIf="servicio.estatus">Activo</span>
-            <span class="inactivo" *ngIf="!servicio.estatus">Inactivo</span>
-          </div>
-        </td>
-
-        <td>
-          <div class="contenedor-celda-iconos">
-            <a (click)="abrirModalDetalleCapilla(servicio)">
-              <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
-            </a>
-            <a (click)="abrirPanel($event,servicio)">
-              <img
-                src="assets/images/imagen-icono-barras-horizontales.svg"
-                alt="icono barras horizontales">
-            </a>
+          <div [appEstilosCeldaSticky]="{display:'grid',gridTemplateColumns:'120px 80px'}">
+            <div class="contenedor-inputswitch">
+              <p-inputSwitch [(ngModel)]="servicio.estatus" (onChange)="abrirModalCambioEstatus(servicio)"></p-inputSwitch>
+              <span class="activo" *ngIf="servicio.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!servicio.estatus">Inactivo</span>
+            </div>
+            <div class="contenedor-celda-iconos">
+              <a (click)="abrirModalDetalleCapilla(servicio)">
+                <img src="assets/images/imagen-icono-ver.svg" alt="icono ver">
+              </a>
+              <a (click)="abrirPanel($event,servicio)">
+                <img
+                  src="assets/images/imagen-icono-barras-horizontales.svg"
+                  alt="icono barras horizontales">
+              </a>
+            </div>
           </div>
         </td>
       </tr>

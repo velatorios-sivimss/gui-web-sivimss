@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
-
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
+
 import {Servicio,ConfirmacionServicio} from "../../models/servicio.interface";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
+
 import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 
 @Component({
-  selector: 'app-agregar-servicio',
+  selector: 'app-modal-agregar-servicio',
   templateUrl: './agregar-servicio.component.html',
   styleUrls: ['./agregar-servicio.component.scss'],
   providers: [DialogService]
@@ -18,7 +19,6 @@ export class AgregarServicioComponent implements OnInit {
   agregarServicioForm!: FormGroup;
 
   servicio:Servicio = {};
-
 
   ventanaConfirmacion: boolean = false;
 
@@ -54,22 +54,21 @@ export class AgregarServicioComponent implements OnInit {
 
   confirmarAgregarServicio(): void {
     this.ventanaConfirmacion = true;
-    /*
-    * Se mandará solo texto para que el detalle solo lo imprim por lo que se deben llenar las variables
-    * que son 'desc'*/
+
     this.servicio = {
-      id: this.agregarServicioForm.get("id")?.value,
-      servicio: this.agregarServicioForm.get("servicio")?.value,
-      descripcionServicio:this.agregarServicioForm.get("descripcion")?.value,
-      tipoServicio: this.agregarServicioForm.get("tipoServicio")?.value,
-      descTipoServicio: "Campo dummy",
-      partidaPresupuestal: this.agregarServicioForm.get("partidaPresupuestal")?.value,
-      descPartidaPresupuestal: "Campo dummy",
-      cuentaContable: this.agregarServicioForm.get("cuentaContable")?.value,
-      descCuentaContable: "Campo dummy",
-      observaciones: this.agregarServicioForm.get("observaciones")?.value,
-      estatus: this.agregarServicioForm.get("estatus")?.value,
-      claveSAT:this.agregarServicioForm.get("claveSAT")?.value
+      // id: this.agregarServicioForm.get("id")?.value,
+      // servicio: this.agregarServicioForm.get("servicio")?.value,
+      // descripcionServicio:this.agregarServicioForm.get("descripcion")?.value,
+      // tipoServicio: this.agregarServicioForm.get("tipoServicio")?.value,
+      // descTipoServicio: "Campo dummy",
+      // partidaPresupuestal: this.agregarServicioForm.get("partidaPresupuestal")?.value,
+      // descPartidaPresupuestal: "Campo dummy",
+      // cuentaContable: this.agregarServicioForm.get("cuentaContable")?.value,
+      // descCuentaContable: "Campo dummy",
+      // observaciones: this.agregarServicioForm.get("observaciones")?.value,
+      // estatus: this.agregarServicioForm.get("estatus")?.value,
+      // claveSAT:this.agregarServicioForm.get("claveSAT")?.value
+      ...this.agregarServicioForm.value
     };
   }
 

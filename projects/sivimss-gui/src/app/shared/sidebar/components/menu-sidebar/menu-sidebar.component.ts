@@ -1,178 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Router } from "@angular/router";
+import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
+import { AutenticacionService, Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
-import { Observable } from "rxjs";
+import { idsModulos } from "projects/sivimss-gui/src/app/utils/constantes-menu";
+import { Observable, Subscription } from "rxjs";
+import { filter, map } from "rxjs/operators";
 
 @Component({
   selector: 'app-menu-sidebar',
   templateUrl: './menu-sidebar.component.html',
   styleUrls: ['./menu-sidebar.component.scss']
 })
-export class MenuSidebarComponent implements OnInit {
-
-  opcionAnteriorSeleccionada: any = null;
-  activo$!: Observable<boolean>;
-
-  menu: any[] = [
-    {
-      icono: 'operacion-sivimss',
-      texto: 'Operación SIVIMSS',
-      activo: false,
-      subtitulos: [
-        {
-          icono: 'ordenes-de-servicio',
-          texto: 'Órdenes de servicio',
-          ruta: 'ordenes-de-servicio',
-          activo: false
-        },
-        {
-          icono: 'ordenes-de-subrogacion',
-          texto: 'Órdenes de subrogación',
-          ruta: 'ordenes-de-subrogacion',
-          activo: false
-        },
-        {
-          icono: 'pagos',
-          texto: 'Pagos',
-          ruta: 'pagos',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Reservar Salas',
-          ruta: 'reservar-salas',
-          activo: false
-        }
-      ]
-    },
-    {
-      icono: 'imagen-icono-operacion-sivimss.svg',
-      texto: 'Administrar',
-      activo: false,
-      subtitulos: [
-        {
-          icono: '',
-          texto: 'Usuarios',
-          ruta: 'usuarios',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Roles',
-          ruta: 'roles',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Capillas',
-          ruta: 'capillas',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Artículos',
-          ruta: 'artículos',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Servicios',
-          ruta: 'servicios',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Velatorios',
-          ruta: 'velatorios',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Proveedores',
-          ruta: 'proveedores',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Contratantes',
-          ruta: 'contratantes',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Vehicular',
-          ruta: 'inventario-vehicular',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Panteones',
-          ruta: 'panteones',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Salas',
-          ruta: 'salas',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Traslados',
-          ruta: 'traslados',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Inhábiles',
-          ruta: 'inhabiles',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Interno',
-          ruta: 'interno',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Paquetes',
-          ruta: 'paquetes',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Promotores',
-          ruta: 'promotores',
-          activo: false
-        },
-        {
-          icono: '',
-          texto: 'Ordenes de entrada',
-          ruta: 'ordenes-de-entrada',
-          activo: false
-        },
-      ]
-    }
-  ]
+export class MenuSidebarComponent implements OnInit, OnDestroy {
+  readonly NOMBRE_ICONO_POR_DEFECTO: string = 'default-icon.svg';
+  abierto$!: Observable<boolean>;
+  modulos$!: Observable<Modulo[]>;
+  subs!:Subscription;
 
   constructor(
-    private router: Router,
-    private menuSidebarService: MenuSidebarService
+    private readonly router: Router,
+    private readonly menuSidebarService: MenuSidebarService,
+    private readonly autenticacionService: AutenticacionService,
   ) {
   }
 
   ngOnInit(): void {
-    this.activo$ = this.menuSidebarService.menuSidebar$;
+    this.abierto$ = this.menuSidebarService.menuSidebar$;
+    this.modulos$ = this.autenticacionService.obtenerModulosPorIdRol('1').pipe(
+      map((respuesta: HttpRespuesta<Modulo[]>): Modulo[] => {
+        return this.agregarPropiedadesExtras(respuesta.datos);
+      })
+    );
+    this.gestionarObsOpcionesSeleccionadas();
   }
 
-  navegar(opcionSeleccionada: any) {
-    if (this.opcionAnteriorSeleccionada) {
-      this.opcionAnteriorSeleccionada.activo = false;
+  agregarPropiedadesExtras(modulos: Modulo[]): Modulo[] {
+    return modulos.map((modulo) => {
+      const moduloConPropiedadesExtras = {
+        ...modulo,
+        ruta: idsModulos[modulo.idModulo].ruta,
+        icono: idsModulos[modulo.idModulo].icono || this.NOMBRE_ICONO_POR_DEFECTO
+      };
+      if (moduloConPropiedadesExtras.modulos !== null) {
+        moduloConPropiedadesExtras.modulos = this.agregarPropiedadesExtras(moduloConPropiedadesExtras.modulos);
+      }
+      return moduloConPropiedadesExtras;
+    });
+  }
+
+  gestionarObsOpcionesSeleccionadas() {
+    this.subs = this.menuSidebarService.opcionMenuSeleccionada$.pipe(
+      filter((ruta: string | null) => !!ruta)
+    ).subscribe((ruta: string | null) => {
+      this.router.navigate([ruta]);
+    });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subs){
+      this.subs.unsubscribe();
     }
-    opcionSeleccionada.activo = true;
-    this.router.navigate([opcionSeleccionada.ruta]);
-    this.opcionAnteriorSeleccionada = opcionSeleccionada;
   }
 
 }

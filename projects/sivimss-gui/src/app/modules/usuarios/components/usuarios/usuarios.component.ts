@@ -1,18 +1,36 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
-import { LazyLoadEvent } from "primeng-lts/api";
-import { OverlayPanel } from "primeng-lts/overlaypanel";
-import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
-import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import { Usuario } from "../../models/usuario.interface";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
+import {OverlayPanel} from "primeng-lts/overlaypanel";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
+
+import {ActivatedRoute} from '@angular/router';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Usuario} from '../../models/usuario.interface';
+import {UsuarioService} from '../../services/usuario.service';
+
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {CATALOGOS} from "../../constants/catalogos_dummies";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
+import {AgregarUsuarioComponent} from "../agregar-usuario/agregar-usuario.component";
+import {USUARIOS_BREADCRUMB} from "../../constants/breadcrumb";
+import {FiltrosUsuario} from "../../models/filtrosUsuario.interface";
+import {VerDetalleUsuarioComponent} from "../ver-detalle-usuario/ver-detalle-usuario.component";
+import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
+import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.component";
+import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
+
+type SolicitudEstatus = Pick<Usuario, "id">;
+const MAX_WIDTH: string = "920px";
 
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.scss']
+  styleUrls: ['./usuarios.component.scss'],
+  providers: [DialogService]
 })
-export class UsuariosComponent implements OnInit {
+export class UsuariosComponent implements OnInit, OnDestroy {
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
@@ -21,119 +39,69 @@ export class UsuariosComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  opciones: any[] = [
-    {
-      label: 'Opción 1',
-      value: 0,
-    },
-    {
-      label: 'Opción 2',
-      value: 1,
-    },
-    {
-      label: 'Opción 3',
-      value: 2,
-    }
-  ];
-
+  opciones: TipoDropdown[] = CATALOGOS;
+  catRol: TipoDropdown[] = [];
   usuarios: Usuario[] = [];
   usuarioSeleccionado!: Usuario;
 
   filtroForm!: FormGroup;
-  agregarUsuarioForm!: FormGroup;
-  modificarUsuarioForm!: FormGroup;
 
-  mostrarModalAgregarUsuario: boolean = false;
-  mostrarModalModificarUsuario: boolean = false;
-  mostrarModalDetalleUsuario: boolean = false;
-  mostrarModalConfModUsuario: boolean = false;
+  paginacionConFiltrado: boolean = false;
+
+  creacionRef!: DynamicDialogRef
+  detalleRef!: DynamicDialogRef;
+  modificacionRef!: DynamicDialogRef;
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private usuarioService: UsuarioService,
     private alertaService: AlertaService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    public dialogService: DialogService,
   ) {
   }
 
   ngOnInit(): void {
-    this.breadcrumbService.actualizar([
-      {
-        icono: 'imagen-icono-operacion-sivimss.svg',
-        titulo: 'Administración de catálogos'
-      },
-      {
-        icono: '',
-        titulo: 'Administrar usuarios'
-      }
-    ]);
+    this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
+    const roles = this.route.snapshot.data["respuesta"].datos;
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.inicializarFiltroForm();
   }
 
-  paginar(event: LazyLoadEvent): void {
-    setTimeout(() => {
-      this.usuarios = [
-        {
-          id: 1,
-          curp: 'AROER762010HDFNCOO',
-          matricula: '473653728',
-          usuario: 'armraf',
-          nombre: 'Armando Rafaelo',
-          primerApellido: 'De la Ibargüengoitia',
-          segundoApellido: 'Aramburuzabala',
-          estatus: true,
-          correoElectronico: 'correo@correo.com',
-          nivel: 'Central',
-          rol: 'COORDINADOR DE CENTROS VACACIONALES, VELATORIOS, UNIDAD DE CONGRESOS Y TIENDAS',
-        },
-        {
-          id: 2,
-          curp: 'AROER762010HDFNCOO',
-          matricula: '473653728',
-          usuario: 'armraf',
-          nombre: 'Armando Rafaelo',
-          primerApellido: 'De la Ibargüengoitia',
-          segundoApellido: 'Aramburuzabala',
-          estatus: true,
-          correoElectronico: 'correo@correo.com',
-          nivel: 'Central',
-          rol: 'COORDINADOR DE CENTROS VACACIONALES, VELATORIOS, UNIDAD DE CONGRESOS Y TIENDAS',
-        },
-        {
-          id: 3,
-          curp: 'AROER762010HDFNCOO',
-          matricula: '473653728',
-          usuario: 'armraf',
-          nombre: 'Armando Rafaelo',
-          primerApellido: 'De la Ibargüengoitia',
-          segundoApellido: 'Aramburuzabala',
-          estatus: true,
-          correoElectronico: 'correo@correo.com',
-          nivel: 'Central',
-          rol: 'COORDINADOR DE CENTROS VACACIONALES, VELATORIOS, UNIDAD DE CONGRESOS Y TIENDAS',
-        }
-      ];
-      this.totalElementos = 3;
-    }, 0);
-  }
-
-  abrirPanel(event: MouseEvent, usuario: any): void {
+  abrirPanel(event: MouseEvent, usuario: Usuario): void {
     this.usuarioSeleccionado = usuario;
     this.overlayPanel.toggle(event);
   }
 
   abrirModalAgregarUsuario(): void {
-    this.inicializarAgregarUsuarioForm();
-    this.mostrarModalAgregarUsuario = true;
+    const CREACION_CONFIG: DynamicDialogConfig = {
+      header: "Agregar usuario",
+      width: MAX_WIDTH,
+    }
+    this.creacionRef = this.dialogService.open(AgregarUsuarioComponent, CREACION_CONFIG);
+    this.creacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
   abrirModalModificarUsuario(): void {
-    this.inicializarModificarUsuarioForm();
-    this.mostrarModalModificarUsuario = true;
+    const MODIFICAR_CONFIG: DynamicDialogConfig = {
+      header: "Modificar usuario",
+      width: MAX_WIDTH,
+      data: this.usuarioSeleccionado
+    }
+    this.modificacionRef = this.dialogService.open(ModificarUsuarioComponent, MODIFICAR_CONFIG);
+    this.modificacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
   abrirModalDetalleUsuario(usuario: Usuario): void {
-    this.usuarioSeleccionado = {...usuario};
-    this.mostrarModalDetalleUsuario = true;
+    this.usuarioSeleccionado = usuario;
+    const DETALLE_CONFIG: DynamicDialogConfig = {
+      header: "Ver detalle",
+      width: MAX_WIDTH,
+      data: usuario.id
+    }
+    this.creacionRef = this.dialogService.open(VerDetalleUsuarioComponent, DETALLE_CONFIG);
+    this.creacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
   inicializarFiltroForm() {
@@ -145,59 +113,104 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  inicializarAgregarUsuarioForm() {
-    this.agregarUsuarioForm = this.formBuilder.group({
-      id: [{value: 1, disabled: true}],
-      curp: [{value: null, disabled: false}, [Validators.required]],
-      matricula: [{value: null, disabled: false}, [Validators.required]],
-      nombre: [{value: null, disabled: false}, [Validators.required]],
-      primerApellido: [{value: null, disabled: false}, [Validators.required]],
-      segundoApellido: [{value: null, disabled: false}, [Validators.required]],
-      correoElectronico: [{value: null, disabled: false}, [Validators.required]],
-      fechaNacimiento: [{value: null, disabled: false}, [Validators.required]],
-      nivel: [{value: null, disabled: false}, [Validators.required]],
-      delegacion: [{value: null, disabled: false}, [Validators.required]],
-      velatorio: [{value: null, disabled: false}, [Validators.required]],
-      rol: [{value: null, disabled: false}, [Validators.required]],
-      estatus: [{value: true, disabled: false}]
-    });
+  seleccionarPaginacion(): void {
+    if (this.paginacionConFiltrado) {
+      this.paginarConFiltros();
+    } else {
+      this.paginar();
+    }
   }
 
-  inicializarModificarUsuarioForm(): void {
-    this.modificarUsuarioForm = this.formBuilder.group({
-      id: [{value: 1, disabled: true}],
-      curp: [{value: null, disabled: false}, [Validators.required]],
-      matricula: [{value: null, disabled: false}, [Validators.required]],
-      nombre: [{value: null, disabled: false}, [Validators.required]],
-      primerApellido: [{value: null, disabled: false}, [Validators.required]],
-      segundoApellido: [{value: null, disabled: false}, [Validators.required]],
-      correoElectronico: [{value: null, disabled: false}, [Validators.required]],
-      fechaNacimiento: [{value: null, disabled: false}, [Validators.required]],
-      nivel: [{value: null, disabled: false}, [Validators.required]],
-      delegacion: [{value: null, disabled: false}, [Validators.required]],
-      velatorio: [{value: null, disabled: false}, [Validators.required]],
-      rol: [{value: null, disabled: false}, [Validators.required]],
-      estatus: [{value: true, disabled: false}]
-    });
+  paginar(): void {
+    // this.numPaginaActual = Math.floor((first || 0) / (rows || 1));
+    this.usuarioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.usuarios = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
   }
 
-  agregarUsuario(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Usuario guardado');
+  paginarConFiltros(): void {
+    const filtros = this.crearSolicitudFiltros();
+    this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.usuarios = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
   }
 
-  modificarUsuario(): void {
+  buscar(): void {
+    this.numPaginaActual = 0;
+    this.paginacionConFiltrado = true;
+    this.paginarConFiltros();
+  }
+
+  crearSolicitudFiltros(): FiltrosUsuario {
+    return {
+      idOficina: this.filtroForm.get("nivel")?.value,
+      idVelatorio: this.filtroForm.get("velatorio")?.value,
+      idRol: this.filtroForm.get("rol")?.value,
+      idDelegacion: this.filtroForm.get("delegacion")?.value
+    };
+  }
+
+  limpiar(): void {
+    this.paginacionConFiltrado = false;
+    if (this.filtroForm) {
+      this.filtroForm.reset();
+    }
+    this.numPaginaActual = 0;
+    this.paginar();
+  }
+
+  cambiarEstatus(id: number): void {
+    const idUsuario: SolicitudEstatus = {id}
+    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
+      () => {
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  procesarRespuestaModal(respuesta: RespuestaModalUsuario = {}): void {
+    if (respuesta.actualizar) {
+      this.limpiar();
+    }
+    if (respuesta.mensaje) {
+      this.alertaService.mostrar(TipoAlerta.Exito, respuesta.mensaje);
+    }
+    if (respuesta.modificar) {
+      this.abrirModalModificarUsuario();
+    }
   }
 
   get f() {
     return this.filtroForm.controls;
   }
 
-  get fau() {
-    return this.agregarUsuarioForm.controls;
+  ngOnDestroy(): void {
+    if (this.creacionRef) {
+      this.creacionRef.destroy();
+    }
+    if (this.detalleRef) {
+      this.detalleRef.destroy();
+    }
+    if (this.modificacionRef) {
+      this.modificacionRef.destroy();
+    }
   }
-
-  get fmu() {
-    return this.modificarUsuarioForm.controls;
-  }
-
 }

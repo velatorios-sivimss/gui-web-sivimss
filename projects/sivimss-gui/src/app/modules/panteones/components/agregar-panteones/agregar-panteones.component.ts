@@ -41,48 +41,6 @@ export class AgregarPanteonesComponent implements OnInit {
     }
   ];
 
-  regiones: any[] = [
-    {
-      label: 'Nacional',
-      value: 0,
-    },
-    {
-      label: 'Delegacional',
-      value: 1,
-    },
-    {
-      label: 'Velatorio',
-      value: 2,
-    }
-  ];
-
-  catalogoArticulos: any[] = [
-    {
-      label: 'Ataúd',
-      value: 0,
-    },
-    {
-      label: 'Urna',
-      value: 1,
-    },
-    {
-      label: 'Cartucho',
-      value: 2,
-    },
-    {
-      label: 'Empaques traslado aéreo',
-      value: 3,
-    },
-    {
-      label: 'Bolsa para cadáver',
-      value: 4,
-    },
-    {
-      label: 'Otro',
-      value: 5,
-    },
-  ];
-
   tipoArticulos: any[] = [];
   tituloEliminar: string = '';
   intentoPorGuardar: boolean = false;
@@ -116,22 +74,16 @@ export class AgregarPanteonesComponent implements OnInit {
   inicializarAgregarPanteonForm() {
     this.agregarPanteonForm = this.formBuilder.group({
       id: [{ value: null, disabled: true }],
-      numEmpleado: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
-      curp: [{ value: null, disabled: false }, [Validators.maxLength(18), Validators.required, Validators.pattern(CURP)]],
-      nombre: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required]],
-      primerApellido: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      segundoApellido: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      fechaNacimiento: [{ value: null, disabled: false }, Validators.required],
-      fechaIngreso: [{ value: null, disabled: false }, Validators.required],
-      fechaBaja: [{ value: null, disabled: true }],
-      sueldoBase: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
-      velatorio: [{ value: null, disabled: false }, Validators.required],
-      categoria: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      antiguedad: [{ value: null, disabled: true }, [Validators.maxLength(50)]],
-      correo: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required,
-      Validators.email, Validators.pattern(EMAIL)]],
-      puesto: [{ value: null, disabled: false }, [Validators.maxLength(20), Validators.required]],
-      diasDescanso: [{ value: null, disabled: false }, Validators.required],
+      nombrePanteon: [{ value: null, disabled: false }, [Validators.maxLength(50), Validators.required]],
+      calle: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required]],
+      numExterior: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
+      numInterior: [{ value: null, disabled: false }, [Validators.maxLength(10)]],
+      colonia: [{ value: null, disabled: true }, []],
+      municipio: [{ value: null, disabled: true }, []],
+      estado: [{ value: null, disabled: true }, []],
+      contacto: [{ value: null, disabled: false }, [Validators.maxLength(30), Validators.required]],
+      numTelefono: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
+      cp: [{ value: null, disabled: false }, [Validators.maxLength(5), Validators.minLength(5), Validators.required]],
       estatus: [{ value: true, disabled: false }, Validators.required],
     });
   }
@@ -168,7 +120,6 @@ export class AgregarPanteonesComponent implements OnInit {
       });
 
       detalleRef.onClose.subscribe((res: HttpResponse) => {
-        debugger;
         if (res && res.respuesta === 'Ok') {
           this.cerrarDialogo();
         }
@@ -176,29 +127,8 @@ export class AgregarPanteonesComponent implements OnInit {
     }
   }
 
-  consultarRenapo() {
-    //TO DO Realizar consulta a RENAPO cuando campos de nombre y fecha nacimiento tengan datos
-    if (this.validarPreconsultaRenapo()) {
-      //CURP Dommy para prueba
-      this.f.curp.setValue('OEAF771012HMCRGR09');
-      //En caso de no existir CURP mostrar msj
-      this.alertaService.mostrar(TipoAlerta.Precaucion, 'No se encontró información relacionada a tu búsqueda.');
-    }
-  }
-
-  validarPreconsultaRenapo(): boolean {
-    if (this.agregarPanteonForm.get('nombre')?.valid &&
-      this.agregarPanteonForm.get('primerApellido')?.valid &&
-      this.agregarPanteonForm.get('segundoApellido')?.valid &&
-      this.agregarPanteonForm.get('fechaNacimiento')?.valid) {
-      return true;
-    }
-    return false;
-  }
-
-  handleFechaIngreso() {
-    //TO DO Calcular Antigüedad
-    console.log(this.f.fechaIngreso.value);
+  handleChangeCodigoPostal() {
+    //TO DO consumo servicio para obtener Estado, Municipio y Colonia por CP
   }
 
   get f() {

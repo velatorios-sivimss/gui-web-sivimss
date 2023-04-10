@@ -54,7 +54,7 @@
         </div>
       </section>
 
-      <p-table styleClass="mt-5 mb-8 mr-5 ml-5 last-sticky-column" [value]="registroOtorgamientoServicios"
+      <p-table styleClass="mt-5 mb-8 mr-5 ml-5" [value]="registroOtorgamientoServicios"
                [rows]="cantElementosPorPagina"
                [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
                (onLazyLoad)="paginar($event)">
