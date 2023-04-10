@@ -20,6 +20,9 @@ import {VerDetalleUsuarioComponent} from "../ver-detalle-usuario/ver-detalle-usu
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {ModificarUsuarioComponent} from "../modificar-usuario/modificar-usuario.component";
 import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
+import {LazyLoadEvent} from "primeng-lts/api";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {finalize} from "rxjs/operators";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -59,6 +62,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
+    private cargadorService: LoaderService
   ) {
   }
 
@@ -113,7 +117,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     });
   }
 
-  seleccionarPaginacion(): void {
+  seleccionarPaginacion(event?: LazyLoadEvent): void {
+    if (event) {
+      this.numPaginaActual = Math.floor((event.first || 0) / (event.rows || 1));
+    }
     if (this.paginacionConFiltrado) {
       this.paginarConFiltros();
     } else {
@@ -122,31 +129,36 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   paginar(): void {
-    // this.numPaginaActual = Math.floor((first || 0) / (rows || 1));
-    this.usuarioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
-      (respuesta) => {
-        this.usuarios = respuesta!.datos.content;
-        this.totalElementos = respuesta!.datos.totalElements;
-      },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
-      }
-    );
+    this.cargadorService.activar();
+    this.usuarioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        (respuesta) => {
+          this.usuarios = respuesta!.datos.content;
+          this.totalElementos = respuesta!.datos.totalElements;
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      );
   }
 
   paginarConFiltros(): void {
     const filtros = this.crearSolicitudFiltros();
-    this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
-      (respuesta) => {
-        this.usuarios = respuesta!.datos.content;
-        this.totalElementos = respuesta!.datos.totalElements;
-      },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
-      }
-    );
+    this.cargadorService.activar();
+    this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        (respuesta) => {
+          this.usuarios = respuesta!.datos.content;
+          this.totalElementos = respuesta!.datos.totalElements;
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      );
   }
 
   buscar(): void {
@@ -175,15 +187,18 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cambiarEstatus(id: number): void {
     const idUsuario: SolicitudEstatus = {id}
-    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
-      () => {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
-      },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
-      }
-    );
+    this.cargadorService.activar();
+    this.usuarioService.cambiarEstatus(idUsuario)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        () => {
+          this.alertaService.mostrar(TipoAlerta.Exito, 'Cambio de estatus realizado');
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      );
   }
 
   procesarRespuestaModal(respuesta: RespuestaModalUsuario = {}): void {

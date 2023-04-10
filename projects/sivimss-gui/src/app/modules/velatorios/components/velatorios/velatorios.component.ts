@@ -16,6 +16,9 @@ import {VelatorioService} from "../../services/velatorio.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
+import {LazyLoadEvent} from "primeng-lts/api";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {finalize} from "rxjs/operators";
 
 const MAX_WIDTH: string = "920px";
 
@@ -52,7 +55,8 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
               private breadCrumbService: BreadcrumbService,
               public dialogService: DialogService,
               private formBuilder: FormBuilder,
-              private velatorioService: VelatorioService) {
+              private velatorioService: VelatorioService,
+              private cargadorService: LoaderService) {
   }
 
   ngOnInit(): void {
@@ -80,7 +84,7 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
   }
 
   abrirModalActivarVelatorio(): void {
-    const header = this.velatorioSeleccionado.estatus ? 'Desactivar' : 'Activar';
+    const header: string = this.velatorioSeleccionado.estatus ? 'Desactivar' : 'Activar';
     const ACTIVAR_CONFIG: DynamicDialogConfig = {
       header: `${header} velatorio`,
       data: this.velatorioSeleccionado,
@@ -111,7 +115,10 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
     this.filtroForm.reset()
   }
 
-  seleccionarPaginacion(): void {
+  seleccionarPaginacion(event?: LazyLoadEvent): void {
+    if (event) {
+      this.numPaginaActual = Math.floor((event.first || 0) / (event.rows || 1));
+    }
     if (this.paginacionConFiltrado) {
       this.paginarConFiltros();
     } else {
@@ -120,7 +127,10 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
   }
 
   paginar(): void {
-    this.velatorioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.cargadorService.activar();
+    this.velatorioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
       (respuesta) => {
         this.listaVelatorios = respuesta!.datos.content || [];
         this.totalElementos = respuesta!.datos.totalElements || 0;
