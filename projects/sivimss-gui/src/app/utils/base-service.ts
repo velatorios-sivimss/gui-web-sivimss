@@ -26,14 +26,13 @@ export abstract class BaseService<T, ID> implements OperacionesComunes<T, ID> {
     return this._http.post<T>(this._base + `${this._funcionalidad}/${this._agregar}`, t, {headers});
   }
 
-  
+
   actualizar(t: any): Observable<T> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     return this._http.put<T>(this._base + `${this._funcionalidad}/${this._actualizar}`, t, {headers});
   }
 
   cambiarEstatus(id: any): Observable<T> {
-    debugger
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token}`, 'Content-Type': 'application/json'});
     return this._http.put<T>(this._base + `${this._funcionalidad}/${this._estatus}`, id, {headers});
   }

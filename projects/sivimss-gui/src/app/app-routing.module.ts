@@ -175,6 +175,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
   },
   {
+    path: 'reservar-capilla/velacion-en-domicilio',
+    loadChildren: () => import('./modules/velacion-domicilio/velacion-domicilio.module').then(m => m.VelacionDomicilioModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

@@ -18,7 +18,6 @@ export class DetalleActividadDiaComponent implements OnInit {
   { }
 
   ngOnInit(): void {
-    // debugger;
     this.fechaSeleccionada = moment(this.config.data).format("DD/MM/yyyy");
   }
 

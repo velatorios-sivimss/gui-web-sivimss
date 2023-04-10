@@ -1,10 +1,10 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Router } from "@angular/router";
 import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
 import { AutenticacionService, Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
 import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
 import { idsModulos } from "projects/sivimss-gui/src/app/utils/constantes-menu";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
 @Component({
@@ -12,10 +12,11 @@ import { filter, map } from "rxjs/operators";
   templateUrl: './menu-sidebar.component.html',
   styleUrls: ['./menu-sidebar.component.scss']
 })
-export class MenuSidebarComponent implements OnInit {
+export class MenuSidebarComponent implements OnInit, OnDestroy {
   readonly NOMBRE_ICONO_POR_DEFECTO: string = 'default-icon.svg';
   abierto$!: Observable<boolean>;
   modulos$!: Observable<Modulo[]>;
+  subs!:Subscription;
 
   constructor(
     private readonly router: Router,
@@ -49,15 +50,17 @@ export class MenuSidebarComponent implements OnInit {
   }
 
   gestionarObsOpcionesSeleccionadas() {
-    this.menuSidebarService.opcionMenuSeleccionada$.pipe(
+    this.subs = this.menuSidebarService.opcionMenuSeleccionada$.pipe(
       filter((ruta: string | null) => !!ruta)
     ).subscribe((ruta: string | null) => {
-      this.router.navigate([ruta]).then((navegacionCorrecta: boolean) => {
-        if (!navegacionCorrecta) {
-          console.error(`Ocurrió un error con la siguiente ruta:  [ ${ruta} ] `);
-        }
-      });
+      this.router.navigate([ruta]);
     });
+  }
+
+  ngOnDestroy(): void {
+    if(this.subs){
+      this.subs.unsubscribe();
+    }
   }
 
 }

@@ -62,7 +62,6 @@ export class ModificarCapillaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
     if (this.config?.data) {
       this.origen = this.config.data.origen;
       if (this.origen == 'modificar') {
@@ -76,7 +75,6 @@ export class ModificarCapillaComponent implements OnInit {
 
 
   inicializarAgregarCapillaForm(capillaSeleccionada: Capilla) {
-    debugger
     this.modificarcapillaForm = this.formBuilder.group({
       idCapilla: [{value: capillaSeleccionada.idCapilla, disabled: true}],
       nombre: [{value: capillaSeleccionada.nombre, disabled: false}, [Validators.required]],

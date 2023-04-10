@@ -20,7 +20,7 @@ export const idsModulos: DatoModulo = {
     icono: 'administracion-usuarios.svg'
   },
   3: {
-    ruta: '/permisos',
+    ruta: '/roles-permisos',
     icono: '',
   },
   4: {

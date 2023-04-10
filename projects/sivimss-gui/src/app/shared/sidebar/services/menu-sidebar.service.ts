@@ -24,4 +24,8 @@ export class MenuSidebarService {
     this.opcionMenuSeleccionadaSubject.next(ruta);
   }
 
+  limpiarRutaSeleccionada(){
+    this.opcionMenuSeleccionadaSubject.next(null);
+  }
+
 }

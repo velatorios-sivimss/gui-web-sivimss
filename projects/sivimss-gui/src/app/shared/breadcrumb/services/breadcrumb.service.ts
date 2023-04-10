@@ -19,6 +19,10 @@ export class BreadcrumbService {
     this.breadcrumbSubject.next(elementoBreadcrumb);
   }
 
+  limpiar(){
+    this.breadcrumbSubject.next([]);
+  }
+
   insertarElementoAlFinal(elementoBreadcrumb: ElementoBreadcrumb) {
     let nuevoBreadcrumb: ElementoBreadcrumb[] = [...this.breadcrumbSubject.getValue()];
     nuevoBreadcrumb.push(elementoBreadcrumb);
