@@ -13,6 +13,7 @@ import {PaquetesService} from "../../services/paquetes.service";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 
 interface NuevoPaquete {
+  articulos: number[]
   nomPaquete: string,
   desPaquete: string,
   costo: number,
@@ -131,6 +132,7 @@ export class VerDetallePaquetesComponent implements OnInit {
 
   crearPaquete(): NuevoPaquete {
     return {
+      articulos: [],
       costo: 0,
       desPaquete: this.paqueteSeleccionado.descripcion || "",
       isRegion: false,
