@@ -46,7 +46,7 @@ export class AgregarCapillaComponent implements OnInit {
 
   selectedOption: any;
   inputValue!: string;
-
+  estatusGuardar: boolean= false;
 
   capillaParaGuardar!: any;
 
@@ -62,6 +62,7 @@ export class AgregarCapillaComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.estatusGuardar = false;
     this.inicializarAgregarCapillaForm();
   }
 
@@ -73,13 +74,17 @@ export class AgregarCapillaComponent implements OnInit {
       idVelatorio: [{value: null, disabled: false}, [Validators.required]],
       largo: [{value: null, disabled: false}, [Validators.required]],
       alto: [{value: null, disabled: false}, [Validators.required]],
-      areaTotal: [{value: null, disabled: false}, [Validators.required]]
+      areaTotal: [{value: null, disabled: false}, [Validators.required]],
+      estatus: [{value: false, disabled: false}]
     });
   }
 
 
   cerrar(){
     this.ref.close();
+  }
+  modificarEstatusGuardar(){
+    this.estatusGuardar = true;
   }
 
   cerrar2(event?:ConfirmacionServicio){

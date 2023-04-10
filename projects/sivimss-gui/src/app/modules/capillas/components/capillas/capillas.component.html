@@ -55,7 +55,7 @@
         <td>{{capilla.nombre}}</td>
         <td>{{capilla.largo}}</td>
         <td>{{capilla.alto}}</td>
-        <td>{{capilla.largo}}</td>
+        <td>{{capilla.largo * capilla.alto}}</td>
         <td>
           <div class="contenedor-inputswitch">
             <p-inputSwitch [(ngModel)]="capilla.estatus" (click)="abrirModalcambiarEstatusCapilla(capilla)"></p-inputSwitch>

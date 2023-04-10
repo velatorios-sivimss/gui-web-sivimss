@@ -7,23 +7,14 @@ export interface Vehiculos {
   vehiculo?: string;
   placas?: string;
   nivelAceiteBajo?: boolean;
-
   nivelAgua?: boolean;
-
   calibracionNeumaticosTraseros?: number;
-
   calibracionNeumaticosDelanteros?: number;
-
   nivelCombustible?: number;
-
   nivelBateria?: number;
-
   limpiezaExterior?: number;
-
   limpiezaInterior?: number;
-
   codigoFalla?: number;
-
   estatusText?: string;
   estatus?: boolean;
   estatusNumber?: number;
@@ -31,10 +22,10 @@ export interface Vehiculos {
   tipoMantenimiento?: string;
   modalidad?: string;
   fechaMantenimiento?: string;
-
-
-
   nivelAceite?: number;
+  marca?: string;
+  anio?: string;
+  modalidadNumber?: number;
 
 
   }

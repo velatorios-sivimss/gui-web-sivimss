@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NuevaVerificacionComponent } from '../nueva-verificacion/nueva-verificacion/nueva-verificacion.component'
 import { RegistroMantenimientoComponent } from '../registro-mantenimiento/registro-mantenimiento/registro-mantenimiento.component'
 import { DetalleRegistroMantenimientoComponent } from '../registro-mantenimiento/detalle-registro-mantenimiento/detalle-registro-mantenimiento.component'
+import { SolicitudMantenimientoComponent } from '../solicitud-mantenimiento/solicitud-mantenimiento/solicitud-mantenimiento.component'
 
 @Component({
   selector: 'app-programar-mantenimiento-vehicular',
@@ -91,11 +92,14 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
       codigoFalla: 0,
       estatusText:"prueba",
       estatus: true,
-      estatusNumber: 1,
-      kilometraje: "quilometraje",
+      estatusNumber: 3,
+      kilometraje: "22002",
       tipoMantenimiento: "Preventivo",
       modalidad: "Reuqerida",
-      fechaMantenimiento: "20/06/1996"
+      fechaMantenimiento: "20/06/1996",
+      anio: "2019",
+      marca: "chebrolet",
+      modalidadNumber: 1,
      },
      {
       id: 1,
@@ -117,10 +121,13 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
       estatusText:"prueba",
       estatus: true,
       estatusNumber: 1,
-      kilometraje: "quilometraje",
+      kilometraje: "22002",
       tipoMantenimiento: "Preventivo",
       modalidad: "Reuqerida",
-      fechaMantenimiento: "20/06/1996"
+      fechaMantenimiento: "20/06/1996",
+      anio: "2019",
+      marca: "chebrolet",
+      modalidadNumber: 1,
      },
      {
       id: 1,
@@ -141,11 +148,14 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
       codigoFalla: 0,
       estatusText:"prueba",
       estatus: true,
-      estatusNumber: 1,
-      kilometraje: "quilometraje",
+      estatusNumber: 2,
+      kilometraje: "22002",
       tipoMantenimiento: "Preventivo",
       modalidad: "Reuqerida",
-      fechaMantenimiento: "20/06/1996"
+      fechaMantenimiento: "20/06/1996",
+      anio: "2019",
+      marca: "chebrolet",
+      modalidadNumber: 1,
      },
       ];
       this.totalElementos = this.vehiculos.length;
@@ -173,14 +183,14 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   }
 
   abrirModalSolicitudMantenimiento():void{
-    this.creacionRef = this.dialogService.open(RegistroMantenimientoComponent, {
+    this.creacionRef = this.dialogService.open(SolicitudMantenimientoComponent, {
      header:"Solicitud de mantenimiento",
      width:"920px",
      data: { vehiculo: this.vehiculoSeleccionado },
    })
  }
   abrirModalRegistroMantenimiento():void{
-    this.creacionRef = this.dialogService.open(DetalleRegistroMantenimientoComponent , {
+    this.creacionRef = this.dialogService.open(RegistroMantenimientoComponent , {
       header:"Registro de mantenimiento vehicular",
    width:"920px",
    data: { vehiculo: this.vehiculoSeleccionado },

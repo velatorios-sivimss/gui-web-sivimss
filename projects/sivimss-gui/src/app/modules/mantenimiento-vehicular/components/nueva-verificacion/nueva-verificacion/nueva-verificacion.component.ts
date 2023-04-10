@@ -12,7 +12,8 @@ import { ConfirmacionServicio, Vehiculos } from '../../../models/vehiculos.inter
 import { Funcionalidad } from "projects/sivimss-gui/src/app/modules/roles/models/funcionalidad.interface";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DetalleNuevaVerificacionComponent } from '../detalle-nueva-verificacion/detalle-nueva-verificacion.component';
 // import { log } from 'console';
 
 
@@ -60,28 +61,19 @@ export class NuevaVerificacionComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
     private route: ActivatedRoute,
+    private router: Router,
 
   ) {  this.vehiculoSeleccionado = this.config.data; }
 
   ngOnInit(): void {
-
     if (this.config?.data) {
       this.origen = this.config.data.origen;
         this.vehiculoSeleccionado = this.config.data.vehiculo;
     }
-
-    console.log('holaaa')
-    console.log('velatiors___:'+this.vehiculoSeleccionado.velatorio);
      this.vehiculoSeleccionado
      this.vehiculoSeleccionado.velatorio
      this.inicializarAgregarCapillaForm(this.vehiculoSeleccionado);
   }
-
-  OnOfSeleccion(){
-
-  }
-
-
 
   inicializarAgregarCapillaForm(vehiculoSeleccionado: Vehiculos) {
     this.nuevaVerificacionForm = this.formBuilder.group({
@@ -91,27 +83,44 @@ export class NuevaVerificacionComponent implements OnInit {
       vehiculo: [{value: vehiculoSeleccionado.vehiculo, disabled: false}, [Validators.required]],
       placas: [{value: vehiculoSeleccionado.placas, disabled: false}, [Validators.required]],
       nivelAceite: [{value: vehiculoSeleccionado.nivelAceite, disabled: false}],
-
-
       nivelAgua: [{value: vehiculoSeleccionado.nivelAgua, disabled: false}],
-
       calibracionNeumaticosTraseros: [{value: vehiculoSeleccionado.calibracionNeumaticosTraseros, disabled: false}],
-
       calibracionNeumaticosDelanteros: [{value: vehiculoSeleccionado.calibracionNeumaticosDelanteros, disabled: false}],
-
       nivelCombustible: [{value: vehiculoSeleccionado.nivelCombustible, disabled: false}],
-
       nivelBateria: [{value: vehiculoSeleccionado.nivelBateria, disabled: false}],
-
       limpiezaInterior: [{value: vehiculoSeleccionado.limpiezaInterior, disabled: false}],
       limpiezaExterior: [{value: vehiculoSeleccionado.limpiezaExterior, disabled: false}],
-
-
       codigoFalla: [{value: vehiculoSeleccionado.codigoFalla, disabled: false}],
-
     });
   }
 
+
+
+
+  confirmarAgregarServicio(): void {
+    this.ventanaConfirmacion = true;
+    /*
+    * Se mandará solo texto para que el detalle solo lo imprim por lo que se deben llenar las variables
+    * que son 'desc'*/
+    this.vehiculo = {
+      id: this.nuevaVerificacionForm.get("id")?.value,
+      velatorio: this.nuevaVerificacionForm.get("categoria")?.value,
+      fecha:this.nuevaVerificacionForm.get("tipoDeArticulo")?.value,
+      hora: this.nuevaVerificacionForm.get("tipoDeMaterial")?.value,
+      tamanio: this.nuevaVerificacionForm.get("tamanio")?.value,
+      placas: this.nuevaVerificacionForm.get("clasificacionDeProducto")?.value,
+      nivelAceite: this.nuevaVerificacionForm.get("modeloDeArticulo")?.value,
+      nivelAgua: this.nuevaVerificacionForm.get("descripcionDeProducto")?.value,
+      calibracionNeumaticosTraseros: this.nuevaVerificacionForm.get("largo")?.value,
+      calibracionNeumaticosDelanteros: this.nuevaVerificacionForm.get("ancho")?.value,
+      nivelCombustible: this.nuevaVerificacionForm.get("alto")?.value,
+      estatus:this.nuevaVerificacionForm.get("estatus")?.value,
+      nivelBateria:this.nuevaVerificacionForm.get("claveSAT")?.value,
+      limpiezaInterior:this.nuevaVerificacionForm.get("cuentaClave")?.value,
+      limpiezaExterior:this.nuevaVerificacionForm.get("cuentaContable")?.value,
+      codigoFalla:this.nuevaVerificacionForm.get("partidaPresupuestal")?.value,
+    };
+  }
 
 
   regresarPagina(): void {
@@ -121,6 +130,22 @@ export class NuevaVerificacionComponent implements OnInit {
   cancelar(): void {
     this.ref.close()
   }
+
+  aceptar(){
+    this.ventanaConfirmacion = true;
+  }
+
+  crearNuevaVerificacion(){
+    this.alertaService.mostrar(TipoAlerta.Exito, 'Verificacion agregada correctamente');
+    this.ref.close();
+    this.abrirModalRegistroMantenimiento();
+  }
+
+  abrirModalRegistroMantenimiento():void{
+    this.router.navigate(['detalle-verificacion'], { relativeTo: this.route });
+
+ }
+
 
   // cerrar(event?:ConfirmacionServicio): void {
   //   //Selección cancelar pantalla agregar

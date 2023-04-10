@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detalle-solicitud-mantenimiento.component.scss']
 })
 export class DetalleSolicitudMantenimientoComponent implements OnInit {
-
+  data = [{ rin: 38, precision: 38 },{ rin: 38, precision: 38 },{ rin: 38, precision: 38 },{ rin: 38, precision: 38 }];
   constructor() { }
 
   ngOnInit(): void {
