@@ -68,7 +68,7 @@ export class CalendarioSalasComponent implements OnInit {
     // };
 
       this.calendarOptions = {
-        headerToolbar: { end: "", start: "prev,next" },
+        headerToolbar: { end: "next", center: "title", start: "prev" },
         initialView: 'dayGridMonth',
         plugins: [interactionPlugin, dayGridPlugin],
         initialEvents: this.registroCalendario,
