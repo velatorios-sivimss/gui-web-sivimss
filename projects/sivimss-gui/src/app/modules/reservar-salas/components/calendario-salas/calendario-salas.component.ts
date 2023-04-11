@@ -80,10 +80,11 @@ export class CalendarioSalasComponent implements OnInit {
         dayHeaders:false,
         eventClick: this.mostrarEvento.bind(this),
         dayMaxEventRows:3,
+        titleFormat: { year: 'numeric', month: 'long' }
       };
     }
 
-    mostrarModal(selectInfo: DateSelectArg) {
+    mostrarModal(selectInfo: DateSelectArg): void {
       this.fechaSeleccionada = selectInfo.startStr;
       this.actividadRef = this.dialogService.open(VerActividadSalasComponent,{
         header: 'Ver actividad del día',
@@ -92,7 +93,7 @@ export class CalendarioSalasComponent implements OnInit {
       })
     }
 
-  mostrarEvento(clickInfo: EventClickArg) {
+  mostrarEvento(clickInfo: EventClickArg): void {
     this.fechaSeleccionada = clickInfo.event._def.publicId;
   }
 
