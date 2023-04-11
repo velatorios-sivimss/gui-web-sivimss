@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from "moment/moment";
+import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 
 @Component({
   selector: 'app-ver-actividad-salas',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VerActividadSalasComponent implements OnInit {
 
-  constructor() { }
+  fechaSeleccionada: string = "";
+
+  constructor(
+    private readonly ref: DynamicDialogRef,
+    public config: DynamicDialogConfig
+  ) { }
 
   ngOnInit(): void {
+    this.fechaSeleccionada = moment(this.config.data).format("DD/MM/yyyy");
+  }
+
+  aceptar(): void {
+    this.ref.close();
   }
 
 }

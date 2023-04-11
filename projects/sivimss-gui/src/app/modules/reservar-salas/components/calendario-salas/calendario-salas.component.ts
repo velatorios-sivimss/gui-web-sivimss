@@ -4,11 +4,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {MENU_SALAS} from "../../constants/menu-salas";
 import interactionPlugin from "@fullcalendar/interaction";
-import {
-  DetalleActividadDiaComponent
-} from "../../../capilla-reservacion/components/detalle-actividad-dia/detalle-actividad-dia.component";
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {Calendario} from "../../models/calendario.interface";
+import {VerActividadSalasComponent} from "../ver-actividad-salas/ver-actividad-salas.component";
 
 @Component({
   selector: 'app-calendario-salas',
@@ -87,7 +85,7 @@ export class CalendarioSalasComponent implements OnInit {
 
     mostrarModal(selectInfo: DateSelectArg) {
       this.fechaSeleccionada = selectInfo.startStr;
-      this.actividadRef = this.dialogService.open(DetalleActividadDiaComponent,{
+      this.actividadRef = this.dialogService.open(VerActividadSalasComponent,{
         header: 'Ver actividad del día',
         width: "920px",
         data: this.fechaSeleccionada

@@ -18,6 +18,7 @@ import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {CalendarModule} from "primeng-lts/calendar";
 import { RegistrarSalidaComponent } from './components/registrar-salida/registrar-salida.component';
 import { FullCalendarModule } from 'primeng-lts/fullcalendar';
+import {AccordionModule} from "primeng-lts/accordion";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { FullCalendarModule } from 'primeng-lts/fullcalendar';
     ReactiveFormsModule,
     CalendarModule,
     FullCalendarModule,
+    AccordionModule,
   ]
 })
 export class ReservarSalasModule {
