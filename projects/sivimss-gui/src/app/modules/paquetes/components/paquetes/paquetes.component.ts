@@ -107,7 +107,10 @@ export class PaquetesComponent implements OnInit {
     this.inicializarFiltroForm();
   }
 
-  seleccionarPaginacion(): void {
+  seleccionarPaginacion(event?: LazyLoadEvent): void {
+    if (event) {
+      this.numPaginaActual = Math.floor((event.first || 0) / (event.rows || 1));
+    }
     if (this.paginacionConFiltrado) {
       this.paginarConFiltros();
     } else {
