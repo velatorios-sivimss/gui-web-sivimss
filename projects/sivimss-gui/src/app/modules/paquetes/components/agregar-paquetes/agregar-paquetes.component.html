@@ -19,14 +19,16 @@
       <label class="control-label" for="nombrePaquete">Paquete *:</label>
       <input id="nombrePaquete" class="form-control" formControlName="nombrePaquete" maxlength="70"
              placeholder="Ingresa el nombre del paquete" alphanumericOnly trimmer>
-      <span class="campo-obligatorio" *ngIf="f.nombrePaquete?.errors?.required && (f.nombrePaquete?.dirty || f.nombrePaquete?.touched)">Campo
+      <span class="campo-obligatorio"
+            *ngIf="f.nombrePaquete?.errors?.required && (f.nombrePaquete?.dirty || f.nombrePaquete?.touched)">Campo
         obligatorio</span>
     </div>
     <div class="col-md-4">
       <label class="control-label" for="descripcion">Descripción *:</label>
       <input id="descripcion" class="form-control" formControlName="descripcion" maxlength="70"
              placeholder="Ingresa la descripción del paquete" alphanumericOnly trimmer>
-      <span class="campo-obligatorio" *ngIf="f.descripcion?.errors?.required && (f.descripcion?.dirty || f.descripcion?.touched)">Campo
+      <span class="campo-obligatorio"
+            *ngIf="f.descripcion?.errors?.required && (f.descripcion?.dirty || f.descripcion?.touched)">Campo
         obligatorio</span>
     </div>
   </div>
@@ -35,14 +37,16 @@
     <section class="mt-5">
       <div class="flex justify-content-between align-items-center">
         <h2 class="subtitulo">Servicios del paquete *:</h2>
-        <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarServicio()">Agregar servicio</button>
+        <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarServicio()">Agregar servicio
+        </button>
       </div>
     </section>
 
     <div class="col-md-12 mt-5 empty-table-label" *ngIf="servicios.length === 0"
-        [ngClass]="{'empty-table-label-obligatorio': servicios.length === 0 && intentoPorGuardar}">
+         [ngClass]="{'empty-table-label-obligatorio': servicios.length === 0 && intentoPorGuardar}">
       <div class="vertical-center">
-        <p class="text-center" [ngClass]="{'listado-obligatorio-recuadro': servicios.length === 0 && intentoPorGuardar}">
+        <p class="text-center"
+           [ngClass]="{'listado-obligatorio-recuadro': servicios.length === 0 && intentoPorGuardar}">
           Agrega servicios a este paquete
         </p>
       </div>
@@ -90,14 +94,16 @@
     <section class="mt-5">
       <div class="flex justify-content-between align-items-center">
         <h2 class="subtitulo">Artículos del paquete *:</h2>
-        <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarArticulo()">Agregar artículo</button>
+        <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarArticulo()">Agregar artículo
+        </button>
       </div>
     </section>
 
     <div class="col-md-12 mt-5 empty-table-label" *ngIf="articulos.length === 0"
-        [ngClass]="{'empty-table-label-obligatorio': articulos.length === 0 && intentoPorGuardar}">
+         [ngClass]="{'empty-table-label-obligatorio': articulos.length === 0 && intentoPorGuardar}">
       <div class="vertical-center">
-        <p class="text-center" [ngClass]="{'listado-obligatorio-recuadro': articulos.length === 0 && intentoPorGuardar}">
+        <p class="text-center"
+           [ngClass]="{'listado-obligatorio-recuadro': articulos.length === 0 && intentoPorGuardar}">
           Agrega artículos a este paquete
         </p>
       </div>
@@ -143,15 +149,15 @@
     <div class="col-md-6">
       <label class="control-label" for="region">Región *:</label>
       <p-dropdown id="region" class="form-control" formControlName="region" [options]="regiones"
-                placeholder="Selecciona la región" (onChange)="handleChangeRegion();">
+                  placeholder="Selecciona la región" (onChange)="handleChangeRegion();">
       </p-dropdown>
       <span class="campo-obligatorio" *ngIf="f.region?.errors?.required && (f.region?.dirty || f.region?.touched)">Campo
         obligatorio</span>
     </div>
     <div class="col-md-6">
       <label class="control-label" for="clave">Clave SAT *:</label>
-      <p-dropdown id="clave" class="form-control" formControlName="clave" [options]="opciones"
-                placeholder="Selecciona la clave de articulo SAT">
+      <p-dropdown id="clave" class="form-control" formControlName="clave" [options]="clavesSat"
+                  placeholder="Selecciona la clave de articulo SAT">
       </p-dropdown>
       <span class="campo-obligatorio" *ngIf="f.clave?.errors?.required && (f.clave?.dirty || f.clave?.touched)">Campo
         obligatorio</span>
@@ -162,19 +168,20 @@
     <div class="col-md-4">
       <label class="control-label" for="costoInicial">Costo inicial *:</label>
       <input id="costoInicial" class="form-control" formControlName="costoInicial"
-              placeholder="Ingresa el costo inicial">
+             placeholder="Ingresa el costo inicial">
     </div>
     <div class="col-md-4">
       <label class="control-label" for="costoReferencia">Costo referencia *:</label>
       <input id="costoReferencia" class="form-control" formControlName="costoReferencia" numbersOnly
-            placeholder="Ingresa el costo" maxlength="10">
-      <span class="campo-obligatorio" *ngIf="f.costoReferencia?.errors?.required && (f.costoReferencia?.dirty || f.costoReferencia?.touched)">Campo
+             placeholder="Ingresa el costo" maxlength="10">
+      <span class="campo-obligatorio"
+            *ngIf="f.costoReferencia?.errors?.required && (f.costoReferencia?.dirty || f.costoReferencia?.touched)">Campo
         obligatorio</span>
     </div>
     <div class="col-md-4">
       <label class="control-label" for="precio">Precio *:</label>
       <input id="precio" class="form-control" formControlName="precio" numbersOnly maxlength="10"
-              placeholder="Ingresa el precio">
+             placeholder="Ingresa el precio">
     </div>
   </div>
 
@@ -207,17 +214,16 @@
 
   <div class="flex justify-content-end mb-6">
     <button class="ml-4 btn btn-gold btn-md" routerLink="../">Cancelar</button>
-    <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarPaqueteForm.invalid" (click)="verDetalleGuardarPaquete()">
-      Aceptar
-    </button> -->
-    <button class="ml-4 btn btn-primary btn-md" (click)="verDetalleGuardarPaquete()">
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarPaqueteForm.invalid"
+            (click)="verDetalleGuardarPaquete()">
       Aceptar
     </button>
   </div>
 </form>
 
 <!-- MODAL AGREGAR SERVICIO -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar servicio al paquete" [(visible)]="mostrarModalAgregarServicio"
+<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar servicio al paquete"
+          [(visible)]="mostrarModalAgregarServicio"
           [modal]="true"
           [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
@@ -226,7 +232,7 @@
         <div class="col-md-6">
           <label class="control-label" for="tipoServicio">Tipo de servicio<span class="req">*</span>:</label>
           <p-dropdown appendTo="body" id="tipoServicio" class="form-control" formControlName="tipoServicio"
-                      [options]="opciones" placeholder="Selecciona el tipo de servicio" optionValue="label">
+                      [options]="tipoServicios" placeholder="Selecciona el tipo de servicio" optionValue="label">
           </p-dropdown>
           <span class="campo-obligatorio"
                 *ngIf="fas.tipoServicio?.errors?.required && (fas.tipoServicio?.dirty || fas.tipoServicio?.touched)">Campo obligatorio
@@ -260,8 +266,8 @@
 
 
 <!-- MODAL AGREGAR ARTICULO -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar artículo al paquete" [(visible)]="mostrarModalAgregarArticulo"
-          [modal]="true"
+<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar artículo al paquete"
+          [(visible)]="mostrarModalAgregarArticulo" [modal]="true"
           [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
     <form [formGroup]="agregarArticuloForm">
@@ -303,15 +309,16 @@
 </p-dialog>
 
 <!-- MODAL ELIMINAR SERVICIO -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar" [(visible)]="mostrarModalEliminarServicio"
+<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar"
+          [(visible)]="mostrarModalEliminarServicio"
           [modal]="true"
           [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
     <div class="row rectangle-row m-2">
       <div class="col-md-12">
         <div class="table-panel-column">
-            <label>Servicio</label>
-            <span>{{servicioSeleccionado.servicio}}</span>
+          <label>Servicio</label>
+          <span>{{servicioSeleccionado.servicio}}</span>
         </div>
       </div>
     </div>
@@ -327,15 +334,16 @@
 </p-dialog>
 
 <!-- MODAL ELIMINAR ARTICULO -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar" [(visible)]="mostrarModalEliminarArticulo"
+<p-dialog [style]="{maxWidth:'876px',width: '100%'}" [header]="tituloEliminar"
+          [(visible)]="mostrarModalEliminarArticulo"
           [modal]="true"
           [draggable]="false" [resizable]="false">
   <ng-template pTemplate="content">
     <div class="row rectangle-row m-2">
       <div class="col-md-12">
         <div class="table-panel-column">
-            <label>Artículo</label>
-            <span>{{articuloSeleccionado.articulo}}</span>
+          <label>Artículo</label>
+          <span>{{articuloSeleccionado.articulo}}</span>
         </div>
       </div>
     </div>
