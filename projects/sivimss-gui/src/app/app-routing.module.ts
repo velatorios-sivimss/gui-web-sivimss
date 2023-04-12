@@ -183,6 +183,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/pagos/generar-recibo-pago/generar-recibo-pago.module').then(m => m.GenerarReciboModule)
   },
   {
+    path: 'generar-nota-remision',
+    loadChildren: () => import('./modules/generar-nota-remision/generar-nota-remision.module').then(m => m.GenerarNotaRemisionModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
