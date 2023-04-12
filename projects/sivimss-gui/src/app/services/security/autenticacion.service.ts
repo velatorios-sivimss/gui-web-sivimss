@@ -1,16 +1,15 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BnNgIdleService } from 'bn-ng-idle';
-import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
-import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
-import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
-import { SIVIMSS_TOKEN } from "projects/sivimss-gui/src/app/utils/constantes";
-import { dummyMenuResponse } from "projects/sivimss-gui/src/app/utils/menu-dummy";
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { concatMap, map } from "rxjs/operators";
-import { JwtHelperService } from "@auth0/angular-jwt";
-
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {BnNgIdleService} from 'bn-ng-idle';
+import {HttpRespuesta} from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
+import {BreadcrumbService} from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import {MenuSidebarService} from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
+import {SIVIMSS_TOKEN} from "projects/sivimss-gui/src/app/utils/constantes";
+import {dummyMenuResponse} from "projects/sivimss-gui/src/app/utils/menu-dummy";
+import {BehaviorSubject, Observable, of, throwError} from 'rxjs';
+import {concatMap, map} from "rxjs/operators";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 interface Payload {
   exp: number;
@@ -48,7 +47,7 @@ const respuestaOk = {
   mensaje: "Exito",
   datos: {
     "contraseniaProximaVencer": false,
-    "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MDAyNDAyMCwiZXhwIjoxNjgwNjI4ODIwfQ.959sn4V9p9tjhk0s4-dS95d4E2SjJ_gPndbewLWM-Wk"
+    "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTIyNzMzNCwiZXhwIjoxNjgxODMyMTM0fQ.jj6iWoQLQTsqI3-z4NTuaN6J1NTCVSUrsum3Mwxr5r0"
   }
 };
 
@@ -113,7 +112,8 @@ export class AutenticacionService {
     private httpClient: HttpClient,
     private router: Router,
     private menuSidebarService: MenuSidebarService,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    // private catalogosService: CatalogosService
     // private controladorInactividadUsuarioService: BnNgIdleService,
     // @Inject(TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION) private tiempoMaximoInactividad: number
   ) {
@@ -161,6 +161,8 @@ export class AutenticacionService {
     if (usuario) {
       this.usuarioEnSesionSubject.next(usuario);
       localStorage.setItem(SIVIMSS_TOKEN, token);
+      this.obtenerCatalogos();
+      // this.catalogosService.obtenerCatalogos();
     } else {
       throw new Error('Error al intentar obtener el usuario del payload en el token');
     }
@@ -207,5 +209,30 @@ export class AutenticacionService {
   //     this.subsSesionInactivaTemporizador.unsubscribe();
   //   }
   // }
+
+  obtenerCatalogos(): void {
+    this.httpClient.post<HttpRespuesta<any>>('http://localhost:8079/mssivimss-oauth/catalogos/consulta', {})
+      .subscribe({
+        next: (respuesta) => {
+          const {datos} = respuesta;
+          const {catalogos} = datos ?? {};
+          this.guardarCatalogosEnLocalStorage(catalogos)
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
+  }
+
+  guardarCatalogosEnLocalStorage<T extends {[key: string]: T}>(obj: T): void {
+    Object.keys(obj).forEach(propiedad => {
+      localStorage.setItem(`catalogo_${propiedad}`, JSON.stringify(obj[propiedad]));
+    });
+  }
+
+  obtenerCatalogoDeLocalStorage<T>(propiedad: string): any {
+    const catalogo = JSON.parse(localStorage.getItem(propiedad) as string);
+    return catalogo ?? [];
+  }
 
 }

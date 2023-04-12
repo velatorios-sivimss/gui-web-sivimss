@@ -4,28 +4,28 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="opciones"
-                    placeholder="Seleccionar el nivel">
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="catalogoNiveles"
+                    placeholder="Seleccionar el nivel" [filter]="true" filterBy="label">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
-                    placeholder="Seleccionar el velatorio">
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="catalogoVelatorios"
+                    placeholder="Seleccionar el velatorio" [filter]="true" filterBy="label">
         </p-dropdown>
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="delegacion">Delegación:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="opciones"
-                    placeholder="Seleccionar la delegación">
+        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="catalogoDelegaciones"
+                    placeholder="Seleccionar la delegación" [filter]="true" filterBy="label">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="rol">Rol:</label>
-        <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catRol"
-                    placeholder="Seleccionar el rol">
+        <p-dropdown id="rol" class="form-control" formControlName="rol" [options]="catalogoRoles"
+                    placeholder="Seleccionar el rol" [filter]="true" filterBy="label">
         </p-dropdown>
       </div>
     </div>

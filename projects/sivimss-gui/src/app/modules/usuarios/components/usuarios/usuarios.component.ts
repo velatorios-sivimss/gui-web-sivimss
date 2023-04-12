@@ -23,6 +23,7 @@ import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
+import {AutenticacionService} from "../../../../services/security/autenticacion.service";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -43,7 +44,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   totalElementos: number = 0;
 
   opciones: TipoDropdown[] = CATALOGOS;
-  catRol: TipoDropdown[] = [];
+  catalogoRoles: TipoDropdown[] = [];
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
+  catalogoVelatorios: TipoDropdown[] = [];
   usuarios: Usuario[] = [];
   usuarioSeleccionado!: Usuario;
 
@@ -62,15 +66,24 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
-    private cargadorService: LoaderService
+    private cargadorService: LoaderService,
+    private authService: AutenticacionService
   ) {
   }
 
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.inicializarFiltroForm();
+    this.cargarCatalogosLocalStorage();
+  }
+
+  cargarCatalogosLocalStorage(): void {
+    const delegaciones = this.authService.obtenerCatalogoDeLocalStorage('catalogo_delegaciones');
+    const niveles = this.authService.obtenerCatalogoDeLocalStorage(('catalogo_nivelOficina'));
+    this.catalogoDelegaciones = mapearArregloTipoDropdown(delegaciones, "desc", "id");
+    this.catalogoNiveles = mapearArregloTipoDropdown(niveles, "desc", "id");
   }
 
   abrirPanel(event: MouseEvent, usuario: Usuario): void {
