@@ -29,9 +29,10 @@ export class CapillaReservacionComponent implements OnInit {
   agregarSalidaRef!: DynamicDialogRef;
 
   opciones: SelectButtonModule[] = [
-    {label: 'lista', value: '0'},
-    {label: 'calendario', value: '1'}
+    {icon: 'pi pi-align-left' , value: '0'},
+    {icon: 'pi pi-align-left', value: '1'}
   ];
+
 
   value: number = 0;
 

@@ -205,6 +205,10 @@ const routes: Routes = [
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'reservar-salas',
+    loadChildren: () => import('./modules/reservar-salas/reservar-salas.module').then(m => m.ReservarSalasModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
