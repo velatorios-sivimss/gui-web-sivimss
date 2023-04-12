@@ -48,8 +48,9 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
     return of(mapearArregloTipoDropdown(delegaciones, "desc", "id"));
   }
 
-  obtenerCatalogoVelatorios(): Observable<HttpRespuesta<any>> {
-    return of()
+  obtenerVelatorios(delegacion: string | null = null): Observable<HttpRespuesta<any>> {
+    const body = { delegacion }
+    return this._http.post<HttpRespuesta<any>>(`http://localhost:8079/mssivimss-oauth/velatorio/consulta`, body);
   }
 
 }

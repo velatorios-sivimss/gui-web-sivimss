@@ -14,7 +14,8 @@ export class UsuarioResolver implements Resolve<HttpRespuesta<any>> {
     const roles$ = this.usuarioService.obtenerCatalogoRoles();
     const niveles$ = this.usuarioService.obtenerCatalogoNiveles();
     const delegaciones$ = this.usuarioService.obtenerCatalogoDelegaciones();
-    return forkJoin([roles$, niveles$, delegaciones$])
+    const velatorios$ = this.usuarioService.obtenerVelatorios();
+    return forkJoin([roles$, niveles$, delegaciones$, velatorios$])
 
   }
 }

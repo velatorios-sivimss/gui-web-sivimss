@@ -82,10 +82,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    const roles = respuesta[this.POSICION_ROLES].datos
+    const roles = respuesta[this.POSICION_ROLES].datos;
+    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
     this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
     this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
+    this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 
   abrirPanel(event: MouseEvent, usuario: Usuario): void {

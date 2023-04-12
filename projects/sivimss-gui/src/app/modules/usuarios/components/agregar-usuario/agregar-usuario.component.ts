@@ -121,7 +121,6 @@ export class AgregarUsuarioComponent implements OnInit {
     this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
   }
 
-
   validarCurp(): void {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
     if (!curp.curp) return;
