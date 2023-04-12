@@ -2,10 +2,10 @@ export interface ConsultaDonacionesInterface {
   velatorio?: string;
   tipo?: string;
   modeloAtaud?: string;
-  numeroInventario?: number;
-  fechaDonacion?: string;
+  numInventario?: number;
+  fecDonacion?: string;
   donadoPor?: string;
-  nombreDonador?: string;
+  nomDonador?: string;
 }
 
 export interface AtaudDonado {
@@ -31,3 +31,13 @@ export interface RespuestaFinado {
   finado?: FinadoInterface,
   estatus?: boolean;
 }
+
+export interface FiltroDonacionesInterface {
+  idVelatorio?: number;
+  idDelegacion?: number;
+  idNivel?: number;
+  fechaInicio?: string;
+  fechaFin?: string;
+  donadoPor?: string;
+}
+

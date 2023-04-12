@@ -16,6 +16,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./mantenimiento-predictivo.component.scss'],   providers: [DialogService]
 })
 export class MantenimientoPredictivoComponent implements OnInit {
+  data = [{ dia: "Lunes", valor: 38 },{ dia: "Martes", valor: 38 },{ dia: "Miercoles", valor: 38 },{ dia: "Jueves", valor: 38 },{ dia: "Viernes", valor: 38 },];
+
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel
@@ -39,6 +41,8 @@ export class MantenimientoPredictivoComponent implements OnInit {
   cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES
   niveles: TipoDropdown[] = CATALOGOS_DUMMIES
   velatorios: TipoDropdown[] = CATALOGOS_DUMMIES
+
+  verDetallePredictivo:boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,6 +82,9 @@ export class MantenimientoPredictivoComponent implements OnInit {
     return "";
   }
 
+  buscar(){
+     this.verDetallePredictivo = true
+  }
 
 
 }

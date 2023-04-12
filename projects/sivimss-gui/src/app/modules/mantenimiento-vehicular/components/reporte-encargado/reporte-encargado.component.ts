@@ -17,6 +17,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [DialogService]
 })
 export class ReporteEncargadoComponent implements OnInit {
+  data = [{ dia: "Lunes", valor: 38 },];
+  dataDetalle = [{ rin: "No. 11", presicion: 38 },{ rin: "No. 11", presicion: 38 },{ rin: "No. 11", presicion: 38 },];
+
 
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel
@@ -35,6 +38,9 @@ export class ReporteEncargadoComponent implements OnInit {
   modificacionRef!: DynamicDialogRef
 
   tipoReportes: TipoDropdown[] = CATALOGOS_DUMMIES
+
+  mostrarDetalle: boolean = false;
+  mostrarTabla: boolean = false;
 
 
   constructor(
@@ -73,8 +79,14 @@ export class ReporteEncargadoComponent implements OnInit {
   }
 
 
+  buscar(){
+ this.mostrarTabla = true
+  }
 
 
+  abrirDetallereporteEncargado(articulo:Vehiculos){
+this.mostrarDetalle = true;
+  }
 
 
 }

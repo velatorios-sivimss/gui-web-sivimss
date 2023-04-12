@@ -20,7 +20,6 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
     const params = new HttpParams().append("pagina", pagina).append("tamanio", tamanio);
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/${this._paginado}`, filtros, { headers, params });
-    // return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/buscar-usuarios`, filtros, {headers, params});
   }
 
   actualizar2(capilla: any): Observable<HttpRespuesta<any>> {
@@ -58,24 +57,6 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams().append("servicio", "art-tipo-articulo")
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   }
-
-  // obtenerCatalogoTiposMateriales(): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams().append("servicio", "art-tipo-materiales")
-  //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
-  // }
-
-  // obtenerCatalogoTamanios(): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams().append("servicio", "art-tamanios")
-  //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
-  // }
-
-  // obtenerCatalogoClasificacionProductos(): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams().append("servicio", "art-clasif-prod")
-  //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
-  // }
 
   obtenerCatalogoPartidasPresupuestales(): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
