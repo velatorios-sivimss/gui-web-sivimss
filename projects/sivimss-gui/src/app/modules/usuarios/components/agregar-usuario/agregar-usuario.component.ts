@@ -13,7 +13,6 @@ import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {MENSAJES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA} from "../../constants/validacionMatricula";
 import {ActivatedRoute} from '@angular/router';
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {finalize} from "rxjs/operators";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
@@ -38,6 +37,7 @@ export class AgregarUsuarioComponent implements OnInit {
   catalogoRoles: TipoDropdown[] = [];
   catalogoNiveles: TipoDropdown[] = [];
   catalogoDelegaciones: TipoDropdown[] = [];
+  catalogoVelatorios: TipoDropdown[] = [];
 
   nuevoUsuario!: NuevoUsuario;
   fechaActual: Date = new Date();
@@ -91,6 +91,21 @@ export class AgregarUsuarioComponent implements OnInit {
       rol: [{value: null, disabled: false}, [Validators.required]],
       estatus: [{value: true, disabled: false}]
     });
+  }
+
+  buscarVelatorios(): void {
+    const delegacion = this.agregarUsuarioForm.get('delegacion')?.value;
+    this.agregarUsuarioForm.get('velatorio')?.patchValue("");
+    this.usuarioService.obtenerVelatorios(delegacion)
+      .subscribe(
+        (respuesta) => {
+          const velatorios = respuesta.datos || [];
+          this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error)
+        }
+      );
   }
 
   crearUsuario(): NuevoUsuario {
@@ -166,14 +181,14 @@ export class AgregarUsuarioComponent implements OnInit {
     this.usuarioService.guardar(this.nuevoUsuario)
       .pipe(finalize(() => this.cargadorService.desactivar()))
       .subscribe(
-      () => {
-        this.ref.close(respuesta)
-      },
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
-        console.error("ERROR: ", error.message)
-      }
-    );
+        () => {
+          this.ref.close(respuesta)
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+          console.error("ERROR: ", error.message)
+        }
+      );
   }
 
   cancelar(): void {
