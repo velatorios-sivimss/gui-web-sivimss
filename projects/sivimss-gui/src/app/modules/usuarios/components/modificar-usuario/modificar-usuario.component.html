@@ -70,7 +70,7 @@
       <div class="col-md-6">
         <label class="control-label" for="nivelAgregarUsuarioModificar">Nivel<span class="req">*</span></label>
         <p-dropdown appendTo="body" id="nivelAgregarUsuarioModificar" class="form-control" formControlName="nivel"
-                    [options]="opciones" placeholder="Seleccionar el nivel">
+                    [options]="catalogoNiveles" placeholder="Seleccionar el nivel">
         </p-dropdown>
       </div>
     </div>
@@ -79,7 +79,7 @@
         <label class="control-label" for="delegacionAgregarUsuarioModificar">Delegación<span
           class="req">*</span></label>
         <p-dropdown appendTo="body" id="delegacionAgregarUsuarioModificar" class="form-control"
-                    formControlName="delegacion" [options]="opciones" placeholder="Seleccione el nivel">
+                    formControlName="delegacion" [options]="catalogoDelegaciones" placeholder="Seleccione el nivel">
         </p-dropdown>
         <span class="campo-obligatorio"
               *ngIf="fmu?.delegacion?.errors?.required && (fmu?.delegacion?.dirty || fmu?.delegacion?.touched)">Campo obligatorio</span>
@@ -98,7 +98,7 @@
       <div class="col-md-12">
         <label class="control-label" for="rolAgregarUsuarioModificar">Rol<span class="req">*</span></label>
         <p-dropdown appendTo="body" id="rolAgregarUsuarioModificar" class="form-control" formControlName="rol"
-                    [options]="catRol" placeholder="Seleccione el rol">
+                    [options]="catalogoRoles" placeholder="Seleccione el rol">
         </p-dropdown>
         <span class="campo-obligatorio" *ngIf="fmu?.rol?.errors?.required && (fmu?.rol?.dirty || fmu?.rol?.touched)">Campo obligatorio</span>
       </div>

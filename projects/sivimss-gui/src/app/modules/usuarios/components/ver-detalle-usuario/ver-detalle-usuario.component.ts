@@ -44,17 +44,20 @@ export class VerDetalleUsuarioComponent implements OnInit {
       this.ref.close(respuesta);
       return;
     }
-    this.usuarioService.cambiarEstatus(idUsuario).subscribe(
-      () => {
-        respuesta.actualizar = true;
-        respuesta.mensaje = mensaje;
-        this.ref.close(respuesta);
-      },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
-      }
-    );
+    this.cargadorService.activar();
+    this.usuarioService.cambiarEstatus(idUsuario)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        () => {
+          respuesta.actualizar = true;
+          respuesta.mensaje = mensaje;
+          this.ref.close(respuesta);
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      );
   }
 
   abrirModalModificarUsuario(): void {

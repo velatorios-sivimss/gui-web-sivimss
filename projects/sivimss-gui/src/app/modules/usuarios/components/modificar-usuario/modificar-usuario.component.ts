@@ -26,10 +26,14 @@ export class ModificarUsuarioComponent implements OnInit {
 
   modificarUsuarioForm!: FormGroup;
   usuarioModificado!: UsuarioModificado;
+
   opciones: TipoDropdown[] = CATALOGOS;
-  indice: number = 0;
-  catRol: TipoDropdown[] = [];
+  catalogoRoles: TipoDropdown[] = [];
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
+
   fechaActual: Date = new Date();
+  indice: number = 0;
   rolResumen: string = "";
   nivelResumen: string = "";
   delegacionResumen: string = "";
@@ -59,7 +63,9 @@ export class ModificarUsuarioComponent implements OnInit {
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
     const roles = respuesta[this.POSICION_ROLES].datos
-    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
   }
 
   inicializarModificarUsuarioForm(usuario: Usuario): void {
@@ -107,7 +113,7 @@ export class ModificarUsuarioComponent implements OnInit {
     const nivel = this.modificarUsuarioForm.get("nivel")?.value;
     const delegacion = this.modificarUsuarioForm.get("delegacion")?.value;
     const velatorio = this.modificarUsuarioForm.get("velatorio")?.value;
-    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
+    this.rolResumen = this.catalogoRoles.find(r => r.value === rol)?.label || "";
     this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
     this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
     this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";

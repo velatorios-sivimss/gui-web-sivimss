@@ -30,13 +30,18 @@ type SolicitudMatricula = Pick<Usuario, "claveMatricula">;
 export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuarioForm!: FormGroup;
-  opciones: TipoDropdown[] = CATALOGOS;
-  indice: number = 0;
+
   curpValida: boolean = false;
   matriculaValida: boolean = false;
-  catRol: TipoDropdown[] = [];
-  fechaActual: Date = new Date();
+
+  opciones: TipoDropdown[] = CATALOGOS;
+  catalogoRoles: TipoDropdown[] = [];
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
+
   nuevoUsuario!: NuevoUsuario;
+  fechaActual: Date = new Date();
+  indice: number = 0;
   rolResumen: string = "";
   nivelResumen: string = "";
   delegacionResumen: string = "";
@@ -64,7 +69,9 @@ export class AgregarUsuarioComponent implements OnInit {
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
     const roles = respuesta[this.POSICION_ROLES].datos
-    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
   }
 
   inicializarAgregarUsuarioForm(): void {
@@ -108,7 +115,7 @@ export class AgregarUsuarioComponent implements OnInit {
     const nivel = this.agregarUsuarioForm.get("nivel")?.value;
     const delegacion = this.agregarUsuarioForm.get("delegacion")?.value;
     const velatorio = this.agregarUsuarioForm.get("velatorio")?.value;
-    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
+    this.rolResumen = this.catalogoRoles.find(r => r.value === rol)?.label || "";
     this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
     this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
     this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
