@@ -46,7 +46,7 @@
   </div>
   <p-table styleClass="mt-5 mb-8" [value]="usuarios" [paginator]="usuarios.length > 0" [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-           (onLazyLoad)="seleccionarPaginacion()">
+           (onLazyLoad)="seleccionarPaginacion($event)">
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>

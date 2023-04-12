@@ -186,6 +186,14 @@ const routes: Routes = [
     loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
   },
   {
+    path: 'reservar-capilla/velacion-en-domicilio',
+    loadChildren: () => import('./modules/velacion-domicilio/velacion-domicilio.module').then(m => m.VelacionDomicilioModule)
+  },
+  {
+    path: 'pagos/generar-recibo-pago',
+    loadChildren: () => import('./modules/pagos/generar-recibo-pago/generar-recibo-pago.module').then(m => m.GenerarReciboModule)
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },

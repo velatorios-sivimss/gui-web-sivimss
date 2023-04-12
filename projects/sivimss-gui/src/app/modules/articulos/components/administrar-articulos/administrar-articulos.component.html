@@ -82,9 +82,9 @@
         <td> {{articulo.tamanio}} </td>
         <td> {{articulo.clasificacionProducto}} </td>
         <td> {{articulo.modeloArticulo}} </td>
-        <td> {{articulo.largo}} </td>
-        <td> {{articulo.ancho}} </td>
-        <td> {{articulo.alto}} </td>
+        <td> {{articulo.largo}} {{articulo.largo ? 'cm' : ''}} </td>
+        <td> {{articulo.ancho}} {{articulo.ancho ? 'cm' : ''}} </td>
+        <td> {{articulo.alto}} {{articulo.alto ? 'cm' : ''}} </td>
         <td>
           <div class="contenedor-inputswitch">
             <p-inputSwitch

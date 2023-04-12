@@ -16,6 +16,7 @@ import {OverlayPanelModule} from "primeng-lts/overlaypanel";
 import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/overlay-panel-opciones.module";
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {VelatorioService} from "./services/velatorio.service";
+import {CeldaStickyModule} from "../../shared/celda-sticky/celda-sticky.module";
 
 
 @NgModule({
@@ -26,19 +27,20 @@ import {VelatorioService} from "./services/velatorio.service";
     ModificarVelatorioComponent,
     ActivarVelatorioComponent
   ],
-  imports: [
-    CommonModule,
-    VelatoriosRoutingModule,
-    TituloPrincipalModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    TableModule,
-    InputSwitchModule,
-    OverlayPanelModule,
-    OverlayPanelOpcionesModule,
-    TablePanelModule
-  ],
+    imports: [
+        CommonModule,
+        VelatoriosRoutingModule,
+        TituloPrincipalModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        TableModule,
+        InputSwitchModule,
+        OverlayPanelModule,
+        OverlayPanelOpcionesModule,
+        TablePanelModule,
+        CeldaStickyModule
+    ],
   providers: [VelatorioService]
 })
 export class VelatoriosModule {

@@ -9,6 +9,8 @@ import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/aler
 import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 import {ValorCP} from "../../models/valorCp.interface";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {finalize} from "rxjs/operators";
 
 type VelatorioModificado =
   Omit<Velatorio, "desMunicipio" | "desEstado" | "salasEmbalsamamiento" | "salasCremacion" | "capillas"
@@ -37,7 +39,8 @@ export class ModificarVelatorioComponent implements OnInit {
               private formBuilder: FormBuilder,
               public ref: DynamicDialogRef,
               public config: DynamicDialogConfig,
-              private velatorioService: VelatorioService) {
+              private velatorioService: VelatorioService,
+              private cargadorService: LoaderService) {
     this.velatorioSeleccionado = this.config.data;
     this.inicializarFormVelatorio(this.velatorioSeleccionado)
   }
@@ -79,35 +82,40 @@ export class ModificarVelatorioComponent implements OnInit {
   buscarCP(carga: boolean = false): void {
     const cp = this.velatorioForm.get("codigoPostal")?.value;
     if (!cp) return;
-    this.velatorioService.obtenerCP(cp).subscribe(
-      (respuesta) => {
-        const {datos} = respuesta;
-        if (carga) {
-          this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}));
-          return;
-        }
-        if (datos.length === 0 || !datos) {
-          this.velatorioForm.get("desMunicipio")?.patchValue("");
-          this.velatorioForm.get("desEstado")?.patchValue("");
+    this.cargadorService.activar();
+    this.velatorioService.obtenerCP(cp)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        (respuesta) => {
+          const {datos} = respuesta;
+          if (carga) {
+            this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}));
+            return;
+          }
+          if (datos.length === 0 || !datos) {
+            this.limpiarCP();
+          }
+          const {estado, municipio} = datos[0];
+          this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}))
+          this.velatorioForm.get("desMunicipio")?.patchValue(municipio);
+          this.velatorioForm.get("desEstado")?.patchValue(estado);
           this.velatorioForm.get("desColonia")?.patchValue("");
-          this.velatorioForm.get("desColonia")?.disable();
-          this.colonias = [];
-          return
+          this.velatorioForm.get("desColonia")?.enable()
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+          console.error("ERROR: ", error);
         }
-        const {estado, municipio} = datos[0];
-        this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}))
-        this.velatorioForm.get("desMunicipio")?.patchValue(municipio);
-        this.velatorioForm.get("desEstado")?.patchValue(estado);
-        this.velatorioForm.get("desColonia")?.patchValue("");
-        this.velatorioForm.get("desColonia")?.enable()
-      },
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
-        console.error("ERROR: ", error);
-      }
-    );
+      );
   }
 
+  limpiarCP(): void {
+    this.velatorioForm.get("desMunicipio")?.patchValue("");
+    this.velatorioForm.get("desEstado")?.patchValue("");
+    this.velatorioForm.get("desColonia")?.patchValue("");
+    this.velatorioForm.get("desColonia")?.disable();
+    this.colonias = [];
+  }
 
   confirmarModificacion(): void {
     if (this.indice === 0) {
