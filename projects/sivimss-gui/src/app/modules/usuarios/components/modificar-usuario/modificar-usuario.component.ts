@@ -31,6 +31,7 @@ export class ModificarUsuarioComponent implements OnInit {
   catalogoRoles: TipoDropdown[] = [];
   catalogoNiveles: TipoDropdown[] = [];
   catalogoDelegaciones: TipoDropdown[] = [];
+  catalogoVelatorios: TipoDropdown[] = [];
 
   fechaActual: Date = new Date();
   indice: number = 0;
@@ -56,16 +57,17 @@ export class ModificarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     const usuario = this.config.data;
-    this.cargarCatalogos();
+    this.cargarCatalogos(usuario.idDelegacion);
     this.inicializarModificarUsuarioForm(usuario);
   }
 
-  cargarCatalogos(): void {
+  cargarCatalogos(delegacion: string): void {
     const respuesta = this.route.snapshot.data["respuesta"];
     const roles = respuesta[this.POSICION_ROLES].datos
     this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
     this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
     this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
+    this.buscarVelatorios(delegacion);
   }
 
   inicializarModificarUsuarioForm(usuario: Usuario): void {
@@ -86,6 +88,23 @@ export class ModificarUsuarioComponent implements OnInit {
       rol: [{value: usuario.idRol, disabled: false}, [Validators.required]],
       estatus: [{value: usuario.estatus, disabled: false}, [Validators.required]]
     });
+  }
+
+  buscarVelatorios(delegacion?: string): void {
+    if (!delegacion) {
+      delegacion = this.modificarUsuarioForm.get('delegacion')?.value;
+      this.modificarUsuarioForm.get('velatorio')?.patchValue("");
+    }
+    this.usuarioService.obtenerVelatorios(delegacion)
+      .subscribe(
+        (respuesta) => {
+          const velatorios = respuesta.datos || [];
+          this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error)
+        }
+      );
   }
 
   crearUsuarioModificado(): UsuarioModificado {

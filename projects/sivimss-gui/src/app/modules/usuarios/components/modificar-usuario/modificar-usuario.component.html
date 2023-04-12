@@ -79,7 +79,8 @@
         <label class="control-label" for="delegacionAgregarUsuarioModificar">Delegación<span
           class="req">*</span></label>
         <p-dropdown appendTo="body" id="delegacionAgregarUsuarioModificar" class="form-control"
-                    formControlName="delegacion" [options]="catalogoDelegaciones" placeholder="Seleccione el nivel">
+                    formControlName="delegacion" [options]="catalogoDelegaciones" placeholder="Seleccione el nivel"
+                    (onChange)="buscarVelatorios()" >
         </p-dropdown>
         <span class="campo-obligatorio"
               *ngIf="fmu?.delegacion?.errors?.required && (fmu?.delegacion?.dirty || fmu?.delegacion?.touched)">Campo obligatorio</span>
@@ -88,7 +89,7 @@
         <label class="control-label" for="velatorioAgregarUsuarioModificar">Velatorio<span
           class="req">*</span></label>
         <p-dropdown appendTo="body" id="velatorioAgregarUsuarioModificar" class="form-control"
-                    formControlName="velatorio" [options]="opciones" placeholder="Seleccione la delegación">
+                    formControlName="velatorio" [options]="catalogoVelatorios" placeholder="Seleccione la delegación">
         </p-dropdown>
         <span class="campo-obligatorio"
               *ngIf="fmu?.velatorio?.errors?.required && (fmu?.velatorio?.dirty || fmu?.velatorio?.touched)">Campo obligatorio</span>
