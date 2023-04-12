@@ -16,6 +16,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {finalize} from "rxjs/operators";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 
 type NuevoUsuario = Omit<Usuario, "id" | "password" | "estatus" | "matricula">;
 type SolicitudCurp = Pick<Usuario, "curp">;
@@ -41,6 +42,10 @@ export class AgregarUsuarioComponent implements OnInit {
   delegacionResumen: string = "";
   velatorioResumen: string = "";
 
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
+
   constructor(
     private route: ActivatedRoute,
     private alertaService: AlertaService,
@@ -53,8 +58,13 @@ export class AgregarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAgregarUsuarioForm();
-    const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.cargarCatalogos();
+  }
+
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const roles = respuesta[this.POSICION_ROLES].datos
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
   }
 
   inicializarAgregarUsuarioForm(): void {

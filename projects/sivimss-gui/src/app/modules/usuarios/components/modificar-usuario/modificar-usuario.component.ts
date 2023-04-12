@@ -35,6 +35,10 @@ export class ModificarUsuarioComponent implements OnInit {
   delegacionResumen: string = "";
   velatorioResumen: string = "";
 
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -48,9 +52,14 @@ export class ModificarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     const usuario = this.config.data;
-    const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.cargarCatalogos();
     this.inicializarModificarUsuarioForm(usuario);
+  }
+
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const roles = respuesta[this.POSICION_ROLES].datos
+    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
   }
 
   inicializarModificarUsuarioForm(usuario: Usuario): void {

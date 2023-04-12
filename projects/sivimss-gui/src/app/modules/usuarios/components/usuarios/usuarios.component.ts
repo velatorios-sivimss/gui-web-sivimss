@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
@@ -23,7 +23,6 @@ import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
-import {AutenticacionService} from "../../../../services/security/autenticacion.service";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -59,6 +58,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
 
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
+  readonly POSICION_VELATORIOS: number = 3;
+
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -66,24 +70,22 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
-    private cargadorService: LoaderService,
-    private authService: AutenticacionService
+    private cargadorService: LoaderService
   ) {
   }
 
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
-    const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.cargarCatalogos();
     this.inicializarFiltroForm();
-    this.cargarCatalogosLocalStorage();
   }
 
-  cargarCatalogosLocalStorage(): void {
-    const delegaciones = this.authService.obtenerCatalogoDeLocalStorage('catalogo_delegaciones');
-    const niveles = this.authService.obtenerCatalogoDeLocalStorage(('catalogo_nivelOficina'));
-    this.catalogoDelegaciones = mapearArregloTipoDropdown(delegaciones, "desc", "id");
-    this.catalogoNiveles = mapearArregloTipoDropdown(niveles, "desc", "id");
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const roles = respuesta[this.POSICION_ROLES].datos
+    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
   }
 
   abrirPanel(event: MouseEvent, usuario: Usuario): void {
@@ -123,7 +125,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
-      nivel: [{value: null, disabled: false}, Validators.required],
+      nivel: [{value: null, disabled: false}],
       velatorio: [{value: null, disabled: false}],
       delegacion: [{value: null, disabled: false}],
       rol: [{value: null, disabled: false}]
@@ -158,7 +160,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   paginarConFiltros(): void {
-    const filtros = this.crearSolicitudFiltros();
+    const filtros: FiltrosUsuario = this.crearSolicitudFiltros();
     this.cargadorService.activar();
     this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina)
       .pipe(finalize(() => this.cargadorService.desactivar()))
