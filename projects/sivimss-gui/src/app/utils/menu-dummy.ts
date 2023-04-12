@@ -1,6 +1,6 @@
 import { HttpResponse } from "@angular/common/http";
 import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
-import { Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { Modulo } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 
 export const dummyMenuResponse:HttpRespuesta<Modulo[]> = {
   "error": false,

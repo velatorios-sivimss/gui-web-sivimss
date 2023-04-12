@@ -253,7 +253,7 @@ export class ActualizarPaquetesComponent implements OnInit {
 
       // detalleRef.onClose.subscribe((res: HttpResponse) => {
       //   if (res && res.respuesta === 'Ok') {
-      //     const foundIndex = this.paquetes.findIndex((item: Paquete) => item.id === paquete.id);
+      //     utils foundIndex = this.paquetes.findIndex((item: Paquete) => item.id === paquete.id);
       //     this.paquetes[foundIndex] = res.paquete;
       //   }
       // });

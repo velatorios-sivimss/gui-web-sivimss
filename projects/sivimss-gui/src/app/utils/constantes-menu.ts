@@ -11,47 +11,47 @@ export interface DatoModulo {
  * El icono debe estar en assets/images/menu/[nombre-en-minusculas.svg]
  */
 export const idsModulos: DatoModulo = {
-  1: {
+  '1': {
     ruta: '',
     icono: 'operacion-sivimss.svg'
   },
-  2: {
+  '2': {
     ruta: '/usuarios',
     icono: 'administracion-usuarios.svg'
   },
-  3: {
+  '3': {
     ruta: '/roles-permisos',
     icono: '',
   },
-  4: {
+  '4': {
     ruta: '/roles',
     icono: '',
   },
-  5: {
+  '5': {
     ruta: '/capillas',
     icono: ''
   },
-  6: {
+  '6': {
     ruta: '/articulos',
     icono: ''
   },
-  7: {
+  '7': {
     ruta: '/servicios',
     icono: ''
   },
-  8: {
+  '8': {
     ruta: '/velatorios',
     icono: ''
   },
-  9: {
+  '9': {
     icono: '',
     ruta: ''
   },
-  10: {
+  '10': {
     ruta: '/proveedores',
     icono: ''
   },
-  11: {
+  '11': {
     ruta: '/contratantes',
     icono: ''
   }

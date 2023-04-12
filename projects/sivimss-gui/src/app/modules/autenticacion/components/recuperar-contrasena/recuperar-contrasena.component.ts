@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { AlertaService } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 
 @Component({

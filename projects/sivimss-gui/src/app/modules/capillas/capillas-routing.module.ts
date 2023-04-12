@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CapillasComponent } from './components/capillas/capillas.component';
 import { CapillasResolver } from './services/capillas.resolver';
 
-// const routes: Routes = [{path: '', component: CapillasComponent}];
+// utils routes: Routes = [{path: '', component: CapillasComponent}];
 
 const routes: Routes = [{
   path: '', component: CapillasComponent,
