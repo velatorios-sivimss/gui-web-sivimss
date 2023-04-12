@@ -179,6 +179,7 @@ export class AutenticacionService {
     this.menuSidebarService.limpiarRutaSeleccionada();
     this.usuarioEnSesionSubject.next(null);
     localStorage.removeItem(SIVIMSS_TOKEN);
+    localStorage.clear();
     this.router.navigate(['/inicio-sesion']);
     //this.detenerTemporizadorSesion();
   }
