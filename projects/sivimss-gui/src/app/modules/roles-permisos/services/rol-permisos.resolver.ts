@@ -11,7 +11,7 @@ export class RolPermisosResolver  implements Resolve<any>{
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         const catRol$ = this.rolPermisosService.obtenerCatRoles();
-        //const catFuncionalidades$ = this.rolPermisosService.obtenerCatFuncionalidad();
+        //utils catFuncionalidades$ = this.rolPermisosService.obtenerCatFuncionalidad();
         return catRol$;
     }
 }

@@ -7,7 +7,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {RolPermisosService} from "../../services/rol-permisos.service";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {RespuestaModalRol} from "../../models/respuestaModal.interface";
+import {RespuestaModalRol} from "projects/sivimss-gui/src/app/modules/roles-permisos/models/respuesta-modal.interface";
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {ActivatedRoute} from '@angular/router';
 
@@ -105,7 +105,7 @@ export class ModificarRolPermisosComponent implements OnInit {
     );
   }
 
-  catalogoRoles(): void { 
+  catalogoRoles(): void {
     this.rolPermisosService.obtenerCatRoles().subscribe(
       (respuesta) => {
         this.catRol = respuesta!.datos.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];
@@ -154,5 +154,5 @@ export class ModificarRolPermisosComponent implements OnInit {
       return;
     }
   }
-  
+
 }
