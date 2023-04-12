@@ -14,7 +14,7 @@ import { RolPermisosService } from '../../services/rol-permisos.service';
 import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import { VerDetalleRolPermisosComponent } from "../ver-detalle-rol-permisos/ver-detalle-rol-permisos.component";
 import { ModificarRolPermisosComponent } from "../modificar-rol-permisos/modificar-rol-permisos.component";
-import { RespuestaModalRol } from "../../models/respuestaModal.interface";
+import { RespuestaModalRol } from "projects/sivimss-gui/src/app/modules/roles-permisos/models/respuesta-modal.interface";
 
 type SolicitudEstatus = Pick<Rol, "idRol">;
 const MAX_WIDTH: string = "876px";
