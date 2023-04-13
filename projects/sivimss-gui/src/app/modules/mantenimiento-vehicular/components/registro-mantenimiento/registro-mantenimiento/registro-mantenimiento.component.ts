@@ -76,4 +76,16 @@ export class RegistroMantenimientoComponent implements OnInit {
     return this.solicitudMantenimientoForm.controls;
   }
 
+  agregar():void{
+    this.ventanaConfirmacion = true;
+  }
+
+  regresar(): void{
+    this.ventanaConfirmacion = false;
+  }
+
+  cerrar(): void {
+    this.ref.close()
+    }
+
 }

@@ -6,7 +6,7 @@ import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrum
 import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { ActivatedRoute } from '@angular/router';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
-import { CATALOGOS_DUMMIES } from '../../../../inventario-vehicular/constants/dummies';
+import { CATALOGOS_DUMMIES, CATALOGOS_TTIPO_MANTENIMIENTO } from '../../../../inventario-vehicular/constants/dummies';
 
 @Component({
   selector: 'app-solicitud-mantenimiento',
@@ -24,6 +24,10 @@ export class SolicitudMantenimientoComponent implements OnInit {
 
   solicitudMantenimientoForm!: FormGroup;
   tiposProveedor: TipoDropdown[] = CATALOGOS_DUMMIES;
+  tipoMantenimiento: TipoDropdown[] = CATALOGOS_TTIPO_MANTENIMIENTO;
+  mantPreventivo: boolean = false
+  mantcorrectivo: boolean = false
+  opcionesMantenimiento: boolean = false
 
 
   constructor(
@@ -52,7 +56,7 @@ export class SolicitudMantenimientoComponent implements OnInit {
       fecha: [{value: vehiculoSeleccionado.fecha, disabled: false}, [Validators.required]],
       hora: [{value: vehiculoSeleccionado.hora, disabled: false}, [Validators.required]],
       vehiculo: [{value: vehiculoSeleccionado.vehiculo, disabled: false}, [Validators.required]],
-      placas: [{value: vehiculoSeleccionado.placas, disabled: false}, [Validators.required]],
+      placas: [{value: vehiculoSeleccionado.placas, disabled: true}, [Validators.required]],
       nivelAceite: [{value: vehiculoSeleccionado.nivelAceite, disabled: false}],
       nivelAgua: [{value: vehiculoSeleccionado.nivelAgua, disabled: false}],
       calibracionNeumaticosTraseros: [{value: vehiculoSeleccionado.calibracionNeumaticosTraseros, disabled: false}],
@@ -62,11 +66,13 @@ export class SolicitudMantenimientoComponent implements OnInit {
       limpiezaInterior: [{value: vehiculoSeleccionado.limpiezaInterior, disabled: false}],
       limpiezaExterior: [{value: vehiculoSeleccionado.limpiezaExterior, disabled: false}],
       codigoFalla: [{value: vehiculoSeleccionado.codigoFalla, disabled: false}],
-      marca: [{value: vehiculoSeleccionado.marca, disabled: false}],
-      anio: [{value: vehiculoSeleccionado.anio, disabled: false}],
+      marca: [{value: vehiculoSeleccionado.marca, disabled: true}],
+      anio: [{value: vehiculoSeleccionado.anio, disabled: true}],
       kilometraje: [{value: vehiculoSeleccionado.kilometraje, disabled: false}],
-      tipoMantenimiento: [{value: vehiculoSeleccionado.tipoMantenimiento, disabled: false}],
+      tipoMantenimiento: [{value: vehiculoSeleccionado.tipoMantenimientoNumber, disabled: false}],
       fechaMantenimiento: [{value: vehiculoSeleccionado.fechaMantenimiento, disabled: false}],
+      modalidad: [{value: vehiculoSeleccionado.modalidadNumber, disabled: false}],
+      fechaRegistro: [{value: vehiculoSeleccionado.fechaRegistro, disabled: false}],
 
     });
   }
@@ -75,6 +81,28 @@ export class SolicitudMantenimientoComponent implements OnInit {
     return this.solicitudMantenimientoForm.controls;
   }
 
+  agregar():void{
+    this.ventanaConfirmacion = true;
+  }
+
+  regresar(): void{
+    this.ventanaConfirmacion = false;
+  }
+
+  cerrar(): void {
+    this.ref.close()
+  }
+
+
+  mostrarOpcionesDeMantenimiento(){
+this.opcionesMantenimiento = true
+
+    if(this.mantPreventivo == false){
+      this.mantPreventivo = true
+    }else{
+      this.mantPreventivo = false
+    }
+  }
 
 
 }

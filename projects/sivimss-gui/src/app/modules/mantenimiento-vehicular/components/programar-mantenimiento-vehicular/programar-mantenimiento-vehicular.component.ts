@@ -100,6 +100,8 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
       anio: "2019",
       marca: "chebrolet",
       modalidadNumber: 1,
+      fechaRegistro:"20/06/2023",
+      tipoMantenimientoNumber: 3
      },
      {
       id: 1,
@@ -128,6 +130,8 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
       anio: "2019",
       marca: "chebrolet",
       modalidadNumber: 1,
+      fechaRegistro:"20/06/2023",
+      tipoMantenimientoNumber: 2
      },
      {
       id: 1,
@@ -156,6 +160,8 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
       anio: "2019",
       marca: "chebrolet",
       modalidadNumber: 1,
+      fechaRegistro:"20/06/2023",
+      tipoMantenimientoNumber: 1
      },
       ];
       this.totalElementos = this.vehiculos.length;

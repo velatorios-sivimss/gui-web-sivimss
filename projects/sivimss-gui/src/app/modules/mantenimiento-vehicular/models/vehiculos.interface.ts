@@ -26,6 +26,8 @@ export interface Vehiculos {
   marca?: string;
   anio?: string;
   modalidadNumber?: number;
+  fechaRegistro?: string;
+  tipoMantenimientoNumber?: number;
 
 
   }
