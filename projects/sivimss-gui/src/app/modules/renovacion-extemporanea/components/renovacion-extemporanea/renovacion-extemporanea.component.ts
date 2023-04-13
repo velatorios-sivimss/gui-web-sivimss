@@ -23,24 +23,24 @@ import { ConveniosPrevision } from 'projects/sivimss-gui/src/app/modules/renovac
 })
 export class RenovacionExtemporaneaComponent implements OnInit {
   @ViewChild(OverlayPanel)
-  overlayPanel!: OverlayPanel
+  overlayPanel!: OverlayPanel;
 
-  numPaginaActual: number = 0
-  cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA
-  totalElementos: number = 0
-  filtroForm!: FormGroup
-  conveniosPrevicion: ConveniosPrevision[] = []
-  convenioSeleccionado: ConveniosPrevision = {}
-  creacionRef!: DynamicDialogRef
-  habilitarRenovacionConvenio!: ConveniosPrevision
-  mostrarModaltitularFallecido: boolean = false
+  numPaginaActual: number = 0;
+  cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
+  totalElementos: number = 0;
+  filtroForm!: FormGroup;
+  conveniosPrevicion: ConveniosPrevision[] = [];
+  convenioSeleccionado: ConveniosPrevision = {};
+  creacionRef!: DynamicDialogRef;
+  habilitarRenovacionConvenio!: ConveniosPrevision;
+  mostrarModaltitularFallecido: boolean = false;
 
-  opciones: TipoDropdown[] = CATALOGOS_DUMMIES
-  tipoServicio: TipoDropdown[] = CATALOGOS_DUMMIES
-  partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES
-  cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES
-  niveles: TipoDropdown[] = CATALOGOS_DUMMIES
-  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES
+  opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
+  tipoServicio: TipoDropdown[] = CATALOGOS_DUMMIES;
+  partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES;
+  cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES;
+  niveles: TipoDropdown[] = CATALOGOS_DUMMIES;
+  velatorios: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +50,7 @@ export class RenovacionExtemporaneaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.inicializarFiltroForm()
+    this.inicializarFiltroForm();
   }
 
   inicializarFiltroForm() {
@@ -59,11 +59,10 @@ export class RenovacionExtemporaneaComponent implements OnInit {
       numeroConvenio: [{ value: null, disabled: false }, [Validators.required]],
       folioConvenio: [{ value: null, disabled: false }, [Validators.required]],
       rfcAfiliado: [{ value: null, disabled: false }, [Validators.required]],
-    })
+    });
   }
 
   paginar(event: LazyLoadEvent): void {
-    console.log(event)
     setTimeout(() => {
       this.conveniosPrevicion = [
         {
@@ -125,7 +124,7 @@ export class RenovacionExtemporaneaComponent implements OnInit {
         },
       ]
       this.totalElementos = this.conveniosPrevicion.length
-    }, 0)
+    }, 0);
   }
 
   abrirModalDetalleRenovacion(servicio: ConveniosPrevision) {
@@ -133,13 +132,11 @@ export class RenovacionExtemporaneaComponent implements OnInit {
       header: 'Detalle',
       width: '920px',
       data: { servicio: servicio, origen: 'detalle' },
-    })
-    console.log('enviarconvenioSeleccionado__:' + servicio)
+    });
   }
 
   enviarConvenioSeleccionado(convenio: ConveniosPrevision) {
-    convenio = this.habilitarRenovacionConvenio
-    console.log('enviarconvenioSeleccionado__:' + convenio)
+    convenio = this.habilitarRenovacionConvenio;
   }
 
   abrirModalHabilitarRenovacion(): void {
@@ -147,41 +144,39 @@ export class RenovacionExtemporaneaComponent implements OnInit {
       header: 'Convenio de previsión funeraria',
       width: '920px',
       data: { servicio: this.convenioSeleccionado, origen: 'agregar' },
-    })
-    console.log('Habilitar REnovacion__:' + this.habilitarRenovacionConvenio)
+    });
 
     this.creacionRef.onClose.subscribe((estatus: boolean) => {
       if (estatus) {
         this.alertaService.mostrar(
           TipoAlerta.Exito,
-          'Renobacion habilitada correctamente',
-        )
+          'Renovacion habilitada correctamente',
+        );
       }
-    })
+    });
   }
 
   abrirPanel(
     event: MouseEvent,
     articuloSeleccionado: ConveniosPrevision,
   ): void {
-    this.convenioSeleccionado = articuloSeleccionado
-    this.overlayPanel.toggle(event)
-    console.log('abrir panel__:' + articuloSeleccionado)
+    this.convenioSeleccionado = articuloSeleccionado;
+    this.overlayPanel.toggle(event);
   }
 
   mostrarModalTitularFallecido(): void {
-    this.mostrarModaltitularFallecido = true
+    this.mostrarModaltitularFallecido = true;
   }
 
   consultaServicioEspecifico(): string {
-    return ''
+    return '';
   }
 
   limpiar(): void {
-    this.filtroForm.reset()
+    this.filtroForm.reset();
   }
 
   get f() {
-    return this.filtroForm?.controls
+    return this.filtroForm?.controls;
   }
 }

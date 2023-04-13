@@ -1,0 +1,42 @@
+<div class="row mb-3">
+  <div class="col-md-6">
+    <label class="control-label" for="velatorio">Velatorios:</label>
+    <p-dropdown id="velatorio" class="form-control" [options]="velatorios" placeholder="Selecciona velatorio">
+    </p-dropdown>
+  </div>
+</div>
+<div class="row mb-3">
+
+  <div class="col-md-12">
+    <p-tabView>
+      <p-tabPanel [header]="menu[0]">
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="flex col-md-6 justify-content-around col-absolute">
+            <ng-container *ngFor="let titulo of tituloSalas">
+              <div>
+                <span class="circle" [style.background-color]="titulo?.borderColor"></span>
+                <b class="texto-base" [style.color]="titulo?.textColor"> {{titulo?.title}}</b>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <p-fullCalendar [options]="calendarOptions"></p-fullCalendar>
+      </p-tabPanel>
+      <p-tabPanel [header]="menu[1]">
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="flex col-md-6 justify-content-around col-absolute">
+            <ng-container *ngFor="let titulo of tituloSalas">
+              <div>
+                <span class="circle" [style.background-color]="titulo?.borderColor"></span>
+                <b class="texto-base" [style.color]="titulo?.textColor"> {{titulo?.title}}</b>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <p-fullCalendar [options]="calendarOptions"></p-fullCalendar>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>

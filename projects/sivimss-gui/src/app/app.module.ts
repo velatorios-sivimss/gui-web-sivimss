@@ -5,14 +5,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { ValidaRolGuard } from "projects/sivimss-gui/src/app/guards/valida-rol.guard";
 import { SidebarModule } from "projects/sivimss-gui/src/app/shared/sidebar/sidebar.module";
+import { TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION } from "projects/sivimss-gui/src/app/utils/tokens";
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AutenticacionInterceptor } from './services/security/autenticacion.interceptor';
-import { AutenticacionService } from './services/security/autenticacion.service';
-import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
-import { ErrorInterceptor } from './services/security/error.interceptor';
-import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
+import { AutenticacionInterceptor } from 'projects/sivimss-gui/src/app/interceptors/autenticacion.interceptor';
+import { AutenticacionService } from 'projects/sivimss-gui/src/app/services/autenticacion.service';
+import { BloqueaUsuarioLogueadoGuard } from 'projects/sivimss-gui/src/app/guards/bloquea-usuario-logueado.guard';
+import { ErrorInterceptor } from 'projects/sivimss-gui/src/app/interceptors/error.interceptor';
+import { PermiteUsuarioLogueadoGuard } from 'projects/sivimss-gui/src/app/guards/permite-usuario-logueado.guard';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { HeaderImssPublicoComponent } from './components/header-imss-publico/header-imss-publico.component';
 import { LoaderModule } from './shared/loader/loader.module';
@@ -67,7 +69,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     },
     PermiteUsuarioLogueadoGuard,
     BloqueaUsuarioLogueadoGuard,
-    BnNgIdleService
+    ValidaRolGuard,
+    BnNgIdleService,
+    {provide: TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION, useValue: 300}, // Tiempo en segundos
   ],
   bootstrap: [AppComponent]
 })

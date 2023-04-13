@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
-import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { finalize } from "rxjs/operators";
@@ -15,7 +15,6 @@ export function contraseniasDiferentesdValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const contraseniaAnterior = control.get('contraseniaAnterior');
     const contraseniaNueva = control.get('contraseniaNueva');
-    console.log(contraseniaAnterior && contraseniaNueva && contraseniaAnterior.value !== contraseniaNueva.value ? null : {contraseniasIguales: true});
     return contraseniaAnterior && contraseniaNueva && contraseniaAnterior.value !== contraseniaNueva.value ? null : {contraseniasIguales: true};
   };
 }

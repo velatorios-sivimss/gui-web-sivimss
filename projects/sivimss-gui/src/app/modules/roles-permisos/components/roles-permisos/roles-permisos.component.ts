@@ -1,22 +1,22 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
-import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
-import {OverlayPanel} from "primeng-lts/overlaypanel";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
+import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
+import { DIEZ_ELEMENTOS_POR_PAGINA } from "../../../../utils/constantes";
+import { OverlayPanel } from "primeng-lts/overlaypanel";
 import { USUARIOS_BREADCRUMB } from '../../../usuarios/constants/breadcrumb';
-import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {Rol} from "../../models/rol.interface";
-import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {HttpErrorResponse} from '@angular/common/http';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
+import { Rol } from "../../models/rol.interface";
+import { TipoDropdown } from "../../../../models/tipo-dropdown";
+import { HttpErrorResponse } from '@angular/common/http';
 import { CATALOGOS } from '../../../usuarios/constants/catalogos_dummies';
 import { RolPermisosService } from '../../services/rol-permisos.service';
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
-import {VerDetalleRolPermisosComponent} from "../ver-detalle-rol-permisos/ver-detalle-rol-permisos.component";
-import {ModificarRolPermisosComponent} from "../modificar-rol-permisos/modificar-rol-permisos.component";
-import {RespuestaModalRol} from "../../models/respuestaModal.interface";
+import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import { VerDetalleRolPermisosComponent } from "../ver-detalle-rol-permisos/ver-detalle-rol-permisos.component";
+import { ModificarRolPermisosComponent } from "../modificar-rol-permisos/modificar-rol-permisos.component";
+import { RespuestaModalRol } from "projects/sivimss-gui/src/app/modules/roles-permisos/models/respuesta-modal.interface";
 
-type SolicitudEstatus = Pick<Rol, "idRol">; 
+type SolicitudEstatus = Pick<Rol, "idRol">;
 const MAX_WIDTH: string = "876px";
 
 @Component({
@@ -35,8 +35,8 @@ export class RolesPermisosComponent implements OnInit {
   totalElementos: number = 0;
   paginacionConFiltrado: boolean = false;
   filtroForm!: FormGroup;
-  permisos:any;
-  rolPermisos: any="";
+  permisos: any;
+  rolPermisos: any = "";
   opciones: TipoDropdown[] = CATALOGOS;
   catRol: any[] = [];
   roles: Rol[] = [];
@@ -44,7 +44,7 @@ export class RolesPermisosComponent implements OnInit {
   mostrarModalDetalleRol: boolean = false;
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private rolPermisosService: RolPermisosService,
@@ -60,7 +60,7 @@ export class RolesPermisosComponent implements OnInit {
     this.catalogoRoles();
   }
 
-  inicializarFiltroForm():void {
+  inicializarFiltroForm(): void {
     this.filtroForm = this.formBuilder.group({
       rol: [{value: null, disabled: false}],
       nivel: [{value: null, disabled: false}],
@@ -99,27 +99,27 @@ export class RolesPermisosComponent implements OnInit {
   }
 
   paginarConFiltros(): void {
-   this.permisos="";
-   this.filtroForm.get("alta")?.value==true? this.permisos="1": this.permisos;
-   this.filtroForm.get("baja")?.value==true? this.permisos+="2":  this.permisos;
-   this.filtroForm.get("consulta")?.value==true? this.permisos+="3":  this.permisos;
-   this.filtroForm.get("modificar")?.value==true? this.permisos+="4":  this.permisos;
-   this.filtroForm.get("aprobacion")?.value==true? this.permisos+="5":  this.permisos;
-   this.filtroForm.get("imprimir")?.value==true? this.permisos+="6":  this.permisos;
-  const separar = this.permisos.split('');
-  const cadenaPermisos = separar.toString(separar)
-    if(cadenaPermisos != ""){
+    this.permisos = "";
+    this.filtroForm.get("alta")?.value == true ? this.permisos = "1" : this.permisos;
+    this.filtroForm.get("baja")?.value == true ? this.permisos += "2" : this.permisos;
+    this.filtroForm.get("consulta")?.value == true ? this.permisos += "3" : this.permisos;
+    this.filtroForm.get("modificar")?.value == true ? this.permisos += "4" : this.permisos;
+    this.filtroForm.get("aprobacion")?.value == true ? this.permisos += "5" : this.permisos;
+    this.filtroForm.get("imprimir")?.value == true ? this.permisos += "6" : this.permisos;
+    const separar = this.permisos.split('');
+    const cadenaPermisos = separar.toString(separar)
+    if (cadenaPermisos != "") {
       this.rolPermisos = {
         idRol: this.filtroForm.get("rol")?.value,
         nivel: this.filtroForm.get("nivel")?.value,
         permisos: cadenaPermisos,
-        estatus:1
+        estatus: 1
       }
-    }else{
+    } else {
       this.rolPermisos = {
         idRol: this.filtroForm.get("rol")?.value,
         nivel: this.filtroForm.get("nivel")?.value,
-        estatus:1
+        estatus: 1
       }
     }
     const solicitudFiltros = JSON.stringify(this.rolPermisos);
@@ -163,7 +163,7 @@ export class RolesPermisosComponent implements OnInit {
   }
 
 
-  abrirPanel(event: MouseEvent, rolSeleccionado: Rol):void {
+  abrirPanel(event: MouseEvent, rolSeleccionado: Rol): void {
     this.rolSeleccionado = rolSeleccionado;
     this.overlayPanel.toggle(event);
   }
@@ -198,7 +198,7 @@ export class RolesPermisosComponent implements OnInit {
     }
   }
 
-  catalogoRoles(): void { 
+  catalogoRoles(): void {
     this.rolPermisosService.obtenerCatRoles().subscribe(
       (respuesta) => {
         this.catRol = respuesta!.datos.map((rol: Catalogo) => ({label: rol.des_rol, value: rol.id})) || [];

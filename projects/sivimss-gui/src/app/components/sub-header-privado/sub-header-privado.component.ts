@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AutenticacionService, Usuario } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { UsuarioEnSesion } from "projects/sivimss-gui/src/app/models/usuario-en-sesion.interface";
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -8,7 +9,7 @@ import { Subscription } from "rxjs";
   styleUrls: ['./sub-header-privado.component.scss']
 })
 export class SubHeaderPrivadoComponent implements OnInit, OnDestroy {
-  usuarioEnSesion!: Usuario | null;
+  usuarioEnSesion!: UsuarioEnSesion | null;
   subs!: Subscription;
 
   constructor(private readonly autenticacionService: AutenticacionService) {
@@ -16,7 +17,7 @@ export class SubHeaderPrivadoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subs = this.autenticacionService.usuarioEnSesion$.subscribe(
-      (usuarioEnSesion: Usuario | null) => {
+      (usuarioEnSesion: UsuarioEnSesion | null) => {
         this.usuarioEnSesion = usuarioEnSesion;
       }
     );

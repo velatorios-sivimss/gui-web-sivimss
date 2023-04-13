@@ -20,14 +20,14 @@ export class CapillasResolver implements Resolve<HttpRespuesta<any>> {
 
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<HttpRespuesta<any>> {
-    // const catalogoCapillas$ = this.capillaService.obtenerCatalogoCapillas();
-    // const catalogoTiposArticulos$ = this.capillaService.obtenerCatalogoTiposArticulos();
-    // const catalogoTiposMateriales$ = this.capillaService.obtenerCatalogoTiposMateriales();
-    // const catalogoTamanios$ = this.capillaService.obtenerCatalogoTamanios();
-    // const catalogoClasificacionProductos$ = this.capillaService.obtenerCatalogoClasificacionProductos();
-    // const catalogoPartidasPresupuestales$ = this.capillaService.obtenerCatalogoPartidasPresupuestales();
-    // const catalogoCuentasContables$ = this.capillaService.obtenerCatalogoCuentasContables();
-    // const catalogoClavesSat$ = this.capillaService.obtenerCatalogoClavesSat();
+    // utils catalogoCapillas$ = this.capillaService.obtenerCatalogoCapillas();
+    // utils catalogoTiposArticulos$ = this.capillaService.obtenerCatalogoTiposArticulos();
+    // utils catalogoTiposMateriales$ = this.capillaService.obtenerCatalogoTiposMateriales();
+    // utils catalogoTamanios$ = this.capillaService.obtenerCatalogoTamanios();
+    // utils catalogoClasificacionProductos$ = this.capillaService.obtenerCatalogoClasificacionProductos();
+    // utils catalogoPartidasPresupuestales$ = this.capillaService.obtenerCatalogoPartidasPresupuestales();
+    // utils catalogoCuentasContables$ = this.capillaService.obtenerCatalogoCuentasContables();
+    // utils catalogoClavesSat$ = this.capillaService.obtenerCatalogoClavesSat();
     return this.capillaService.obtenerCatalogoCapillas();
     // return
     //   catalogoCapillas$,

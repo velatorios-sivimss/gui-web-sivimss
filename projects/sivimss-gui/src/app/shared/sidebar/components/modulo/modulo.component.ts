@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { Modulo } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
 
 @Component({

@@ -4,7 +4,7 @@ import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RolPermisosService} from "../../services/rol-permisos.service";
-import {RespuestaModalRol} from "../../models/respuestaModal.interface";
+import {RespuestaModalRol} from "projects/sivimss-gui/src/app/modules/roles-permisos/models/respuesta-modal.interface";
 
 type SolicitudEstatus = Pick<Rol, "id">
 
