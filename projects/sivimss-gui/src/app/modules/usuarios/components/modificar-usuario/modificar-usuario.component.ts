@@ -133,9 +133,9 @@ export class ModificarUsuarioComponent implements OnInit {
     const delegacion = this.modificarUsuarioForm.get("delegacion")?.value;
     const velatorio = this.modificarUsuarioForm.get("velatorio")?.value;
     this.rolResumen = this.catalogoRoles.find(r => r.value === rol)?.label || "";
-    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
-    this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
-    this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
+    this.nivelResumen = this.catalogoNiveles.find(n => n.value === nivel)?.label || "";
+    this.delegacionResumen = this.catalogoDelegaciones.find(d => d.value === delegacion)?.label || "";
+    this.velatorioResumen = this.catalogoVelatorios.find(v => v.value === velatorio)?.label || "";
   }
 
   modificarUsuario(): void {
