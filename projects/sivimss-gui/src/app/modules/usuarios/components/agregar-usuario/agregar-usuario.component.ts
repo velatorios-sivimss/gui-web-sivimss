@@ -14,6 +14,8 @@ import {MENSAJES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA} from "../../constants/validacionMatricula";
 import {ActivatedRoute} from '@angular/router';
 import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import {finalize} from "rxjs/operators";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
 
 type NuevoUsuario = Omit<Usuario, "id" | "password" | "estatus" | "matricula">;
 type SolicitudCurp = Pick<Usuario, "curp">;
@@ -45,6 +47,7 @@ export class AgregarUsuarioComponent implements OnInit {
     private formBuilder: FormBuilder,
     public ref: DynamicDialogRef,
     private usuarioService: UsuarioService,
+    private cargadorService: LoaderService
   ) {
   }
 
@@ -143,7 +146,10 @@ export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuario(): void {
     const respuesta: RespuestaModalUsuario = {mensaje: "Usuario agregado correctamente", actualizar: true}
-    this.usuarioService.guardar(this.nuevoUsuario).subscribe(
+    this.cargadorService.activar();
+    this.usuarioService.guardar(this.nuevoUsuario)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
       () => {
         this.ref.close(respuesta)
       },

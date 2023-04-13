@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
-import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
+import { MensajesRespuestaAutenticacion } from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-autenticacion.enum";
 import { finalize } from "rxjs/operators";
 
 @Component({
@@ -12,13 +13,14 @@ import { finalize } from "rxjs/operators";
   templateUrl: './inicio-sesion.component.html',
   styleUrls: ['./inicio-sesion.component.scss']
 })
-export class InicioSesionComponent implements OnInit {
+export class InicioSesionComponent implements OnInit, OnDestroy {
 
   readonly NO_MOSTRAR_MSJ_CONTRASENIA_PROX_VENCER: boolean = false;
   readonly SEGUNDOS_TEMPORIZADOR_INTENTOS: number = 300;
 
   minutosTemporizadorIntentos: string = '';
   segundosTemporizadorIntentos: string = '';
+  refTemporizador: any;
 
   form!: FormGroup;
   formRestContraUsuario!: FormGroup;
@@ -73,24 +75,24 @@ export class InicioSesionComponent implements OnInit {
       ).subscribe(
       (respuesta: string) => {
         switch (respuesta) {
-          case 'OK':
+          case MensajesRespuestaAutenticacion.InicioSesionCorrecto:
             this.router.navigate(["/inicio"]);
             break;
-          case 'CONTRASENIA_PROXIMA_VENCER':
+          case MensajesRespuestaAutenticacion.ContraseniaProximaVencer:
             this.mostrarModalContraseniaProxVencer = true;
             break;
-          case 'CONTRASENIA_INCORRECTA':
+          case MensajesRespuestaAutenticacion.CredencialesIncorrectas:
             this.form.get('contrasenia')?.reset();
             this.alertaService.mostrar(TipoAlerta.Error, 'Usuario o contraseña incorrecta');
             break;
-          case 'INTENTOS_FALLIDOS':
+          case MensajesRespuestaAutenticacion.CantidadMaximaIntentosFallidos:
             this.mostrarModalIntentosFallidos = true;
             this.empezarTemporizadorPorExcederIntentos();
             break;
-          case 'FECHA_CONTRASENIA_VENCIDA':
+          case MensajesRespuestaAutenticacion.FechaContraseniaVencida:
             this.mostrarModalFechaContraseniaVencida = true;
             break;
-          case 'USUARIO_PREACTIVO':
+          case MensajesRespuestaAutenticacion.UsuarioPreactivo:
             this.mostrarModalPreActivo = true;
             break;
         }
@@ -124,10 +126,8 @@ export class InicioSesionComponent implements OnInit {
       if (duracionEnSegundos < 0) {
         clearInterval(refTemporador);
         localStorage.removeItem('segundos_temporizador_intentos_sivimss');
+        this.mostrarModalIntentosFallidos = false;
       }
-      // else {
-      //   console.log(`${minutos}:${segundos}`);
-      // }
     }, 1000);
 
   }
@@ -151,6 +151,10 @@ export class InicioSesionComponent implements OnInit {
 
   get frcc() {
     return this.formRestContraCodigo.controls;
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.refTemporizador)
   }
 
 }

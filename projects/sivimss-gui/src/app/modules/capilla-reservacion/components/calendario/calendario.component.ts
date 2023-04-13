@@ -54,6 +54,7 @@ export class CalendarioComponent implements OnInit {
       select: this.mostrarModal.bind(this),
       locale: 'es-MX',
       selectable: true,
+      editable: false,
       dayHeaders:false,
       eventClick: this.mostrarEvento.bind(this),
       dayMaxEventRows:3,

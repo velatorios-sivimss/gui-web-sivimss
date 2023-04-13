@@ -1,21 +1,33 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute } from '@angular/router';
-import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
-import { OverlayPanel } from "primeng-lts/overlaypanel";
-import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from "../../../../utils/constantes";
-import { Servicio } from '../../models/servicios.interface';
-import { LazyLoadEvent } from "primeng-lts/api";
-import { Articulo } from '../../models/articulos.interface';
-import { ListaVelatorios } from '../../models/lista-velatorios.interface';
-import { VerDetallePaquetesComponent } from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
-import { Paquete } from '../../models/paquetes.interface';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute} from '@angular/router';
+import {DialogService, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {OverlayPanel} from "primeng-lts/overlaypanel";
+import {DIEZ_ELEMENTOS_POR_PAGINA, Accion} from "../../../../utils/constantes";
+import {Servicio} from '../../models/servicios.interface';
+import {LazyLoadEvent} from "primeng-lts/api";
+import {Articulo} from '../../models/articulos.interface';
+import {ListaVelatorios} from '../../models/lista-velatorios.interface';
+import {VerDetallePaquetesComponent} from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
+import {Paquete} from '../../models/paquetes.interface';
+import {PAQUETES_BREADCRUMB} from "../../constants/breadcrumb";
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {
+  CATALOGO_REGIONES,
+  CATALOGO_VELATORIOS,
+  CATALOGOS_CLAVES_SAT,
+  CATALOGOS_TIPO_ARTICULOS
+} from "../../constants/catalogos";
+import {PaquetesService} from "../../services/paquetes.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {finalize} from "rxjs/operators";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
 
-interface HttpResponse {
-  respuesta: string;
-  paquete: Paquete;
+interface Catalogo {
+  nombre: string,
+  id: number
 }
 
 @Component({
@@ -34,6 +46,9 @@ export class AgregarPaquetesComponent implements OnInit {
   totalElementosServicios: number = 0;
   totalElementosArticulos: number = 0;
 
+  POSICION_ARTICULOS = 0;
+  POSICION_SERVICIOS = 1;
+
   opciones: any[] = [
     {
       label: 'Opción 1',
@@ -48,21 +63,11 @@ export class AgregarPaquetesComponent implements OnInit {
       value: 2,
     }
   ];
+  tipoServicios: TipoDropdown[] = [];
 
-  regiones: any[] = [
-    {
-      label: 'Nacional',
-      value: 0,
-    },
-    {
-      label: 'Delegacional',
-      value: 1,
-    },
-    {
-      label: 'Velatorio',
-      value: 2,
-    }
-  ];
+  tipoArticulos: TipoDropdown[] = [];
+  regiones: TipoDropdown[] = CATALOGO_REGIONES;
+  clavesSat: TipoDropdown[] = CATALOGOS_CLAVES_SAT;
 
   catalogoArticulos: any[] = [
     {
@@ -91,7 +96,6 @@ export class AgregarPaquetesComponent implements OnInit {
     },
   ];
 
-  tipoArticulos: any[] = [];
   servicios: Servicio[] = [];
   servicioSeleccionado!: Servicio;
   articulos: Articulo[] = [];
@@ -117,89 +121,58 @@ export class AgregarPaquetesComponent implements OnInit {
     private alertaService: AlertaService,
     private route: ActivatedRoute,
   ) {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const servicios = respuesta[this.POSICION_SERVICIOS].datos;
+    this.tipoServicios = servicios.map((servicio: Catalogo) => ({label: servicio.nombre, value: servicio.id}));
+    const articulos = respuesta[this.POSICION_ARTICULOS].datos;
+    this.tipoArticulos = articulos.map((articulo: Catalogo) => ({label: articulo.nombre, value: articulo.id}));
   }
 
   ngOnInit(): void {
-    this.breadcrumbService.actualizar([
-      {
-        icono: 'imagen-icono-operacion-sivimss.svg',
-        titulo: 'Administración de catálogos'
-      },
-      {
-        icono: '',
-        titulo: 'Administrar paquetes'
-      }
-    ]);
+    this.breadcrumbService.actualizar(PAQUETES_BREADCRUMB);
     this.inicializarAgregarPaqueteForm();
     this.obtenerVelatorio();
   }
 
 
-  paginar(event: LazyLoadEvent): void { }
-
-  obtenerVelatorio() {
-    this.velatorios = [
-      { descripcion: 'No. 01 Doctores' },
-      { descripcion: 'No. 03 Chihuahua' },
-      { descripcion: 'No. 05 Mérida' },
-      { descripcion: 'No. 06 Torreón' },
-      { descripcion: 'No. 07 Cd. Juárez' },
-      { descripcion: 'No. 08 Guadalajara' },
-      { descripcion: 'No. 09 Toluca' },
-      { descripcion: 'No. 10 Monterrey' },
-      { descripcion: 'No. 11 Puebla' },
-      { descripcion: 'No. 12 Veracruz' },
-      { descripcion: 'No. 13 Querétaro' },
-      { descripcion: 'No. 14 San Luis Potosí y CD Valles' },
-      { descripcion: 'No. 15 Pachuca' },
-      { descripcion: 'No. 17 Tapachula' },
-      { descripcion: 'No. 18 Tequesquináhuac' },
-      { descripcion: 'No. 20 Ecatepec' },
-      { descripcion: 'No. 21 Tampico' },
-      { descripcion: 'No. 22 Villahermosa' },
-    ];
+  paginar(event: LazyLoadEvent): void {
   }
 
-  inicializarAgregarPaqueteForm() {
+  obtenerVelatorio(): void {
+    this.velatorios = CATALOGO_VELATORIOS;
+  }
+
+  inicializarAgregarPaqueteForm(): void {
     this.agregarPaqueteForm = this.formBuilder.group({
-      id: [{ value: null, disabled: true }, Validators.required],
-      nombrePaquete: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      descripcion: [{ value: null, disabled: false }, [Validators.maxLength(70), Validators.required]],
-      region: [{ value: null, disabled: false }, Validators.required],
-      clave: [{ value: null, disabled: false }, Validators.required],
-      costoInicial: [{ value: '$0.00', disabled: true }, []],
-      costoReferencia: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
-      precio: [{ value: null, disabled: false }, [Validators.maxLength(10), Validators.required]],
-      estatus: [{ value: true, disabled: false }, Validators.required],
+      id: [{value: null, disabled: true}, Validators.required],
+      nombrePaquete: [{value: null, disabled: false}, [Validators.maxLength(70), Validators.required]],
+      descripcion: [{value: null, disabled: false}, [Validators.maxLength(70), Validators.required]],
+      region: [{value: null, disabled: false}, Validators.required],
+      clave: [{value: null, disabled: false}, Validators.required],
+      costoInicial: [{value: '$0.00', disabled: true}, []],
+      costoReferencia: [{value: null, disabled: false}, [Validators.maxLength(10), Validators.required]],
+      precio: [{value: null, disabled: false}, [Validators.maxLength(10), Validators.required]],
+      estatus: [{value: true, disabled: false}, Validators.required],
     });
-    this.f.nombrePaquete?.errors
   }
 
-  inicializarAgregarServicioForm() {
+  inicializarAgregarServicioForm(): void {
     this.agregarServicioForm = this.formBuilder.group({
-      tipoServicio: [{ value: null, disabled: false }, [Validators.required]],
-      servicio: [{ value: null, disabled: false }, [Validators.required]],
+      tipoServicio: [{value: null, disabled: false}, [Validators.required]],
+      servicio: [{value: null, disabled: false}, [Validators.required]],
     });
   }
 
-  inicializarAgregarArticuloForm() {
+  inicializarAgregarArticuloForm(): void {
     this.agregarArticuloForm = this.formBuilder.group({
-      articulo: [{ value: null, disabled: false }, [Validators.required]],
-      tipoArticulo: [{ value: null, disabled: false }, []],
+      articulo: [{value: null, disabled: false}, [Validators.required]],
+      tipoArticulo: [{value: null, disabled: false}, []],
     });
-  }
-
-  abrirModalDetallePaquete(paquete: Servicio) {
-    return 0;
   }
 
   abrirPanel(event: MouseEvent, servicioSeleccionado: Servicio): void {
     this.servicioSeleccionado = servicioSeleccionado;
     this.overlayPanel.toggle(event);
-  }
-
-  agregarPaquete(): void {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Paquete guardado');
   }
 
   agregarServicio(): void {
@@ -246,7 +219,7 @@ export class AgregarPaquetesComponent implements OnInit {
         articulos: this.articulos,
       };
       const detalleRef: DynamicDialogRef = this.dialogService.open(VerDetallePaquetesComponent, {
-        data: { paquete: nuevoPaquete, modo: Accion.Agregar },
+        data: {paquete: nuevoPaquete, modo: Accion.Agregar},
         header: "Agregar paquete",
         width: "920px"
       });
@@ -287,31 +260,14 @@ export class AgregarPaquetesComponent implements OnInit {
     this.mostrarModalEliminarArticulo = false;
   }
 
-  handleChangeRegion() {
-    if (this.f.region.value === 2) {
-      this.mostrarVelatorios = true;
-    } else {
-      this.mostrarVelatorios = false;
-    }
+  handleChangeRegion(): void {
+    this.mostrarVelatorios = (this.f.region.value === 2)
   }
 
   handleChangeCatArticulo() {
     this.faa.tipoArticulo.reset();
     if (this.faa.articulo.value === 'Ataúd') {
-      this.tipoArticulos = [
-        {
-          label: 'Económico',
-          value: 0,
-        },
-        {
-          label: 'Donado',
-          value: 1,
-        },
-        {
-          label: 'Consignado',
-          value: 2,
-        },
-      ];
+      this.tipoArticulos = CATALOGOS_TIPO_ARTICULOS;
       this.faa.tipoArticulo.setValidators(Validators.required);
     } else {
       this.tipoArticulos = [];

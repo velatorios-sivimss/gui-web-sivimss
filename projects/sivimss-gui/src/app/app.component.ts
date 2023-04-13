@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng-lts/api';
 import { TranslateService } from '@ngx-translate/core';
-import { AutenticacionService } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { AutenticacionService } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { Observable, Subscription } from "rxjs";
 
 @Component({

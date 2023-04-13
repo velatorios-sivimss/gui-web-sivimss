@@ -63,7 +63,7 @@ export class AgregarRolComponent implements OnInit {
   }
 
   agregarRol(): void {
-   // const respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
+   // utils respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
     const rolBo: NuevoRol = this.crearNuevoRol();
     const solicitudRol: string = JSON.stringify(rolBo);
     this.rolService.guardar(solicitudRol).subscribe(

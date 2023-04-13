@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Router } from "@angular/router";
 import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
-import { AutenticacionService, Modulo } from "projects/sivimss-gui/src/app/services/security/autenticacion.service";
+import { AutenticacionService, Modulo } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
 import { idsModulos } from "projects/sivimss-gui/src/app/utils/constantes-menu";
 import { Observable, Subscription } from "rxjs";

@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
-import { BloqueaUsuarioLogueadoGuard } from './services/security/bloquea-usuario-logueado.guard';
-import { PermiteUsuarioLogueadoGuard } from './services/security/permite-usuario-logueado.guard';
+import { BloqueaUsuarioLogueadoGuard } from 'projects/sivimss-gui/src/app/guards/bloquea-usuario-logueado.guard';
+import { PermiteUsuarioLogueadoGuard } from 'projects/sivimss-gui/src/app/guards/permite-usuario-logueado.guard';
 
 const routes: Routes = [
   {
@@ -36,11 +36,21 @@ const routes: Routes = [
   },
   {
     path: 'roles-permisos',
-    loadChildren: () => import('./modules/roles-permisos/roles-permisos.module').then(m => m.RolesPermisosModule)
+    loadChildren: () => import('./modules/roles-permisos/roles-permisos.module').then(m => m.RolesPermisosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'usuarios',
     loadChildren: () => import('./modules/usuarios/usuarios.module').then(m => m.UsuariosModule),
+    // data: {
+    //   validaRol: {
+    //     funcionalidad: 'USUARIOS',
+    //     permiso: 'ALTA'
+    //   }
+    // },
+    // canActivate: [ValidaRolGuard],
+    // canActivateChild: [ValidaRolGuard]
     canActivate: [PermiteUsuarioLogueadoGuard],
     canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
@@ -124,7 +134,9 @@ const routes: Routes = [
   },
   {
     path: 'articulos',
-    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule)
+    loadChildren: () => import('./modules/articulos/articulos.module').then(m => m.ArticulosModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'convenios-prevision-funeraria',
@@ -164,19 +176,37 @@ const routes: Routes = [
   },
   {
     path: 'consulta-donaciones',
-    loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule)
+    loadChildren: () => import('./modules/consulta-donaciones/consulta-donaciones.module').then(m => m.ConsultaDonacionesModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'reservar-capilla',
-    loadChildren: () => import('./modules/capilla-reservacion/capilla-reservacion.module').then(m => m.CapillaReservacionModule)
+    loadChildren: () => import('./modules/capilla-reservacion/capilla-reservacion.module').then(m => m.CapillaReservacionModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'seguimiento-nuevo-convenio',
-    loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule)
+    loadChildren: () => import('./modules/convenios-nuevos/seguimiento-nuevo-convenio/seguimiento-nuevo-convenio.module').then(m => m.SeguimientoNuevoConvenioModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: 'reservar-capilla/velacion-en-domicilio',
-    loadChildren: () => import('./modules/velacion-domicilio/velacion-domicilio.module').then(m => m.VelacionDomicilioModule)
+    loadChildren: () => import('./modules/velacion-domicilio/velacion-domicilio.module').then(m => m.VelacionDomicilioModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'pagos/generar-recibo-pago',
+    loadChildren: () => import('./modules/pagos/generar-recibo-pago/generar-recibo-pago.module').then(m => m.GenerarReciboModule),
+    canActivate: [PermiteUsuarioLogueadoGuard],
+    canActivateChild: [PermiteUsuarioLogueadoGuard]
+  },
+  {
+    path: 'reservar-salas',
+    loadChildren: () => import('./modules/reservar-salas/reservar-salas.module').then(m => m.ReservarSalasModule)
   },
   {
   path: 'programar-mantenimiento-vehicular',
