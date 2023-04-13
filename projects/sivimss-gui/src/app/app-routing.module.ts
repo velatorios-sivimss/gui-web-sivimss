@@ -168,7 +168,8 @@ const routes: Routes = [
   },
   {
     path: 'reservar-salas',
-    loadChildren: () => import('./modules/reservar-salas/reservar-salas.module').then(m => m.ReservarSalasModule)
+    loadChildren: () => import('./modules/reservar-salas/reservar-salas.module').then(m => m.ReservarSalasModule),
+    canActivate: [PermiteUsuarioLogueadoGuard]
   },
   {
     path: '**',
