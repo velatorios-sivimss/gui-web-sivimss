@@ -23,6 +23,7 @@ import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
+import {CambioEstatusUsuarioComponent} from "../cambio-estatus-usuario/cambio-estatus-usuario.component";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -57,6 +58,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   creacionRef!: DynamicDialogRef
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
+  cambioEstatusRef!: DynamicDialogRef;
 
   readonly POSICION_ROLES: number = 0;
   readonly POSICION_NIVELES: number = 1;
@@ -112,6 +114,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
     this.modificacionRef = this.dialogService.open(ModificarUsuarioComponent, MODIFICAR_CONFIG);
     this.modificacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
+  }
+
+  abrirModalCambioEstatusUsuario(): void {
+    const header: string = this.usuarioSeleccionado.estatus ? 'Desactivar' : 'Activar';
+    const CAMBIO_ESTATUS_CONFIG: DynamicDialogConfig = {
+      header: `${header} usuario`,
+      width: MAX_WIDTH,
+      data: this.usuarioSeleccionado.id
+    }
+    this.cambioEstatusRef = this.dialogService.open(CambioEstatusUsuarioComponent, CAMBIO_ESTATUS_CONFIG);
+    this.cambioEstatusRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
   abrirModalDetalleUsuario(usuario: Usuario): void {
@@ -230,8 +243,13 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
   }
 
+
   get f() {
     return this.filtroForm.controls;
+  }
+
+  get tituloCambioEstatus(): string {
+    return this.usuarioSeleccionado.estatus ? 'Desactivar' : 'Activar';
   }
 
   ngOnDestroy(): void {
@@ -244,5 +262,9 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     if (this.modificacionRef) {
       this.modificacionRef.destroy();
     }
+    if (this.cambioEstatusRef) {
+      this.cambioEstatusRef.destroy();
+    }
   }
+
 }
