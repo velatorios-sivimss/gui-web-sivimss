@@ -12,7 +12,7 @@
     <div class="form-group mb-0">
       <div class="flex justify-content-between align-items-center">
         <label class="control-label" for="contrasenia">Contraseña<span class="req">*</span>:</label>
-        <span class="olvidaste-contrasena">¿Olvidaste tu contraseña?</span>
+        <span class="olvidaste-contrasena" (click)="abrirModalRestablecerContrasenia()">¿Olvidaste tu contraseña?</span>
       </div>
       <div class="form-icon">
         <input #input class="form-control" id="contrasenia" formControlName="contrasenia"
@@ -92,62 +92,6 @@
 <!--    <div class="flex justify-content-end">-->
 <!--      <button class="btn btn-primary btn-md" (click)="modales.cuentaDesactivada = false">Aceptar</button>-->
 <!--    </div>-->
-<!--  </ng-template>-->
-<!--</p-dialog>-->
-
-<!--&lt;!&ndash; Pasar la funcionalidad a un componente a parte &ndash;&gt;-->
-<!--<p-dialog [(visible)]="modales.restablecerContrasena" [modal]="true"-->
-<!--          [style]="{maxWidth:'544px',width: '100%'}" [closable]="false"-->
-<!--          [draggable]="false" [resizable]="false" header="Restablecer contraseña">-->
-<!--  <ng-template pTemplate="content">-->
-<!--    <ng-container [ngSwitch]="pasoRestablecerContrasena">-->
-<!--      <ng-container *ngSwitchCase="1">-->
-<!--        <div class="flex flex-column align-items-center justify-content-center">-->
-<!--          <span class="text-center">¿Deseas restablecer tu contraseña?</span>-->
-<!--        </div>-->
-<!--        <div class="flex justify-content-end mt-4">-->
-<!--          <button class="btn btn-gold btn-md" (click)="cerrarModlRestablecerCont()">Cancelar</button>-->
-<!--          <button class="btn btn-primary btn-md ml-5" (click)="pasoRestablecerContrasena = 2">Aceptar</button>-->
-<!--        </div>-->
-<!--      </ng-container>-->
-<!--      <ng-container *ngSwitchCase="2">-->
-<!--        <span class="block text-center">Ingresa tu usuario</span>-->
-<!--        <span class="block text-center mb-4">Recibirás un correo para restablecer tu contraseña</span>-->
-<!--        <form [formGroup]="formRestContraUsuario" class="form-restablecer-contrasena">-->
-<!--          <label class="control-label" for="usuarioRestCont">Usuario<span-->
-<!--            class="req">*</span></label>-->
-<!--          <input id="usuarioRestCont" class="form-control" formControlName="usuario"-->
-<!--                 placeholder="Ingresar usuario">-->
-<!--          <span class="campo-obligatorio"-->
-<!--                *ngIf="frcu?.usuario?.errors?.required && (frcu?.usuario?.dirty || frcu?.usuario?.touched)">Campo obligatorio</span>-->
-<!--          <div class="mt-3">-->
-<!--            <span>*Campo obligatorio</span> -->
-<!--          </div>-->
-<!--        </form>-->
-<!--        <div class="flex justify-content-end">-->
-<!--          <button class="btn btn-gold btn-md" (click)="cerrarModlRestablecerCont()">Cancelar</button>-->
-<!--          <button class="btn btn-primary btn-md ml-5" (click)="pasoRestablecerContrasena = 3">Aceptar</button>-->
-<!--        </div>-->
-<!--      </ng-container>-->
-<!--      <ng-container *ngSwitchCase="3">-->
-<!--        <span class="block text-center mb-4">Te hemos enviado un código a "usuario" para establecer tu contraseña</span>-->
-<!--        <form [formGroup]="formRestContraCodigo" class="form-restablecer-contrasena">-->
-<!--          <label class="control-label" for="codigoRestCont">Código<span-->
-<!--            class="req">*</span></label>-->
-<!--          <input id="codigoRestCont" class="form-control" formControlName="codigo"-->
-<!--                 placeholder="Ingresar código">-->
-<!--          <span class="campo-obligatorio"-->
-<!--                *ngIf="frcc?.codigo?.errors?.required && (frcc?.codigo?.dirty || frcc?.codigo?.touched)">Campo obligatorio</span>-->
-<!--          <div class="mt-3">-->
-<!--            <span>*Campo obligatorio</span>-->
-<!--          </div>-->
-<!--        </form>-->
-<!--        <div class="flex justify-content-end mt-4">-->
-<!--          <button class="btn btn-gold btn-md" (click)="cerrarModlRestablecerCont()">Cancelar</button>-->
-<!--          <button class="btn btn-primary btn-md ml-5" (click)="cerrarModlRestablecerCont()">Aceptar</button>-->
-<!--        </div>-->
-<!--      </ng-container>-->
-<!--    </ng-container>-->
 <!--  </ng-template>-->
 <!--</p-dialog>-->
 

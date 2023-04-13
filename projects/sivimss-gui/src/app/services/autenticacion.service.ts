@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { EnumValue } from "@angular/compiler-cli/src/ngtsc/partial_evaluator";
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle';
@@ -9,7 +10,9 @@ import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrum
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
 import { SIVIMSS_TOKEN } from "projects/sivimss-gui/src/app/utils/constantes";
+import { existeMensajeEnEnum } from "projects/sivimss-gui/src/app/utils/funciones";
 import { MensajesRespuestaAutenticacion } from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-autenticacion.enum";
+import { MensajesRespuestaCodigo } from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-codigo.enum";
 import { dummyMenuResponse } from "projects/sivimss-gui/src/app/utils/menu-dummy";
 import { TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION } from "projects/sivimss-gui/src/app/utils/tokens";
 import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
@@ -191,6 +194,34 @@ const respuestaPermisosUsuario = {
   }
 };
 
+const respCodigoRestablecerContrasenia = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "Exito",
+  "datos": "Codigo enviado al correo del Usuario "
+}
+
+const respCodigoCorrecto = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "CODIGO_CORRECTO",
+  "datos": null
+}
+
+const respCodigoIncorrecto = {
+  "error": true,
+  "codigo": 400,
+  "mensaje": "CODIGO_INCORRECTO",
+  "datos": null
+}
+
+const respCodigoExpirado = {
+  "error": true,
+  "codigo": 400,
+  "mensaje": "CODIGO_EXPIRADO",
+  "datos": null
+}
+
 
 @Injectable()
 export class AutenticacionService {
@@ -245,7 +276,7 @@ export class AutenticacionService {
     }
   }
 
-  iniciarSesion(usuario: string, contrasenia: string, mostrarMsjContraseniaProxVencer: boolean = true): Observable<any> {
+  iniciarSesion(usuario: string, contrasenia: string, mostrarMsjContraseniaProxVencer: boolean = true): Observable<string> {
     //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
     this.paginaCargadaSubject.next(false);
     return of<HttpRespuesta<any>>(respuestaInicioSesionCorrecto).pipe(
@@ -258,16 +289,8 @@ export class AutenticacionService {
             this.paginaCargadaSubject.next(true);
             return MensajesRespuestaAutenticacion.InicioSesionCorrecto;
           }));
-        } else if (respuesta.mensaje === MensajesRespuestaAutenticacion.ContraseniaProximaVencer) {
-          return of(MensajesRespuestaAutenticacion.ContraseniaProximaVencer);
-        } else if (respuesta.mensaje === MensajesRespuestaAutenticacion.CredencialesIncorrectas) {
-          return of(MensajesRespuestaAutenticacion.CredencialesIncorrectas);
-        } else if (respuesta.mensaje === MensajesRespuestaAutenticacion.CantidadMaximaIntentosFallidos) {
-          return of(MensajesRespuestaAutenticacion.CantidadMaximaIntentosFallidos);
-        } else if (respuesta.mensaje === MensajesRespuestaAutenticacion.FechaContraseniaVencida) {
-          return of(MensajesRespuestaAutenticacion.FechaContraseniaVencida);
-        } else if (respuesta.mensaje === MensajesRespuestaAutenticacion.UsuarioPreactivo) {
-          return of(MensajesRespuestaAutenticacion.UsuarioPreactivo);
+        } else if (existeMensajeEnEnum(MensajesRespuestaAutenticacion, respuesta.mensaje)) {
+          return of<string>(respuesta.mensaje);
         } else {
           return throwError('Ocurrió un error al intentar iniciar sesión');
         }
@@ -348,5 +371,24 @@ export class AutenticacionService {
       this.subsSesionInactivaTemporizador.unsubscribe();
     }
   }
+
+  validarCodigoRestablecerContrasenia(usuario: string, codigo: string): Observable<string> {
+    //return this.http.post<HttpRespuesta>(`http://localhost:8080/mssivimss-oauth/contrasenia/valida-codigo`, {usuario,codigo})
+    return of<HttpRespuesta<any>>(respCodigoCorrecto).pipe(
+      concatMap((respuesta: HttpRespuesta<any>) => {
+        if (existeMensajeEnEnum(MensajesRespuestaCodigo, respuesta.mensaje)) {
+          return of<string>(respuesta.mensaje);
+        } else {
+          return throwError('Ocurrió un error al intentar validar el código para recuperar contraseña');
+        }
+      })
+    );
+  }
+
+  generarCodigoRestablecerContrasenia(usuario: string): Observable<HttpRespuesta<any>> {
+    //return this.http.post<HttpRespuesta>(`http://localhost:8080/mssivimss-oauth/contrasenia/genera-codigo`, {usuario})
+    return of<HttpRespuesta<any>>(respCodigoRestablecerContrasenia);
+  }
+
 
 }
