@@ -36,20 +36,20 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
   }
 
   // obtenerCatalogoTiposMateriales(): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams().append("servicio", "art-tipo-materiales")
+  //   utils headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+  //   utils params = new HttpParams().append("servicio", "art-tipo-materiales")
   //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   // }
 
   // obtenerCatalogoTamanios(): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams().append("servicio", "art-tamanios")
+  //   utils headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+  //   utils params = new HttpParams().append("servicio", "art-tamanios")
   //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   // }
 
   // obtenerCatalogoClasificacionProductos(): Observable<HttpRespuesta<any>> {
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   const params = new HttpParams().append("servicio", "art-clasif-prod")
+  //   utils headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+  //   utils params = new HttpParams().append("servicio", "art-clasif-prod")
   //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   // }
 

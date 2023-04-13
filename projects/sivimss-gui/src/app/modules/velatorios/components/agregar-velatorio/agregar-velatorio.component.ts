@@ -9,6 +9,8 @@ import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/aler
 import {VelatorioService} from "../../services/velatorio.service";
 import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.interface";
 import {ValorCP} from "../../models/valorCp.interface";
+import {finalize} from "rxjs/operators";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
 
 type NuevoVelatorio = Omit<Velatorio, "desMunicipio" | "desEstado" | "idVelatorio" | "salasEmbalsamamiento" |
   "salasCremacion" | "capillas" | "administrador" | "desColonia" | "estatus" | "desDelegacion" | "cveCp" | "idCp">
@@ -31,7 +33,8 @@ export class AgregarVelatorioComponent implements OnInit {
   constructor(private alertaService: AlertaService,
               private formBuilder: FormBuilder,
               public ref: DynamicDialogRef,
-              private velatorioService: VelatorioService) {
+              private velatorioService: VelatorioService,
+              private cargadorService: LoaderService) {
   }
 
   ngOnInit(): void {
@@ -62,31 +65,37 @@ export class AgregarVelatorioComponent implements OnInit {
   buscarCP(): void {
     const cp = this.velatorioForm.get("codigoPostal")?.value;
     if (!cp) return;
-    this.velatorioService.obtenerCP(cp).subscribe(
-      (respuesta) => {
-        const {datos} = respuesta;
-        if (datos.length === 0 || !datos) {
-          this.velatorioForm.get("desMunicipio")?.patchValue("");
-          this.velatorioForm.get("desEstado")?.patchValue("");
+    this.cargadorService.activar();
+    this.velatorioService.obtenerCP(cp)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        (respuesta) => {
+          const {datos} = respuesta;
+          if (datos.length === 0 || !datos) {
+            this.limpiarCP();
+            return
+          }
+          const {estado, municipio} = datos[0];
+          this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}))
+          this.velatorioForm.get("desMunicipio")?.patchValue(municipio);
+          this.velatorioForm.get("desEstado")?.patchValue(estado);
           this.velatorioForm.get("desColonia")?.patchValue("");
-          this.velatorioForm.get("desColonia")?.disable();
-          this.colonias = [];
-          return
+          this.velatorioForm.get("desColonia")?.enable()
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+          console.error("ERROR: ", error);
         }
-        const {estado, municipio} = datos[0];
-        this.colonias = datos.map((d: ValorCP) => ({value: d.idCodigoPostal, label: d.colonia}))
-        this.velatorioForm.get("desMunicipio")?.patchValue(municipio);
-        this.velatorioForm.get("desEstado")?.patchValue(estado);
-        this.velatorioForm.get("desColonia")?.patchValue("");
-        this.velatorioForm.get("desColonia")?.enable()
-      },
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
-        console.error("ERROR: ", error);
-      }
-    );
+      );
   }
 
+  limpiarCP(): void {
+    this.velatorioForm.get("desMunicipio")?.patchValue("");
+    this.velatorioForm.get("desEstado")?.patchValue("");
+    this.velatorioForm.get("desColonia")?.patchValue("");
+    this.velatorioForm.get("desColonia")?.disable();
+    this.colonias = [];
+  }
 
   guardarVelatorio(): void {
     if (this.indice === 0) {
@@ -96,15 +105,18 @@ export class AgregarVelatorioComponent implements OnInit {
     }
     const respuesta: RespuestaModalUsuario = {mensaje: "Alta satisfactoria", actualizar: true}
     const velatorio: NuevoVelatorio = this.crearNuevoVelatorio();
-    this.velatorioService.guardar(velatorio).subscribe(
-      () => {
-        this.ref.close(respuesta);
-      },
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
-        console.error("ERROR: ", error);
-      }
-    );
+    this.cargadorService.activar();
+    this.velatorioService.guardar(velatorio)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        () => {
+          this.ref.close(respuesta);
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+          console.error("ERROR: ", error);
+        }
+      );
   }
 
   crearVelatorio(): Velatorio {
@@ -136,7 +148,6 @@ export class AgregarVelatorioComponent implements OnInit {
 
   crearNuevoVelatorio(): NuevoVelatorio {
     return {
-      // colonia: this.velatorioForm.get("colonia")?.value,
       cveAsignacion: 0,
       desCalle: this.velatorioForm.get("desCalle")?.value,
       idCodigoPostal: +this.velatorioForm.get("desColonia")?.value,

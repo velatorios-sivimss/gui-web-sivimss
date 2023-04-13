@@ -7,33 +7,6 @@
         </span>
       </div>
     </ng-template>
-    <!-- <ng-template *ngIf="(origen == 'detalle')" appCustomTemplate="right-header">
-      <div class="table-panel-header-column">
-        <div class="flex flex-column">
-          <span>Estatus</span>
-          <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="articuloSeleccionado.estatus"></p-inputSwitch>
-            <span class="activo" *ngIf="articuloSeleccionado.estatus">Activo</span>
-            <span class="inactivo" *ngIf="!articuloSeleccionado.estatus">Inactivo</span>
-          </div>
-        </div>
-        <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
-          <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
-        </a>
-      </div>
-    </ng-template>
-    <ng-template *ngIf="(origen == 'agregar' || origen == 'modificar' || origen == 'estatus')"
-      appCustomTemplate="right-header">
-      <div class="table-panel-header-column">
-        <div class="flex flex-column">
-          <span>Estatus</span>
-          <div class="contenedor-inputswitch">
-            <span class="activo" *ngIf="articuloSeleccionado.estatus">Activo</span>
-            <span class="inactivo" *ngIf="!articuloSeleccionado.estatus">Inactivo</span>
-          </div>
-        </div>
-      </div>
-    </ng-template> -->
     <ng-template appCustomTemplate="right-header">
       <div class="table-panel-header-column">
           <div class="flex flex-column">
@@ -44,7 +17,6 @@
             </div>
           </div>
           <div class="flex flex-column ml-5" *ngIf="(origen == 'detalle')">
-            <!-- <a (click)="overlayPanel.toggle($event)"></a> -->
             <a (click)="overlayPanel.toggle($event)">
               <img
                 src="assets/images/imagen-icono-barras-horizontales.svg"
@@ -109,19 +81,19 @@
       <div class="col-md-4">
         <div class="table-panel-column">
           <label>Largo</label>
-          <span> {{articuloSeleccionado?.largo}} </span>
+          <span> {{articuloSeleccionado?.largo}} {{articuloSeleccionado?.largo ? 'cm' : ''}} </span>
         </div>
       </div>
       <div class="col-md-4">
         <div class="table-panel-column">
           <label>Ancho</label>
-          <span> {{articuloSeleccionado?.ancho}} </span>
+          <span> {{articuloSeleccionado?.ancho}} {{articuloSeleccionado?.ancho ? 'cm' : ''}} </span>
         </div>
       </div>
       <div class="col-md-4">
         <div class="table-panel-column">
           <label>Alto</label>
-          <span> {{articuloSeleccionado?.alto}} </span>
+          <span> {{articuloSeleccionado?.alto}} {{articuloSeleccionado?.alto ? 'cm' : ''}} </span>
         </div>
       </div>
     </div>

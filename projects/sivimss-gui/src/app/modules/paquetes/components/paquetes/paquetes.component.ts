@@ -1,21 +1,28 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BreadcrumbService } from "../../../../shared/breadcrumb/services/breadcrumb.service";
-import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
-import { OverlayPanel } from "primeng-lts/overlaypanel";
-import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { DIEZ_ELEMENTOS_POR_PAGINA, Accion } from "../../../../utils/constantes";
-import { Paquete } from "../../models/paquetes.interface";
-import { LazyLoadEvent } from "primeng-lts/api";
-import { ActivatedRoute, Router } from '@angular/router';
-import { VerDetallePaquetesComponent } from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
-import { Servicio } from '../../models/servicios.interface';
-import { Articulo } from '../../models/articulos.interface';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {BreadcrumbService} from "../../../../shared/breadcrumb/services/breadcrumb.service";
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
+import {OverlayPanel} from "primeng-lts/overlaypanel";
+import {DialogService, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {DIEZ_ELEMENTOS_POR_PAGINA, Accion} from "../../../../utils/constantes";
+import {Paquete} from "../../models/paquetes.interface";
+import {LazyLoadEvent} from "primeng-lts/api";
+import {ActivatedRoute, Router} from '@angular/router';
+import {VerDetallePaquetesComponent} from '../ver-detalle-paquetes/ver-detalle-paquetes.component';
+import {Servicio} from '../../models/servicios.interface';
+import {Articulo} from '../../models/articulos.interface';
+import {PaquetesService} from "../../services/paquetes.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {PAQUETES_BREADCRUMB} from "../../constants/breadcrumb";
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {VALORES_DUMMIES} from "../../constants/dummies";
+import {FiltrosPaquetes} from "../../models/filtro-paquetes.interface";
 
 interface HttpResponse {
   respuesta: string;
   paquete: Paquete;
 }
+
 @Component({
   selector: 'app-paquetes',
   templateUrl: './paquetes.component.html',
@@ -31,20 +38,7 @@ export class PaquetesComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  opciones: any[] = [
-    {
-      label: 'Opción 1',
-      value: 0,
-    },
-    {
-      label: 'Opción 2',
-      value: 1,
-    },
-    {
-      label: 'Opción 3',
-      value: 2,
-    }
-  ];
+  opciones: TipoDropdown[] = VALORES_DUMMIES;
 
   paquetesServicio: any[] = [
     {
@@ -95,6 +89,7 @@ export class PaquetesComponent implements OnInit {
 
   mostrarModalAgregarPaquete: boolean = false;
   mostrarModalModificarPaquete: boolean = false;
+  paginacionConFiltrado: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -103,87 +98,91 @@ export class PaquetesComponent implements OnInit {
     private alertaService: AlertaService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private paquetesService: PaquetesService
   ) {
   }
 
   ngOnInit(): void {
-    this.breadcrumbService.actualizar([
-      {
-        icono: 'imagen-icono-operacion-sivimss.svg',
-        titulo: 'Administración de catálogos'
-      },
-      {
-        icono: '',
-        titulo: 'Administrar paquetes'
-      }
-    ]);
+    this.breadcrumbService.actualizar(PAQUETES_BREADCRUMB);
     this.inicializarFiltroForm();
   }
 
+  seleccionarPaginacion(event?: LazyLoadEvent): void {
+    if (event) {
+      this.numPaginaActual = Math.floor((event.first || 0) / (event.rows || 1));
+    }
+    if (this.paginacionConFiltrado) {
+      this.paginarConFiltros();
+    } else {
+      this.paginar();
+    }
+  }
 
-  paginar(event: LazyLoadEvent): void {
-    setTimeout(() => {
-      this.paquetes = [
-        {
-          id: 1,
-          nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
-          descripcion: 'Paquete todo incluido con cremación servicios completos',
-          estatus: true,
-          costoInicial: '$34,200.00',
-          costoReferencia: '$45,000.00',
-          precio: '$65,000.00',
-          region: 'Nacional',
-          clave: '00000000000000000',
-          servicios: this.servicios,
-          articulos: this.articulos,
-        },
-        {
-          id: 2,
-          nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
-          descripcion: 'Paquete todo incluido con cremación servicios completos',
-          estatus: true,
-          costoInicial: '$34,200.00',
-          costoReferencia: '$45,000.00',
-          precio: '$65,000.00',
-          region: 'Nacional',
-          clave: '00000000000000000',
-          servicios: this.servicios,
-          articulos: this.articulos,
-        },
-        {
-          id: 3,
-          nombrePaquete: 'Paquete siniestro de previsión funeraria con cremación',
-          descripcion: 'Paquete todo incluido con cremación servicios completos',
-          estatus: true,
-          costoInicial: '$34,200.00',
-          costoReferencia: '$45,000.00',
-          precio: '$65,000.00',
-          region: 'Nacional',
-          clave: '00000000000000000',
-          servicios: this.servicios,
-          articulos: this.articulos,
-        }
-      ];
-      this.totalElementos = this.paquetes.length;
-    }, 0);
+  paginar(): void {
+    this.paquetesService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.paquetes = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  private paginarConFiltros() {
+    const filtros = this.crearSolicitudFiltros();
+    this.paquetesService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.paquetes = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  crearSolicitudFiltros(): FiltrosPaquetes {
+    return {
+      idOficina: this.filtroForm.get("nivel")?.value,
+      idVelatorio: this.filtroForm.get("velatorio")?.value,
+      idDelegacion: this.filtroForm.get("delegacion")?.value,
+      nombre: this.filtroForm.get("nombrePaquete")?.value,
+    };
   }
 
   inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
-      nivel: [{ value: null, disabled: false }],
-      delegacion: [{ value: null, disabled: false }],
-      velatorio: [{ value: null, disabled: false }],
-      nombrePaquete: [{ value: null, disabled: false }],
+      nivel: [{value: null, disabled: false}],
+      delegacion: [{value: null, disabled: false}],
+      velatorio: [{value: null, disabled: false}],
+      nombrePaquete: [{value: null, disabled: false}],
     });
   }
 
+  buscar(): void {
+    this.numPaginaActual = 0;
+    this.paginacionConFiltrado = true;
+    this.paginarConFiltros();
+  }
+
+  limpiar(): void {
+    this.paginacionConFiltrado = false;
+    this.filtroForm.reset();
+    this.numPaginaActual = 0;
+    this.paginar();
+  }
+
   abrirModalAgregarPaquete(): void {
-    this.router.navigate(['agregar-paquete'], { relativeTo: this.activatedRoute });
+    this.router.navigate(['agregar-paquete'], {relativeTo: this.activatedRoute});
   }
 
   abrirModalDetallePaquete(paquete: Paquete) {
     this.detalleRef = this.dialogService.open(VerDetallePaquetesComponent, {
-      data: { paquete, modo: Accion.Detalle },
+      data: {paquete, modo: Accion.Detalle},
       header: "Ver detalle",
       width: "920px"
     });
@@ -197,7 +196,7 @@ export class PaquetesComponent implements OnInit {
   abrirModalModificarPaquete() {
     // this.inicializarModificarPaqueteForm();
     this.mostrarModalModificarPaquete = true;
-    this.router.navigate(['modificar-paquete', this.paqueteSeleccionado.id], { relativeTo: this.activatedRoute });
+    this.router.navigate(['modificar-paquete', this.paqueteSeleccionado.id], {relativeTo: this.activatedRoute});
   }
 
   agregarPaquete(): void {
@@ -226,7 +225,7 @@ export class PaquetesComponent implements OnInit {
   cambiarEstatus(paquete: Paquete) {
     const modo: number = paquete.estatus ? Accion.Desactivar : Accion.Activar;
     this.detalleRef = this.dialogService.open(VerDetallePaquetesComponent, {
-      data: { paquete, modo },
+      data: {paquete, modo},
       header: "Ver detalle",
       width: "920px"
     });
@@ -263,5 +262,6 @@ export class PaquetesComponent implements OnInit {
   get fmc() {
     return this.modificarPaqueteForm.controls;
   }
+
 
 }

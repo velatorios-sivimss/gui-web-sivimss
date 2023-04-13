@@ -37,7 +37,7 @@ export class VerDetalleRolComponent implements OnInit {
   cambiarEstatus(rol: Rol): void {
     const rolEstatus = {
       "idRol": rol.idRol,
-      "estatusRol": rol.estatus ? 1 : 0 
+      "estatusRol": rol.estatus ? 1 : 0
     }
     const solicitudId = JSON.stringify(rolEstatus);
     this.rolService.cambiarEstatus(solicitudId).subscribe(
@@ -72,7 +72,7 @@ export class VerDetalleRolComponent implements OnInit {
         this.rolSeleccionado = respuesta.datos[0];
       },
       (error: HttpErrorResponse) => {
-        console.log(error);
+        console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
