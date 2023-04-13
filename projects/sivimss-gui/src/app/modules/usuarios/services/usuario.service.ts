@@ -4,9 +4,9 @@ import {Observable, of} from "rxjs";
 import {HttpRespuesta} from "../../../models/http-respuesta.interface";
 import {BaseService} from "../../../utils/base-service";
 import {environment} from '../../../../environments/environment';
-import {AutenticacionService} from "../../../services/security/autenticacion.service";
 import {mapearArregloTipoDropdown} from "../../../utils/funciones";
 import {TipoDropdown} from "../../../models/tipo-dropdown";
+import {AutenticacionService} from "../../../services/autenticacion.service";
 
 @Injectable()
 export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
