@@ -172,6 +172,11 @@ const routes: Routes = [
     canActivate: [PermiteUsuarioLogueadoGuard]
   },
   {
+    path: 'vales-paritaria',
+    loadChildren: () => import('./modules/vales-paritaria/vales-paritaria.module').then(m => m.ValesParitariaModule),
+    canActivate: [PermiteUsuarioLogueadoGuard]
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
