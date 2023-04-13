@@ -79,6 +79,7 @@ export class ModificarCapillaComponent implements OnInit {
     this.anch = this.capillaSeleccionada.largo
     this.areaTotal = this.alt * this.anch
     this.inicializarAgregarCapillaForm(this.capillaSeleccionada );
+
   }
 
 

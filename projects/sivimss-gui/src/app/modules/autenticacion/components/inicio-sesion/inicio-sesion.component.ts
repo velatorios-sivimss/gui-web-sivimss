@@ -2,6 +2,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService } from "primeng-lts/dynamicdialog";
+import { ModalRestablecerContraseniaComponent } from "projects/sivimss-gui/src/app/modules/autenticacion/components/modal-restablecer-contrasenia/modal-restablecer-contrasenia.component";
+import { ModalSeleccionarBeneficiarioComponent } from "projects/sivimss-gui/src/app/modules/ordenes-servicio/components/modal-seleccionar-beneficiario/modal-seleccionar-beneficiario.component";
 import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
 import { AutenticacionService } from "projects/sivimss-gui/src/app/services/autenticacion.service";
 import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
@@ -23,16 +26,13 @@ export class InicioSesionComponent implements OnInit, OnDestroy {
   refTemporizador: any;
 
   form!: FormGroup;
-  formRestContraUsuario!: FormGroup;
-  formRestContraCodigo!: FormGroup;
+
 
   mostrarModalPreActivo: boolean = false;
   mostrarModalContraseniaProxVencer: boolean = false;
   mostrarModalFechaContraseniaVencida: boolean = false;
   mostrarModalIntentosFallidos: boolean = false;
 
-
-  //pasoRestablecerContrasena: number = 1;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -41,6 +41,7 @@ export class InicioSesionComponent implements OnInit, OnDestroy {
     private readonly router: Router,
     private readonly alertaService: AlertaService,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly dialogService: DialogService
   ) {
   }
 
@@ -54,13 +55,7 @@ export class InicioSesionComponent implements OnInit, OnDestroy {
       contrasenia: ['', Validators.required]
     });
 
-    this.formRestContraUsuario = this.formBuilder.group({
-      usuario: ['', Validators.required],
-    });
 
-    this.formRestContraCodigo = this.formBuilder.group({
-      codigo: ['', Validators.required],
-    });
   }
 
   acceder(mostrarMsjContraseniaProxVencer: boolean = true) {
@@ -136,6 +131,14 @@ export class InicioSesionComponent implements OnInit, OnDestroy {
     return localStorage.getItem('segundos_temporizador_intentos_sivimss') !== null;
   }
 
+  abrirModalRestablecerContrasenia(): void {
+    this.dialogService.open(ModalRestablecerContraseniaComponent, {
+      header: 'Restablecer contraseña',
+      style: {maxWidth: '600px', width: '100%'},
+      closable:false
+    });
+  }
+
   // cerrarModlRestablecerCont() {
   //   this.modales.restablecerContrasena = false;
   //   this.pasoRestablecerContrasena = 1;
@@ -145,13 +148,6 @@ export class InicioSesionComponent implements OnInit, OnDestroy {
     return this.form.controls;
   }
 
-  get frcu() {
-    return this.formRestContraUsuario.controls;
-  }
-
-  get frcc() {
-    return this.formRestContraCodigo.controls;
-  }
 
   ngOnDestroy(): void {
     clearInterval(this.refTemporizador)

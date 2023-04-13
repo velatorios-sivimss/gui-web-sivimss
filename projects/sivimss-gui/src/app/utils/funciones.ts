@@ -49,3 +49,8 @@ export function obtenerDiferenciaEntreFechasEnAnios(fechaInicio: Date, fechaFin:
 function esAnioBisiesto(anio: number): boolean {
   return anio % 4 === 0 && (anio % 100 !== 0 || anio % 400 === 0);
 }
+
+export function existeMensajeEnEnum(enumObj: { [s: string]: string }, valor: string): boolean {
+  const valores = Object.values(enumObj);
+  return valores.includes(valor);
+}
