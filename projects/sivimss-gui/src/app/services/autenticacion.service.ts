@@ -13,7 +13,7 @@ import { MensajesRespuestaAutenticacion } from "projects/sivimss-gui/src/app/uti
 import { dummyMenuResponse } from "projects/sivimss-gui/src/app/utils/menu-dummy";
 import { TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION } from "projects/sivimss-gui/src/app/utils/tokens";
 import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
-import { concatMap, first, map } from "rxjs/operators";
+import { concatMap, delay, first, map } from "rxjs/operators";
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 export interface Modulo {
@@ -63,7 +63,7 @@ const respuestaPreActivo = {
   "error": false,
   "codigo": 200,
   "mensaje": "USUARIO_PREACTIVO",
-  "datos":null
+  "datos": null
 };
 
 const respuestaCambioContrasenia = {
@@ -157,6 +157,35 @@ const respuestaPermisosUsuario = {
             "descPermiso": "IMPRIMIR"
           }
         ]
+      },
+      {
+        "idFuncionalidad": "3",
+        "permisos": [
+          {
+            "idPermiso": "1",
+            "descPermiso": "ALTA"
+          },
+          {
+            "idPermiso": "2",
+            "descPermiso": "BAJA"
+          },
+          {
+            "idPermiso": "3",
+            "descPermiso": "CONSULTA"
+          },
+          {
+            "idPermiso": "4",
+            "descPermiso": "MODIFICAR"
+          },
+          {
+            "idPermiso": "5",
+            "descPermiso": "APROBACIÓN"
+          },
+          {
+            "idPermiso": "6",
+            "descPermiso": "IMPRIMIR"
+          }
+        ]
       }
     ]
   }
@@ -169,8 +198,11 @@ export class AutenticacionService {
   usuarioEnSesionSubject: BehaviorSubject<UsuarioEnSesion | null> = new BehaviorSubject<UsuarioEnSesion | null>(null);
   usuarioEnSesion$: Observable<UsuarioEnSesion | null> = this.usuarioEnSesionSubject.asObservable();
 
-  permisosUsuarioSubject: BehaviorSubject<PermisosPorFuncionalidad[]> = new BehaviorSubject<PermisosPorFuncionalidad[]>([]);
-  permisosUsuario$: Observable<PermisosPorFuncionalidad[]> = this.permisosUsuarioSubject.asObservable();
+  permisosUsuarioSubject: BehaviorSubject<PermisosPorFuncionalidad[] | null> = new BehaviorSubject<PermisosPorFuncionalidad[] | null>(null);
+  permisosUsuario$: Observable<PermisosPorFuncionalidad[] | null> = this.permisosUsuarioSubject.asObservable();
+
+  paginaCargadaSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  paginaCargada$: Observable<boolean> = this.paginaCargadaSubject.asObservable();
 
   existeUnaSesion$: Observable<boolean> = this.usuarioEnSesion$.pipe(
     map((usuario: UsuarioEnSesion | null) => !!usuario)
@@ -198,25 +230,32 @@ export class AutenticacionService {
     if (token) {
       try {
         const usuario: UsuarioEnSesion = this.obtenerUsuarioDePayload(token);
-        this.obtenerPermisos(usuario.idRol).pipe(first()).subscribe((respuesta: HttpRespuesta<any>) => {
-          this.usuarioEnSesionSubject.next(usuario);
+        this.usuarioEnSesionSubject.next(usuario);
+        this.obtenerPermisos(usuario.idRol).subscribe((respuesta: HttpRespuesta<any>) => {
           this.permisosUsuarioSubject.next(respuesta.datos.permisosUsuario);
           this.iniciarTemporizadorSesion();
+          this.paginaCargadaSubject.next(true);
         });
       } catch (ex) {
         this.cerrarSesion();
+        this.paginaCargadaSubject.next(true);
       }
+    } else {
+      this.paginaCargadaSubject.next(true);
     }
   }
 
   iniciarSesion(usuario: string, contrasenia: string, mostrarMsjContraseniaProxVencer: boolean = true): Observable<any> {
     //this.http.post<any>(`http://localhost:8080/mssivimss-oauth/acceder`, {usuario, contrasena})
+    this.paginaCargadaSubject.next(false);
     return of<HttpRespuesta<any>>(respuestaInicioSesionCorrecto).pipe(
+      delay(1000),
       concatMap((respuesta: HttpRespuesta<any>) => {
         if (respuesta.mensaje === MensajesRespuestaAutenticacion.InicioSesionCorrecto || (respuesta.mensaje === MensajesRespuestaAutenticacion.ContraseniaProximaVencer && !mostrarMsjContraseniaProxVencer)) {
           const usuario: UsuarioEnSesion = this.obtenerUsuarioDePayload(respuesta.datos.token);
           return this.obtenerPermisos(usuario.idRol).pipe(map((respuestaPermisos: HttpRespuesta<any>) => {
             this.crearSesion(respuesta.datos.token, usuario, respuestaPermisos.datos.permisosUsuario);
+            this.paginaCargadaSubject.next(true);
             return MensajesRespuestaAutenticacion.InicioSesionCorrecto;
           }));
         } else if (respuesta.mensaje === MensajesRespuestaAutenticacion.ContraseniaProximaVencer) {
@@ -237,6 +276,7 @@ export class AutenticacionService {
   }
 
   crearSesion(token: string, usuario: UsuarioEnSesion, permisosUsuario: PermisosPorFuncionalidad[]): void {
+    this.breadcrumbService.limpiar();
     this.usuarioEnSesionSubject.next(usuario);
     this.permisosUsuarioSubject.next(permisosUsuario);
     localStorage.setItem(SIVIMSS_TOKEN, token);
@@ -256,7 +296,7 @@ export class AutenticacionService {
     this.breadcrumbService.limpiar();
     this.menuSidebarService.limpiarRutaSeleccionada();
     this.usuarioEnSesionSubject.next(null);
-    this.permisosUsuarioSubject.next([]);
+    this.permisosUsuarioSubject.next(null);
     localStorage.removeItem(SIVIMSS_TOKEN);
     this.router.navigate(['/inicio-sesion']);
     this.detenerTemporizadorSesion();
@@ -276,16 +316,20 @@ export class AutenticacionService {
     return of<HttpRespuesta<any>>(respuestaPermisosUsuario);
   }
 
-  existeFuncionalidadConPermiso(idFuncionalidad: string, idPermiso: string) {
-    const permisosPorFuncionalidad: PermisosPorFuncionalidad[] = this.permisosUsuarioSubject.getValue();
-    const funcionalidadEncontrada: PermisosPorFuncionalidad | undefined = permisosPorFuncionalidad.find((permisosPorFuncionalidad: PermisosPorFuncionalidad) => permisosPorFuncionalidad.idFuncionalidad === idFuncionalidad);
-    if (funcionalidadEncontrada) {
-      const permisoEncontrado: Permiso | undefined = funcionalidadEncontrada.permisos.find((permiso: Permiso) => permiso.idPermiso === idPermiso);
-      if (permisoEncontrado) {
-        return true;
+  existeFuncionalidadConPermiso(idFuncionalidad: string, idPermiso: string): boolean {
+    const permisosPorFuncionalidad: PermisosPorFuncionalidad[] | null = this.permisosUsuarioSubject.getValue();
+    if (permisosPorFuncionalidad) {
+      const funcionalidadEncontrada: PermisosPorFuncionalidad | undefined = permisosPorFuncionalidad.find((permisosPorFuncionalidad: PermisosPorFuncionalidad) => permisosPorFuncionalidad.idFuncionalidad === idFuncionalidad);
+      if (funcionalidadEncontrada) {
+        const permisoEncontrado: Permiso | undefined = funcionalidadEncontrada.permisos.find((permiso: Permiso) => permiso.idPermiso === idPermiso);
+        if (permisoEncontrado) {
+          return true;
+        }
       }
+      return false;
+    } else {
+      return false;
     }
-    return false;
   }
 
   iniciarTemporizadorSesion() {

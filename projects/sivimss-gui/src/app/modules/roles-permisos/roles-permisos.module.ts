@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CeldaStickyModule } from "projects/sivimss-gui/src/app/shared/celda-sticky/celda-sticky.module";
+import { ValidaRolModule } from "projects/sivimss-gui/src/app/shared/valida-rol/valida-rol.module";
 
 import { RolPermisosRoutingModule } from './rol-permisos-routing.module';
 import { RolesPermisosComponent } from './components/roles-permisos/roles-permisos.component';
@@ -42,7 +43,8 @@ import { ModificarRolPermisosComponent } from './components/modificar-rol-permis
     OverlayPanelModule,
     OverlayPanelOpcionesModule,
     TablePanelModule,
-    CeldaStickyModule
+    CeldaStickyModule,
+    ValidaRolModule
   ],
   providers: [
     RolPermisosService
