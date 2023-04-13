@@ -125,7 +125,7 @@ export class VerDetallePaquetesComponent implements OnInit {
           });
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+          console.error(error);
         }
       );
   }

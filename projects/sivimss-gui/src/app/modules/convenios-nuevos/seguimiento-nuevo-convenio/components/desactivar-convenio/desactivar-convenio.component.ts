@@ -50,7 +50,7 @@ export class DesactivarConvenioComponent implements OnInit {
   }
 
   paginar(event: LazyLoadEvent): void{
-    console.log(event);
+
     setTimeout(() =>{
       this.documentos = [
         {
