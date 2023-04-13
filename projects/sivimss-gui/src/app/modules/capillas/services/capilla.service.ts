@@ -75,5 +75,4 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams().append("servicio", "art-clave-sat")
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   }
-
 }
