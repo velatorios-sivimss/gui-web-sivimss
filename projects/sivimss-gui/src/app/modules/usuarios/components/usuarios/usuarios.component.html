@@ -69,7 +69,7 @@
         <td>{{usuario.materno}}</td>
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="usuario.estatus" (ngModelChange)="cambiarEstatus(usuario.id);"></p-inputSwitch>
+            <p-inputSwitch [(ngModel)]="usuario.estatus" (ngModelChange)="cambiarEstatus(usuario.id);" [disabled]="true"></p-inputSwitch>
             <span class="activo" *ngIf="usuario.estatus">Activo</span>
             <span class="inactivo" *ngIf="!usuario.estatus">Inactivo</span>
           </div>

@@ -9,7 +9,7 @@
       <div class="flex flex-column">
         <span>Estatus</span>
         <div class="contenedor-inputswitch">
-          <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus" [disabled]="true"></p-inputSwitch>
           <span class="activo" *ngIf="usuarioSeleccionado.estatus">Activo</span>
           <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>
         </div>
