@@ -17,6 +17,7 @@ import {OverlayPanelOpcionesModule} from "../../shared/overlay-panel-opciones/ov
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {VelatorioService} from "./services/velatorio.service";
 import {CeldaStickyModule} from "../../shared/celda-sticky/celda-sticky.module";
+import {ValidaRolModule} from "../../shared/valida-rol/valida-rol.module";
 
 
 @NgModule({
@@ -27,20 +28,21 @@ import {CeldaStickyModule} from "../../shared/celda-sticky/celda-sticky.module";
     ModificarVelatorioComponent,
     CambioEstatusVelatorioComponent
   ],
-    imports: [
-        CommonModule,
-        VelatoriosRoutingModule,
-        TituloPrincipalModule,
-        FormsModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        TableModule,
-        InputSwitchModule,
-        OverlayPanelModule,
-        OverlayPanelOpcionesModule,
-        TablePanelModule,
-        CeldaStickyModule
-    ],
+  imports: [
+    CommonModule,
+    VelatoriosRoutingModule,
+    TituloPrincipalModule,
+    FormsModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    TableModule,
+    InputSwitchModule,
+    OverlayPanelModule,
+    OverlayPanelOpcionesModule,
+    TablePanelModule,
+    CeldaStickyModule,
+    ValidaRolModule
+  ],
   providers: [VelatorioService]
 })
 export class VelatoriosModule {
