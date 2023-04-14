@@ -14,7 +14,7 @@
           <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>
         </div>
       </div>
-      <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
+      <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)" *appValidaRol="['USUARIOS','MODIFICAR']">
         <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
       </a>
     </div>
