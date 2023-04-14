@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
@@ -23,6 +23,7 @@ import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
+import {CambioEstatusUsuarioComponent} from "../cambio-estatus-usuario/cambio-estatus-usuario.component";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -43,7 +44,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   totalElementos: number = 0;
 
   opciones: TipoDropdown[] = CATALOGOS;
-  catRol: TipoDropdown[] = [];
+  catalogoRoles: TipoDropdown[] = [];
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
+  catalogoVelatorios: TipoDropdown[] = [];
   usuarios: Usuario[] = [];
   usuarioSeleccionado!: Usuario;
 
@@ -54,6 +58,12 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   creacionRef!: DynamicDialogRef
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
+  cambioEstatusRef!: DynamicDialogRef;
+
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
+  readonly POSICION_VELATORIOS: number = 3;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,9 +78,18 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
-    const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.cargarCatalogos();
     this.inicializarFiltroForm();
+  }
+
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const roles = respuesta[this.POSICION_ROLES].datos;
+    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
+    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
+    this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 
   abrirPanel(event: MouseEvent, usuario: Usuario): void {
@@ -97,6 +116,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.modificacionRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
+  abrirModalCambioEstatusUsuario(): void {
+    const header: string = this.usuarioSeleccionado.estatus ? 'Desactivar' : 'Activar';
+    const CAMBIO_ESTATUS_CONFIG: DynamicDialogConfig = {
+      header: `${header} usuario`,
+      width: MAX_WIDTH,
+      data: this.usuarioSeleccionado.id
+    }
+    this.cambioEstatusRef = this.dialogService.open(CambioEstatusUsuarioComponent, CAMBIO_ESTATUS_CONFIG);
+    this.cambioEstatusRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
+  }
+
   abrirModalDetalleUsuario(usuario: Usuario): void {
     this.usuarioSeleccionado = usuario;
     const DETALLE_CONFIG: DynamicDialogConfig = {
@@ -110,7 +140,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
-      nivel: [{value: null, disabled: false}, Validators.required],
+      nivel: [{value: null, disabled: false}],
       velatorio: [{value: null, disabled: false}],
       delegacion: [{value: null, disabled: false}],
       rol: [{value: null, disabled: false}]
@@ -145,7 +175,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   paginarConFiltros(): void {
-    const filtros = this.crearSolicitudFiltros();
+    const filtros: FiltrosUsuario = this.crearSolicitudFiltros();
     this.cargadorService.activar();
     this.usuarioService.buscarPorFiltros(filtros, this.numPaginaActual, this.cantElementosPorPagina)
       .pipe(finalize(() => this.cargadorService.desactivar()))
@@ -213,8 +243,13 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
   }
 
+
   get f() {
     return this.filtroForm.controls;
+  }
+
+  get tituloCambioEstatus(): string {
+    return this.usuarioSeleccionado.estatus ? 'Desactivar' : 'Activar';
   }
 
   ngOnDestroy(): void {
@@ -227,5 +262,9 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     if (this.modificacionRef) {
       this.modificacionRef.destroy();
     }
+    if (this.cambioEstatusRef) {
+      this.cambioEstatusRef.destroy();
+    }
   }
+
 }

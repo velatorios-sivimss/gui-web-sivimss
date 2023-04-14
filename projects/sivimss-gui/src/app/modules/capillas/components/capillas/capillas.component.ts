@@ -127,7 +127,6 @@ export class CapillasComponent implements OnInit {
 
   limpiar(): void {
     this.filtroForm.reset();
-    console.log('limpiar');
   }
 
   abrirModalDetalleCapilla(capilla: Capilla) {

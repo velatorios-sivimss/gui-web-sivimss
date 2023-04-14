@@ -15,7 +15,6 @@ export function contraseniasDiferentesdValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const contraseniaAnterior = control.get('contraseniaAnterior');
     const contraseniaNueva = control.get('contraseniaNueva');
-    console.log(contraseniaAnterior && contraseniaNueva && contraseniaAnterior.value !== contraseniaNueva.value ? null : {contraseniasIguales: true});
     return contraseniaAnterior && contraseniaNueva && contraseniaAnterior.value !== contraseniaNueva.value ? null : {contraseniasIguales: true};
   };
 }

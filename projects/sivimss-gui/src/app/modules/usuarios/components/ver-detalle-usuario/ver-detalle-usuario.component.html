@@ -9,12 +9,12 @@
       <div class="flex flex-column">
         <span>Estatus</span>
         <div class="contenedor-inputswitch">
-          <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus"></p-inputSwitch>
+          <p-inputSwitch [(ngModel)]="usuarioSeleccionado.estatus" [disabled]="true"></p-inputSwitch>
           <span class="activo" *ngIf="usuarioSeleccionado.estatus">Activo</span>
           <span class="inactivo" *ngIf="!usuarioSeleccionado.estatus">Inactivo</span>
         </div>
       </div>
-      <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
+      <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)" *appValidaRol="['USUARIOS','MODIFICAR']">
         <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
       </a>
     </div>

@@ -69,7 +69,6 @@ export class ModificarCapillaComponent implements OnInit {
       }
     }
     this.inicializarAgregarCapillaForm(this.capillaSeleccionada );
-    console.log('capilla seleccionada__:'+this.capillaSeleccionada.idCapilla);
 
   }
 
