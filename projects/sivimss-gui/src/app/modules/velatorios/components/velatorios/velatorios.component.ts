@@ -8,7 +8,7 @@ import {AgregarVelatorioComponent} from "../agregar-velatorio/agregar-velatorio.
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {Velatorio} from "../../models/velatorio.interface";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
-import {ActivarVelatorioComponent} from "../activar-velatorio/activar-velatorio.component";
+import {CambioEstatusVelatorioComponent} from "../cambio-estatus-velatorio/cambio-estatus-velatorio.component";
 import {ModificarVelatorioComponent} from "../modificar-velatorio/modificar-velatorio.component";
 import {FiltrosVelatorio} from "../../models/filtrosVelatorio.interface";
 import {RespuestaModaVelatorio} from "../../models/respuestaModal.interface";
@@ -97,7 +97,7 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
       data: this.velatorioSeleccionado,
       width: MAX_WIDTH,
     }
-    this.activarRef = this.dialogService.open(ActivarVelatorioComponent, ACTIVAR_CONFIG);
+    this.activarRef = this.dialogService.open(CambioEstatusVelatorioComponent, ACTIVAR_CONFIG);
     this.activarRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 

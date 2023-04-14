@@ -14,11 +14,11 @@ interface SolicitudEstatus {
 }
 
 @Component({
-  selector: 'app-activar-velatorio',
-  templateUrl: './activar-velatorio.component.html',
-  styleUrls: ['./activar-velatorio.component.scss']
+  selector: 'app-cambio-estatus-velatorio',
+  templateUrl: './cambio-estatus-velatorio.component.html',
+  styleUrls: ['./cambio-estatus-velatorio.component.scss']
 })
-export class ActivarVelatorioComponent implements OnInit {
+export class CambioEstatusVelatorioComponent implements OnInit {
 
   velatorioSeleccionado!: Velatorio;
   title!: string;
