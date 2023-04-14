@@ -22,6 +22,12 @@ export class ConsultaDonacionesService extends BaseService<HttpRespuesta<any>, a
     // return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/buscar-usuarios`, filtros, {headers, params});
   }
 
+  exportarArchivo(tipoArchivo: any,):  Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
+    const params = new HttpParams().append("servicio", "generarDocumento")
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/generarDocumento`, tipoArchivo, { headers, params });
+  }
+
   obtenerCatalogoataudes(pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
     const params = new HttpParams().append("servicio", "consultar-donados").append("pagina", pagina).append("tamanio", tamanio)
@@ -48,5 +54,10 @@ export class ConsultaDonacionesService extends BaseService<HttpRespuesta<any>, a
     const params = new HttpParams().append("servicio", "consultar-nivel")
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/`, { headers, params });
   }
+
+
+
+
+
 
 }

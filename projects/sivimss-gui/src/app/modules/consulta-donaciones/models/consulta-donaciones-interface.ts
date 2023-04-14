@@ -39,5 +39,6 @@ export interface FiltroDonacionesInterface {
   fechaInicio?: string;
   fechaFin?: string;
   donadoPor?: string;
+  tipoReporte?: string
 }
 

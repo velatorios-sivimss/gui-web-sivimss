@@ -75,7 +75,8 @@
 <section>
   <p-table appActivarUltimaCeldaSticky styleClass="mt-5 mb-8" [value]="ataudesDonados"
     [paginator]="ataudesDonados.length > 0" [rows]="cantElementosPorPagina" [lazy]="true"
-    [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual" (onLazyLoad)="seleccionarPaginacion($event)">
+    [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
+    (onLazyLoad)="seleccionarPaginacion($event)">
     <ng-template pTemplate="header">
       <tr>
         <th scope="col">Velatorio</th>
@@ -125,8 +126,8 @@
         <div class="export-table">
           <span class="export-table-text">Exportar tabla</span>
           <div class="export-table-icons">
-            <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
-            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel">
+            <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" (click)="descargarArchivo('pdf')" alt="exportar pdf">
+            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" (click)="descargarArchivo('xls')"  alt="exportar excel">
           </div>
         </div>
       </div>
