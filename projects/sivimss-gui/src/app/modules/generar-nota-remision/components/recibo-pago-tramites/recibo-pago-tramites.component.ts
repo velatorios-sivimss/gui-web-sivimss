@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ReciboPago } from '../../models/recibo-pago.interface';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-recibo-pago-tramites',
@@ -8,8 +7,20 @@ import { ReciboPago } from '../../models/recibo-pago.interface';
   styleUrls: ['./recibo-pago-tramites.component.scss']
 })
 export class ReciboPagoTramitesComponent implements OnInit {
-  constructor() { }
+
+  notaRemisionForm!: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit(): void { }
+
+  inicializarNotaRemisionForm() {
+    this.notaRemisionForm = this.formBuilder.group({
+      versionDocumento: [{ value: null, disabled: false }],
+      fecha: [{ value: null, disabled: false }],
+    });
+  }
 
 }

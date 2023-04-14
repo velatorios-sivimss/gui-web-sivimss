@@ -1,12 +1,10 @@
 <div class="row">
-  <h3>Generar recibo de pago</h3>
+  <h3>Generar NOTA DE REMISIÓN</h3>
 </div>
 
 <div class="row mb-4">
-  <div class="col-md-12 border seccion-folio flex justify-content-between">
-    <div>
-      <span class="subtitulo texto-centrado">Folio <span class="valor-subtitulo">DOC-000001</span></span>
-    </div>
+  <div class="col-md-12 border-custorm seccion-folio flex justify-content-between">
+    <div></div>
     <div class="table-panel-header-column">
       <div class="flex flex-column ml-5">
         <a>
@@ -16,142 +14,274 @@
     </div>
   </div>
 
-  <div class="col-md-12 border">
+  <div class="col-md-12 border-external">
     <div class="body">
+      <section class="logos">
+        <div class="logo-imss float-left">
+          <span class="texto-imss">IMSS</span>
+        </div>
+        <div class="logo-fibeso float-right ">
+          <span class="texto-fibeso">FIBESO</span>
+        </div>
+      </section>
+
       <section class="titulo-body">
         <p>
-          DIRECCIÓN DE PRESTACIONES ECONÓMICAS Y SOCIALES
-          COORDINACIÓN DE CENTROS VACACIONALES, VELATORIOS, UNIDAD DE CONGRESO Y TIENDAS
-          RECIBO DE PAGO DE TRÁMITES POR CUENTA DEL CONTRATANTE
+          NOTA DE REMISIÓN
         </p>
       </section>
 
-      <hr class="solid">
-
-      <section class="flex justify-content-between info-gral-body mt-7">
-        <span class="etiqueta-formato">Delegación <span class="etiqueta-formato-val">Edo. Mexico Poniente</span> </span>
-        <span class="etiqueta-formato">Velatorio <span class="etiqueta-formato-val">No. 18 Tequesquináhuac</span>
-        </span>
-      </section>
-
-      <section class="border contenido-body">
-        <div class="mt-5">
-          <span class="col-md-12 etiqueta-formato-val">Mexico CDMX
-            <span class="etiqueta-base"> a </span>
-            <span class="etiqueta-formato-val"> 20 </span>
-            <span class="etiqueta-base"> de </span>
-            <span class="etiqueta-formato-val"> Abril </span>
-            <span class="etiqueta-base"> de </span>
-            <span class="etiqueta-formato-val"> 2021 </span>
-          </span>
-          <span class="col-md-12 mt-5 etiqueta-base">Recibimos del SR(A)
-            <span class="etiqueta-formato-val">Luis Lozada Santos</span>
-          </span>
-          <span class="col-md-12 etiqueta-base mt-3">la cantidad de
-            <span class="etiqueta-formato-val">$50,000.00 (Cincuenta mil pesos 00/100 M.N.)</span>
-          </span>
-        </div>
-
-        <div>
-          <span class="col-md-12 etiqueta-base mt-7 mb-3">Para que a su nombre y representación paqgue los trámites para
-            otorgar el contrato
-            de prestación de servicios <span class="etiqueta-formato-val"> No. 312 </span>
-            en dependencias de acuerdo al siguiente desgloce
-          </span>
-
-          <div class="grid-container">
-            <div class="grid-item">
-              <span class="etiqueta-formato">Trámites <span class="etiqueta-formato-val">$ 35,000.00</span></span>
+      <form [formGroup]="notaRemisionForm">
+        <section class="flex justify-content-between info-gral-remision mt-7">
+          <div class="mb-6">
+            <div class="float-left">
+              <label class="control-label" for="versionDocumento">Versión del documento<span
+                  class="req">*</span>:</label>
+              <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                placeholder="Ingresa la versión">
             </div>
-            <div class="grid-item">
-              <span class="etiqueta-formato">Descripción <span class="etiqueta-formato-val">Descripción del trámite que
-                  está realizandose </span>
-              </span>
+            <div class="float-right ">
+              <label class="control-label" for="fecha">Fecha<span class="req">*</span>:</label>
+              <p-calendar id="fecha" formControlName="fecha" styleClass="form-control" [showIcon]="true"
+                placeholder="Fecha inicial" dateFormat="dd/mm/yy">
+              </p-calendar>
             </div>
-            <div class="grid-item"></div>
-
-            <div class="grid-item">
-              <span class="etiqueta-formato">Derechos <span class="etiqueta-formato-val">$15,000.00</span></span>
-            </div>
-            <div class="grid-item">
-              <span class="etiqueta-formato">Descripción <span class="etiqueta-formato-val">Descripción del derecho que
-                  está realizandose </span>
-              </span>
-            </div>
-            <div class="grid-item"></div>
-
-            <div class="grid-item mt-5">
-              <span class="etiqueta-formato">Total <span class="etiqueta-totales">$ 50,000.00</span></span>
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item"></div>
           </div>
+        </section>
 
-          <span class="col-md-12 etiqueta-base mt-7 mb-2">LAS PARTES ACUERDAN QUE SI EXISTIERA UNA DIFERENCIA EN DINERO
-            A FAVOR DEL CONTRATANTE ESTA SERÁ
-            DEVUELTA, JUNTO CON LOS COMPROBANTES ORIGINALES DE LOS TRÁMITES O DERECHOS PAGADOS A SU ENTERA
-            SATISFACCIÓN, ANTES DEL TÉRMINO DEL SERVICIO FUNERARIO.
-          </span>
-
-          <div class="grid-container mb-4">
-            <div class="grid-item">
-              <span class="etiqueta-formato">Total <span class="etiqueta-totales">$ 60,000.00</span></span>
-            </div>
-            <div class="grid-item"></div>
-            <div class="grid-item"></div>
-          </div>
-
-        </div>
-
-        <div class="row flex justify-content-between mt-7">
-          <div class="card border">
-            <p class="etiqueta-formato-val">Agente de funerales</p>
-            <div class="container-card">
-              <p class="mb-7 etiqueta-card">Nombre</p>
-              <hr class="solid">
-              <div class="flex justify-content-between mt-5">
-                <div class="column-card etiqueta-card">Matrícula</div>
-                <div class="column-card etiqueta-card">Firma</div>
+        <section class="flex content-body">
+          <div class="col-md-12 sub-content">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="control-label" for="versionDocumento">Velatorio<span class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa el velatorio">
               </div>
-              <div class="flex justify-content-between mt-5">
-                <hr class="column-card solid">
-                <hr class="column-card solid">
+              <div class="col-md-6">
+                <label class="control-label" for="versionDocumento">Remisión de servicios<span
+                    class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa la remisión de servicios">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label class="control-label" for="versionDocumento">Dirección<span class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa el velatorio">
               </div>
             </div>
           </div>
+        </section>
 
-          <div class="card border">
-            <p class="etiqueta-formato-val">Contratante</p>
-            <div class="container-card">
-              <p class="mb-7 etiqueta-card">Nombre</p>
-              <hr class="solid">
-              <p class="mt-5 etiqueta-card">Firma</p>
-              <hr class="solid mt-7">
+        <section class="flex content-body">
+          <div class="col-md-12 sub-content">
+            <span class="titulo-content">Datos del solicitante del servicio</span>
+            <div class="row mt-7 mb-3">
+              <div class="col-md-3 subtitulo">
+                <label class="control-label" for="versionDocumento">Nombre</label>
+              </div>
+              <div class="col-md-9">
+                <label class="control-label" for="versionDocumento">Nombre<span class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa el nombre">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-3 subtitulo">
+                <label class="control-label" for="versionDocumento">Dirección</label>
+              </div>
+              <div class="col-md-9">
+                <label class="control-label" for="versionDocumento">Dirección<span class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa la dirección">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-3 subtitulo">
+                <label class="control-label" for="versionDocumento">CURP</label>
+              </div>
+              <div class="col-md-9">
+                <label class="control-label" for="versionDocumento">CURP<span class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa la CURP">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-3 subtitulo">
+                <label class="control-label" for="versionDocumento">Velatorio origen del convenio</label>
+              </div>
+              <div class="col-md-9">
+                <label class="control-label" for="versionDocumento">Velatorio origen<span class="req">*</span>:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa el velatorio origen">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="flex content-body">
+          <div class="col-md-12 sub-content">
+            <span class="titulo-content">Servicios</span>
+            <div class="row mb-3">
+              <div class="col-md-6 subtitulo">
+                <label class="control-label">Artículos / Servicios</label>
+              </div>
+              <div class="col-md-6 subtitulo">
+                <label class="control-label">Cantidad</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Embalsamamiento">
+              </div>
+              <div class="col-md-6 subtitulo-derecho">
+                <label class="control-label" for="versionDocumento">1</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Cremación">
+              </div>
+              <div class="col-md-6 subtitulo-derecho">
+                <label class="control-label" for="versionDocumento">1</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Velación">
+              </div>
+              <div class="col-md-6 subtitulo-derecho">
+                <label class="control-label" for="versionDocumento">1</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Traslado">
+              </div>
+              <div class="col-md-6 subtitulo-derecho">
+                <label class="control-label" for="versionDocumento">1</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ataúd">
+              </div>
+              <div class="col-md-6 subtitulo-derecho">
+                <label class="control-label" for="versionDocumento">1</label>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Urna ">
+              </div>
+              <div class="col-md-6 subtitulo-derecho">
+                <label class="control-label" for="versionDocumento">2</label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-7">
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label class="control-label" for="versionDocumento">Folio de la ODS:</label>
+              <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                placeholder="Ingresa el folio">
+            </div>
+
+            <div class="col-md-4">
+              <label class="control-label" for="versionDocumento">Folio de la ODS:</label>
+              <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                placeholder="Ingresa el folio">
+            </div>
+
+            <div class="col-md-4">
+              <label class="control-label" for="versionDocumento">Folio de la ODS:</label>
+              <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                placeholder="Ingresa el folio">
             </div>
           </div>
 
-          <div class="card border">
-            <p class="etiqueta-formato-val">Recibe</p>
-            <div class="container-card">
-              <p class="mb-7 etiqueta-card">Nombre</p>
-              <hr class="solid">
-              <div class="flex justify-content-between mt-5">
-                <div class="column-card etiqueta-card">Matrícula</div>
-                <div class="column-card etiqueta-card">Firma</div>
-              </div>
-              <div class="flex justify-content-between mt-5">
-                <hr class="column-card solid">
-                <hr class="column-card solid">
+          <span class="etiqueta-form">Orden de servicio DOC-000001-01/01/2022 Proporcionada por reembolso de previsión
+            funeraria
+          </span>
+        </section>
+
+        <span class="etiqueta-conformidad">Estoy conforme con los servicios otorgados, los cuales fueron de acuerdo al
+          contrato de previsión funeraria No. 04936 celebrado con fecha 18/02/2021 a favor del finado en su calidad de
+          (beneficiario/titular) del servicio</span>
+
+        <section class="flex mt-7">
+          <div class="parte-nombre">
+            <span class="etiqueta-firma">Nombre y firma de conformidad</span>
+            <div class="row mt-3 mb-3">
+              <div class="col-md-12">
+                <label class="control-label" for="versionDocumento">Nombre:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa el nombre">
               </div>
             </div>
           </div>
-        </div>
-      </section>
+          <div class="parte-firma">
+            <div class="card border">
+              <div class="container-card">
+                <hr class="linea-firma mt-2">
+                <p class="mt-5 etiqueta-firma">Firma</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <hr class="dashed">
+
+        <section class="flex mb-7">
+          <div class="parte-nombre">
+            <span class="etiqueta-firma">Nombre y firma del representante de velatorio</span>
+            <div class="row mt-3 mb-3">
+              <div class="col-md-12">
+                <label class="control-label" for="versionDocumento">Nombre:</label>
+                <input id="versionDocumento" class="form-control" formControlName="versionDocumento"
+                  placeholder="Ingresa el nombre">
+              </div>
+            </div>
+          </div>
+          <div class="parte-firma">
+            <div class="card border">
+              <div class="container-card">
+                <hr class="linea-firma mt-2">
+                <p class="mt-5 etiqueta-firma">Firma</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <span class="etiqueta-subtitulo">El presente comprobante carece de validez fiscal</span>
+      </form>
+
     </div>
   </div>
+
+  <div class="mb-4">
+    <div class="col-md-12 mt-4">
+      <span class="etiqueta-obligatorios">*Campos obligatorios</span>
+    </div>
+  </div>
+
 </div>
 
 <div class="row flex justify-content-end mb-4">
-  <button class="btn btn-default btn-md">Cancelar</button>
-  <button class="ml-4 btn btn-primary btn-md">Generar formato de pago</button>
+  <button type="button" class="btn btn-default btn-md">Regresar</button>
+  <button type="button" class="ml-4 btn btn-danger btn-md">Cancelar</button>
+  <button type="button" class="ml-4 btn btn-primary btn-md">Generar nota de remisión</button>
 </div>

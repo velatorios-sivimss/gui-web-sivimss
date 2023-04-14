@@ -29,12 +29,11 @@
       <div class="col-md-3 pt-5">
         <div class="row mt-2">
           <div class="col-md-12">
-            <p-calendar styleClass="form-control" id="fechaFinal" formControlName="fechaFinal" [showIcon]="true" dateFormat="dd/mm/yy"
-              placeholder="Fecha final"></p-calendar>
+            <p-calendar styleClass="form-control" id="fechaFinal" formControlName="fechaFinal" [showIcon]="true"
+              dateFormat="dd/mm/yy" placeholder="Fecha final"></p-calendar>
           </div>
         </div>
       </div>
-
     </div>
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
@@ -50,7 +49,7 @@
     <h2 class="subtitulo">Órdenes de servicio</h2>
   </div>
 
-  <p-table styleClass="mt-5 mb-8" [value]="recibosPago" [paginator]="recibosPago.length > 0"
+  <p-table styleClass="mt-5 mb-8" [value]="notasRemision" [paginator]="notasRemision.length > 0"
     [rows]="cantElementosPorPagina" [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3"
     [(first)]="numPaginaActual" (onLazyLoad)="paginar($event)">
 
@@ -65,17 +64,17 @@
         <th scope="col"></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-reciboPago>
+    <ng-template pTemplate="body" let-notaRemision>
       <tr>
-        <td> {{reciboPago.fecha}} </td>
-        <td> {{reciboPago.folio}} </td>
-        <td> {{reciboPago.folio}} </td>
-        <td> {{reciboPago.estatusOds}} </td>
-        <td> {{reciboPago.estatusOds}} </td>
-        <td> {{reciboPago.estatusPago}} </td>
+        <td> {{notaRemision.fechaODS}} </td>
+        <td> {{notaRemision.folioODS}} </td>
+        <td> {{notaRemision.folioODS}} </td>
+        <td> {{notaRemision.nomContratante}} </td>
+        <td> {{notaRemision.nomFinado}} </td>
+        <td> {{notaRemision.estatus}} </td>
         <td>
           <div class="contenedor-celda-iconos">
-            <a (click)="abrirPanel($event,reciboPago)">
+            <a (click)="abrirPanel($event,notaRemision)">
               <img src="assets/images/imagen-icono-barras-horizontales.svg" alt="icono barras horizontales">
             </a>
           </div>
@@ -85,7 +84,7 @@
 
     <ng-template pTemplate="paginatorleft">
       <div class="paginator-template">
-        <span class="total-elements"> {{recibosPago.length}} de {{totalElementos}} </span>
+        <span class="total-elements"> {{notasRemision.length}} de {{totalElementos}} </span>
       </div>
     </ng-template>
 
@@ -106,7 +105,12 @@
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Generar recibo de pago de trámites " (click)="abrirModalReciboPagoTramites()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Descargar nota de remisión"
+        (click)="abrirModalReciboPagoTramites()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Descargar PDF"
+        (click)="abrirModalReciboPagoTramites()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Descargar Excel"
+        (click)="abrirModalReciboPagoTramites()"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>

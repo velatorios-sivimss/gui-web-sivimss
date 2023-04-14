@@ -13,7 +13,7 @@ const routes: Route[] = [
         }
     },
     {
-        path: 'generar-recibo-pago-tramites',
+        path: 'formato',
         component: ReciboPagoTramitesComponent,
         resolve: {
             respuesta: GenerarNotaRemisionResolver

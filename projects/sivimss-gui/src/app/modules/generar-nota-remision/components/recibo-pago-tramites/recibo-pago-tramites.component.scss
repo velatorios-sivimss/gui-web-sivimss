@@ -29,9 +29,17 @@ hr {
     color: #272829;
 }
 
-.border {
-    border: 0.5px solid #98989A;
+.border-custorm {
+    background: #F3F3F3;
+    border: 0.5px solid #E7F8E1;
     border-radius: 5px;
+}
+
+.border-external {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
 }
 
 .body {
@@ -56,30 +64,80 @@ hr {
     }
 }
 
-hr.solid {
-    border-top: 0.5px solid #98989A;
+hr.dashed {
+    border-top: 1px dashed #999999;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+hr.linea-firma {
+    border-top: 1px solid #98989A;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.info-gral-body span {
-    display: inline-block;
-    margin-bottom: 15px;
-    width: 50%;
+section.info-gral-remision>div:first-child {
+    width: 100%;
 }
 
-.etiqueta-formato {
+.etiqueta-obligatorios {
+    color: #393C3E;
+    font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 19.5px;
-    color: #484848;
+    font-size: 14px;
+    line-height: 17px;
 }
 
-.etiqueta-formato-val {
+.etiqueta-firma {
     font-weight: 600;
     font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.etiqueta-form {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
     line-height: 20px;
     color: #484848;
+}
+
+.etiqueta-conformidad {
+    color: #000000;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.etiqueta-subtitulo {
+    color: #000000;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.subtitulo-derecho {
+    color: #000000;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21px;
+    line-height: 40px;
+    padding-left: 52px;
+}
+
+.subtitulo {
+    line-height: 75px;
+}
+
+.subtitulo label {
+    color: #000000;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
 }
 
 .grid-container {
@@ -98,37 +156,17 @@ hr.solid {
 }
 
 .card {
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    height: 200px;
-    margin-bottom: 100px;
-    transition: 0.3s;
-    width: 30%;
-}
-
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-}
-
-.card>p {
-    margin-top: -35px;
-}
-
-.card>.p~.p {
-    margin-top: 0px;
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    height: 250px;
 }
 
 .container-card {
-    height: 90%;
-    margin: 10px;
-    margin-top: 20px;
-}
-
-.etiqueta-card {
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 15.85px;
-    color: #272829;
+    bottom: -140px;
+    margin: 25px;
+    position: relative;
 }
 
 .etiqueta-totales {
@@ -136,4 +174,78 @@ hr.solid {
     font-size: 18px;
     line-height: 20px;
     color: #484848;
+}
+
+.logos {
+    margin-left: 0px;
+    margin-right: 0px;
+    height: 87px;
+}
+
+.logos div {
+    align-items: center;
+    border-radius: 15px;
+    display: flex;
+    height: 87px;
+    justify-content: center;
+}
+
+.logo-imss {
+    background-color: #235B4E;
+    width: 186px;
+}
+
+.float-left {
+    float: left;
+
+}
+
+.float-right {
+    float: right;
+}
+
+.logo-fibeso {
+    background-color: #FFFFFF;
+    border: 1px solid #235B4E;
+    width: 254px;
+}
+
+.logos div span {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 45px;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+}
+
+.texto-imss {
+    color: #FFFFFF;
+}
+
+.texto-fibeso {
+    color: #235B4E;
+}
+
+.content-body {
+    border: 1px solid #000000;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.sub-content {
+    margin: 20px 15px;
+}
+
+.parte-nombre {
+    margin-right: 20px;
+    width: 40%;
+}
+
+.parte-firma {
+    width: 60%;
 }

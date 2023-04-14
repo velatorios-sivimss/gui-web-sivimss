@@ -1,5 +1,5 @@
 
-import { ReciboPago } from '../../models/recibo-pago.interface';
+import { NotaRemision } from '../../models/nota-remision.interface';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
@@ -30,8 +30,8 @@ export class GenerarNotaRemisionComponent implements OnInit {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  recibosPago: ReciboPago[] = [];
-  reciboPagoSeleccionado: ReciboPago = {};
+  notasRemision: NotaRemision[] = [];
+  notaRemisionSeleccionada: NotaRemision = {};
   filtroForm!: FormGroup;
   creacionRef!: DynamicDialogRef;
   detalleRef!: DynamicDialogRef;
@@ -73,11 +73,11 @@ export class GenerarNotaRemisionComponent implements OnInit {
   }
 
   abrirModalReciboPagoTramites(): void {
-    this.router.navigate(['generar-recibo-pago-tramites'], { relativeTo: this.activatedRoute });
+    this.router.navigate(['formato'], { relativeTo: this.activatedRoute });
   }
 
-  abrirPanel(event: MouseEvent, reciboPagoSeleccionado: ReciboPago): void {
-    this.reciboPagoSeleccionado = reciboPagoSeleccionado;
+  abrirPanel(event: MouseEvent, notaRemisionSeleccionada: NotaRemision): void {
+    this.notaRemisionSeleccionada = notaRemisionSeleccionada;
     this.overlayPanel.toggle(event);
   }
 
@@ -92,27 +92,31 @@ export class GenerarNotaRemisionComponent implements OnInit {
 
   buscarPorFiltros(): void {
     setTimeout(() => {
-      this.recibosPago = [
+      this.notasRemision = [
         {
-          fecha: '12/08/2021',
-          folio: 'DOC-000001',
-          estatusOds: 'Generada',
-          estatusPago: 'Generado',
+          fechaODS: "02/04/2023",
+          nomFinado: "GLORIA GONZALEZ MARIN",
+          idContratante: 2,
+          idFinado: 2,
+          estatus: true,
+          conNota: 0,
+          folioODS: "876543210",
+          nomContratante: "JOSE SANCHEZ MARTINEZ",
+          id: 2
         },
         {
-          fecha: '12/08/2021',
-          folio: 'DOC-000001',
-          estatusOds: 'Generada',
-          estatusPago: 'Generado',
-        },
-        {
-          fecha: '12/08/2021',
-          folio: 'DOC-000001',
-          estatusOds: 'Generada',
-          estatusPago: 'Generado',
+          fechaODS: "01/04/2023",
+          nomFinado: "MARIA HERNANDEZ GOMEZ",
+          idContratante: 1,
+          idFinado: 1,
+          estatus: true,
+          conNota: 0,
+          folioODS: "987654321",
+          nomContratante: "JUAN LOPEZ PEREZ",
+          id: 1
         }
       ];
-      this.totalElementos = this.recibosPago.length;
+      this.totalElementos = this.notasRemision.length;
     }, 0)
   }
 
