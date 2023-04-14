@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Route, RouterModule } from "@angular/router";
 import { GenerarNotaRemisionComponent } from './components/generar-nota-remision/generar-nota-remision.component';
-import { ReciboPagoTramitesComponent } from './components/recibo-pago-tramites/recibo-pago-tramites.component';
+import { FormatoGenerarNotaRemisionComponent } from './components/formato-generar-nota-remision/formato-generar-nota-remision.component';
 import { GenerarNotaRemisionResolver } from './services/generar-nota-remision.resolver';
 
 const routes: Route[] = [
@@ -14,7 +14,7 @@ const routes: Route[] = [
     },
     {
         path: 'formato',
-        component: ReciboPagoTramitesComponent,
+        component: FormatoGenerarNotaRemisionComponent,
         resolve: {
             respuesta: GenerarNotaRemisionResolver
         }

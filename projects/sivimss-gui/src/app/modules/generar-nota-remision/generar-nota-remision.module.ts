@@ -20,13 +20,13 @@ import { AccordionModule } from 'primeng-lts/accordion';
 import { GenerarNotaRemisionComponent } from './components/generar-nota-remision/generar-nota-remision.component';
 import { GenerarNotaRemisionService } from './services/generar-nota-remision.service';
 import { GenerarReciboRoutingModule } from './generar-nota-remision.routing.module';
-import { ReciboPagoTramitesComponent } from './components/recibo-pago-tramites/recibo-pago-tramites.component';
+import { FormatoGenerarNotaRemisionComponent } from './components/formato-generar-nota-remision/formato-generar-nota-remision.component';
 import { UtileriaModule } from '../../shared/utileria/utileria.module';
 
 @NgModule({
   declarations: [
     GenerarNotaRemisionComponent,
-    ReciboPagoTramitesComponent,
+    FormatoGenerarNotaRemisionComponent,
   ],
   imports: [
     CalendarModule,

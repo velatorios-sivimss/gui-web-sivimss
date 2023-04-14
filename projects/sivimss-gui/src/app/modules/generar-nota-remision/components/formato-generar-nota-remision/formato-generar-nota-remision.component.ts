@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-recibo-pago-tramites',
-  templateUrl: './recibo-pago-tramites.component.html',
-  styleUrls: ['./recibo-pago-tramites.component.scss']
+  selector: 'app-formato-generar-nota-remision',
+  templateUrl: './formato-generar-nota-remision.component.html',
+  styleUrls: ['./formato-generar-nota-remision.component.scss']
 })
-export class ReciboPagoTramitesComponent implements OnInit {
+export class FormatoGenerarNotaRemisionComponent implements OnInit {
 
   notaRemisionForm!: FormGroup;
 
