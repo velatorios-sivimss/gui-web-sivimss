@@ -13,9 +13,9 @@ import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {MENSAJES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA} from "../../constants/validacionMatricula";
 import {ActivatedRoute} from '@angular/router';
-import {Catalogo} from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 import {finalize} from "rxjs/operators";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {mapearArregloTipoDropdown} from "../../../../utils/funciones";
 
 type NuevoUsuario = Omit<Usuario, "id" | "password" | "estatus" | "matricula">;
 type SolicitudCurp = Pick<Usuario, "curp">;
@@ -29,17 +29,27 @@ type SolicitudMatricula = Pick<Usuario, "claveMatricula">;
 export class AgregarUsuarioComponent implements OnInit {
 
   agregarUsuarioForm!: FormGroup;
-  opciones: TipoDropdown[] = CATALOGOS;
-  indice: number = 0;
+
   curpValida: boolean = false;
   matriculaValida: boolean = false;
-  catRol: TipoDropdown[] = [];
-  fechaActual: Date = new Date();
+
+  opciones: TipoDropdown[] = CATALOGOS;
+  catalogoRoles: TipoDropdown[] = [];
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
+  catalogoVelatorios: TipoDropdown[] = [];
+
   nuevoUsuario!: NuevoUsuario;
+  fechaActual: Date = new Date();
+  indice: number = 0;
   rolResumen: string = "";
   nivelResumen: string = "";
   delegacionResumen: string = "";
   velatorioResumen: string = "";
+
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,8 +63,15 @@ export class AgregarUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarAgregarUsuarioForm();
-    const roles = this.route.snapshot.data["respuesta"].datos;
-    this.catRol = roles.map((rol: Catalogo) => ({label: rol.nombre, value: rol.id})) || [];
+    this.cargarCatalogos();
+  }
+
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const roles = respuesta[this.POSICION_ROLES].datos
+    this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
   }
 
   inicializarAgregarUsuarioForm(): void {
@@ -74,6 +91,21 @@ export class AgregarUsuarioComponent implements OnInit {
       rol: [{value: null, disabled: false}, [Validators.required]],
       estatus: [{value: true, disabled: false}]
     });
+  }
+
+  buscarVelatorios(): void {
+    const delegacion = this.agregarUsuarioForm.get('delegacion')?.value;
+    this.agregarUsuarioForm.get('velatorio')?.patchValue("");
+    this.usuarioService.obtenerVelatorios(delegacion)
+      .subscribe(
+        (respuesta) => {
+          const velatorios = respuesta.datos || [];
+          this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error)
+        }
+      );
   }
 
   crearUsuario(): NuevoUsuario {
@@ -98,12 +130,11 @@ export class AgregarUsuarioComponent implements OnInit {
     const nivel = this.agregarUsuarioForm.get("nivel")?.value;
     const delegacion = this.agregarUsuarioForm.get("delegacion")?.value;
     const velatorio = this.agregarUsuarioForm.get("velatorio")?.value;
-    this.rolResumen = this.catRol.find(r => r.value === rol)?.label || "";
-    this.nivelResumen = this.opciones.find(o => o.value === nivel)?.label || "";
-    this.delegacionResumen = this.opciones.find(o => o.value === delegacion)?.label || "";
-    this.velatorioResumen = this.opciones.find(o => o.value === velatorio)?.label || "";
+    this.rolResumen = this.catalogoRoles.find(r => r.value === rol)?.label || "";
+    this.nivelResumen = this.catalogoNiveles.find(n => n.value === nivel)?.label || "";
+    this.delegacionResumen = this.catalogoDelegaciones.find(d => d.value === delegacion)?.label || "";
+    this.velatorioResumen = this.catalogoVelatorios.find(v => v.value === velatorio)?.label || "";
   }
-
 
   validarCurp(): void {
     const curp: SolicitudCurp = {curp: this.agregarUsuarioForm.get("curp")?.value};
@@ -150,14 +181,14 @@ export class AgregarUsuarioComponent implements OnInit {
     this.usuarioService.guardar(this.nuevoUsuario)
       .pipe(finalize(() => this.cargadorService.desactivar()))
       .subscribe(
-      () => {
-        this.ref.close(respuesta)
-      },
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
-        console.error("ERROR: ", error.message)
-      }
-    );
+        () => {
+          this.ref.close(respuesta)
+        },
+        (error: HttpErrorResponse) => {
+          this.alertaService.mostrar(TipoAlerta.Error, 'Alta incorrecta');
+          console.error("ERROR: ", error.message)
+        }
+      );
   }
 
   cancelar(): void {
