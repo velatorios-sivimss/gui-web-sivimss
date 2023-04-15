@@ -1,2 +1,2 @@
 
-export const MENU_SALAS: string[] = ['Cremación','Embalsamiento'];
+export const MENU_SALAS: string[] = ['Cremación','Embalsamamiento'];

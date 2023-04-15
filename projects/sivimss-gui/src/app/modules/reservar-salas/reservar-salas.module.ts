@@ -19,6 +19,9 @@ import {CalendarModule} from "primeng-lts/calendar";
 import { RegistrarSalidaComponent } from './components/registrar-salida/registrar-salida.component';
 import { FullCalendarModule } from 'primeng-lts/fullcalendar';
 import {AccordionModule} from "primeng-lts/accordion";
+import {ReservarSalasService} from "./services/reservar-salas.service";
+import {UtileriaModule} from "../../shared/utileria/utileria.module";
+import {InputNumberModule} from "primeng-lts/inputnumber";
 
 @NgModule({
   declarations: [
@@ -43,7 +46,13 @@ import {AccordionModule} from "primeng-lts/accordion";
     CalendarModule,
     FullCalendarModule,
     AccordionModule,
+    UtileriaModule,
+    InputNumberModule
+  ],
+  providers: [
+    ReservarSalasService
   ]
+
 })
 export class ReservarSalasModule {
 }

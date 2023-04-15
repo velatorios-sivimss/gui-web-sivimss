@@ -1,9 +1,27 @@
-.circle{
+.green-circle {
   display: inline-block;
   width: 10px;
   height: 10px;
+  background-color: #83b727;
   border-radius: 50%;
 }
+
+.red-circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #9d2449;
+  border-radius: 50%;
+}
+
+.yellow-circle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #ffff00;
+  border-radius: 50%;
+}
+
 .calendar-label {
   color: #34c1ad;
   font-size: 0.75em;
