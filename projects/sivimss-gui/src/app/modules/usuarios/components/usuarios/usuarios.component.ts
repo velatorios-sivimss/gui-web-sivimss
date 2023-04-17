@@ -243,7 +243,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
   }
 
-
   get f() {
     return this.filtroForm.controls;
   }

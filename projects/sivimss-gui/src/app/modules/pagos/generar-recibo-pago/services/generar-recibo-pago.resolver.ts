@@ -1,19 +1,20 @@
-// TODO: Regresar catalogos
-
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {
-    ActivatedRouteSnapshot, Resolve,
-    RouterStateSnapshot
+  ActivatedRouteSnapshot, Resolve,
+  RouterStateSnapshot
 } from '@angular/router';
-import { Observable, of } from "rxjs";
-import { GenerarReciboService } from './generar-recibo-pago.service';
+import {forkJoin, Observable} from "rxjs";
+import {GenerarReciboService} from './generar-recibo-pago.service';
 
 @Injectable()
 export class GenerarReciboResolver implements Resolve<any> {
 
-    constructor(private generarReciboService: GenerarReciboService) { }
+  constructor(private generarReciboService: GenerarReciboService) {
+  }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
-        return of([])
-    }
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
+    const niveles$ = this.generarReciboService.obtenerCatalogoNiveles();
+    const delegaciones$ = this.generarReciboService.obtenerCatalogoDelegaciones();
+    return forkJoin([niveles$, delegaciones$])
+  }
 }
