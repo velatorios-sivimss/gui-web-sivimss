@@ -158,26 +158,6 @@ export class GenerarReciboPagoComponent implements OnInit {
     this.paginar();
   }
 
-  buscarReciboPago() {
-    if (validarAlMenosUnCampoConValor(this.filtroForm.value)) {
-      this.paginar();
-    } else {
-      this.f.delegacion.setValidators(Validators.required);
-      this.f.delegacion.updateValueAndValidity();
-      this.f.velatorio.setValidators(Validators.required);
-      this.f.velatorio.updateValueAndValidity();
-      this.f.folio.setValidators(Validators.required);
-      this.f.folio.updateValueAndValidity();
-      this.f.nombreContratante.setValidators(Validators.required);
-      this.f.nombreContratante.updateValueAndValidity();
-      this.f.fechaInicial.setValidators(Validators.required);
-      this.f.fechaInicial.updateValueAndValidity();
-      this.f.fechaFinal.setValidators(Validators.required);
-      this.f.fechaFinal.updateValueAndValidity();
-      this.filtroForm.markAllAsTouched();
-    }
-  }
-
   get f() {
     return this.filtroForm?.controls;
   }
