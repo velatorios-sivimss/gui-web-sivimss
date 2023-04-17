@@ -158,32 +158,6 @@ export class GenerarReciboPagoComponent implements OnInit {
     this.paginar();
   }
 
-  buscarPorFiltros(): void {
-    setTimeout(() => {
-      this.recibosPago = [
-        {
-          fecha: '12/08/2021',
-          folio: 'DOC-000001',
-          estatusOds: 'Generada',
-          estatusPago: 'Generado',
-        },
-        {
-          fecha: '12/08/2021',
-          folio: 'DOC-000001',
-          estatusOds: 'Generada',
-          estatusPago: 'Generado',
-        },
-        {
-          fecha: '12/08/2021',
-          folio: 'DOC-000001',
-          estatusOds: 'Generada',
-          estatusPago: 'Generado',
-        }
-      ];
-      this.totalElementos = this.recibosPago.length;
-    }, 0)
-  }
-
   buscarReciboPago() {
     if (validarAlMenosUnCampoConValor(this.filtroForm.value)) {
       this.paginar();
@@ -204,10 +178,7 @@ export class GenerarReciboPagoComponent implements OnInit {
     }
   }
 
-
   get f() {
     return this.filtroForm?.controls;
   }
-
-
 }
