@@ -8,7 +8,7 @@ import {AgregarVelatorioComponent} from "../agregar-velatorio/agregar-velatorio.
 import {DIEZ_ELEMENTOS_POR_PAGINA} from "../../../../utils/constantes";
 import {Velatorio} from "../../models/velatorio.interface";
 import {OverlayPanel} from "primeng-lts/overlaypanel";
-import {ActivarVelatorioComponent} from "../activar-velatorio/activar-velatorio.component";
+import {CambioEstatusVelatorioComponent} from "../cambio-estatus-velatorio/cambio-estatus-velatorio.component";
 import {ModificarVelatorioComponent} from "../modificar-velatorio/modificar-velatorio.component";
 import {FiltrosVelatorio} from "../../models/filtrosVelatorio.interface";
 import {RespuestaModaVelatorio} from "../../models/respuestaModal.interface";
@@ -19,6 +19,7 @@ import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.int
 import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
 
 const MAX_WIDTH: string = "920px";
 
@@ -56,12 +57,18 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
               public dialogService: DialogService,
               private formBuilder: FormBuilder,
               private velatorioService: VelatorioService,
+              private route: ActivatedRoute,
               private cargadorService: LoaderService) {
   }
 
   ngOnInit(): void {
     this.actualizarBreadcrumb();
-    this.inicializarFiltroForm()
+    this.inicializarFiltroForm();
+    this.cargarCatalogos();
+  }
+
+  cargarCatalogos(): void {
+    this.niveles = this.route.snapshot.data["respuesta"];
   }
 
   actualizarBreadcrumb(): void {
@@ -90,7 +97,7 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
       data: this.velatorioSeleccionado,
       width: MAX_WIDTH,
     }
-    this.activarRef = this.dialogService.open(ActivarVelatorioComponent, ACTIVAR_CONFIG);
+    this.activarRef = this.dialogService.open(CambioEstatusVelatorioComponent, ACTIVAR_CONFIG);
     this.activarRef.onClose.subscribe((respuesta: RespuestaModalUsuario) => this.procesarRespuestaModal(respuesta));
   }
 
@@ -131,15 +138,15 @@ export class VelatoriosComponent implements OnInit, OnDestroy {
     this.velatorioService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina)
       .pipe(finalize(() => this.cargadorService.desactivar()))
       .subscribe(
-      (respuesta) => {
-        this.listaVelatorios = respuesta!.datos.content || [];
-        this.totalElementos = respuesta!.datos.totalElements || 0;
-      },
-      (error: HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
-      }
-    )
+        (respuesta) => {
+          this.listaVelatorios = respuesta!.datos.content || [];
+          this.totalElementos = respuesta!.datos.totalElements || 0;
+        },
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      )
   }
 
   paginarConFiltros(): void {

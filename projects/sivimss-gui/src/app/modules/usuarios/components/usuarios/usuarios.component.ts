@@ -11,7 +11,6 @@ import {Usuario} from '../../models/usuario.interface';
 import {UsuarioService} from '../../services/usuario.service';
 
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {AgregarUsuarioComponent} from "../agregar-usuario/agregar-usuario.component";
 import {USUARIOS_BREADCRUMB} from "../../constants/breadcrumb";
@@ -43,7 +42,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  opciones: TipoDropdown[] = CATALOGOS;
   catalogoRoles: TipoDropdown[] = [];
   catalogoNiveles: TipoDropdown[] = [];
   catalogoDelegaciones: TipoDropdown[] = [];

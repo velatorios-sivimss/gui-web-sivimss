@@ -2,7 +2,7 @@ import {ElementoBreadcrumb} from "../../../shared/breadcrumb/models/elemento-bre
 
 export const VELATORIOS_BREADCRUMB: ElementoBreadcrumb[] = [
   {
-    icono: '',
+    icono: 'imagen-icono-operacion-sivimss.svg',
     titulo: 'Administración de catalogos'
   },
   {
