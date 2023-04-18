@@ -3,27 +3,22 @@
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column">
         <span class="font-bold">
-          ID <span [ngClass]="capillaSeleccionada.estatus ? 'activo' : 'inactivo'">{{capillaSeleccionada.idCapilla}}</span>
+          ID <span
+          [ngClass]="capillaSeleccionada.estatus ? 'activo' : 'inactivo'">{{capillaSeleccionada.idCapilla}}</span>
         </span>
       </div>
     </ng-template>
     <ng-template appCustomTemplate="right-header">
       <div class="table-panel-header-column">
-          <div class="flex flex-column">
-            <span>Estatus</span>
-            <div>
-              <span class="activo" *ngIf="capillaSeleccionada.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!capillaSeleccionada.estatus">Inactivo</span>
-            </div>
+        <div class="flex flex-column">
+          <span>Estatus</span>
+          <div>
+            <span class="activo" *ngIf="capillaSeleccionada.estatus">Activo</span>
+            <span class="inactivo" *ngIf="!capillaSeleccionada.estatus">Inactivo</span>
           </div>
-          <div class="flex flex-column ml-5" *ngIf="(origen == 'detalle')">
-            <!-- <a (click)="overlayPanel.toggle($event)"></a> -->
-            <!-- <a (click)="overlayPanel.toggle($event)">
-              <img
-                src="assets/images/imagen-icono-barras-horizontales.svg"
-                alt="icono barras horizontales">
-            </a> -->
-          </div>
+        </div>
+        <div class="flex flex-column ml-5" *ngIf="(origen == 'detalle')">
+        </div>
       </div>
     </ng-template>
     <div class="row table-panel-row">
@@ -72,39 +67,30 @@
     </div>
   </app-table-panel>
 
-
-  <!-- <ng-container *ngIf="origen == 'detalle'">
-    <div class="flex justify-content-end">
-      <button class="ml-4 mt-3 btn btn-primary btn-md" (click)="aceptar()">Aceptar</button>
-      <button class="btn btn-default btn-md" (click)="mostrarModalAgregarCapilla = false">Cancelar</button>
-    </div>
-  </ng-container> -->
-
   <ng-container *ngIf="origen == 'estatus'">
     <ng-container *ngIf="capillaSeleccionada.estatus == true">
-    <div class="flex mt-4 justify-content-center">
-      <div class="col-md-6">
-        ¿Estás seguro que deseas activar esta capilla?
+      <div class="flex mt-4 justify-content-center">
+        <div class="col-md-6">
+          ¿Estás seguro que deseas activar esta capilla?
+        </div>
       </div>
-    </div>
     </ng-container>
     <ng-container *ngIf="capillaSeleccionada.estatus == false">
-    <div class="flex mt-4 justify-content-center">
-      <div class="col-md-6">
-        ¿Estás seguro que deseas desactivar esta capilla?
+      <div class="flex mt-4 justify-content-center">
+        <div class="col-md-6">
+          ¿Estás seguro que deseas desactivar esta capilla?
+        </div>
       </div>
-    </div>
     </ng-container>
   </ng-container>
 
 
-
   <ng-container class="separardor" *ngIf="origen == 'estatus'">
     <div class="flex justify-content-end separardor">
-      <button class="btn btn-primary btn-md" (click)="cerrar()" (click)="mostrarModalAgregarCapilla = false">
+      <button class="btn btn-primary btn-md" (click)="cerrar()">
         Cancelar
       </button>
-      <button class="ml-4  btn btn-default btn-md"  (click)="cambiarEstatus()">aceptar</button>
+      <button class="ml-4  btn btn-default btn-md" (click)="cambiarEstatus()">aceptar</button>
     </div>
   </ng-container>
   <ng-container class="separardor" *ngIf="origen == 'detalle'">
@@ -112,7 +98,6 @@
       <button class="ml-4  btn btn-default btn-md" (click)="cerrar()">aceptar</button>
     </div>
   </ng-container>
-
 
   <p-overlayPanel #overlayPanel>
     <ng-template pTemplate="content">
@@ -122,7 +107,3 @@
     </ng-template>
   </p-overlayPanel>
 </ng-container>
-
-<!-- <ng-container *ngIf="abrirModificar">
-  <app-modificar-articulos></app-modificar-articulos>
-</ng-container> -->
