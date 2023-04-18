@@ -75,10 +75,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-reciboPago>
       <tr>
-        <td> {{reciboPago.fecha}} </td>
-        <td> {{reciboPago.folio}} </td>
+        <td> {{reciboPago.fOds}} </td>
+        <td> {{reciboPago.claveFolio}} </td>
         <td> {{reciboPago.estatusOds}} </td>
-        <td> {{reciboPago.estatusPago}} </td>
+        <td> {{reciboPago.claveEstatusPago}} </td>
         <td>
           <div class="contenedor-celda-iconos">
             <a (click)="abrirPanel($event,reciboPago)">
