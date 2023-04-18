@@ -1,25 +1,24 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import {Location} from '@angular/common';
-import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 
 @Component({
-  selector: 'app-formato-generar-nota-remision',
-  templateUrl: './formato-generar-nota-remision.component.html',
-  styleUrls: ['./formato-generar-nota-remision.component.scss']
+  selector: 'app-detalle-formato-generar-nota-remision',
+  templateUrl: './detalle-formato-generar-nota-remision.component.html',
+  styleUrls: ['./detalle-formato-generar-nota-remision.component.scss']
 })
-export class FormatoGenerarNotaRemisionComponent implements OnInit {
+export class DetalleFormatoGenerarNotaRemisionComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel: OverlayPanel | undefined;
 
+  @Output() regresar = new EventEmitter();
+
+  @Output() aceptar = new EventEmitter();
+
   notaRemisionForm!: FormGroup;
-  formatoGenerar: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
-    private _location: Location,
-    private alertaService: AlertaService,
   ) { }
 
   ngOnInit(): void {
@@ -45,13 +44,12 @@ export class FormatoGenerarNotaRemisionComponent implements OnInit {
     });
   }
 
-  regresar() {
-    this.formatoGenerar = true;
+  btnRegresar() {
+    this.regresar.emit();
   }
 
-  aceptar() {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Nota de remisión generada correctamente');
-    this._location.back();
+  btnAceptar() {
+    this.aceptar.emit();
   }
 
 }

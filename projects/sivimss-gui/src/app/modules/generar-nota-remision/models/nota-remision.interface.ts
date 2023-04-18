@@ -4,7 +4,7 @@ export interface NotaRemision {
   nomFinado?: string;
   idContratante?: number;
   idFinado?: number;
-  estatus?: boolean,
+  estatus?: number,
   conNota?: number;
   folioODS?: string;
   nomContratante?: string;

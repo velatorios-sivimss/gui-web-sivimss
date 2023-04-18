@@ -17,16 +17,18 @@ import { AutoCompleteModule } from 'primeng-lts/autocomplete';
 
 import { CalendarModule } from 'primeng-lts/calendar';
 import { AccordionModule } from 'primeng-lts/accordion';
+import { UtileriaModule } from '../../shared/utileria/utileria.module';
 import { GenerarNotaRemisionComponent } from './components/generar-nota-remision/generar-nota-remision.component';
 import { GenerarNotaRemisionService } from './services/generar-nota-remision.service';
 import { GenerarReciboRoutingModule } from './generar-nota-remision.routing.module';
 import { FormatoGenerarNotaRemisionComponent } from './components/formato-generar-nota-remision/formato-generar-nota-remision.component';
-import { UtileriaModule } from '../../shared/utileria/utileria.module';
+import { DetalleFormatoGenerarNotaRemisionComponent } from './components/detalle-formato-generar-nota-remision/detalle-formato-generar-nota-remision.component';
 
 @NgModule({
   declarations: [
     GenerarNotaRemisionComponent,
     FormatoGenerarNotaRemisionComponent,
+    DetalleFormatoGenerarNotaRemisionComponent,
   ],
   imports: [
     CalendarModule,

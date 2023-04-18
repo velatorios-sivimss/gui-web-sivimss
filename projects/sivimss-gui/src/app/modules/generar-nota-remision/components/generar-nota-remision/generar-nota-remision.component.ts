@@ -8,12 +8,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import { CATALOGOS_DUMMIES, CATALOGO_NIVEL } from '../../constants/dummies';
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
-import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { LazyLoadEvent } from 'primeng-lts/api';
 import { SERVICIO_BREADCRUMB } from '../../constants/breadcrumb';
 import { validarAlMenosUnCampoConValor } from 'projects/sivimss-gui/src/app/utils/funciones';
 import { GenerarNotaRemisionService } from '../../services/generar-nota-remision.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import * as moment from "moment";
 
 @Component({
   selector: 'app-generar-nota-remision',
@@ -22,7 +24,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [DialogService]
 })
 export class GenerarNotaRemisionComponent implements OnInit {
-
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
@@ -36,9 +37,12 @@ export class GenerarNotaRemisionComponent implements OnInit {
   creacionRef!: DynamicDialogRef;
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
+  hayCamposObligatorios: boolean = false;
 
   catNiveles: TipoDropdown[] = CATALOGO_NIVEL;
   opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
+  foliosGenerados: TipoDropdown[] = [];
+  clavesEstatus: string[] = ['Sin nota', 'Generada', 'Cancelada'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,6 +58,7 @@ export class GenerarNotaRemisionComponent implements OnInit {
   ngOnInit(): void {
     this.actualizarBreadcrumb();
     this.inicializarFiltroForm();
+    this.obtenerFoliosGenerados();
   }
 
   actualizarBreadcrumb(): void {
@@ -87,62 +92,120 @@ export class GenerarNotaRemisionComponent implements OnInit {
     } else {
       this.numPaginaActual = 0;
     }
-    this.buscarPorFiltros();
+    this.generarNotaRemisionService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        this.notasRemision = respuesta!.datos.content;
+        this.totalElementos = respuesta!.datos.totalElements;
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
   }
 
-  buscarPorFiltros(): void {
-    setTimeout(() => {
-      this.notasRemision = [
-        {
-          fechaODS: "02/04/2023",
-          nomFinado: "GLORIA GONZALEZ MARIN",
-          idContratante: 2,
-          idFinado: 2,
-          estatus: true,
-          conNota: 0,
-          folioODS: "876543210",
-          nomContratante: "JOSE SANCHEZ MARTINEZ",
-          id: 2
-        },
-        {
-          fechaODS: "01/04/2023",
-          nomFinado: "MARIA HERNANDEZ GOMEZ",
-          idContratante: 1,
-          idFinado: 1,
-          estatus: true,
-          conNota: 0,
-          folioODS: "987654321",
-          nomContratante: "JUAN LOPEZ PEREZ",
-          id: 1
-        }
-      ];
-      this.totalElementos = this.notasRemision.length;
-    }, 0)
-  }
-
-  buscarReciboPago() {
-    if (validarAlMenosUnCampoConValor(this.filtroForm.value)) {
-      this.paginar();
+  buscarFoliosNotaRemision() {
+    let camposObligatorios = {
+      folio: this.f.folio.value,
+      fechaInicial: this.f.fechaInicial.value,
+      fechaFinal: this.f.fechaFinal.value,
+    };
+    this.hayCamposObligatorios = false;
+    if (validarAlMenosUnCampoConValor(camposObligatorios) && this.filtroForm.valid) {
+      this.numPaginaActual = 0;
+      this.buscarPorFiltros();
     } else {
-      this.f.delegacion.setValidators(Validators.required);
-      this.f.delegacion.updateValueAndValidity();
-      this.f.velatorio.setValidators(Validators.required);
-      this.f.velatorio.updateValueAndValidity();
       this.f.folio.setValidators(Validators.required);
       this.f.folio.updateValueAndValidity();
-      this.f.nombreContratante.setValidators(Validators.required);
-      this.f.nombreContratante.updateValueAndValidity();
       this.f.fechaInicial.setValidators(Validators.required);
       this.f.fechaInicial.updateValueAndValidity();
       this.f.fechaFinal.setValidators(Validators.required);
       this.f.fechaFinal.updateValueAndValidity();
       this.filtroForm.markAllAsTouched();
+      this.hayCamposObligatorios = true;
     }
   }
+
+  buscarPorFiltros(): void {
+    this.generarNotaRemisionService.buscarPorFiltros(this.obtenerObjetoParaFiltrado(), this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+      (respuesta) => {
+        if (respuesta!.datos.content.length === 0) {
+          this.notasRemision = [];
+          this.totalElementos = 0;
+          this.alertaService.mostrar(TipoAlerta.Precaucion, 'No se encontró información relacionada a tu búsqueda.');
+        } else {
+          this.notasRemision = respuesta!.datos.content;
+          this.totalElementos = respuesta!.datos.totalElements;
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
+  }
+
+  obtenerObjetoParaFiltrado(): object {
+    return {
+      idNivel: 1,
+      idVelatorio: 1,
+      folioODS: +this.f.folio.value?.label,
+      fecIniODS: moment(this.f.fechaInicial.value).format('DD/MM/YYYY'),
+      fecFinODS: moment(this.f.fechaInicial.value).format('DD/MM/YYYY'),
+    }
+  }
+
 
   limpiar(): void {
     this.filtroForm.reset();
     this.paginar();
+  }
+
+  fechasOpcionales() {
+    this.f.fechaInicial.clearValidators();
+    this.f.fechaInicial.updateValueAndValidity();
+    this.f.fechaFinal.clearValidators();
+    this.f.fechaFinal.updateValueAndValidity();
+    this.hayCamposObligatorios = false;
+  }
+
+  folioOpcional() {
+    if (this.f.fechaInicial.value && this.f.fechaFinal.value) {
+      this.f.folio.clearValidators();
+      this.f.folio.updateValueAndValidity();
+      this.hayCamposObligatorios = false;
+    }
+
+    if (!this.f.fechaInicial.value || !this.f.fechaFinal.value) {
+      this.f.fechaInicial.setValidators(Validators.required);
+      this.f.fechaInicial.updateValueAndValidity();
+      this.f.fechaFinal.setValidators(Validators.required);
+      this.f.fechaFinal.updateValueAndValidity();
+      this.filtroForm.markAllAsTouched();
+      this.hayCamposObligatorios = true;
+    }
+  }
+
+  obtenerFoliosGenerados() {
+    this.generarNotaRemisionService.buscarTodasOdsGeneradas().subscribe(
+      (respuesta) => {
+        let filtrado: TipoDropdown[] = [];
+        if (respuesta!.datos.length > 0) {
+          respuesta!.datos.forEach((e: any) => {
+            filtrado.push({
+              label: e.nombre,
+              value: e.id,
+            });
+          });
+          this.foliosGenerados = filtrado;
+        } else {
+          this.foliosGenerados = [];
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+      }
+    );
   }
 
   get f() {
