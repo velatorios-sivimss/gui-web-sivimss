@@ -21,7 +21,6 @@ import { LoaderModule } from './shared/loader/loader.module';
 import { AlertaModule } from './shared/alerta/alerta.module';
 import { SubHeaderPrivadoComponent } from './components/sub-header-privado/sub-header-privado.component';
 import { BreadcrumbModule } from "./shared/breadcrumb/breadcrumb.module";
-
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json')
 }

@@ -7,11 +7,15 @@ import {
 import {
   ControlSalidaDonacionesComponent
 } from "./components/control-salida-donaciones/control-salida-donaciones.component";
+import { DonacionesResolver } from "./services/donaciones.resolver";
 
 const routes: Routes = [
   {
     path:'',
-    component: ConsultaDonacionesComponent
+    component: ConsultaDonacionesComponent,
+    resolve: {
+      respuesta: DonacionesResolver,
+  }
   },
   {
     path:'aceptacion-donacion',
@@ -26,7 +30,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    DonacionesResolver
+  ]
 })
 
 export class ConsultaDonacionesRoutingModule {

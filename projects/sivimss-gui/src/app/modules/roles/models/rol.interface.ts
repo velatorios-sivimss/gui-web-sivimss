@@ -7,7 +7,7 @@ export interface Rol {
   nivel: string;
   nivelOficina: string;
   fCreacion: string;
-  estatus: boolean;
+  estatusRol: boolean;
   delegacion: string;
   velatorio: string;
   desNivelOficina: string;

@@ -12,3 +12,9 @@ export interface Capilla {
   capacidad?: number;
   areaTotal?: number;
 }
+
+
+export interface ConfirmacionServicio {
+  estatus?: boolean;
+  origen?: string;
+}
