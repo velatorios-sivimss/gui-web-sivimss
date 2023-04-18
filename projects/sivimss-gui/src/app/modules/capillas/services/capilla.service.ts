@@ -16,11 +16,34 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
       5, "capillas-consultar", "capillas-detalle", "capillas-cambiar-estatus");
   }
 
-  buscarPorFiltros(filtros: any, pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
+  buscarPorFiltros2(filtros: any, pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
     const params = new HttpParams().append("pagina", pagina).append("tamanio", tamanio);
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/${this._paginado}`, filtros, { headers, params });
-    // return this._http.post<HttpRespuesta<any>>(this._base + `1/buscar/buscar-usuarios`, filtros, {headers, params});
+  }
+
+  actualizar2(capilla: any): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    return this._http.put<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/${this._actualizar}`, capilla, {headers});
+  }
+
+  buscarPorPagina(pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    const params = new HttpParams()
+      .append("pagina", pagina)
+      .append("tamanio", tamanio)
+      .append("servicio", this._paginado)
+    return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}`, {headers, params})
+  }
+
+
+  buscarPorPagina3(pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    const params = new HttpParams()
+      .append("pagina", pagina)
+      .append("tamanio", tamanio)
+      .append("servicio", this._paginado)
+    return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}`, {headers, params})
   }
 
   obtenerCatalogoCapillas(): Observable<HttpRespuesta<any>> {
@@ -34,24 +57,6 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams().append("servicio", "art-tipo-articulo")
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   }
-
-  // obtenerCatalogoTiposMateriales(): Observable<HttpRespuesta<any>> {
-  //   utils headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   utils params = new HttpParams().append("servicio", "art-tipo-materiales")
-  //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
-  // }
-
-  // obtenerCatalogoTamanios(): Observable<HttpRespuesta<any>> {
-  //   utils headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   utils params = new HttpParams().append("servicio", "art-tamanios")
-  //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
-  // }
-
-  // obtenerCatalogoClasificacionProductos(): Observable<HttpRespuesta<any>> {
-  //   utils headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
-  //   utils params = new HttpParams().append("servicio", "art-clasif-prod")
-  //   return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
-  // }
 
   obtenerCatalogoPartidasPresupuestales(): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json' });
@@ -70,5 +75,4 @@ export class CapillaService  extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams().append("servicio", "art-clave-sat")
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/catalogo`, { headers, params });
   }
-
 }

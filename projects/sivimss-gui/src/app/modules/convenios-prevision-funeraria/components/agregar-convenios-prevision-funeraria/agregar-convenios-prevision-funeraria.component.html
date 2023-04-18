@@ -168,14 +168,12 @@
               <label class="control-label">¿El servicio fue gestionado por un promotor?</label>
               <div class="flex">
                 <div class="flex align-items-center mx-2">
-                  <p-radioButton [inputId]="'promotorSi'" name="promotor" [value]="true"
-                                 formControlName="promotor"></p-radioButton>
-                  <label class="control-label m-0 mx-3" [for]="'promotorSi'">Si</label>
+                  <p-radioButton [inputId]="'Sí'" name="esObito" [value]="true" formControlName="esObito"></p-radioButton>
+                  <label class="control-label m-0 mx-3" [for]="'Sí'">Sí</label>
                 </div>
                 <div class="flex align-items-center mx-2">
-                  <p-radioButton [inputId]="'promotorNo'" name="promotor" [value]="false"
-                                 formControlName="promotor"></p-radioButton>
-                  <label class="control-label m-0 mx-3" [for]="'promotorNo'">No</label>
+                  <p-radioButton [inputId]="'No'" name="esObito" [value]="false" formControlName="esObito"></p-radioButton>
+                  <label class="control-label m-0 mx-3" [for]="'No'">No</label>
                 </div>
               </div>
             </div>

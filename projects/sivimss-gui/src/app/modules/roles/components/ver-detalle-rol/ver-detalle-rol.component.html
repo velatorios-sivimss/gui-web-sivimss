@@ -10,9 +10,9 @@
             <div class="flex flex-column">
                 <span>Estatus</span>
                 <div class="contenedor-inputswitch">
-                    <p-inputSwitch [(ngModel)]="rolSeleccionado.estatus" (ngModelChange)="cambiarEstatus(rolSeleccionado);"></p-inputSwitch>
-                    <span class="activo" *ngIf="rolSeleccionado.estatus">Activo</span>
-                    <span class="inactivo" *ngIf="!rolSeleccionado.estatus">Inactivo</span>
+                    <p-inputSwitch [(ngModel)]="rolSeleccionado.estatusRol" (ngModelChange)="cambiarEstatus(rolSeleccionado);"></p-inputSwitch>
+                    <span class="activo" *ngIf="rolSeleccionado.estatusRol">Activo</span>
+                    <span class="inactivo" *ngIf="!rolSeleccionado.estatusRol">Inactivo</span>
                 </div>
             </div>
             <a class="ml-5 cursor-pointer" (click)="overlayPanel.toggle($event)">
@@ -50,4 +50,3 @@
       </app-overlay-panel-opciones>
     </ng-template>
   </p-overlayPanel>
-  

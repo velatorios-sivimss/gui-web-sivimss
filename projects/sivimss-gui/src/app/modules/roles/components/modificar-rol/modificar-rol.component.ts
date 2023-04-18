@@ -32,7 +32,7 @@ export class ModificarRolComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const rol =  this.config.data;;
+    const rol =  this.config.data;
     this.inicializarModificarRolForm(rol);
   }
 
@@ -41,7 +41,7 @@ export class ModificarRolComponent implements OnInit {
       id: [{value: rol.idRol, disabled: true}, [Validators.required]],
       nombre: [{value: rol.desRol, disabled: false}, [Validators.required, Validators.maxLength(100)]],
       nivel: [{value: rol.nivelOficina, disabled: false}, [Validators.required]],
-      estatus : [{value: rol.estatus, disabled: false}],
+      estatus : [{value: rol.estatusRol, disabled: false}],
     });
   }
 
@@ -88,6 +88,6 @@ export class ModificarRolComponent implements OnInit {
       this.modificarRol();
       return;
     }
-   
+
   }
 }
