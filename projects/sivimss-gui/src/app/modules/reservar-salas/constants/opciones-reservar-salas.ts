@@ -8,10 +8,10 @@ export const OpcionesReservarSalas: SelectButtonOptions[] = [
     {
         icon: 'pi pi-align-left',
         justify: 'Center',
-        route: 'salas'
+        route: 'salas',
     },
     {
-        icon: 'pi pi-align-justify',
+        icon: 'icon-calendario',
         justify: 'Center',
         route: 'calendario'
     },

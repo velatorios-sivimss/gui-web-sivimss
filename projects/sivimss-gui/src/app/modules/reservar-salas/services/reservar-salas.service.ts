@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 @Injectable()
 export class ReservarSalasService extends  BaseService<HttpRespuesta<any>, any> {
 
-  private auth_token2: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTIyNzMzNCwiZXhwIjoxNjgxODMyMTM0fQ.jj6iWoQLQTsqI3-z4NTuaN6J1NTCVSUrsum3Mwxr5r0";
+  private auth_token2: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTgzMjQ3MCwiZXhwIjoxNjgyNDM3MjcwfQ.Loy9ImNDZYD7tcEa3NsRUBcWJkvrpU18i6aq8hxKuGE";
 
   constructor(protected _http: HttpClient) {
     super(_http, `${environment.api.mssivimss}`,"veri-registrar","veri-salida",
@@ -33,7 +33,14 @@ export class ReservarSalasService extends  BaseService<HttpRespuesta<any>, any> 
   consultarDetalleDia(fechaConsulta:string, idSala:number): Observable<HttpRespuesta<any>> {
     const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar-filtros/veri-consulta-dia`,{fechaConsulta:fechaConsulta,idSala:idSala}, { headers});
-
   }
+
+  consultaMes(mes: number,anio: number, tipoSala: number, idVelatorio: number): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar-filtros/veri-consulta-mes`,
+      {"mes":mes,"anio":anio,"tipoSala":tipoSala,"idVelatorio":idVelatorio}, { headers});
+  }
+
+
 }
 

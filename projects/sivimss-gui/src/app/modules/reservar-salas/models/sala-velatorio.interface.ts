@@ -10,10 +10,10 @@ export interface SalaVelatorio {
 export interface SalaVelatorioConsultaDia {
   nombreSala?: string,
   nombreFinado?: string,
-  horaEntrada?: string,
+  horaEntrada?: any,
   nombreContratante?: string,
   folio?: string,
   idSala?: number,
-  horaSalida?: string,
+  horaSalida?: any,
   idRegistro?: number
 }

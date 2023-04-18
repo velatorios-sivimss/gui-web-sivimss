@@ -14,11 +14,11 @@
         <div class="flex justify-content-end" style="width: 100%">
           <div class="col-md-4">
             <span class="etiqueta-base">Registro de entrada </span>
-            <b class="texto-base">{{sala?.horaEntrada }}</b>
+            <b class="texto-base">{{sala?.horaEntrada | date: 'shortTime' }}</b>
           </div>
           <div class="col-md-4">
             <span class="etiqueta-base">Registro de salida </span>
-            <b class="texto-base">{{sala?.horaSalida}}</b>
+            <b class="texto-base">{{sala?.horaSalida| date: 'shortTime' }}</b>
           </div>
         </div>
       </ng-template>
@@ -50,13 +50,13 @@
             <div class="col-md-4">
               <div class="table-panel-column">
                 <label>Registro de entrada</label>
-                <span>{{sala?.horaEntrada }} </span>
+                <span>{{sala?.horaEntrada | date: 'shortTime' }} </span>
               </div>
             </div>
             <div class="col-md-4">
               <div class="table-panel-column">
                 <label>Registro de salida</label>
-                <span>{{sala?.horaSalida}}</span>
+                <span>{{sala?.horaSalida | date: 'shortTime' }}</span>
               </div>
             </div>
           </div>

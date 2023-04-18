@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {CalendarOptions, DateSelectArg, EventApi, EventClickArg} from '@fullcalendar/core';
+import {CalendarOptions, EventApi, EventClickArg} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
 import {MENU_SALAS} from "../../constants/menu-salas";
 import interactionPlugin from "@fullcalendar/interaction";
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {Calendario} from "../../models/calendario.interface";
+import {CalendarioSalas} from "../../models/calendario-salas.interface";
 import {VerActividadSalasComponent} from "../ver-actividad-salas/ver-actividad-salas.component";
 import {ActivatedRoute} from "@angular/router";
 import {VelatorioInterface} from "../../models/velatorio.interface";
@@ -14,8 +14,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {ReservarSalasService} from "../../services/reservar-salas.service";
-import {FullCalendar} from "primeng-lts/fullcalendar";
 import * as moment from 'moment';
+import {FullCalendarComponent} from "@fullcalendar/angular";
+import {finalize} from "rxjs/operators";
+import {Moment} from "moment";
 
 @Component({
   selector: 'app-calendario-salas',
@@ -23,26 +25,28 @@ import * as moment from 'moment';
   styleUrls: ['./calendario-salas.component.scss'],
   providers: [DialogService]
 })
-export class CalendarioSalasComponent implements OnInit {
+export class CalendarioSalasComponent implements OnInit{
 
-  @ViewChild('fullcalendar') calendarioCremacion!: FullCalendar;
-  @ViewChild('fullcalendar') calendarioEmbalsamamiento!: FullCalendar;
+  @ViewChild('calendarioCremacion') calendarioCremacion!: FullCalendarComponent;
+  @ViewChild('calendarioEmbalsamamiento') calendarioEmbalsamamiento!: FullCalendarComponent;
 
   readonly POSICION_CATALOGO_VELATORIOS = 0;
 
+  fechaCalendario!: Moment;
+  calendarApi:any;
   calendarOptions!: CalendarOptions;
   velatorios: TipoDropdown[] = [];
   menu: string[] = MENU_SALAS;
 
   posicionPestania: number = 0;
-  velatorio: number = 0 ;
+  velatorio!: number ;
 
   fechaSeleccionada: string = "";
   actividadRef!: DynamicDialogRef;
 
   registroCalendario: any[] = [];
-
-  tituloSalas: Calendario[] = [];
+  tituloSalas: CalendarioSalas[] = [];
+  salasDetalle: CalendarioSalas[] = [];
   currentEvents: EventApi[] = [];
 
 
@@ -52,7 +56,8 @@ export class CalendarioSalasComponent implements OnInit {
     public dialogService: DialogService,
     private readonly loaderService: LoaderService,
     private route: ActivatedRoute,
-    private reservarSalasService:ReservarSalasService
+    private reservarSalasService:ReservarSalasService,
+    // public calendarioConsulta: FullCalendarComponent
   ) {
   }
 
@@ -68,11 +73,13 @@ export class CalendarioSalasComponent implements OnInit {
   inicializarCalendario(): void {
       this.calendarOptions = {
         headerToolbar: { end: "next", center: "title", start: "prev" },
+
         initialView: 'dayGridMonth',
-        plugins: [interactionPlugin, dayGridPlugin],
-        initialEvents: this.registroCalendario,
+        plugins: [dayGridPlugin,interactionPlugin],
+        initialEvents: "",
         defaultAllDay: true,
-        editable: false,
+        editable:false,
+
         // select: this.mostrarModal.bind(this),
         locale: 'es-MX',
         selectable: true,
@@ -80,58 +87,109 @@ export class CalendarioSalasComponent implements OnInit {
         eventClick: this.mostrarEvento.bind(this),
         eventsSet: this.handleEvents.bind(this),
         dayMaxEventRows:3,
-        titleFormat: { year: 'numeric', month: 'long' }
+        titleFormat: { year: 'numeric', month: 'long' },
+        datesSet: event => {
+          let mesInicio = +moment(event.start).format("MM");
+          let mesFinal =  +moment(event.end).format("MM");
+          if(mesFinal - mesInicio == 2){
+            this.fechaCalendario = moment(event.start).add(1,'month');
+          }else{
+            this.fechaCalendario = moment(event.start);
+          }
+          if(this.velatorio) {this.cambiarMes()}
+        },
       };
     }
 
-    mostrarModal(selectInfo: DateSelectArg): void {
-      this.fechaSeleccionada = selectInfo.startStr;
-      this.actividadRef = this.dialogService.open(VerActividadSalasComponent,{
-        header: 'Ver actividad del día',
-        width: "920px",
-        data: this.fechaSeleccionada
-      })
+  cambiarMes(): void {
+
+    this.salasDetalle = [];
+    let anio = moment(this.fechaCalendario).format('YYYY').toString();
+    let mes = moment(this.fechaCalendario).format('MM').toString();
+
+
+    if(!this.posicionPestania){
+      this.calendarApi = this.calendarioCremacion.getApi()
     }
+    if(this.posicionPestania){
+      this.calendarApi = this.calendarioEmbalsamamiento.getApi()
+    }
+
+    if(this.velatorio) {
+      this.reservarSalasService.consultaMes(+mes,+anio,this.posicionPestania,this.velatorio).pipe(
+      ).subscribe(
+        (respuesta: HttpRespuesta<any>) => {
+          respuesta.datos.forEach((sala: any) => {
+
+            if(!this.posicionPestania){
+                this.calendarioCremacion.getApi().addEvent(
+                  {id: sala.idSala,title: sala.nombreSala,start: sala.fechaEntrada},
+                );
+            }else{
+
+            }
+            if(!this.tituloSalas.includes(sala.idSala)){
+              this.tituloSalas.push(
+                {
+                  borderColor: sala.colorSala,
+                  textColor: sala.colorSala,
+                  title: sala.nombreSala
+                }
+              )
+            }
+
+
+          })
+
+          this.tituloSalas =  respuesta.datos.filter((elemenetoFil: any) => {
+            return elemenetoFil
+          });
+        },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      )
+
+
+
+    }
+  }
 
   mostrarEvento(clickInfo: EventClickArg): void {
     const idSala: number = +clickInfo.event._def.publicId;
     this.fechaSeleccionada =  moment(clickInfo.event._instance?.range.end).format('yyyy-MM-DD');
-
-
 
     this.actividadRef = this.dialogService.open(VerActividadSalasComponent,{
       header: 'Ver actividad del día',
       width: "920px",
       data: {fecha:this.fechaSeleccionada, idSala: idSala}
     })
-
-
   }
 
   inicializarRegistros(): any[] {
     return [
-      { id:"1",title: 'Ignacio Allende', date: '2023-04-21',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
-
-      {id:'1', title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { id:"1",title: 'sala no 45', date: '2023-04-18',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      {id:'1', title: 'Ignacio Allende', date: '2023-04-05',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
       {id:'2', title: 'Miguel Hidalgo', date: '2023-04-04',textColor:"#5E217A", color:"#fff", borderColor: '#5E217A' },
-      {id:'1', title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
-      { id:'4',title: 'Sor Juana Inés', date: '2023-04-21',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' },
+      {id:'1', title: 'Ignacio Allende', date: '2023-04-06',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
+      { id:'4',title: 'sala no 2', date: '2023-04-21',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' },
       {id:'1', title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
       { id:'2',title: 'Miguel Hidalgo', date: '2023-04-05',textColor:"#5E217A", color:"#fff", borderColor: '#5E217A' },
       {id:'3', title: 'Sor Juana Inés', date: '2023-04-06',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' }
     ]
   }
 
-  inicializarTitulosCalendario(): Calendario[] {
+  inicializarTitulosCalendario(): CalendarioSalas[] {
     return [
-      { title: 'Ignacio Allende', textColor:"#217A6B",borderColor: '#217A6B' },
-      { title: 'Miguel Hidalo', textColor:"#5E217A", borderColor: '#5E217A' },
-      { title: 'Sor Juana Inés', textColor:"#E18F2D", borderColor: '#E18F2D' },
-    ]
+      { title: 'Sala no 45', textColor:"#0000FF",borderColor: '#0000FF' },
+      { title: 'Sala no 2', textColor:"#7FFF00", borderColor: '#7FFF00' },
+    ];
   }
 
   handleEvents(events: EventApi[]) {
     // debugger;
+    // console.log(events);
     this.currentEvents = events;
   }
 
@@ -141,10 +199,10 @@ export class CalendarioSalasComponent implements OnInit {
   }
 
   consultaSalas(): void {
-    console.log(this.posicionPestania);
-    console.log(this.velatorio);
     this.loaderService.activar();
-    this.reservarSalasService.consultarSalas(this.velatorio,this.posicionPestania).subscribe(
+    this.reservarSalasService.consultarSalas(this.velatorio,this.posicionPestania).pipe(
+      finalize(() => this.loaderService.desactivar())
+    ).subscribe(
       (respuesta: HttpRespuesta<any>) => {
         this.loaderService.desactivar();
         if(this.posicionPestania == 0){
@@ -163,7 +221,6 @@ export class CalendarioSalasComponent implements OnInit {
         }
       },
       (error:HttpErrorResponse) => {
-        this.loaderService.desactivar();
         console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
