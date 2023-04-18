@@ -60,10 +60,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   modificacionRef!: DynamicDialogRef;
   cambioEstatusRef!: DynamicDialogRef;
 
-  readonly POSICION_ROLES: number = 0;
-  readonly POSICION_NIVELES: number = 1;
-  readonly POSICION_DELEGACIONES: number = 2;
-  readonly POSICION_VELATORIOS: number = 3;
+  readonly POSICION_CATALOGO_ROLES: number = 0;
+  readonly POSICION_CATALOGO_NIVELES: number = 1;
+  readonly POSICION_CATALOGO_DELEGACIONES: number = 2;
+  readonly POSICION_CATALOGO_VELATORIOS: number = 3;
 
   constructor(
     private route: ActivatedRoute,
@@ -84,11 +84,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    const roles = respuesta[this.POSICION_ROLES].datos;
-    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
+    const roles = respuesta[this.POSICION_CATALOGO_ROLES].datos;
+    const velatorios = respuesta[this.POSICION_CATALOGO_VELATORIOS].datos;
     this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
-    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
-    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
+    this.catalogoNiveles = respuesta[this.POSICION_CATALOGO_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_CATALOGO_DELEGACIONES];
     this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 

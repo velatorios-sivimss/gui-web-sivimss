@@ -3,14 +3,13 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {DialogService, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
 import {OverlayPanel} from 'primeng-lts/overlaypanel';
 import {DIEZ_ELEMENTOS_POR_PAGINA} from 'projects/sivimss-gui/src/app/utils/constantes';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {TipoDropdown} from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import {CATALOGOS_DUMMIES} from '../../constants/dummies';
 import {BreadcrumbService} from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 import {AlertaService, TipoAlerta} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import {LazyLoadEvent} from 'primeng-lts/api';
 import {SERVICIO_BREADCRUMB} from '../../constants/breadcrumb';
-import {validarAlMenosUnCampoConValor} from 'projects/sivimss-gui/src/app/utils/funciones';
 import {GenerarReciboService} from '../../services/generar-recibo-pago.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FiltrosReciboPago} from "../../models/filtrosReciboPago.interface";
@@ -40,8 +39,8 @@ export class GenerarReciboPagoComponent implements OnInit {
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
 
-  catNiveles: TipoDropdown[] = [];
-  catDelegaciones: TipoDropdown[] = [];
+  catalogoNiveles: TipoDropdown[] = [];
+  catatalogoDelegaciones: TipoDropdown[] = [];
   opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
 
   paginacionConFiltrado: boolean = false;
@@ -71,8 +70,8 @@ export class GenerarReciboPagoComponent implements OnInit {
 
   private cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    this.catNiveles = respuesta[this.POSICION_CATALOGO_NIVELES];
-    this.catDelegaciones = respuesta[this.POSICION_CATALOGO_DELEGACIONES];
+    this.catalogoNiveles = respuesta[this.POSICION_CATALOGO_NIVELES];
+    this.catatalogoDelegaciones = respuesta[this.POSICION_CATALOGO_DELEGACIONES];
   }
 
   abrirPanel(event: MouseEvent, reciboPagoSeleccionado: ReciboPago): void {
