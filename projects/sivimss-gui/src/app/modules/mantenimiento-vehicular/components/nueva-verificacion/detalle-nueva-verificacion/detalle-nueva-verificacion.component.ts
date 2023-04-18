@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-detalle-nueva-verificacion',
@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetalleNuevaVerificacionComponent implements OnInit {
 
-  data = [{ rin: 38, precision: 38 },{ rin: 38, precision: 38 },{ rin: 38, precision: 38 },{ rin: 38, precision: 38 }];
+  data = [{rin: 38, precision: 38}, {rin: 38, precision: 38}, {rin: 38, precision: 38}, {rin: 38, precision: 38}];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

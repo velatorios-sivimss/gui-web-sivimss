@@ -1,22 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MENU_STEPPER } from '../../../../inventario-vehicular/constants/menu-stepper';
-import { MenuItem } from 'primeng-lts/api';
-import { CATALOGOS_DUMMIES } from '../../../../inventario-vehicular/constants/dummies';
-import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { ConfirmacionServicio, Vehiculos } from '../../../models/vehiculos.interface';
- import { AbstractControl, FormArray} from "@angular/forms";
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {MENU_STEPPER} from '../../../../inventario-vehicular/constants/menu-stepper';
+import {MenuItem} from 'primeng-lts/api';
+import {CATALOGOS_DUMMIES} from '../../../../inventario-vehicular/constants/dummies';
+import {TipoDropdown} from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {OverlayPanel} from 'primeng-lts/overlaypanel';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {ConfirmacionServicio, Vehiculos} from '../../../models/vehiculos.interface';
+import {AbstractControl, FormArray} from "@angular/forms";
 
-import { Funcionalidad } from "projects/sivimss-gui/src/app/modules/roles/models/funcionalidad.interface";
-import { AlertaService, TipoAlerta } from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
-import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
-import { ActivatedRoute, Router } from '@angular/router';
-import { DetalleNuevaVerificacionComponent } from '../detalle-nueva-verificacion/detalle-nueva-verificacion.component';
-// import { log } from 'console';
-
-
+import {Funcionalidad} from "projects/sivimss-gui/src/app/modules/roles/models/funcionalidad.interface";
+import {AlertaService, TipoAlerta} from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
+import {BreadcrumbService} from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import {DetalleNuevaVerificacionComponent} from '../detalle-nueva-verificacion/detalle-nueva-verificacion.component';
 
 @Component({
   selector: 'app-nueva-verificacion',
@@ -45,7 +42,7 @@ export class NuevaVerificacionComponent implements OnInit {
   selectedNivelAceite: boolean = false;
 
   nuevaVerificacion!: Vehiculos;
-  vehiculo:Vehiculos = {};
+  vehiculo: Vehiculos = {};
   // vehiculoSeleccionado!: Vehiculos;
 
   ventanaConfirmacion: boolean = false;
@@ -62,17 +59,17 @@ export class NuevaVerificacionComponent implements OnInit {
     private alertaService: AlertaService,
     private route: ActivatedRoute,
     private router: Router,
-
-  ) {  this.vehiculoSeleccionado = this.config.data; }
+  ) {
+    this.vehiculoSeleccionado = this.config.data;
+  }
 
   ngOnInit(): void {
     if (this.config?.data) {
       this.origen = this.config.data.origen;
-        this.vehiculoSeleccionado = this.config.data.vehiculo;
+      this.vehiculoSeleccionado = this.config.data.vehiculo;
     }
-     this.vehiculoSeleccionado
-     this.vehiculoSeleccionado.velatorio
-     this.inicializarAgregarCapillaForm(this.vehiculoSeleccionado);
+    this.vehiculoSeleccionado.velatorio;
+    this.inicializarAgregarCapillaForm(this.vehiculoSeleccionado);
   }
 
   inicializarAgregarCapillaForm(vehiculoSeleccionado: Vehiculos) {
@@ -95,8 +92,6 @@ export class NuevaVerificacionComponent implements OnInit {
   }
 
 
-
-
   confirmarAgregarServicio(): void {
     this.ventanaConfirmacion = true;
     /*
@@ -105,7 +100,7 @@ export class NuevaVerificacionComponent implements OnInit {
     this.vehiculo = {
       id: this.nuevaVerificacionForm.get("id")?.value,
       velatorio: this.nuevaVerificacionForm.get("categoria")?.value,
-      fecha:this.nuevaVerificacionForm.get("tipoDeArticulo")?.value,
+      fecha: this.nuevaVerificacionForm.get("tipoDeArticulo")?.value,
       hora: this.nuevaVerificacionForm.get("tipoDeMaterial")?.value,
       tamanio: this.nuevaVerificacionForm.get("tamanio")?.value,
       placas: this.nuevaVerificacionForm.get("clasificacionDeProducto")?.value,
@@ -114,11 +109,11 @@ export class NuevaVerificacionComponent implements OnInit {
       calibracionNeumaticosTraseros: this.nuevaVerificacionForm.get("largo")?.value,
       calibracionNeumaticosDelanteros: this.nuevaVerificacionForm.get("ancho")?.value,
       nivelCombustible: this.nuevaVerificacionForm.get("alto")?.value,
-      estatus:this.nuevaVerificacionForm.get("estatus")?.value,
-      nivelBateria:this.nuevaVerificacionForm.get("claveSAT")?.value,
-      limpiezaInterior:this.nuevaVerificacionForm.get("cuentaClave")?.value,
-      limpiezaExterior:this.nuevaVerificacionForm.get("cuentaContable")?.value,
-      codigoFalla:this.nuevaVerificacionForm.get("partidaPresupuestal")?.value,
+      estatus: this.nuevaVerificacionForm.get("estatus")?.value,
+      nivelBateria: this.nuevaVerificacionForm.get("claveSAT")?.value,
+      limpiezaInterior: this.nuevaVerificacionForm.get("cuentaClave")?.value,
+      limpiezaExterior: this.nuevaVerificacionForm.get("cuentaContable")?.value,
+      codigoFalla: this.nuevaVerificacionForm.get("partidaPresupuestal")?.value,
     };
   }
 
@@ -131,36 +126,24 @@ export class NuevaVerificacionComponent implements OnInit {
     this.ref.close()
   }
 
-  aceptar(){
+  aceptar() {
     this.ventanaConfirmacion = true;
   }
 
-  crearNuevaVerificacion(){
+  crearNuevaVerificacion() {
     this.alertaService.mostrar(TipoAlerta.Exito, 'Verificacion agregada correctamente');
     this.ref.close();
     this.abrirModalRegistroMantenimiento();
   }
 
-  abrirModalRegistroMantenimiento():void{
-    this.router.navigate(['detalle-verificacion'], { relativeTo: this.route });
+  abrirModalRegistroMantenimiento(): void {
+    this.router.navigate(['detalle-verificacion'], {relativeTo: this.route});
 
- }
-
-
-  // cerrar(event?:ConfirmacionServicio): void {
-  //   //Selección cancelar pantalla agregar
-  //   if(event && event.origen == "agregar"){
-  //     this.ventanaConfirmacion = false;
-  //     this.ref.close(true);
-  //     return;
-  //   }
-  // }
+  }
 
   get nvf() {
     return this.nuevaVerificacionForm.controls;
   }
-
-
 
 
 }
