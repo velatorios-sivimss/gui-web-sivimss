@@ -1,6 +1,4 @@
-<!-- <ng-container *ngIf="!ventanaConfirmacion"> -->
-  <form [formGroup]="modificarcapillaForm">
-
+<ng-container *ngIf="!ventanaConfirmacion">
     <form [formGroup]="modificarcapillaForm">
       <div class="row mb-3">
         <div class="col-md-8">
@@ -28,13 +26,13 @@
                 *ngIf="fmc.capacidad?.errors?.required && (fmc.capacidad?.dirty || fmc.capacidad?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-6">
-          <label class="control-label" for="velatorio">Velatorio<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="velatorio" class="form-control" formControlName="velatorio"
+          <label class="control-label" for="idVelatorio">Velatorio<span class="req">*</span></label>
+          <p-dropdown appendTo="body" id="idVelatorio" class="form-control" formControlName="idVelatorio"
                       [options]="velatorios"
                       placeholder="Seleccione el velatorio">
           </p-dropdown>
           <span class="campo-obligatorio"
-                *ngIf="fmc.velatorio?.errors?.required && (fmc.velatorio?.dirty || fmc.velatorio?.touched)">Campo obligatorio</span>
+                *ngIf="fmc.idVelatorio?.errors?.required && (fmc.idVelatorio?.dirty || fmc.idVelatorio?.touched)">Campo obligatorio</span>
         </div>
       </div>
       <div class="row mb-3">
@@ -46,11 +44,11 @@
                 *ngIf="fmc.largo?.errors?.required && (fmc.largo?.dirty || fmc.largo?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
-          <label class="control-label" for="ancho">Ancho<span class="req">*</span>:</label>
-          <input id="ancho" class="form-control" formControlName="ancho"
-                 placeholder="Ingresa el ancho">
+          <label class="control-label" for="alto">Alto<span class="req">*</span>:</label>
+          <input id="alto" class="form-control" formControlName="alto"
+                 placeholder="Ingresa el alto">
           <span class="campo-obligatorio"
-                *ngIf="fmc.ancho?.errors?.required && (fmc.ancho?.dirty || fmc.ancho?.touched)">Campo obligatorio</span>
+                *ngIf="fmc.alto?.errors?.required && (fmc.alto?.dirty || fmc.alto?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
           <label class="control-label" for="areaTotal">Área total<span class="req">*</span>:</label>
@@ -69,12 +67,112 @@
 
   <div class="flex justify-content-end">
     <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" [disabled]="modificarcapillaForm.invalid" (click)="modificarCapilla()">
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="modificarcapillaForm.invalid" (click)="abrirModalDetalleCapilla()">
       Agregar
     </button>
   </div>
 
-<!-- <ng-container *ngIf="ventanaConfirmacion">
-  <app-detalle-capilla [capillaSeleccionada]="capillaSeleccionada" [origen]="'agregar'"
-    (confirmacionAceptar)="cerrar()"></app-detalle-capilla>
-</ng-container> -->
+</ng-container>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<ng-container *ngIf="ventanaConfirmacion == true">
+  <app-table-panel>
+    <ng-template appCustomTemplate="left-header">
+      <div class="table-panel-header-column">
+        <span class="font-bold">
+          ID <span [ngClass]="capillas.estatus ? 'activo' : 'inactivo'">{{capillas.idCapilla}}</span>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template appCustomTemplate="right-header">
+      <div class="table-panel-header-column">
+          <div class="flex flex-column">
+            <span>Estatus</span>
+            <div>
+              <span class="activo" *ngIf="capillas?.estatus">Activo</span>
+              <span class="inactivo" *ngIf="!capillas?.estatus">Inactivo</span>
+            </div>
+          </div>
+
+      </div>
+    </ng-template>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Nombre</label>
+          <span> {{capillas.nombre}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Capacidad</label>
+          <span> {{capillas.capacidad}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Largo</label>
+          <span> {{capillas.largo}} </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Alto</label>
+          <span> {{capillas.alto}} </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="table-panel-column">
+          <label>Area total</label>
+          <span> {{capillas.areaTotal}} </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Velatorio</label>
+          <span> {{capillas.velatorio}} </span>
+        </div>
+      </div>
+    </div>
+  </app-table-panel>
+</ng-container>
+
+
+
+
+
+
+
+
+
+<ng-container *ngIf="ventanaConfirmacion == true">
+  <div class="flex mt-4 justify-content-center">
+    <div class="col-md-6">
+      ¿Estás seguro que deseas modificar esta capilla?
+    </div>
+  </div>
+<div class="flex justify-content-end separardor">
+  <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
+  <button class="ml-4 btn btn-primary btn-md" [disabled]="modificarcapillaForm.invalid" (click)="modificarCapilla()">
+  <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="crearNuevaCapillaParaDetalle()"> -->
+    Agregar
+  </button>
+</div>
+</ng-container>

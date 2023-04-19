@@ -3,7 +3,6 @@ import {Velatorio} from "../../models/velatorio.interface";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS_DUMMIES} from "../../constants/dummies";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {VelatorioService} from "../../services/velatorio.service";
@@ -11,6 +10,7 @@ import {RespuestaModalUsuario} from "../../../usuarios/models/respuestaModal.int
 import {ValorCP} from "../../models/valorCp.interface";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
+import {CATALOGO_ASIGNACIONES} from "../../constants/catalogos";
 
 type VelatorioModificado =
   Omit<Velatorio, "desMunicipio" | "desEstado" | "salasEmbalsamamiento" | "salasCremacion" | "capillas"
@@ -30,7 +30,7 @@ export class ModificarVelatorioComponent implements OnInit {
   velatorioForm!: FormGroup;
   velatorioSeleccionado!: Velatorio;
 
-  asignaciones: TipoDropdown[] = CATALOGOS_DUMMIES;
+  asignaciones: TipoDropdown[] = CATALOGO_ASIGNACIONES;
   colonias: TipoDropdown[] = [];
 
   nuevoVelatorio!: Velatorio;

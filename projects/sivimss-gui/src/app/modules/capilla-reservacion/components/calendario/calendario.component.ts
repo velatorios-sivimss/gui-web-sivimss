@@ -1,10 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import dayGridPlugin from "@fullcalendar/daygrid";
+// import dayGridPlugin from "@fullcalendar/daygrid";
 import {CalendarOptions, DateSelectArg, EventApi, EventClickArg} from "@fullcalendar/core";
-import interactionPlugin from '@fullcalendar/interaction';
+// import interactionPlugin from '@fullcalendar/interaction';
 import {DialogService, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {DetalleActividadDiaComponent} from "../detalle-actividad-dia/detalle-actividad-dia.component";
-import {FullCalendarComponent} from "@fullcalendar/angular";
+// import {FullCalendarComponent} from "@fullcalendar/angular";
 
 @Component({
   selector: 'app-calendario',
@@ -16,7 +16,7 @@ import {FullCalendarComponent} from "@fullcalendar/angular";
 export class CalendarioComponent implements OnInit {
 
   @ViewChild('calendar')
-  calendarComponent!: FullCalendarComponent;
+  // calendarComponent!: FullCalendarComponent;
 
   calendarOptions!: CalendarOptions;
 
@@ -48,7 +48,7 @@ export class CalendarioComponent implements OnInit {
     this.calendarOptions = {
       headerToolbar: { end: "", start: "prev,next" },
       initialView: 'dayGridMonth',
-      plugins: [interactionPlugin, dayGridPlugin],
+      // plugins: [interactionPlugin, dayGridPlugin],
       initialEvents: this.registros,
       defaultAllDay: true,
       select: this.mostrarModal.bind(this),

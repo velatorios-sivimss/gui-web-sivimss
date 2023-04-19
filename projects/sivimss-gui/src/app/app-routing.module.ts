@@ -176,6 +176,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/generar-nota-remision/generar-nota-remision.module').then(m => m.GenerarNotaRemisionModule)
   },
   {
+  path: 'programar-mantenimiento-vehicular',
+  loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
@@ -199,3 +203,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
+
+

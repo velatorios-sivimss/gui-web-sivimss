@@ -123,7 +123,7 @@ export class AdministrarArticulosComponent implements OnInit {
     })
   }
 
-  abrirModalDetalleCapilla(articulo: Articulo) {
+  abrirModalDetalleArticulo(articulo: Articulo) {
     this.creacionRef = this.dialogService.open(DetalleArticulosComponent, {
       header: "Detalle de artículo",
       width: "920px",

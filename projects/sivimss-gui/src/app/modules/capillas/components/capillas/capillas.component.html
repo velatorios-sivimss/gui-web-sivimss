@@ -24,7 +24,9 @@
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
         <button type="submit" class="btn btn-default btn-md" (click)="limpiar()">Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5" [disabled]="filtroForm.invalid" (click)="buscar()">Buscar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5" [disabled]="filtroForm.invalid" (click)="buscar()">
+          Buscar
+        </button>
       </div>
     </div>
   </form>
@@ -34,10 +36,10 @@
     <h2 class="subtitulo">Lista de capillas</h2>
     <button type="button" class="btn btn-primary btn-lg" (click)="abrirModalAgregarCapilla()">Agregar capilla</button>
   </div>
-  <p-table styleClass="mt-5 mb-8" [value]="capillas"
+  <p-table styleClass="mt-5 mb-8" [value]="capillas" [paginator]="capillas.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-         >
+           (onLazyLoad)="seleccionarPaginacion()">
     <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
@@ -51,14 +53,15 @@
     </ng-template>
     <ng-template pTemplate="body" let-capilla>
       <tr>
-        <td>{{capilla.capillaId}}</td>
+        <td>{{capilla.idCapilla}}</td>
         <td>{{capilla.nombre}}</td>
         <td>{{capilla.largo}}</td>
         <td>{{capilla.alto}}</td>
-        <td>{{capilla.largo}}</td>
+        <td>{{capilla.largo * capilla.alto}}</td>
         <td>
           <div class="contenedor-inputswitch">
-            <p-inputSwitch [(ngModel)]="capilla.estatus"></p-inputSwitch>
+            <p-inputSwitch [(ngModel)]="capilla.estatus"
+                           (click)="abrirModalcambiarEstatusCapilla(capilla)"></p-inputSwitch>
             <span class="activo" *ngIf="capilla.estatus">Activo</span>
             <span class="inactivo" *ngIf="!capilla.estatus">Inactivo</span>
           </div>
@@ -105,91 +108,12 @@
   </ng-template>
 </p-overlayPanel>
 
-<!-- MODAL AGREGAR CAPILLA -->
-<p-dialog [style]="{maxWidth:'876px',width: '100%'}" header="Agregar capilla" [(visible)]="mostrarModalAgregarCapilla"
-          [modal]="true"
-          [draggable]="false" [resizable]="false">
-  <ng-template pTemplate="content">
-
-
-
-
-
-
-
-    <form [formGroup]="agregarCapillaForm">
-      <div class="row mb-3">
-        <div class="col-md-8">
-          <label class="control-label" for="idAgregar">ID<span class="req">*</span>:</label>
-          <input id="idAgregar" class="form-control" formControlName="id" placeholder="ID">
-          <span class="campo-obligatorio"
-                *ngIf="fac.id?.errors?.required && (fac.id?.dirty || fac.id?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <label class="control-label" for="nombreAgregar">Nombre<span class="req">*</span>:</label>
-          <input id="nombreAgregar" class="form-control" formControlName="nombre"
-                 placeholder="Ingresa el nombre de la capilla ">
-          <span class="campo-obligatorio"
-                *ngIf="fac.nombre?.errors?.required && (fac.nombre?.dirty || fac.nombre?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <label class="control-label" for="capacidadAgregar">Capacidad<span class="req">*</span>:</label>
-          <input id="capacidadAgregar" class="form-control" formControlName="capacidad"
-                 placeholder="Ingresa la capacidad">
-          <span class="campo-obligatorio"
-                *ngIf="fac.capacidad?.errors?.required && (fac.capacidad?.dirty || fac.capacidad?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-6">
-          <label class="control-label" for="velatorioAgregar">Velatorio<span class="req">*</span></label>
-          <p-dropdown appendTo="body" id="velatorioAgregar" class="form-control" formControlName="velatorio"
-                      [options]="velatorios"
-                      placeholder="Seleccione el velatorio">
-          </p-dropdown>
-          <span class="campo-obligatorio"
-                *ngIf="fac.velatorio?.errors?.required && (fac.velatorio?.dirty || fac.velatorio?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-4">
-          <label class="control-label" for="largoAgregar">Largo<span class="req">*</span>:</label>
-          <input id="largoAgregar" class="form-control" formControlName="largo"
-                 placeholder="Ingresa el largo">
-          <span class="campo-obligatorio"
-                *ngIf="fac.largo?.errors?.required && (fac.largo?.dirty || fac.largo?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-4">
-          <label class="control-label" for="anchoAgregar">Ancho<span class="req">*</span>:</label>
-          <input id="anchoAgregar" class="form-control" formControlName="ancho"
-                 placeholder="Ingresa el ancho">
-          <span class="campo-obligatorio"
-                *ngIf="fac.ancho?.errors?.required && (fac.ancho?.dirty || fac.ancho?.touched)">Campo obligatorio</span>
-        </div>
-        <div class="col-md-4">
-          <label class="control-label" for="areaTotalAgregar">Área total<span class="req">*</span>:</label>
-          <input id="areaTotalAgregar" class="form-control" formControlName="areaTotal"
-                 placeholder="Ingresa el área">
-          <span class="campo-obligatorio"
-                *ngIf="fac.areaTotal?.errors?.required && (fac.areaTotal?.dirty || fac.areaTotal?.touched)">Campo obligatorio</span>
-        </div>
-      </div>
-      <div class="row mb-2">
-        <div class="col-md-12">
-          <span>*Campos obligatorios</span>
-        </div>
-      </div>
-    </form>
-
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <div class="flex justify-content-end">
-      <button class="btn btn-default btn-md" (click)="mostrarModalAgregarCapilla = false">Cancelar</button>
-      <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid"  (click)="abrirModalAgregarCapilla()">
-        Agregar
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
+<ng-template pTemplate="footer">
+  <div class="flex justify-content-end">
+    <button class="btn btn-default btn-md" (click)="mostrarModalAgregarCapilla = false">Cancelar</button>
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid"
+            (click)="abrirModalAgregarCapilla()">
+      Agregar
+    </button>
+  </div>
+</ng-template>

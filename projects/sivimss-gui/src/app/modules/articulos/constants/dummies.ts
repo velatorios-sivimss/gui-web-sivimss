@@ -31,6 +31,42 @@ export const CATALOGO_NIVEL: TipoDropdown[] = [
         value: 3,
         label: 'Nivel velatorio',
     },
+    {
+        value: 4,
+        label: 'Nivel central',
+    },
+    {
+        value: 5,
+        label: 'Nivel delegacional',
+    },
+    {
+        value: 6,
+        label: 'Nivel velatorio',
+    },
+    {
+        value: 7,
+        label: 'Nivel central',
+    },
+    {
+        value: 8,
+        label: 'Nivel delegacional',
+    },
+    {
+        value: 9,
+        label: 'Nivel velatorio Nueve',
+    },
+    {
+        value: 10,
+        label: 'Nivel central',
+    },
+    {
+        value: 11,
+        label: 'Nivel delegacional',
+    },
+    {
+        value: 12,
+        label: 'Nivel velatorio',
+    },
 ];
 
 
