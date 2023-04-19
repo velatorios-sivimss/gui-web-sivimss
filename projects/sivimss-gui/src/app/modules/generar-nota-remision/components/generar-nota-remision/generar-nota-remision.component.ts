@@ -1,20 +1,19 @@
 
-import { NotaRemision } from '../../models/nota-remision.interface';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DialogService, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { DIEZ_ELEMENTOS_POR_PAGINA } from 'projects/sivimss-gui/src/app/utils/constantes';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
-import { CATALOGOS_DUMMIES, CATALOGO_NIVEL } from '../../constants/dummies';
 import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
 import { LazyLoadEvent } from 'primeng-lts/api';
 import { SERVICIO_BREADCRUMB } from '../../constants/breadcrumb';
-import { validarAlMenosUnCampoConValor } from 'projects/sivimss-gui/src/app/utils/funciones';
+import { mapearArregloTipoDropdown, validarAlMenosUnCampoConValor } from 'projects/sivimss-gui/src/app/utils/funciones';
+import { ClavesEstatus, NotaRemision } from '../../models/nota-remision.interface';
 import { GenerarNotaRemisionService } from '../../services/generar-nota-remision.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import * as moment from "moment";
 
 @Component({
@@ -24,6 +23,10 @@ import * as moment from "moment";
   providers: [DialogService]
 })
 export class GenerarNotaRemisionComponent implements OnInit {
+  readonly POSICION_NIVELES: number = 0;
+  readonly POSICION_DELEGACIONES: number = 1;
+  readonly POSICION_VELATORIOS: number = 2;
+
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
@@ -39,12 +42,18 @@ export class GenerarNotaRemisionComponent implements OnInit {
   modificacionRef!: DynamicDialogRef;
   hayCamposObligatorios: boolean = false;
 
-  catNiveles: TipoDropdown[] = CATALOGO_NIVEL;
-  opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
+  catalogoVelatorios: TipoDropdown[] = [];
   foliosGenerados: TipoDropdown[] = [];
-  clavesEstatus: string[] = ['Sin nota', 'Generada', 'Cancelada'];
+  clavesEstatus: ClavesEstatus = {
+    1: 'Sin nota',
+    2: 'Generada',
+    3: 'Cancelada',
+  };
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
@@ -59,6 +68,15 @@ export class GenerarNotaRemisionComponent implements OnInit {
     this.actualizarBreadcrumb();
     this.inicializarFiltroForm();
     this.obtenerFoliosGenerados();
+    this.cargarCatalogos();
+  }
+
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
+    this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 
   actualizarBreadcrumb(): void {
@@ -77,8 +95,16 @@ export class GenerarNotaRemisionComponent implements OnInit {
     });
   }
 
-  abrirModalReciboPagoTramites(): void {
-    this.router.navigate(['formato'], { relativeTo: this.activatedRoute });
+  generarNotaRemision(): void {
+    this.router.navigate([`formato/${this.notaRemisionSeleccionada.id}`], { relativeTo: this.activatedRoute });
+  }
+
+  verDetalleNotaRemision(): void {
+    this.router.navigate([`detalle-formato/1/${this.notaRemisionSeleccionada.id}`], { relativeTo: this.activatedRoute });
+  }
+
+  cancelarNotaRemision(): void {
+    this.router.navigate([`cancelar-formato/1/${this.notaRemisionSeleccionada.id}`], { relativeTo: this.activatedRoute });
   }
 
   abrirPanel(event: MouseEvent, notaRemisionSeleccionada: NotaRemision): void {
@@ -147,8 +173,9 @@ export class GenerarNotaRemisionComponent implements OnInit {
 
   obtenerObjetoParaFiltrado(): object {
     return {
-      idNivel: 1,
-      idVelatorio: 1,
+      idNivel: +this.f.nivel.value,
+      idDelegacion: +this.f.delegacion.value,
+      idVelatorio: +this.f.velatorio.value,
       folioODS: +this.f.folio.value?.label,
       fecIniODS: moment(this.f.fechaInicial.value).format('DD/MM/YYYY'),
       fecFinODS: moment(this.f.fechaInicial.value).format('DD/MM/YYYY'),
@@ -157,6 +184,7 @@ export class GenerarNotaRemisionComponent implements OnInit {
 
 
   limpiar(): void {
+    this.alertaService.limpiar();
     this.filtroForm.reset();
     this.paginar();
   }
@@ -206,6 +234,10 @@ export class GenerarNotaRemisionComponent implements OnInit {
         console.error(error);
       }
     );
+  }
+
+  descargarDocumento(tipoDocumento: string) {
+
   }
 
   get f() {

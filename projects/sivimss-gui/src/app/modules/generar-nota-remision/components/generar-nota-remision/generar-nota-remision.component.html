@@ -2,28 +2,35 @@
 <div class="border-panel">
   <form [formGroup]="filtroForm" (ngSubmit)="buscarFoliosNotaRemision()">
     <div class="row mb-3">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="catNiveles"
-          placeholder="Selecciona el nivel">
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="catalogoNiveles"
+          placeholder="Selecciona el nivel" [filter]="true" filterBy="label">
         </p-dropdown>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-4">
+        <label class="control-label" for="delegacion">Delegación:</label>
+        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="catalogoDelegaciones"
+          placeholder="Seleccionar la delegación" [filter]="true" filterBy="label">
+        </p-dropdown>
+      </div>
+      <div class="col-md-4">
         <label class="control-label" for="velatorio">Velatorio:</label>
-        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="opciones"
-          placeholder="Selecciona el velatorio">
+        <p-dropdown id="velatorio" class="form-control" formControlName="velatorio" [options]="catalogoVelatorios"
+          placeholder="Selecciona el velatorio" [filter]="true" filterBy="label">
         </p-dropdown>
       </div>
     </div>
     <div class="row mb-3">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label class="control-label" for="folio">Folio de la ODS<span class="req"
             *ngIf="hayCamposObligatorios">*</span>:</label>
         <p-dropdown id="folio" class="form-control" formControlName="folio" [options]="foliosGenerados"
-          optionLabel="label" placeholder="Selecciona el folio" (onChange)="fechasOpcionales()">
+          optionLabel="label" placeholder="Selecciona el folio" (onChange)="fechasOpcionales()" [filter]="true"
+          filterBy="label">
         </p-dropdown>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <label class="control-label" for="fechaInicial">Rango de fechas<span class="req"
             *ngIf="hayCamposObligatorios">*</span>:</label>
         <p-calendar id="fechaInicial" formControlName="fechaInicial" styleClass="form-control" [showIcon]="true"
@@ -31,7 +38,7 @@
           (onSelect)="folioOpcional();">
         </p-calendar>
       </div>
-      <div class="col-md-3 pt-5">
+      <div class="col-md-4 pt-5">
         <div class="row mt-2">
           <div class="col-md-12">
             <p-calendar styleClass="form-control" id="fechaFinal" formControlName="fechaFinal" [showIcon]="true"
@@ -100,8 +107,10 @@
         <div class="export-table">
           <span class="export-table-text">Exportar tabla</span>
           <div class="export-table-icons">
-            <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf">
-            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel">
+            <img class="icon-export-table" src="assets/images/imagen-icono-pdf.svg" alt="exportar pdf"
+              (click)="descargarDocumento('pdf')">
+            <img class="icon-export-table" src="assets/images/imagen-icono-excel.svg" alt="exportar excel"
+              (click)="descargarDocumento('excel')">
           </div>
         </div>
       </div>
@@ -112,13 +121,15 @@
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Generar nota de remisión" *ngIf="notaRemisionSeleccionada?.estatus === 0"
-        (click)="abrirModalReciboPagoTramites()"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Ver" *ngIf="notaRemisionSeleccionada?.estatus !== 0"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Descargar PDF"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Descargar Excel"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Cancelar"
-        *ngIf="notaRemisionSeleccionada?.estatus === 1"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Generar nota de remisión" *ngIf="notaRemisionSeleccionada?.estatus === 1"
+        (click)="generarNotaRemision()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Ver" *ngIf="notaRemisionSeleccionada?.estatus !== 1"
+        (click)="verDetalleNotaRemision()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Descargar PDF" (click)="descargarDocumento('pdf')"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Descargar Excel"
+        (click)="descargarDocumento('excel')"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Cancelar" *ngIf="notaRemisionSeleccionada?.estatus === 2"
+        (click)="cancelarNotaRemision()"></app-overlay-panel-opcion>
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>

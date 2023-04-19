@@ -14,6 +14,7 @@ import { OverlayPanelOpcionesModule } from '../../shared/overlay-panel-opciones/
 import { DialogModule } from 'primeng-lts/dialog';
 import { StepsModule } from 'primeng-lts/steps';
 import { AutoCompleteModule } from 'primeng-lts/autocomplete';
+import { InputTextareaModule } from 'primeng-lts/inputtextarea';
 
 import { CalendarModule } from 'primeng-lts/calendar';
 import { AccordionModule } from 'primeng-lts/accordion';
@@ -23,12 +24,17 @@ import { GenerarNotaRemisionService } from './services/generar-nota-remision.ser
 import { GenerarReciboRoutingModule } from './generar-nota-remision.routing.module';
 import { FormatoGenerarNotaRemisionComponent } from './components/formato-generar-nota-remision/formato-generar-nota-remision.component';
 import { DetalleFormatoGenerarNotaRemisionComponent } from './components/detalle-formato-generar-nota-remision/detalle-formato-generar-nota-remision.component';
+import { ModalNotaRemisionComponent } from './components/modal/modal-nota-remision/modal-nota-remision.component';
+import { CancelarFormatoGenerarNotaRemisionComponent } from './components/cancelar-formato-generar-nota-remision/cancelar-formato-generar-nota-remision.component';
+import { LoaderModule } from '../../shared/loader/loader.module';
 
 @NgModule({
   declarations: [
     GenerarNotaRemisionComponent,
     FormatoGenerarNotaRemisionComponent,
     DetalleFormatoGenerarNotaRemisionComponent,
+    CancelarFormatoGenerarNotaRemisionComponent,
+    ModalNotaRemisionComponent,
   ],
   imports: [
     CalendarModule,
@@ -49,6 +55,8 @@ import { DetalleFormatoGenerarNotaRemisionComponent } from './components/detalle
     AccordionModule,
     AutoCompleteModule,
     UtileriaModule,
+    InputTextareaModule,
+    LoaderModule,
   ],
   providers: [GenerarNotaRemisionService]
 })

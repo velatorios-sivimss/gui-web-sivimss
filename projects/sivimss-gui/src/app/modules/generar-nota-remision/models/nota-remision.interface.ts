@@ -10,6 +10,11 @@ export interface NotaRemision {
   nomContratante?: string;
 }
 
+export type ClavesEstatus = {
+  [key: number]: string;
+};
 
-
-
+export interface ConsultaNotaRemision {
+  idNota: number;
+  idOrden: number;
+}

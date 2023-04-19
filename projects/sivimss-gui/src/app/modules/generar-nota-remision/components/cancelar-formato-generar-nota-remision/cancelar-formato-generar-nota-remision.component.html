@@ -1,9 +1,6 @@
 <div class="container-gral">
   <div class="row">
-    <div class="mb-4">
-      <span class="etiqueta-subtitulo">El presente comprobante carece de validez fiscal</span>
-    </div>
-    <h3>Nota de remisión</h3>
+    <h3>Cancelar NOTA DE REMISIÓN</h3>
   </div>
 
   <div class="row mb-4">
@@ -250,8 +247,19 @@
               </div>
             </div>
           </section>
+
+          <span class="etiqueta-subtitulo">El presente comprobante carece de validez fiscal</span>
         </form>
       </div>
+    </div>
+
+    <div class="col-md-12 mt-7">
+      <form [formGroup]="notaRemisionForm">
+        <div class="row">
+          <label class="control-label" for="motivoCancelacion">Motivo de la cancelación<span class="req">*</span>:</label>
+          <textarea rows="5"  pInputTextarea style="width: 100%;" formControlName="motivoCancelacion" placeholder="Ingresa el motivo de la cancelación"></textarea>
+        </div>
+      </form>
     </div>
 
     <div class="mb-4">
@@ -260,20 +268,15 @@
       </div>
     </div>
 
-    <div class="row mb-3" *ngIf="generarNotaRemision">
+    <div class="row mb-3" *ngIf="confirmarCancelacion">
       <div class="col-md-12 text-center">
-        <span class="etiqueta-base">¿Estás seguro de generar esta nueva nota de remisión?</span>
+        <span class="etiqueta-base">¿Estás seguro de cancelar esta nota de remisión?</span>
       </div>
     </div>
   </div>
 
-  <div class="row flex justify-content-end mb-4" *ngIf="generarNotaRemision">
-    <button type="button" class="btn btn-default btn-md" (click)="btnRegresar()">Regresar</button>
-    <button type="button" class="ml-4 btn btn-danger btn-md" (click)="btnRegresar()">Cancelar</button>
-    <button type="button" class="ml-4 btn btn-primary btn-md" (click)="btnAceptar()">Aceptar</button>
-  </div>
-
-  <div class="row flex justify-content-end mb-4" *ngIf="!generarNotaRemision">
-    <button type="button" class="ml-4 btn btn-primary btn-md" (click)="btnAceptarDetalle()">Aceptar</button>
+  <div class="row flex justify-content-end mb-4">
+    <button type="button" class="btn btn-default btn-md" (click)="regresar()">Regresar</button>
+    <button type="button" class="ml-4 btn btn-primary btn-md" (click)="cancelarNotaRemision()" [disabled]="notaRemisionForm.invalid">Aceptar</button>
   </div>
 </div>

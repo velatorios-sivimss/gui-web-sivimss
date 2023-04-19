@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { OverlayPanel } from 'primeng-lts/overlaypanel';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-formato-generar-nota-remision',
@@ -8,24 +8,49 @@ import { OverlayPanel } from 'primeng-lts/overlaypanel';
   styleUrls: ['./detalle-formato-generar-nota-remision.component.scss']
 })
 export class DetalleFormatoGenerarNotaRemisionComponent implements OnInit {
-  @ViewChild(OverlayPanel)
-  overlayPanel: OverlayPanel | undefined;
+  readonly POSICION_DETALLE: number = 0;
+  readonly POSICION_SERVICIOS: number = 1;
+
+  @Input() generarNotaRemision: boolean = false;
 
   @Output() regresar = new EventEmitter();
 
   @Output() aceptar = new EventEmitter();
 
   notaRemisionForm!: FormGroup;
+  idNota: number = 0;
+  idOds: number = 0;
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly router: Router,
   ) { }
 
   ngOnInit(): void {
-    this.inicializarNotaRemisionForm();
+    this.cargarCatalogos();
   }
 
-  inicializarNotaRemisionForm() {
+  cargarCatalogos(): void {
+    if (!this.generarNotaRemision) {
+      const respuesta = this.route.snapshot.data['respuesta'];
+      this.idNota = +this.route.snapshot.params?.idNota;
+      this.idOds = +this.route.snapshot.params?.idOds;
+
+      if (!this.idNota || !this.idOds) {
+        this.btnAceptarDetalle();
+      }
+
+      const detalleNotaRemision = respuesta[this.POSICION_DETALLE].datos;
+      const serviciosNotaRemision = respuesta[this.POSICION_SERVICIOS].datos;
+      this.inicializarNotaRemisionForm(detalleNotaRemision, serviciosNotaRemision);
+    } else {
+      this.inicializarNotaRemisionForm();
+    }
+  }
+
+  inicializarNotaRemisionForm(detalle?: any, servicios?: any) {
     this.notaRemisionForm = this.formBuilder.group({
       versionDocumento: [{ value: "1.2", disabled: true }],
       fecha: [{ value: new Date(), disabled: true }],
@@ -52,4 +77,7 @@ export class DetalleFormatoGenerarNotaRemisionComponent implements OnInit {
     this.aceptar.emit();
   }
 
+  btnAceptarDetalle() {
+    this.router.navigate(['/generar-nota-remision'], { relativeTo: this.activatedRoute });
+  }
 }

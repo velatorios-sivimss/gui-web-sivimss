@@ -1,13 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import {Location} from '@angular/common';
 import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
+import { ModalNotaRemisionComponent } from '../modal/modal-nota-remision/modal-nota-remision.component';
+import { GenerarNotaRemisionService } from '../../services/generar-nota-remision.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-formato-generar-nota-remision',
   templateUrl: './formato-generar-nota-remision.component.html',
-  styleUrls: ['./formato-generar-nota-remision.component.scss']
+  styleUrls: ['./formato-generar-nota-remision.component.scss'],
+  providers: [DynamicDialogConfig, DialogService],
 })
 export class FormatoGenerarNotaRemisionComponent implements OnInit {
   @ViewChild(OverlayPanel)
@@ -15,11 +20,15 @@ export class FormatoGenerarNotaRemisionComponent implements OnInit {
 
   notaRemisionForm!: FormGroup;
   formatoGenerar: boolean = true;
+  creacionRef!: DynamicDialogRef;
 
   constructor(
+    public dialogService: DialogService,
     private formBuilder: FormBuilder,
-    private _location: Location,
     private alertaService: AlertaService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private generarNotaRemisionService: GenerarNotaRemisionService,
   ) { }
 
   ngOnInit(): void {
@@ -45,13 +54,33 @@ export class FormatoGenerarNotaRemisionComponent implements OnInit {
     });
   }
 
+  abrirModalGenerandoNotaRemision(): void {
+    this.creacionRef = this.dialogService.open(ModalNotaRemisionComponent, {
+      header: "Aviso",
+      width: "920px",
+      data: { mensaje: 'Generando nota de remisión' },
+    });
+  }
+
   regresar() {
     this.formatoGenerar = true;
   }
 
-  aceptar() {
-    this.alertaService.mostrar(TipoAlerta.Exito, 'Nota de remisión generada correctamente');
-    this._location.back();
+  generarNotaRemision() {
+    this.abrirModalGenerandoNotaRemision();
+    this.generarNotaRemisionService.guardar({ idOrden: 1 }).subscribe(
+      (respuesta) => {
+        if (respuesta && respuesta.codigo === 200) {
+          this.creacionRef.close();
+          this.alertaService.mostrar(TipoAlerta.Exito, 'Nota de remisión generada correctamente');
+          this.router.navigate(['/generar-nota-remision'], { relativeTo: this.activatedRoute });
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.creacionRef.close();
+      }
+    );
   }
 
 }
