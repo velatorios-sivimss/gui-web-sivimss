@@ -7,7 +7,7 @@
   <div class="row table-panel-row">
     <div class="col-md-6">
       <div class="table-panel-column">
-        <span>Capilla Jesús de la inmaculada y la nueva Luz</span>
+        <span>{{idCapilla}}</span>
       </div>
     </div>
   </div>
@@ -15,13 +15,13 @@
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Registro de entrada</label>
-        <span>01/01/2022 - 10:32 am</span>
+        <span>{{fechaSalida}}</span>
       </div>
     </div>
     <div class="col-md-4">
       <div class="table-panel-column">
         <label>Registro de salida</label>
-        <span>08/01/2022 - 12:00 am</span>
+        <span>{{fechaSalida}}</span>
       </div>
     </div>
   </div>
@@ -35,6 +35,6 @@
 <div class="row mb-3">
   <div class="col-md-12 flex justify-content-end">
     <button type="button" class="btn btn-danger btn-md ml-5" (click)="cancelar()">Cancelar</button>
-    <button type="submit" class="btn btn-primary btn-md ml-5" (click)="confirmarEntrada(true)">Registrar</button>
+    <button type="submit" class="btn btn-primary btn-md ml-5" (click)="guardar()">Registrar</button>
   </div>
 </div>

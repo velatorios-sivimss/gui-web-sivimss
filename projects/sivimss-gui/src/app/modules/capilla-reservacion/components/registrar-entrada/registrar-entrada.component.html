@@ -12,9 +12,9 @@
     <form [formGroup]="registrarEntradaForm">
       <div class="row mb-3">
         <div class="col-md-6">
-          <label class="control-label" for="capilla">Nombre de la capilla <span class="req">*</span></label>
+          <label class="control-label" for="capilla">Nombre de la capilla<span class="req">*</span></label>
           <p-dropdown appendTo="body" id="capilla" class="form-control" formControlName="capilla"
-                      [options]="capilla"
+                      [options]="registros2"
                       placeholder="Selecciona la capilla">
           </p-dropdown>
           <span class="campo-obligatorio"
@@ -122,7 +122,7 @@
   <div class="row mb-3">
     <div class="col-md-12 flex justify-content-end">
       <button type="button" class="btn btn-danger btn-md ml-5" (click)="cancelar()">Cancelar</button>
-      <button type="submit" class="btn btn-primary btn-md ml-5" (click)="confirmarEntrada(true)">Registrar</button>
+      <button type="submit" class="btn btn-primary btn-md ml-5" (click)="guardar()">Registrar</button>
     </div>
   </div>
 

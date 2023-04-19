@@ -15,7 +15,7 @@
         <div class="col-md-6">
           <label class="control-label" for="velatorio">Velatorio</label>
           <p-dropdown appendTo="body" id="velatorio" class="form-control" formControlName="velatorio"
-                      [options]="velatorio"
+                      [options]="velatorio" (onChange)="obtenerCapillaPorIdVelatorio()"
                       placeholder="Selecciona el velatorio">
           </p-dropdown>
         </div>
@@ -99,7 +99,7 @@
 </ng-container>
 <ng-container *ngIf="value == 1">
   <section class="my-4">
-    <form [formGroup]="calendarioForm">
+    <!-- <form [formGroup]="calendarioForm">
       <div class="row mb-3">
         <div class="col-md-6">
           <label class="control-label" for="velatorioCalendario">Velatorio</label>
@@ -109,7 +109,7 @@
           </p-dropdown>
         </div>
       </div>
-    </form>
+    </form> -->
     <app-calendario></app-calendario>
   </section>
 </ng-container>
