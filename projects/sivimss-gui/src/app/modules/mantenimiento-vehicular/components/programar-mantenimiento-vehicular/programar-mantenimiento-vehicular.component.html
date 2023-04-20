@@ -1,16 +1,16 @@
-<app-titulo-principal titulo="Administración de artículos"></app-titulo-principal>
+<app-titulo-principal titulo="Programar Mantenimiento Vehicular"></app-titulo-principal>
 <div class="border-panel">
-  <form [formGroup]="filtroForm">
+  <form [formGroup]="filtroForm" (submit)="buscar()">
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="nivel">Nivel:</label>
-        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="niveles"
+        <p-dropdown id="nivel" class="form-control" formControlName="nivel" [options]="catalogoNiveles"
                     placeholder="Seleccionar el nivel">
         </p-dropdown>
       </div>
       <div class="col-md-6">
         <label class="control-label" for="delegacion">Delegación:</label>
-        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="velatorios"
+        <p-dropdown id="delegacion" class="form-control" formControlName="delegacion" [options]="catalogoDelegaciones"
                     placeholder="Seleccionar delegación">
         </p-dropdown>
       </div>
@@ -30,9 +30,9 @@
     </div>
     <div class="row mt-6">
       <div class="col-md-12 flex justify-content-end">
-        <button type="submit" class="btn btn-default btn-md" (click)="limpiar()" >Limpiar</button>
-        <button type="submit" class="btn btn-primary btn-md ml-5"
-        [disabled]="filtroForm.invalid">Buscar</button>
+        <button type="submit" class="btn btn-default btn-md" (click)="limpiar()">Limpiar</button>
+        <button type="submit" class="btn btn-primary btn-md ml-5">Buscar
+        </button>
       </div>
     </div>
   </form>
@@ -40,28 +40,30 @@
 
 <section class="mt-5">
   <div class="flex justify-content-between align-items-center">
-    <h2 class="subtitulo">Lista de artículos</h2>
+    <h2 class="subtitulo">Vehículos</h2>
     <div>
-      <button type="button" class="btn btn-primary btn-lg btn-md" (click)="abrirMantenimientoPredictivo()">Mantenimiento predictivo</button>
-      <button type="button" class="btn btn-primary btn-lg btn-md ml-5" (click)="abrirReporteEncargado()">Reporte del encargado</button>
+      <button type="button" class="btn btn-primary btn-lg btn-md" (click)="abrirMantenimientoPredictivo()">Mantenimiento
+        predictivo
+      </button>
+      <button type="button" class="btn btn-primary btn-lg btn-md ml-5" (click)="abrirReporteEncargado()">Reporte del
+        encargado
+      </button>
     </div>
-
-
   </div>
 
   <p-table styleClass="mt-5 mb-8" [value]="vehiculos" [paginator]="vehiculos.length > 0"
            [rows]="cantElementosPorPagina"
            [lazy]="true" [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual"
-           (onLazyLoad)="paginar($event)">
+           (onLazyLoad)="seleccionarPaginacion($event)">
 
     <ng-template pTemplate="header">
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Vehiculo</th>
+        <th scope="col">Vehículo</th>
         <th scope="col">Placas</th>
         <th scope="col">Kilometraje</th>
-        <th scope="col">Tipo de mantenimiento</th>
-        <th scope="col">Modlidad</th>
+        <th scope="col">Tipo de Mantenimiento</th>
+        <th scope="col">Modalidad</th>
         <!-- <th scope="col">Fecha de mantenimiento</th> -->
         <!-- <th scope="col">Modelo de artículo</th> -->
         <th scope="col">Estatus</th>
@@ -80,11 +82,11 @@
         <!-- <td> {{vehiculo.observaciones}} </td> -->
         <td>
           <!-- <div class="contenedor-inputswitch"> -->
-            <span class="enTiempo" *ngIf="vehiculo.estatusNumber==1">{{vehiculo.estatusText}}</span>
-            <span class="cercano" *ngIf="vehiculo.estatusNumber==2">{{vehiculo.estatusText}}</span>
-            <span class="finalizado" *ngIf="vehiculo.estatusNumber==3">{{vehiculo.estatusText}}</span>
-            <span class="venceHoy" *ngIf="vehiculo.estatusNumber==4">{{vehiculo.estatusText}}</span>
-            <span class="activo" *ngIf="vehiculo.estatusNumber==5">{{vehiculo.estatusText}}</span>
+          <span class="enTiempo" *ngIf="vehiculo.estatusNumber==1">{{vehiculo.estatusText}}</span>
+          <span class="cercano" *ngIf="vehiculo.estatusNumber==2">{{vehiculo.estatusText}}</span>
+          <span class="finalizado" *ngIf="vehiculo.estatusNumber==3">{{vehiculo.estatusText}}</span>
+          <span class="venceHoy" *ngIf="vehiculo.estatusNumber==4">{{vehiculo.estatusText}}</span>
+          <span class="activo" *ngIf="vehiculo.estatusNumber==5">{{vehiculo.estatusText}}</span>
           <!-- </div> -->
         </td>
 
@@ -126,9 +128,12 @@
 <p-overlayPanel #overlayPanel>
   <ng-template pTemplate="content">
     <app-overlay-panel-opciones>
-      <app-overlay-panel-opcion titulo="Verificar al inicio" (click)="abrirModalnuevaVerificacion()"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Solicitud de mantenimiento,," (click)="abrirModalSolicitudMantenimiento()"></app-overlay-panel-opcion>
-      <app-overlay-panel-opcion titulo="Registro de mantenimiento" (click)="abrirModalRegistroMantenimiento()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Verificar al inicio"
+                                (click)="abrirModalnuevaVerificacion()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Solicitud de mantenimiento,,"
+                                (click)="abrirModalSolicitudMantenimiento()"></app-overlay-panel-opcion>
+      <app-overlay-panel-opcion titulo="Registro de mantenimiento"
+                                (click)="abrirModalRegistroMantenimiento()"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Modificar" (click)="abrirModalModificar()"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Exportar PDF" (click)="abrirModalExportarPDF()"></app-overlay-panel-opcion>
       <app-overlay-panel-opcion titulo="Exportar Excel" (click)="abrirModalExportarExcel()"></app-overlay-panel-opcion>

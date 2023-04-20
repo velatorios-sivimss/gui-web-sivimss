@@ -20,6 +20,12 @@ import {
 import {
   SolicitudMantenimientoComponent
 } from '../solicitud-mantenimiento/solicitud-mantenimiento/solicitud-mantenimiento.component'
+import {finalize} from "rxjs/operators";
+import {HttpErrorResponse} from "@angular/common/http";
+import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {MantenimientoVehicularService} from "../../services/mantenimiento-vehicular.service";
+import {MANTENIMIENTO_VEHICULAR_BREADCRUMB} from "../../constants/breadcrumb";
+import {FiltrosMantenimientoVehicular} from "../../models/filtrosMantenimientoVehicular.interface";
 
 @Component({
   selector: 'app-programar-mantenimiento-vehicular',
@@ -40,30 +46,47 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
 
   filtroForm!: FormGroup
 
+  paginacionConFiltrado: boolean = false;
+
+
   creacionRef!: DynamicDialogRef
   detalleRef!: DynamicDialogRef
   modificacionRef!: DynamicDialogRef
 
   opciones: TipoDropdown[] = CATALOGOS_DUMMIES
+  catalogoNiveles: TipoDropdown[] = [];
+  catalogoDelegaciones: TipoDropdown[] = [];
   tipoServicio: TipoDropdown[] = CATALOGOS_DUMMIES
   partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES
   cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES
-  niveles: TipoDropdown[] = CATALOGOS_DUMMIES
   velatorios: TipoDropdown[] = CATALOGOS_DUMMIES
 
+  readonly POSICION_NIVELES: number = 0;
+  readonly POSICION_DELEGACIONES: number = 1;
+
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
     public dialogService: DialogService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private cargadorService: LoaderService,
+    private mantenimientoVehicularService: MantenimientoVehicularService
   ) {
   }
 
   ngOnInit(): void {
-    // this.actualizarBreadcrumb();
+    this.breadcrumbService.actualizar(MANTENIMIENTO_VEHICULAR_BREADCRUMB);
     this.inicializarFiltroForm()
+    this.cargarCatalogos();
+  }
+
+  cargarCatalogos(): void {
+    const respuesta = this.route.snapshot.data["respuesta"];
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
   }
 
   inicializarFiltroForm() {
@@ -75,104 +98,45 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
     })
   }
 
+  seleccionarPaginacion(event?: LazyLoadEvent): void {
+    if (event) {
+      this.numPaginaActual = Math.floor((event.first || 0) / (event.rows || 1));
+    }
+    if (this.paginacionConFiltrado) {
+      this.paginarConFiltros();
+    } else {
+      this.paginar();
+    }
+  }
 
-  paginar(event: LazyLoadEvent): void {
-    console.log(event);
-    setTimeout(() => {
-      this.vehiculos = [
-        {
-          id: 1,
-          velatorio: "Hermanos Ramires",
-          fecha: "prueba",
-          tamanio: "prueba",
-          hora: "prueba",
-          vehiculo: "prueba",
-          placas: "prueba",
-          nivelAceite: 2,
-          nivelAgua: true,
-          calibracionNeumaticosTraseros: 0,
-          calibracionNeumaticosDelanteros: 1,
-          nivelCombustible: 2,
-          nivelBateria: 2,
-          limpiezaExterior: 1,
-          limpiezaInterior: 2,
-          codigoFalla: 0,
-          estatusText: "prueba",
-          estatus: true,
-          estatusNumber: 3,
-          kilometraje: "22002",
-          tipoMantenimiento: "Preventivo",
-          modalidad: "Reuqerida",
-          fechaMantenimiento: "20/06/1996",
-          anio: "2019",
-          marca: "chebrolet",
-          modalidadNumber: 1,
-          fechaRegistro: "20/06/2023",
-          tipoMantenimientoNumber: 3
+  paginar(): void {
+    this.cargadorService.activar();
+    this.mantenimientoVehicularService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina)
+      .pipe(finalize(() => this.cargadorService.desactivar()))
+      .subscribe(
+        (respuesta) => {
+          this.vehiculos = respuesta!.datos.content;
+          this.totalElementos = respuesta!.datos.totalElements;
         },
-        {
-          id: 1,
-          velatorio: "Hermanos Ramires",
-          fecha: "prueba",
-          tamanio: "prueba",
-          hora: "prueba",
-          vehiculo: "prueba",
-          placas: "prueba",
-          nivelAceiteBajo: true,
-          nivelAgua: true,
-          calibracionNeumaticosTraseros: 0,
-          calibracionNeumaticosDelanteros: 1,
-          nivelCombustible: 2,
-          nivelBateria: 2,
-          limpiezaExterior: 1,
-          limpiezaInterior: 2,
-          codigoFalla: 0,
-          estatusText: "prueba",
-          estatus: true,
-          estatusNumber: 1,
-          kilometraje: "22002",
-          tipoMantenimiento: "Preventivo",
-          modalidad: "Reuqerida",
-          fechaMantenimiento: "20/06/1996",
-          anio: "2019",
-          marca: "chebrolet",
-          modalidadNumber: 1,
-          fechaRegistro: "20/06/2023",
-          tipoMantenimientoNumber: 2
-        },
-        {
-          id: 1,
-          velatorio: "Hermanos Ramires",
-          fecha: "prueba",
-          tamanio: "prueba",
-          hora: "prueba",
-          vehiculo: "prueba",
-          placas: "prueba",
-          nivelAceiteBajo: true,
-          nivelAgua: true,
-          calibracionNeumaticosTraseros: 0,
-          calibracionNeumaticosDelanteros: 1,
-          nivelCombustible: 2,
-          nivelBateria: 2,
-          limpiezaExterior: 1,
-          limpiezaInterior: 2,
-          codigoFalla: 0,
-          estatusText: "prueba",
-          estatus: true,
-          estatusNumber: 2,
-          kilometraje: "22002",
-          tipoMantenimiento: "Preventivo",
-          modalidad: "Reuqerida",
-          fechaMantenimiento: "20/06/1996",
-          anio: "2019",
-          marca: "chebrolet",
-          modalidadNumber: 1,
-          fechaRegistro: "20/06/2023",
-          tipoMantenimientoNumber: 1
-        },
-      ];
-      this.totalElementos = this.vehiculos.length;
-    }, 0)
+        (error: HttpErrorResponse) => {
+          console.error(error);
+          this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      );
+  }
+
+  paginarConFiltros(): void {
+
+  }
+
+  buscar(): void {
+    this.numPaginaActual = 0;
+    this.paginacionConFiltrado = true;
+    this.paginarConFiltros();
+  }
+
+  crearSolicitudFiltros(): FiltrosMantenimientoVehicular {
+    return {}
   }
 
   consultaServicioEspecifico(): string {
