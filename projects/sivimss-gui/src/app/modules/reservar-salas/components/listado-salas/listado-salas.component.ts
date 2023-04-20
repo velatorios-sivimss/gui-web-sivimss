@@ -15,6 +15,7 @@ import {ActivatedRoute} from "@angular/router";
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {TabView} from "primeng-lts/tabview";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
+import {finalize} from "rxjs/operators";
 
 @Component({
   selector: 'app-listado-salas',
@@ -57,7 +58,7 @@ export class ListadoSalasComponent implements OnInit {
     }
 
   registrarActividad(sala: SalaVelatorio): void {
-    if (sala.estadoSala != "Disponible") {
+    if (sala.estadoSala != "DISPONIBLE") {
       this.registrarSalida(sala);
       return;
     }
@@ -99,9 +100,10 @@ export class ListadoSalasComponent implements OnInit {
 
   consultaSalasCremacion(): void {
     this.loaderService.activar();
-    this.reservarSalasService.consultarSalas(this.velatorio,this.posicionPestania).subscribe(
+    this.reservarSalasService.consultarSalas(this.velatorio,this.posicionPestania).pipe(
+      finalize(() => this.loaderService.desactivar())
+    ).subscribe(
       (respuesta: HttpRespuesta<any>) => {
-        this.loaderService.desactivar();
         if(this.posicionPestania == 0){
           this.salasCremacion = respuesta.datos;
         }else{
@@ -109,7 +111,6 @@ export class ListadoSalasComponent implements OnInit {
         }
       },
       (error:HttpErrorResponse) => {
-        this.loaderService.desactivar();
         console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
@@ -117,10 +118,9 @@ export class ListadoSalasComponent implements OnInit {
   }
 
   retornarColor(estatus:string): string {
-
-    if(estatus === "Disponible"){return "#83b727"}
-    if(estatus === "Ocupada"){return "#9d2449"}
-    if(estatus === "En mantenimiento"){return "#ffff00"}
+    if(estatus === "DISPONIBLE"){return "#83b727"}
+    if(estatus === "OCUPADA"){return "#9d2449"}
+    if(estatus === "MANTENIMIENTO"){return "#ffff00"}
     return "";
   }
 }

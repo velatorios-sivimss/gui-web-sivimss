@@ -41,6 +41,17 @@ export class ReservarSalasService extends  BaseService<HttpRespuesta<any>, any> 
       {"mes":mes,"anio":anio,"tipoSala":tipoSala,"idVelatorio":idVelatorio}, { headers});
   }
 
-
+  generarReporte(filtroArchivo:any): Observable<Blob> {
+    const tipo = filtroArchivo.tipoReporte;
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_token2}`, 'Content-Type': 'application/json'});
+    return this._http.post<any>(this._base + `${this._funcionalidad}/veri-reporte/generarDocumento/` + tipo,
+      {idVelatorio:filtroArchivo.idVelatorio,indTipoSala:filtroArchivo.indTipoSala,
+        mes:filtroArchivo.mes,anio:filtroArchivo.anio,rutaNombreReporte:filtroArchivo.rutaNombreReporte,
+        tipoReporte:filtroArchivo.tipoReporte},
+      { headers,responseType: 'blob' as any});
+  }
 }
+
+
+
 

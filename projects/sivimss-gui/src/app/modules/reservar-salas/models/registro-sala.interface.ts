@@ -1,5 +1,5 @@
 export interface EntradaSala {
-  idSala?: number;
+  idSala?: any;
   idOds?: number;
   idTipoOcupacion?: number;
   fechaEntrada?: string;

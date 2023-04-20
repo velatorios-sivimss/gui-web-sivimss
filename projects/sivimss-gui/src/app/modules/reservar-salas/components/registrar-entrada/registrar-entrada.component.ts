@@ -1,16 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {SalaVelatorio} from "../../models/sala-velatorio.interface";
-import {ReservarSalasService} from "../../services/reservar-salas.service";
-import {HttpRespuesta} from "../../../../models/http-respuesta.interface";
 import {HttpErrorResponse} from "@angular/common/http";
+
+import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
+import {finalize} from 'rxjs/operators';
+import * as moment from 'moment';
+
 import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
-import {finalize} from 'rxjs/operators';
+
+import {ReservarSalasService} from "../../services/reservar-salas.service";
+
+import {TipoDropdown} from "../../../../models/tipo-dropdown";
+import {SalaVelatorio} from "../../models/sala-velatorio.interface";
+import {HttpRespuesta} from "../../../../models/http-respuesta.interface";
 import {EntradaSala} from "../../models/registro-sala.interface";
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-registrar-entrada',
@@ -23,11 +27,11 @@ export class RegistrarEntradaComponent implements OnInit {
   salaSeleccionada: SalaVelatorio = {};
 
   indice: number = 0;
-  idOds:number = 0;
+  idOds!:any;
   tipoSala:number = 0;
   folioValido: boolean = false;
-
   opcionesInicio: TipoDropdown[] = [{label: 'Mantenimiento', value: '1'}, {label: 'Servicio de ODS', value: '2'}];
+  alertas = JSON.parse(localStorage.getItem('mensajes') as string);
 
 
   constructor(
@@ -93,17 +97,41 @@ export class RegistrarEntradaComponent implements OnInit {
   }
 
   cambioInicioDe(event:any): void {
-    console.log(this.registroEntradaForm);
-    console.log(this.registroEntradaForm.get('descripcionMantenimiento'));
-    console.log(this.registroEntradaForm.get('nivelGas'));
     if(event.value == 2){
       this.entradaF.descripcionMantenimiento.disabled;
       this.entradaF.descripcionMantenimiento.clearValidators();
-      this.entradaF.descripcionMantenimiento.setValue(null);
+      this.entradaF.descripcionMantenimiento.setValue("");
 
+      this.entradaF.folioODS.enabled;
+      this.entradaF.folioODS.setValidators([Validators.required]);
+      this.entradaF.nombreContratante.enabled;
+      this.entradaF.nombreContratante.setValidators([Validators.required]);
+      this.entradaF.nombreFinado.enabled;
+      this.entradaF.nombreFinado.setValidators([Validators.required]);
+      this.entradaF.nivelGas.enabled;
+      this.entradaF.nivelGas.setValidators([Validators.required]);
+      this.folioValido = false;
     }else{
       this.entradaF.descripcionMantenimiento.enabled;
       this.entradaF.descripcionMantenimiento.setValidators([Validators.required]);
+
+      this.entradaF.folioODS.disabled;
+      this.entradaF.folioODS.clearValidators();
+      this.entradaF.folioODS.setValue("");
+
+      this.entradaF.nombreContratante.disabled;
+      this.entradaF.nombreContratante.clearValidators();
+      this.entradaF.nombreContratante.setValue("");
+
+      this.entradaF.nombreFinado.disabled;
+      this.entradaF.nombreFinado.clearValidators();
+      this.entradaF.nombreFinado.setValue("");
+
+      this.entradaF.nivelGas.disabled;
+      this.entradaF.nivelGas.clearValidators();
+      this.entradaF.nivelGas.setValue("");
+
+      this.folioValido = true;
     }
   }
 
@@ -117,12 +145,19 @@ export class RegistrarEntradaComponent implements OnInit {
       finalize(() => this.loaderService.desactivar())
     ).subscribe(
       (respuesta: HttpRespuesta<any>) => {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Has registrado la entrada/inicio del servicio correctamente.');
         this.ref.close(true);
+        const alertas = JSON.parse(localStorage.getItem('mensajes') as string);
+        const mensaje = alertas.filter((msj: any) => {
+          return msj.idMensaje == respuesta.mensaje;
+        })
+        this.alertaService.mostrar(TipoAlerta.Exito, mensaje[0].desMensaje);
       },
       (error : HttpErrorResponse) => {
         console.error("ERROR: ", error.message);
-        this.alertaService.mostrar(TipoAlerta.Error, 'Error al guardar la información. Intenta nuevamente.');
+        const mensaje = this.alertas.filter((msj: any) => {
+          return msj.idMensaje == error.error.mensaje;
+        })
+        this.alertaService.mostrar(TipoAlerta.Error, mensaje[0].desMensaje);
       }
     );
   }
@@ -130,7 +165,7 @@ export class RegistrarEntradaComponent implements OnInit {
   datosGuardar(): EntradaSala {
     return {
       idSala: this.salaSeleccionada.idSala,
-      idOds: this.idOds,
+      idOds: this.idOds ? this.idOds : null,
       idTipoOcupacion: +this.entradaF.inicioDe.value,
       fechaEntrada: moment(this.entradaF.fecha.value).format('yyyy/MM/DD'),
       horaEntrada: moment(this.entradaF.hora.value).format('HH:mm'),
@@ -147,6 +182,10 @@ export class RegistrarEntradaComponent implements OnInit {
     }
   }
 
+  noEspaciosAlPrincipio() {
+    this.entradaF.nombreResponsable.setValue(
+      this.entradaF.nombreResponsable.value.trimStart());
+  }
 
   cancelar(): void {
     if (this.indice === 1) {
@@ -159,5 +198,4 @@ export class RegistrarEntradaComponent implements OnInit {
   get entradaF() {
     return this.registroEntradaForm.controls;
   }
-
 }

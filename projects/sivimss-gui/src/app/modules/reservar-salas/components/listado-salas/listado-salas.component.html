@@ -15,26 +15,25 @@
             <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="salasCremacion"
                      [rows]="cantElementosPorPagina" [lazy]="true"
                      [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual">
-<!--                      (onLazyLoad)="consultaSalasCremacion()"-->
               <ng-template pTemplate="header">
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Nombre</th>
-                  <th scope="col">Estatus</th>
+                  <th scope="col">Estado</th>
                   <th scope="col"></th>
                 </tr>
               </ng-template>
-              <ng-template pTemplate="body" let-sala>
+              <ng-template pTemplate="body" let-salasCremacion>
                 <tr>
-                  <td>{{sala.idSala}}</td>
-                  <td>{{sala.nombreSala}}</td>
+                  <td>{{salasCremacion.idSala}}</td>
+                  <td>{{salasCremacion.nombreSala}}</td>
                   <td>
-                    <span class="circle" [ngStyle]="{'background-color': retornarColor(sala.estadoSala)}" ></span>
-                    {{sala.estadoSala}}
+                    <span class="circle" [ngStyle]="{'background-color': retornarColor(salasCremacion.estadoSala)}" ></span>
+                    {{salasCremacion.estadoSala}}
                   </td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
-                      Registrar {{ sala.estadoSala != 'Disponible' ? 'salida' : 'entrada'}}
+                    <button type="button" *appValidaRol="['ROLES_PERMISOS','ALTA']" class="btn btn-primary btn-md" (click)="registrarActividad(salasCremacion)">
+                      Registrar {{ salasCremacion.estadoSala != 'DISPONIBLE' ? 'salida' : 'entrada'}}
                     </button>
                   </td>
                 </tr>
@@ -54,12 +53,11 @@
         <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="salasEmbalsamamiento"
                   [rows]="cantElementosPorPagina" [lazy]="true"
                  [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual">
-          <!-- (onLazyLoad)="paginar($event)" -->
           <ng-template pTemplate="header">
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Estatus</th>
+              <th scope="col">Estado</th>
               <th scope="col"></th>
             </tr>
           </ng-template>
@@ -73,7 +71,7 @@
               </td>
               <td>
                 <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
-                  Registrar {{ sala.estadoSala != 'Disponible' ? 'salida' : 'entrada'}}
+                  Registrar {{ sala.estadoSala != 'DISPONIBLE' ? 'salida' : 'entrada'}}
                 </button>
               </td>
             </tr>

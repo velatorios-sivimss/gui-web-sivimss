@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {HttpErrorResponse} from "@angular/common/http";
+
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
+import {finalize} from "rxjs/operators";
+import * as moment from 'moment';
+
+import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
 import {SalaVelatorio} from "../../models/sala-velatorio.interface";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {SalidaSala} from "../../models/registro-sala.interface";
-import * as moment from 'moment';
 import {ReservarSalasService} from "../../services/reservar-salas.service";
-import {finalize} from "rxjs/operators";
 import {HttpRespuesta} from "../../../../models/http-respuesta.interface";
-import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
-import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-registrar-salida',
@@ -18,13 +20,14 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class RegistrarSalidaComponent implements OnInit {
 
+  alertas = JSON.parse(localStorage.getItem('mensajes') as string);
+
   registroSalidaForm!: FormGroup;
 
   indice: number = 0;
   tipoSala:number = 0;
 
   salaSeleccionada: SalaVelatorio = {};
-
 
   constructor(
     private alertaService: AlertaService,
@@ -80,12 +83,18 @@ export class RegistrarSalidaComponent implements OnInit {
       finalize(() => this.loaderService.desactivar())
     ).subscribe(
       (respuesta: HttpRespuesta<any>) => {
-        this.alertaService.mostrar(TipoAlerta.Exito, 'Has registrado la salida/término del servicio correctamente.');
+        const mensaje = this.alertas.filter((msj: any) => {
+          return msj.idMensaje == respuesta.mensaje;
+        })
+        this.alertaService.mostrar(TipoAlerta.Exito, mensaje[0].desMensaje);
         this.ref.close(true);
       },
       (error : HttpErrorResponse) => {
+        const mensaje = this.alertas.filter((msj: any) => {
+          return msj.idMensaje == error.error.mensaje;
+        })
+        this.alertaService.mostrar(TipoAlerta.Error, mensaje[0].desMensaje);
         console.error("ERROR: ", error.message);
-        this.alertaService.mostrar(TipoAlerta.Error, 'Error al guardar la información. Intenta nuevamente.');
       }
     );
 
@@ -97,7 +106,7 @@ export class RegistrarSalidaComponent implements OnInit {
         fechaSalida: moment(this.salidaF.fecha.value).format('yyyy/MM/DD') ,
         horaSalida: moment(this.salidaF.hora.value).format('HH:mm'),
         cantidadGasFinal: this.salidaF.nivelGas.value,
-        idRegistro: this.salaSeleccionada.idRegistroBitacora
+        idRegistro: this.salaSeleccionada.idRegistro
     }
   }
 }

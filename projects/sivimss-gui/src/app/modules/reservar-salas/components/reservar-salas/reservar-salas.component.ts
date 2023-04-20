@@ -4,6 +4,7 @@ import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrum
 import { RESERVAR_SALAS_BREADCRUMB } from '../../constants/breadcrumb';
 import { OpcionesReservarSalas, SelectButtonOptions } from '../../constants/opciones-reservar-salas';
 import { Router, ActivatedRoute } from '@angular/router';
+import {mensajes} from '../../constants/mensajes'
 
 @Component({
   selector: 'app-reservar-salas',
@@ -22,7 +23,13 @@ export class ReservarSalasComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
+    localStorage.setItem("mensajes", JSON.stringify(mensajes));
+    const alertas = JSON.parse(localStorage.getItem('mensajes') as string);
+    const mensajeElegido = alertas.filter((msj: any) => {
+      return msj.idMensaje == 1;
+    })
     this.router.navigate(["/reservar-salas", { outlets: { salas: [this.opcionSala.route] } }]);
+
     this.actualizarBreadcrumb();
   }
 

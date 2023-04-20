@@ -15,9 +15,9 @@ import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/aler
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {ReservarSalasService} from "../../services/reservar-salas.service";
 import * as moment from 'moment';
+import {Moment} from 'moment';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import {finalize} from "rxjs/operators";
-import {Moment} from "moment";
 
 @Component({
   selector: 'app-calendario-salas',
@@ -34,6 +34,8 @@ export class CalendarioSalasComponent implements OnInit{
 
   fechaCalendario!: Moment;
   calendarApi:any;
+  calendarEmbalsamamientoApi!: any;
+
   calendarOptions!: CalendarOptions;
   velatorios: TipoDropdown[] = [];
   menu: string[] = MENU_SALAS;
@@ -41,10 +43,11 @@ export class CalendarioSalasComponent implements OnInit{
   posicionPestania: number = 0;
   velatorio!: number ;
 
+  base64:any;
+
   fechaSeleccionada: string = "";
   actividadRef!: DynamicDialogRef;
 
-  registroCalendario: any[] = [];
   tituloSalas: CalendarioSalas[] = [];
   salasDetalle: CalendarioSalas[] = [];
   currentEvents: EventApi[] = [];
@@ -57,7 +60,6 @@ export class CalendarioSalasComponent implements OnInit{
     private readonly loaderService: LoaderService,
     private route: ActivatedRoute,
     private reservarSalasService:ReservarSalasService,
-    // public calendarioConsulta: FullCalendarComponent
   ) {
   }
 
@@ -65,8 +67,6 @@ export class CalendarioSalasComponent implements OnInit{
     const respuesta = this.route.snapshot.data['respuesta'];
     this.velatorios = respuesta[this.POSICION_CATALOGO_VELATORIOS]!.datos.map((velatorio: VelatorioInterface) => (
       {label: velatorio.nomVelatorio, value: velatorio.idVelatorio} )) || [];
-    this.registroCalendario = this.inicializarRegistros();
-    // this.tituloSalas = this.inicializarTitulosCalendario();
     this.inicializarCalendario();
   }
 
@@ -89,6 +89,7 @@ export class CalendarioSalasComponent implements OnInit{
         dayMaxEventRows:3,
         titleFormat: { year: 'numeric', month: 'long' },
         datesSet: event => {
+
           let mesInicio = +moment(event.start).format("MM");
           let mesFinal =  +moment(event.end).format("MM");
           if(mesFinal - mesInicio == 2){
@@ -96,70 +97,70 @@ export class CalendarioSalasComponent implements OnInit{
           }else{
             this.fechaCalendario = moment(event.start);
           }
-          if(this.velatorio) {this.cambiarMes()}
+
+          if(this.velatorio) {this.cambiarMes("cambio mes")}
         },
       };
     }
 
-  cambiarMes(): void {
-
+  cambiarMes(origen:string): void {
     this.salasDetalle = [];
+    this.tituloSalas = [];
     let anio = moment(this.fechaCalendario).format('YYYY').toString();
     let mes = moment(this.fechaCalendario).format('MM').toString();
-
-
     if(!this.posicionPestania){
       this.calendarApi = this.calendarioCremacion.getApi()
+      this.calendarApi.removeAllEvents();
     }
     if(this.posicionPestania){
-      this.calendarApi = this.calendarioEmbalsamamiento.getApi()
+      this.calendarEmbalsamamientoApi = this.calendarioEmbalsamamiento.getApi();
+      this.calendarEmbalsamamientoApi.removeAllEvents();
     }
-
     if(this.velatorio) {
       this.reservarSalasService.consultaMes(+mes,+anio,this.posicionPestania,this.velatorio).pipe(
       ).subscribe(
         (respuesta: HttpRespuesta<any>) => {
           respuesta.datos.forEach((sala: any) => {
-
+            let bandera: boolean = false;
             if(!this.posicionPestania){
                 this.calendarioCremacion.getApi().addEvent(
-                  {id: sala.idSala,title: sala.nombreSala,start: sala.fechaEntrada},
+                  {id: sala.idSala,title: sala.nombreSala,start: sala.fechaEntrada,color:sala.colorSala},
                 );
             }else{
-
+              this.calendarioEmbalsamamiento.getApi().addEvent(
+                {id: sala.idSala,title: sala.nombreSala,start: sala.fechaEntrada,color:sala.colorSala},
+              );
             }
-            if(!this.tituloSalas.includes(sala.idSala)){
+            this.tituloSalas.forEach((tituloSala : any) => {
+              if(tituloSala.id == sala.idSala){
+                bandera = true;
+                return;
+              }
+            });
+            if(!bandera){
               this.tituloSalas.push(
                 {
                   borderColor: sala.colorSala,
                   textColor: sala.colorSala,
-                  title: sala.nombreSala
+                  title: sala.nombreSala,
+                  id:sala.idSala
                 }
               )
             }
-
-
           })
-
-          this.tituloSalas =  respuesta.datos.filter((elemenetoFil: any) => {
-            return elemenetoFil
-          });
+          this.tituloSalas = [...this.tituloSalas]
         },
       (error: HttpErrorResponse) => {
         console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
         }
       )
-
-
-
     }
   }
 
   mostrarEvento(clickInfo: EventClickArg): void {
     const idSala: number = +clickInfo.event._def.publicId;
     this.fechaSeleccionada =  moment(clickInfo.event._instance?.range.end).format('yyyy-MM-DD');
-
     this.actividadRef = this.dialogService.open(VerActividadSalasComponent,{
       header: 'Ver actividad del día',
       width: "920px",
@@ -167,64 +168,62 @@ export class CalendarioSalasComponent implements OnInit{
     })
   }
 
-  inicializarRegistros(): any[] {
-    return [
-      { id:"1",title: 'sala no 45', date: '2023-04-18',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
-      {id:'1', title: 'Ignacio Allende', date: '2023-04-05',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
-      {id:'2', title: 'Miguel Hidalgo', date: '2023-04-04',textColor:"#5E217A", color:"#fff", borderColor: '#5E217A' },
-      {id:'1', title: 'Ignacio Allende', date: '2023-04-06',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
-      { id:'4',title: 'sala no 2', date: '2023-04-21',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' },
-      {id:'1', title: 'Ignacio Allende', date: '2023-04-04',textColor:"#217A6B", color:"#fff", borderColor: '#217A6B' },
-      { id:'2',title: 'Miguel Hidalgo', date: '2023-04-05',textColor:"#5E217A", color:"#fff", borderColor: '#5E217A' },
-      {id:'3', title: 'Sor Juana Inés', date: '2023-04-06',textColor:"#E18F2D", color:"#fff", borderColor: '#E18F2D' }
-    ]
-  }
-
-  inicializarTitulosCalendario(): CalendarioSalas[] {
-    return [
-      { title: 'Sala no 45', textColor:"#0000FF",borderColor: '#0000FF' },
-      { title: 'Sala no 2', textColor:"#7FFF00", borderColor: '#7FFF00' },
-    ];
-  }
-
   handleEvents(events: EventApi[]) {
-    // debugger;
-    // console.log(events);
     this.currentEvents = events;
   }
 
-  cambiarPestania(pestania: any): void {
-    this.posicionPestania = pestania.index;
-    this.consultaSalas();
+  cambiarPestania(pestania?: any): void {
+    setTimeout(() => {
+      this.posicionPestania = pestania?.index;
+      this.velatorio = 0;
+      this.tituloSalas = [];
+      this.calendarApi.removeAllEvents();
+      // if(this.velatorio){this.cambiarMes("cambia pestaña")}
+    },400)
   }
 
-  consultaSalas(): void {
+  generarArchivo(tipoReporte: string): void {
+    if(!this.velatorio){return}
+    if(!this.tituloSalas.length) {return}
+
     this.loaderService.activar();
-    this.reservarSalasService.consultarSalas(this.velatorio,this.posicionPestania).pipe(
-      finalize(() => this.loaderService.desactivar())
+    const busqueda = this.filtrosArchivos(tipoReporte);
+    this.reservarSalasService.generarReporte(busqueda).pipe(
+      finalize( () => this.loaderService.desactivar())
     ).subscribe(
-      (respuesta: HttpRespuesta<any>) => {
-        this.loaderService.desactivar();
-        if(this.posicionPestania == 0){
+      (respuesta: any) => {
 
-
-          // this.salasCremacion = respuesta.datos;
-
-
-
-        }else{
-
-
-          // this.salasEmbalsamamiento = respuesta.datos;
-
-
-        }
-      },
-      (error:HttpErrorResponse) => {
-        console.error(error);
-        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        let tipoArchivo = ""
+        // const linkSource = 'data:application/' + tipoReporte + ';base64,' + this.base64 + '\n'
+        tipoReporte == "pdf" ? tipoArchivo = "{application/pdf}" : tipoArchivo = "{application/xlsx}"
+        const file = new Blob([respuesta], {type: tipoArchivo});
+        const fileName = 'ReporteDisponibilidadSalas.' + tipoReporte
+        const url = window.URL.createObjectURL(file);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName
+        a.click()
+        a.remove();
+      } ,
+      (error: HttpErrorResponse) => {
+        this.alertaService.mostrar(TipoAlerta.Error,'Error en la descarga del documento.\n' +
+          'Intenta nuevamente.\n', );
       }
-    );
+    )
   }
+
+  filtrosArchivos(tipoReporte: string) {
+    return {
+      idVelatorio: this.velatorio,
+      indTipoSala:this.posicionPestania,
+      mes: moment(this.fechaCalendario).format('MM').toString(),
+      anio: moment(this.fechaCalendario).format('YYYY').toString(),
+      rutaNombreReporte: "reportes/generales/ReporteVerificarDisponibilidadSalas.jrxml",
+      tipoReporte: tipoReporte
+    }
+  }
+
+
+
 
 }

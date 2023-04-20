@@ -22,6 +22,7 @@ import {AccordionModule} from "primeng-lts/accordion";
 import {ReservarSalasService} from "./services/reservar-salas.service";
 import {UtileriaModule} from "../../shared/utileria/utileria.module";
 import {InputNumberModule} from "primeng-lts/inputnumber";
+import {ValidaRolModule} from "../../shared/valida-rol/valida-rol.module";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import {InputNumberModule} from "primeng-lts/inputnumber";
     CalendarioSalasComponent,
     VerActividadSalasComponent,
     RegistrarEntradaComponent,
-    RegistrarSalidaComponent
+    RegistrarSalidaComponent,
   ],
   imports: [
     CommonModule,
@@ -47,7 +48,8 @@ import {InputNumberModule} from "primeng-lts/inputnumber";
     FullCalendarModule,
     AccordionModule,
     UtileriaModule,
-    InputNumberModule
+    InputNumberModule,
+    ValidaRolModule
   ],
   providers: [
     ReservarSalasService

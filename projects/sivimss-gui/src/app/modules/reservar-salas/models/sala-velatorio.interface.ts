@@ -1,10 +1,10 @@
 export interface SalaVelatorio {
     idSala?: number,
     nombreSala?: string,
-    estadoSala?: "Ocupada" | "Disponible" | "En Mantenimiento",
+    estadoSala?: "OCUPADA" | "DISPONIBLE" | "MANTENIMIENTO",
     indDisponibilidad?: number
     horaEntrada?: number
-    idRegistroBitacora?: number
+    idRegistro?: number
 }
 
 export interface SalaVelatorioConsultaDia {
