@@ -26,6 +26,7 @@ export class RegistrarSalidaComponent implements OnInit {
 
   indice: number = 0;
   tipoSala:number = 0;
+  estadoSala: string = "";
 
   salaSeleccionada: SalaVelatorio = {};
 
@@ -39,7 +40,9 @@ export class RegistrarSalidaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    debugger;
     this.salaSeleccionada = this.config.data.sala;
+    this.estadoSala = this.config.data.sala.estadoSala;
     this.tipoSala = this.config.data.tipoSala;
     this.inicializarFormRegistroSalida();
     this.confFormTipoSala(this.tipoSala);
@@ -54,7 +57,7 @@ export class RegistrarSalidaComponent implements OnInit {
   }
 
   confFormTipoSala(sala: number): void {
-    if(sala){
+    if(sala || this.estadoSala === "MANTENIMIENTO"){
       this.salidaF.nivelGas.disabled;
       this.salidaF.nivelGas.clearValidators();
       this.salidaF.nivelGas.setValue("");
@@ -101,6 +104,15 @@ export class RegistrarSalidaComponent implements OnInit {
   }
 
   datosGuardar(): SalidaSala {
+    if(this.estadoSala == "MANTENIMIENTO"){
+      return {
+        idSala: this.salaSeleccionada.idSala,
+        fechaSalida: moment(this.salidaF.fecha.value).format('yyyy/MM/DD') ,
+        horaSalida: moment(this.salidaF.hora.value).format('HH:mm'),
+        // cantidadGasFinal: this.salidaF.nivelGas.value,
+        idRegistro: this.salaSeleccionada.idRegistro
+      }
+    }
     return {
         idSala: this.salaSeleccionada.idSala,
         fechaSalida: moment(this.salidaF.fecha.value).format('yyyy/MM/DD') ,
