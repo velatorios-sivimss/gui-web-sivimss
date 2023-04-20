@@ -8,7 +8,6 @@ import {UsuarioService} from "../../services/usuario.service";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {PATRON_CORREO} from "../../../../utils/constantes";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {diferenciaUTC, mapearArregloTipoDropdown} from "../../../../utils/funciones";
 import {ActivatedRoute} from '@angular/router';
@@ -27,7 +26,6 @@ export class ModificarUsuarioComponent implements OnInit {
   modificarUsuarioForm!: FormGroup;
   usuarioModificado!: UsuarioModificado;
 
-  opciones: TipoDropdown[] = CATALOGOS;
   catalogoRoles: TipoDropdown[] = [];
   catalogoNiveles: TipoDropdown[] = [];
   catalogoDelegaciones: TipoDropdown[] = [];

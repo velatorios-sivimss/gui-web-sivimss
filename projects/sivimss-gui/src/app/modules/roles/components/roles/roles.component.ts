@@ -17,6 +17,8 @@ import { FiltrosRol } from '../../models/filtrosRol.interface';
 import {VerDetalleRolComponent} from "../ver-detalle-rol/ver-detalle-rol.component";
 import {ModificarRolComponent} from "../modificar-rol/modificar-rol.component";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
+import { CATALOGO_NIVEL } from '../../../articulos/constants/dummies';
+import { LazyLoadEvent } from 'primeng-lts/api';
 
 const MAX_WIDTH: string = "876px";
 
@@ -28,6 +30,8 @@ const MAX_WIDTH: string = "876px";
 })
 export class RolesComponent implements OnInit {
 
+  base64: string = ''
+
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
@@ -37,7 +41,7 @@ export class RolesComponent implements OnInit {
   paginacionConFiltrado: boolean = false;
   filtroForm!: FormGroup;
 
-  opciones: TipoDropdown[] = CATALOGOS;
+  opciones: TipoDropdown[] = CATALOGO_NIVEL;
   catRol: Rol[] = [];
   roles: Rol[] = [];
   rolSeleccionado!: Rol;
@@ -62,19 +66,29 @@ export class RolesComponent implements OnInit {
     this.inicializarFiltroForm();
   }
 
-  seleccionarPaginacion(): void {
-    if (this.paginacionConFiltrado) {
-      this.paginarConFiltros();
-    } else {
-      this.paginar();
+
+  seleccionarPaginacion(event?: LazyLoadEvent): void {
+    if (event) {
+    this.numPaginaActual = Math.floor((event.first || 0) / (event.rows || 1));
     }
-  }
+    if (this.paginacionConFiltrado) {
+    this.paginarConFiltros();
+    } else {
+    this.paginarConFiltros();
+    }
+    }
 
   paginar(): void {
-    this.rolService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
+    this.rolService.obtenerCatRolesPaginadoSinFiltro(this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.roles = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
+        if (this.totalElementos == 0) {
+          this.alertaService.mostrar(
+            TipoAlerta.Error,
+            'No se encontró información relacionada a tu búsqueda.',
+          )
+        }
       },
       (error: HttpErrorResponse) => {
         console.error(error);
@@ -87,7 +101,7 @@ export class RolesComponent implements OnInit {
   paginarConFiltros(): void {
     const filtros = this.crearSolicitudFiltros();
     const solicitudFiltros = JSON.stringify(filtros);
-    this.rolService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.totalElementos).subscribe(
+    this.rolService.buscarPorFiltros(solicitudFiltros, this.numPaginaActual, this.cantElementosPorPagina).subscribe(
       (respuesta) => {
         this.roles = respuesta!.datos.content;
         this.totalElementos = respuesta!.datos.totalElements;
@@ -111,18 +125,18 @@ export class RolesComponent implements OnInit {
       nivel: this.filtroForm.get("nivel")?.value
     };
   }
-  
+
   limpiar(): void {
     this.paginacionConFiltrado = false;
     this.filtroForm.reset();
     this.numPaginaActual = 0;
-    this.paginar();
+    this.paginarConFiltros();
   }
 
   cambiarEstatus(rol: Rol): void {
     const rolEstatus = {
       "idRol": rol.idRol,
-      "estatusRol": rol.estatus ? 1 : 0 
+      "estatusRol": rol.estatusRol ? 1 : 0
     }
     const solicitudId = JSON.stringify(rolEstatus);
     this.rolService.cambiarEstatus(solicitudId).subscribe(
@@ -142,7 +156,6 @@ export class RolesComponent implements OnInit {
       nivel: [{value: null, disabled: false}],
     });
   }
-
 
   abrirPanel(event: MouseEvent, rolSeleccionado: Rol):void {
     this.rolSeleccionado = rolSeleccionado;
@@ -186,6 +199,35 @@ export class RolesComponent implements OnInit {
     if (this.modificacionRef) {
       this.modificacionRef.destroy();
     }
+  }
+
+  descargarArchivo(tipoReporte: string) {
+    const filtros = this.crearSolicitudFiltros()
+    const tipoArchivo = JSON.stringify(filtros)
+    const tipoArchivoConTipoDoc = JSON.parse(tipoArchivo)
+    tipoArchivoConTipoDoc['tipoReporte'] = tipoReporte;
+    this.rolService.exportarArchivo(tipoArchivoConTipoDoc).subscribe(
+      (respuesta) => {
+        this.base64 = respuesta!.datos
+        if (this.totalElementos == 0) {
+          this.alertaService.mostrar(
+            TipoAlerta.Error,
+            'No se encontró información relacionada a tu búsqueda.',
+          )
+        }
+        const linkSource =
+          'data:application/' + tipoReporte + ';base64,' + this.base64 + '\n'
+        const downloadLink = document.createElement('a')
+        const fileName = 'Roles.' + tipoReporte
+        downloadLink.href = linkSource
+        downloadLink.download = fileName
+        downloadLink.click()
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error)
+        this.alertaService.mostrar(TipoAlerta.Error, error.message)
+      },
+    )
   }
 
 }
