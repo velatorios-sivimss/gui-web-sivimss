@@ -48,7 +48,6 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
 
   paginacionConFiltrado: boolean = false;
 
-
   creacionRef!: DynamicDialogRef
   detalleRef!: DynamicDialogRef
   modificacionRef!: DynamicDialogRef
@@ -61,8 +60,8 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES
   velatorios: TipoDropdown[] = CATALOGOS_DUMMIES
 
-  readonly POSICION_NIVELES: number = 0;
-  readonly POSICION_DELEGACIONES: number = 1;
+  readonly POSICION_CATALOGOS_NIVELES: number = 0;
+  readonly POSICION_CATALOGOS_DELEGACIONES: number = 1;
 
   constructor(
     private route: ActivatedRoute,
@@ -85,8 +84,8 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
 
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
-    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
+    this.catalogoNiveles = respuesta[this.POSICION_CATALOGOS_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_CATALOGOS_DELEGACIONES];
   }
 
   inicializarFiltroForm() {
