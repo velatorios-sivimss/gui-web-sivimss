@@ -17,6 +17,8 @@ import {finalize} from "rxjs/operators";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoaderService} from "../../../../../shared/loader/services/loader.service";
 
+type ListadoRecibo = Required<ReciboPago> & { idPagoBit: string }
+
 @Component({
   selector: 'app-generar-recibo-pago',
   templateUrl: './generar-recibo-pago.component.html',
@@ -33,7 +35,7 @@ export class GenerarReciboPagoComponent implements OnInit {
   totalElementos: number = 0;
 
   recibosPago: ReciboPago[] = [];
-  reciboPagoSeleccionado: ReciboPago = {};
+  reciboPagoSeleccionado!: ListadoRecibo;
   filtroForm!: FormGroup;
   creacionRef!: DynamicDialogRef;
   detalleRef!: DynamicDialogRef;
@@ -74,13 +76,16 @@ export class GenerarReciboPagoComponent implements OnInit {
     this.catatalogoDelegaciones = respuesta[this.POSICION_CATALOGO_DELEGACIONES];
   }
 
-  abrirPanel(event: MouseEvent, reciboPagoSeleccionado: ReciboPago): void {
+  abrirPanel(event: MouseEvent, reciboPagoSeleccionado: ListadoRecibo): void {
     this.reciboPagoSeleccionado = reciboPagoSeleccionado;
     this.overlayPanel.toggle(event);
   }
 
   abrirModalReciboPagoTramites(): void {
-    this.router.navigate(['generar-recibo-pago-tramites'], {relativeTo: this.activatedRoute});
+    this.router.navigate(['generar-recibo-pago-tramites'], {
+      relativeTo: this.activatedRoute,
+      queryParams: {idBitacora: this.reciboPagoSeleccionado.idPagoBit}
+    });
   }
 
   inicializarFiltroForm() {

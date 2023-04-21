@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {HttpRespuesta} from 'projects/sivimss-gui/src/app/models/http-respuesta.interface';
 import {BaseService} from 'projects/sivimss-gui/src/app/utils/base-service';
@@ -32,4 +32,18 @@ export class GenerarReciboService extends BaseService<HttpRespuesta<any>, any> {
       {params});
   }
 
+  buscarDatosReportePagos(idPagoBitacora: number): Observable<HttpRespuesta<any>> {
+    const body = {idPagoBitacora}
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/datos-rec-pagos`, body);
+  }
+
+  descargarReporte<T>(body: T): Observable<Blob> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    });
+
+    return this._http.post<any>(this._base + `${this._funcionalidad}/plantilla-rec-pagos/generarDocumento/pdf`, body,
+      { headers, responseType: 'blob' as 'json' })
+  }
 }
