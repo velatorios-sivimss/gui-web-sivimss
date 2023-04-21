@@ -1,7 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {Platform} from "@angular/cdk/platform";
 import {catchError, switchMap} from "rxjs/operators";
 
 @Injectable()
