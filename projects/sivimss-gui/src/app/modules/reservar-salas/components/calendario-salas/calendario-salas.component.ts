@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CalendarOptions, EventApi, EventClickArg} from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
@@ -25,23 +25,27 @@ import {finalize} from "rxjs/operators";
   styleUrls: ['./calendario-salas.component.scss'],
   providers: [DialogService]
 })
-export class CalendarioSalasComponent implements OnInit{
+export class CalendarioSalasComponent implements OnInit, OnDestroy{
 
   @ViewChild('calendarioCremacion') calendarioCremacion!: FullCalendarComponent;
   @ViewChild('calendarioEmbalsamamiento') calendarioEmbalsamamiento!: FullCalendarComponent;
 
   readonly POSICION_CATALOGO_VELATORIOS = 0;
+  readonly POSICION_CATALOGO_DELEGACION = 1;
 
   fechaCalendario!: Moment;
   calendarApi:any;
   calendarEmbalsamamientoApi!: any;
 
   calendarOptions!: CalendarOptions;
+  calendarEmbalsamamientoOptions!: CalendarOptions;
   velatorios: TipoDropdown[] = [];
+  delegaciones: TipoDropdown[] = [];
   menu: string[] = MENU_SALAS;
 
   posicionPestania: number = 0;
   velatorio!: number ;
+  delegacion!: number;
 
   base64:any;
 
@@ -51,8 +55,6 @@ export class CalendarioSalasComponent implements OnInit{
   tituloSalas: CalendarioSalas[] = [];
   salasDetalle: CalendarioSalas[] = [];
   currentEvents: EventApi[] = [];
-
-
 
   constructor(
     private alertaService: AlertaService,
@@ -67,20 +69,22 @@ export class CalendarioSalasComponent implements OnInit{
     const respuesta = this.route.snapshot.data['respuesta'];
     this.velatorios = respuesta[this.POSICION_CATALOGO_VELATORIOS]!.datos.map((velatorio: VelatorioInterface) => (
       {label: velatorio.nomVelatorio, value: velatorio.idVelatorio} )) || [];
+
+    this.delegaciones = respuesta[this.POSICION_CATALOGO_DELEGACION]!.map((delegacion: any) => (
+      {label: delegacion.label, value: delegacion.value} )) || [];
+
     this.inicializarCalendario();
+    this.inicializarCalendarioEmbalsamamiento();
   }
 
   inicializarCalendario(): void {
       this.calendarOptions = {
         headerToolbar: { end: "next", center: "title", start: "prev" },
-
         initialView: 'dayGridMonth',
         plugins: [dayGridPlugin,interactionPlugin],
         initialEvents: "",
         defaultAllDay: true,
         editable:false,
-
-        // select: this.mostrarModal.bind(this),
         locale: 'es-MX',
         selectable: true,
         dayHeaders:false,
@@ -89,7 +93,6 @@ export class CalendarioSalasComponent implements OnInit{
         dayMaxEventRows:3,
         titleFormat: { year: 'numeric', month: 'long' },
         datesSet: event => {
-
           let mesInicio = +moment(event.start).format("MM");
           let mesFinal =  +moment(event.end).format("MM");
           if(mesFinal - mesInicio == 2){
@@ -97,13 +100,42 @@ export class CalendarioSalasComponent implements OnInit{
           }else{
             this.fechaCalendario = moment(event.start);
           }
-
-          if(this.velatorio) {this.cambiarMes("cambio mes")}
+          this.calendarioCremacion.getApi().removeAllEvents();
+          if(this.velatorio) {this.cambiarMes()}
         },
       };
     }
 
-  cambiarMes(origen:string): void {
+  inicializarCalendarioEmbalsamamiento(): void {
+    this.calendarEmbalsamamientoOptions = {
+      headerToolbar: { end: "next", center: "title", start: "prev" },
+      initialView: 'dayGridMonth',
+      plugins: [dayGridPlugin,interactionPlugin],
+      initialEvents: "",
+      defaultAllDay: true,
+      editable:false,
+      locale: 'es-MX',
+      selectable: true,
+      dayHeaders:false,
+      eventClick: this.mostrarEvento.bind(this),
+      eventsSet: this.handleEvents.bind(this),
+      dayMaxEventRows:3,
+      titleFormat: { year: 'numeric', month: 'long' },
+      datesSet: event => {
+        let mesInicio = +moment(event.start).format("MM");
+        let mesFinal =  +moment(event.end).format("MM");
+        if(mesFinal - mesInicio == 2){
+          this.fechaCalendario = moment(event.start).add(1,'month');
+        }else{
+          this.fechaCalendario = moment(event.start);
+        }
+        this.calendarioEmbalsamamiento?.getApi().removeAllEvents();
+        if(this.velatorio) {this.cambiarMes()}
+      },
+    };
+  }
+
+  cambiarMes(): void {
     this.salasDetalle = [];
     this.tituloSalas = [];
     let anio = moment(this.fechaCalendario).format('YYYY').toString();
@@ -176,10 +208,14 @@ export class CalendarioSalasComponent implements OnInit{
     setTimeout(() => {
       this.posicionPestania = pestania?.index;
       this.velatorio = 0;
+      this.delegacion = 0;
       this.tituloSalas = [];
-      this.calendarApi.removeAllEvents();
-      // if(this.velatorio){this.cambiarMes("cambia pestaña")}
-    },400)
+      this.calendarioCremacion?.getApi().removeAllEvents();
+      this.calendarioCremacion?.getApi().gotoDate(new Date());
+      this.calendarioEmbalsamamiento?.getApi().removeAllEvents();
+      this.calendarioEmbalsamamiento?.getApi().gotoDate(new Date())
+      if(this.velatorio){this.cambiarMes()}
+    },300)
   }
 
   generarArchivo(tipoReporte: string): void {
@@ -223,7 +259,9 @@ export class CalendarioSalasComponent implements OnInit{
     }
   }
 
-
-
-
+  ngOnDestroy(): void {
+    if(this.actividadRef){
+      this.actividadRef.destroy();
+    }
+  }
 }

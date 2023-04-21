@@ -29,7 +29,7 @@ export class ListadoSalasComponent implements OnInit, OnDestroy {
   readonly POSICION_CATALOGO_DELEGACION = 1;
 
   velatorios: TipoDropdown[] = [];
-  delegacion: TipoDropdown[] = [];
+  delegaciones: TipoDropdown[] = [];
 
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   menu: string[] = MENU_SALAS;
@@ -37,6 +37,7 @@ export class ListadoSalasComponent implements OnInit, OnDestroy {
   posicionPestania: number = 0;
   totalElementos: number = 0;
   velatorio: number = 0 ;
+  delegacion: number = 0;
 
   salasCremacion: SalaVelatorio[] = [];
   salasEmbalsamamiento: SalaVelatorio[] = [];
@@ -58,7 +59,7 @@ export class ListadoSalasComponent implements OnInit, OnDestroy {
     this.velatorios = respuesta[this.POSICION_CATALOGO_VELATORIOS]!.datos.map((velatorio: VelatorioInterface) => (
       {label: velatorio.nomVelatorio, value: velatorio.idVelatorio} )) || [];
 
-    this.delegacion = respuesta[this.POSICION_CATALOGO_DELEGACION]!.map((delegacion: any) => (
+    this.delegaciones = respuesta[this.POSICION_CATALOGO_DELEGACION]!.map((delegacion: any) => (
       {label: delegacion.label, value: delegacion.value} )) || [];
     }
 
