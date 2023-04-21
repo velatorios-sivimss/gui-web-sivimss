@@ -170,7 +170,7 @@ export class GenerarReciboPagoComponent implements OnInit {
 
   guardarPDF() {
     this.cargadorService.activar();
-    this.descargaArchivosService.descargarPDF(this.generarReciboService.descargarListado()).pipe(
+    this.descargaArchivosService.descargarArchivo(this.generarReciboService.descargarListado()).pipe(
       finalize(() => this.cargadorService.desactivar())
     ).subscribe(
       (respuesta) => {

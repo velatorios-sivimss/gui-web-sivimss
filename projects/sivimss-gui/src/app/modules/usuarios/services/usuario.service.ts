@@ -63,5 +63,13 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
       , body, {headers, responseType: 'blob' as 'json'});
   }
 
-
+  descargarListadoExcel(): Observable<Blob> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    });
+    const body = {idNota: 1, idOrden: 1, tipoReporte: "xls"}
+    return this._http.post<any>(this._base + `${this._funcionalidad}/imprimir-usuarios/generarDocumento/pdf`
+      , body, {headers, responseType: 'blob' as 'json'});
+  }
 }
