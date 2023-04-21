@@ -1,13 +1,13 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable, of, throwError} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Platform} from "@angular/cdk/platform";
-import {catchError, finalize, switchMap, tap} from "rxjs/operators";
+import {catchError, switchMap} from "rxjs/operators";
 
 @Injectable()
 export class DescargaArchivosService {
 
-  constructor(private http: HttpClient, private platform: Platform) {
+  constructor() {
   }
 
   descargarPDF(pdf$: Observable<Blob>) {
