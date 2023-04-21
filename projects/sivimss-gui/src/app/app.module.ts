@@ -6,6 +6,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { ValidaRolGuard } from "projects/sivimss-gui/src/app/guards/valida-rol.guard";
+import { MensajesSistemaService } from "projects/sivimss-gui/src/app/services/mensajes-sistema.service";
 import { SidebarModule } from "projects/sivimss-gui/src/app/shared/sidebar/sidebar.module";
 import { TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION } from "projects/sivimss-gui/src/app/utils/tokens";
 import { AppRoutingModule } from './app-routing.module';
@@ -21,7 +22,6 @@ import { LoaderModule } from './shared/loader/loader.module';
 import { AlertaModule } from './shared/alerta/alerta.module';
 import { SubHeaderPrivadoComponent } from './components/sub-header-privado/sub-header-privado.component';
 import { BreadcrumbModule } from "./shared/breadcrumb/breadcrumb.module";
-
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json')
 }
@@ -53,7 +53,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     BreadcrumbModule,
     LoaderModule,
-    AlertaModule
+    AlertaModule,
   ],
   providers: [
     AutenticacionService,
@@ -71,6 +71,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BloqueaUsuarioLogueadoGuard,
     ValidaRolGuard,
     BnNgIdleService,
+    MensajesSistemaService,
     {provide: TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION, useValue: 300}, // Tiempo en segundos
   ],
   bootstrap: [AppComponent]

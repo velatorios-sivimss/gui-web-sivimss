@@ -37,7 +37,7 @@ export class VerDetalleRolComponent implements OnInit {
   cambiarEstatus(rol: Rol): void {
     const rolEstatus = {
       "idRol": rol.idRol,
-      "estatusRol": rol.estatus ? 1 : 0
+      "estatusRol": rol.estatusRol ? 1 : 0
     }
     const solicitudId = JSON.stringify(rolEstatus);
     this.rolService.cambiarEstatus(solicitudId).subscribe(

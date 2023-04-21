@@ -172,6 +172,10 @@ const routes: Routes = [
     canActivate: [PermiteUsuarioLogueadoGuard]
   },
   {
+  path: 'programar-mantenimiento-vehicular',
+  loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
+  },
+  {
     path: '**',
     component: PaginaNoEncontradaComponent,
   },
@@ -195,3 +199,5 @@ const routes: Routes = [
 })
 export class AppRoutingModule {
 }
+
+

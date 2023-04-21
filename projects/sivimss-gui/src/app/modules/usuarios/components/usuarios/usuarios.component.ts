@@ -11,7 +11,6 @@ import {Usuario} from '../../models/usuario.interface';
 import {UsuarioService} from '../../services/usuario.service';
 
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {AgregarUsuarioComponent} from "../agregar-usuario/agregar-usuario.component";
 import {USUARIOS_BREADCRUMB} from "../../constants/breadcrumb";
@@ -24,6 +23,7 @@ import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
 import {CambioEstatusUsuarioComponent} from "../cambio-estatus-usuario/cambio-estatus-usuario.component";
+import {DescargaArchivosService} from "../../../../services/descarga-archivos.service";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -32,7 +32,7 @@ const MAX_WIDTH: string = "920px";
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService, DescargaArchivosService]
 })
 export class UsuariosComponent implements OnInit, OnDestroy {
 
@@ -43,7 +43,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   totalElementos: number = 0;
 
-  opciones: TipoDropdown[] = CATALOGOS;
   catalogoRoles: TipoDropdown[] = [];
   catalogoNiveles: TipoDropdown[] = [];
   catalogoDelegaciones: TipoDropdown[] = [];
@@ -60,10 +59,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   modificacionRef!: DynamicDialogRef;
   cambioEstatusRef!: DynamicDialogRef;
 
-  readonly POSICION_CATALOGO_ROLES: number = 0;
-  readonly POSICION_CATALOGO_NIVELES: number = 1;
-  readonly POSICION_CATALOGO_DELEGACIONES: number = 2;
-  readonly POSICION_CATALOGO_VELATORIOS: number = 3;
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
+  readonly POSICION_VELATORIOS: number = 3;
 
   constructor(
     private route: ActivatedRoute,
@@ -72,7 +71,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
-    private cargadorService: LoaderService
+    private cargadorService: LoaderService,
+    private descargaArchivosService: DescargaArchivosService
   ) {
   }
 
@@ -84,11 +84,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    const roles = respuesta[this.POSICION_CATALOGO_ROLES].datos;
-    const velatorios = respuesta[this.POSICION_CATALOGO_VELATORIOS].datos;
+    const roles = respuesta[this.POSICION_ROLES].datos;
+    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
     this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
-    this.catalogoNiveles = respuesta[this.POSICION_CATALOGO_NIVELES];
-    this.catalogoDelegaciones = respuesta[this.POSICION_CATALOGO_DELEGACIONES];
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
     this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 
@@ -241,6 +241,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     if (respuesta.modificar) {
       this.abrirModalModificarUsuario();
     }
+  }
+
+  guardarPDF() {
+    this.descargaArchivosService.descargarPDF(this.usuarioService.descargarListado()).subscribe(
+      (respuesta) => {
+        console.log(respuesta)
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
   }
 
   get f() {

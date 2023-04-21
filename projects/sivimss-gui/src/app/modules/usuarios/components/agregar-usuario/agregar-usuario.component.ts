@@ -8,7 +8,6 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {UsuarioService} from "../../services/usuario.service";
 import {DynamicDialogRef} from "primeng-lts/dynamicdialog";
 import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS} from "../../constants/catalogos_dummies";
 import {RespuestaModalUsuario} from "../../models/respuestaModal.interface";
 import {MENSAJES_CURP} from "../../constants/validacionCURP";
 import {MENSAJES_MATRICULA} from "../../constants/validacionMatricula";
@@ -33,7 +32,6 @@ export class AgregarUsuarioComponent implements OnInit {
   curpValida: boolean = false;
   matriculaValida: boolean = false;
 
-  opciones: TipoDropdown[] = CATALOGOS;
   catalogoRoles: TipoDropdown[] = [];
   catalogoNiveles: TipoDropdown[] = [];
   catalogoDelegaciones: TipoDropdown[] = [];

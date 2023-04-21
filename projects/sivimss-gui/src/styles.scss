@@ -293,6 +293,31 @@ h1.subtitulo-base-lg {
   margin-top: 2.5rem !important;
 }
 
+
+.sivimss-accordionColor.p-accordion .p-accordion-header .p-accordion-header-link {
+ background-color: #F3F3F3;
+}
+
+.sivimss-accordionColor.p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background-color: #F3F3F3;
+}
+
+.sivimss-accordionColor.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background-color: #F3F3F3;
+}
+.sivimss-accordionColor.p-accordion .p-accordion-header:hover(.p-disabled).p-highlight .p-accordion-header-link {
+  background-color: #F3F3F3;
+}
+
+.sivimss-accordionColor.p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link {
+  background-color: #F3F3F3;
+}
+.sivimss-accordionColor.p-accordion .p-accordion-header:not(.p-disabled).p-highlight .p-accordion-header-link {
+  background-color: #F3F3F3;
+}
+.sivimss-accordionColor.p-accordion .p-accordion-header:not(.p-disabled).p-highlight:hover .p-accordion-header-link {
+  background-color: #F3F3F3;
+}
 .p-autocomplete {
   height: 40px;
   width: 100%;
