@@ -49,8 +49,8 @@ export class GenerarNotaRemisionService extends BaseService<HttpRespuesta<any>, 
     return of(mapearArregloTipoDropdown(delegaciones, "desc", "id"));
   }
 
-  obtenerVelatorios(delegacion: string | null = null): Observable<HttpRespuesta<any>> {
+  obtenerVelatoriosPorDelegacion(delegacion: string | null = null): Observable<HttpRespuesta<any>> {
     const body = { idDelegacion: delegacion }
-    return this._http.post<HttpRespuesta<any>>(`http://localhost:8079/mssivimss-oauth/velatorio/consulta`, body);
+    return this._http.post<HttpRespuesta<any>>(`http://localhost:8087/mssivimss-oauth/velatorio/consulta`, body);
   }
 }

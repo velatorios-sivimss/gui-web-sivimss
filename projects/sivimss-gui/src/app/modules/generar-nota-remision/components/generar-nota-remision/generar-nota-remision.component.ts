@@ -73,10 +73,8 @@ export class GenerarNotaRemisionComponent implements OnInit {
 
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
     this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
     this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
-    this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 
   actualizarBreadcrumb(): void {
@@ -85,7 +83,7 @@ export class GenerarNotaRemisionComponent implements OnInit {
 
   inicializarFiltroForm() {
     this.filtroForm = this.formBuilder.group({
-      nivel: [{ value: null, disabled: false }],
+      nivel: [{ value: 1, disabled: true }],
       delegacion: [{ value: null, disabled: false }],
       velatorio: [{ value: null, disabled: false }],
       folio: [{ value: null, disabled: false }],
@@ -177,8 +175,8 @@ export class GenerarNotaRemisionComponent implements OnInit {
       idDelegacion: +this.f.delegacion.value,
       idVelatorio: +this.f.velatorio.value,
       folioODS: +this.f.folio.value?.label,
-      fecIniODS: moment(this.f.fechaInicial.value).format('DD/MM/YYYY'),
-      fecFinODS: moment(this.f.fechaInicial.value).format('DD/MM/YYYY'),
+      fecIniODS: this.f.fechaInicial.value ? moment(this.f.fechaInicial.value).format('DD/MM/YYYY') : null,
+      fecFinODS: this.f.fechaFinal.value ? moment(this.f.fechaFinal.value).format('DD/MM/YYYY') : null,
     }
   }
 
@@ -186,6 +184,7 @@ export class GenerarNotaRemisionComponent implements OnInit {
   limpiar(): void {
     this.alertaService.limpiar();
     this.filtroForm.reset();
+    this.f.nivel.setValue(1);
     this.paginar();
   }
 
@@ -232,6 +231,18 @@ export class GenerarNotaRemisionComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         console.error(error);
+      }
+    );
+  }
+
+  obtenerVelatorios() {
+    this.generarNotaRemisionService.obtenerVelatoriosPorDelegacion(this.f.delegacion.value).subscribe(
+      (respuesta) => {
+        this.catalogoVelatorios = mapearArregloTipoDropdown(respuesta!.datos, "desc", "id");
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
   }

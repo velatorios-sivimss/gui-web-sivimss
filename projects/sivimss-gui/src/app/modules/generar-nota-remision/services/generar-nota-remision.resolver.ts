@@ -15,7 +15,6 @@ export class GenerarNotaRemisionResolver implements Resolve<any> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
         const niveles$ = this.generarNotaRemisionService.obtenerCatalogoNiveles();
         const delegaciones$ = this.generarNotaRemisionService.obtenerCatalogoDelegaciones();
-        const velatorios$ = this.generarNotaRemisionService.obtenerCatalogoDelegaciones();
-        return forkJoin([niveles$, delegaciones$, velatorios$]);
+        return forkJoin([niveles$, delegaciones$]);
     }
 }

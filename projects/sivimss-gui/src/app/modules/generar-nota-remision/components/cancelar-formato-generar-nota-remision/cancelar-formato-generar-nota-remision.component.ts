@@ -101,7 +101,7 @@ export class CancelarFormatoGenerarNotaRemisionComponent implements OnInit {
           if (respuesta && respuesta.codigo === 200) {
             this.creacionRef.close();
             this.alertaService.mostrar(TipoAlerta.Exito, 'Nota de remisión cancelada correctamente');
-            this.router.navigate(['../'], { relativeTo: this.activatedRoute });
+            this.router.navigate(['/generar-nota-remision'], { relativeTo: this.activatedRoute });
           }
         },
         (error: HttpErrorResponse) => {
