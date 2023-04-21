@@ -6,6 +6,7 @@ export interface EntradaSala {
   horaEntrada?: string;
   cantidadGasInicial?: number;
   descripcionMantenimiento?: string;
+  nombreResponsable?: string;
 }
 
 export interface SalidaSala {

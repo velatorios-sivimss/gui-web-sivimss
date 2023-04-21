@@ -32,7 +32,8 @@
                     {{salasCremacion.estadoSala}}
                   </td>
                   <td>
-                    <button type="button" *appValidaRol="['ROLES_PERMISOS','ALTA']" class="btn btn-primary btn-md" (click)="registrarActividad(salasCremacion)">
+<!--                    <button type="button" *appValidaRol="['SALAS_RESERVACION','ALTA']" class="btn btn-primary btn-md" (click)="registrarActividad(salasCremacion)">-->
+                    <button type="button"  class="btn btn-primary btn-md" (click)="registrarActividad(salasCremacion)">
                       Registrar {{ salasCremacion.estadoSala != 'DISPONIBLE' ? 'salida' : 'entrada'}}
                     </button>
                   </td>
@@ -70,6 +71,7 @@
                 {{sala.estadoSala}}
               </td>
               <td>
+<!--                <button type="button" *appValidaRol="['SALAS_RESERVACION','MODIFICAR']" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">-->
                 <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
                   Registrar {{ sala.estadoSala != 'DISPONIBLE' ? 'salida' : 'entrada'}}
                 </button>

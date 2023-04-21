@@ -27,7 +27,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="fecha">Fecha <span class="req">*</span>:</label>
-        <p-calendar id="fecha" styleClass="form-control" formControlName="fecha" [showIcon]="true"></p-calendar>
+        <p-calendar appendTo="body" id="fecha" styleClass="form-control" formControlName="fecha" [showIcon]="true"></p-calendar>
         <span class="campo-obligatorio"
               *ngIf="salidaF.fecha?.errors?.required && (salidaF.fecha?.dirty || salidaF.fecha?.touched)">
                     Campo obligatorio</span>
@@ -36,7 +36,7 @@
         <label class="control-label" for="hora">Hora <span class="req">*</span>:</label>
         <div class="row">
           <div class="col-md-6">
-            <p-calendar id="hora" styleClass="form-control" formControlName="hora" [timeOnly]="true"
+            <p-calendar appendTo="body" id="hora" styleClass="form-control" formControlName="hora" [timeOnly]="true"
             ></p-calendar>
             <span class="campo-obligatorio"
                   *ngIf="salidaF.hora?.errors?.required && (salidaF.hora?.dirty || salidaF.hora?.touched)">

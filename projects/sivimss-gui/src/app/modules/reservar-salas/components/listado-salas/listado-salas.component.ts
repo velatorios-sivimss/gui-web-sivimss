@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {TipoDropdown} from '../../../../models/tipo-dropdown';
 import {MENU_SALAS} from '../../constants/menu-salas';
 import {SalaVelatorio} from '../../models/sala-velatorio.interface';
@@ -23,11 +23,13 @@ import {finalize} from "rxjs/operators";
   styleUrls: ['./listado-salas.component.scss'],
   providers: [DialogService]
 })
-export class ListadoSalasComponent implements OnInit {
+export class ListadoSalasComponent implements OnInit, OnDestroy {
 
   readonly POSICION_CATALOGO_VELATORIOS = 0;
+  readonly POSICION_CATALOGO_DELEGACION = 1;
 
   velatorios: TipoDropdown[] = [];
+  delegacion: TipoDropdown[] = [];
 
   cantElementosPorPagina: number = DIEZ_ELEMENTOS_POR_PAGINA;
   menu: string[] = MENU_SALAS;
@@ -55,6 +57,9 @@ export class ListadoSalasComponent implements OnInit {
     const respuesta = this.route.snapshot.data['respuesta'];
     this.velatorios = respuesta[this.POSICION_CATALOGO_VELATORIOS]!.datos.map((velatorio: VelatorioInterface) => (
       {label: velatorio.nomVelatorio, value: velatorio.idVelatorio} )) || [];
+
+    this.delegacion = respuesta[this.POSICION_CATALOGO_DELEGACION]!.map((delegacion: any) => (
+      {label: delegacion.label, value: delegacion.value} )) || [];
     }
 
   registrarActividad(sala: SalaVelatorio): void {
@@ -122,5 +127,14 @@ export class ListadoSalasComponent implements OnInit {
     if(estatus === "OCUPADA"){return "#9d2449"}
     if(estatus === "MANTENIMIENTO"){return "#ffff00"}
     return "";
+  }
+
+  ngOnDestroy(): void {
+    if(this.registrarEntradaRef){
+      this.registrarEntradaRef.destroy()
+    }
+    if(this.registrarSalidaRef){
+      this.registrarSalidaRef.destroy()
+    }
   }
 }

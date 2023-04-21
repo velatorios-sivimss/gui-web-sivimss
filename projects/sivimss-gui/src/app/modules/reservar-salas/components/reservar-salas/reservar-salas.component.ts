@@ -25,9 +25,6 @@ export class ReservarSalasComponent implements OnInit {
   ngOnInit(): void {
     localStorage.setItem("mensajes", JSON.stringify(mensajes));
     const alertas = JSON.parse(localStorage.getItem('mensajes') as string);
-    const mensajeElegido = alertas.filter((msj: any) => {
-      return msj.idMensaje == 1;
-    })
     this.router.navigate(["/reservar-salas", { outlets: { salas: [this.opcionSala.route] } }]);
 
     this.actualizarBreadcrumb();

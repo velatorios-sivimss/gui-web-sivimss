@@ -170,8 +170,13 @@ export class RegistrarEntradaComponent implements OnInit {
       fechaEntrada: moment(this.entradaF.fecha.value).format('yyyy/MM/DD'),
       horaEntrada: moment(this.entradaF.hora.value).format('HH:mm'),
       cantidadGasInicial: this.entradaF.nivelGas.value,
-      descripcionMantenimiento: this.entradaF.descripcionMantenimiento.value,
+      nombreResponsable: this.quitarEspacios(this.entradaF.nombreResponsable.value),
+      descripcionMantenimiento: this.quitarEspacios(this.entradaF.descripcionMantenimiento.value),
     }
+  }
+
+  quitarEspacios(cadena: string){
+    return cadena.replace(/\s{2,}/g, ' ').trim();
   }
 
   confFormTipoSala(sala: number): void {

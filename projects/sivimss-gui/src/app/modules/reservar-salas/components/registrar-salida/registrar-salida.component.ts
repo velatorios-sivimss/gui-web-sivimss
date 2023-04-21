@@ -40,7 +40,6 @@ export class RegistrarSalidaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    debugger;
     this.salaSeleccionada = this.config.data.sala;
     this.estadoSala = this.config.data.sala.estadoSala;
     this.tipoSala = this.config.data.tipoSala;
@@ -104,7 +103,7 @@ export class RegistrarSalidaComponent implements OnInit {
   }
 
   datosGuardar(): SalidaSala {
-    if(this.estadoSala == "MANTENIMIENTO"){
+    if(this.estadoSala == "MANTENIMIENTO" || this.tipoSala){
       return {
         idSala: this.salaSeleccionada.idSala,
         fechaSalida: moment(this.salidaF.fecha.value).format('yyyy/MM/DD') ,

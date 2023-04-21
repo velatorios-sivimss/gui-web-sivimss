@@ -13,7 +13,8 @@ export class ReservarSalasResolver implements  Resolve<HttpRespuesta<any>> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
 
     const catVelatorio$ = this.reservarSalasService.obtenerCatalogoVelatorio();
+    const catDelegacion$ = this.reservarSalasService.obtenerCatalogoDelegaciones();
 
-    return forkJoin([catVelatorio$]);
+    return forkJoin([catVelatorio$, catDelegacion$]);
   }
 }
