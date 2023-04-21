@@ -244,7 +244,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   guardarPDF() {
-    this.descargaArchivosService.descargarPDF(this.usuarioService.descargarListado()).subscribe(
+    this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListado()).subscribe(
       (respuesta) => {
         console.log(respuesta)
       },

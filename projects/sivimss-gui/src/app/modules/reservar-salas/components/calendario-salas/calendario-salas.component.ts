@@ -18,12 +18,14 @@ import * as moment from 'moment';
 import {Moment} from 'moment';
 import {FullCalendarComponent} from "@fullcalendar/angular";
 import {finalize} from "rxjs/operators";
+import {DescargaArchivosService} from "../../../../services/descarga-archivos.service";
+import {OpcionesArchivos} from "../../../../models/opciones-archivos.interface";
 
 @Component({
   selector: 'app-calendario-salas',
   templateUrl: './calendario-salas.component.html',
   styleUrls: ['./calendario-salas.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService,DescargaArchivosService]
 })
 export class CalendarioSalasComponent implements OnInit, OnDestroy{
 
@@ -62,6 +64,7 @@ export class CalendarioSalasComponent implements OnInit, OnDestroy{
     private readonly loaderService: LoaderService,
     private route: ActivatedRoute,
     private reservarSalasService:ReservarSalasService,
+    private descargaArchivosService: DescargaArchivosService
   ) {
   }
 
@@ -219,32 +222,25 @@ export class CalendarioSalasComponent implements OnInit, OnDestroy{
   }
 
   generarArchivo(tipoReporte: string): void {
+    const configuracionArchivo: OpcionesArchivos = {};
+    if(tipoReporte == "xls"){
+      configuracionArchivo.ext = "xlsx"
+    }
     if(!this.velatorio){return}
     if(!this.tituloSalas.length) {return}
 
     this.loaderService.activar();
     const busqueda = this.filtrosArchivos(tipoReporte);
-    this.reservarSalasService.generarReporte(busqueda).pipe(
-      finalize( () => this.loaderService.desactivar())
-    ).subscribe(
-      (respuesta: any) => {
 
-        let tipoArchivo = ""
-        // const linkSource = 'data:application/' + tipoReporte + ';base64,' + this.base64 + '\n'
-        tipoReporte == "pdf" ? tipoArchivo = "{application/pdf}" : tipoArchivo = "{application/xlsx}"
-        const file = new Blob([respuesta], {type: tipoArchivo});
-        const fileName = 'ReporteDisponibilidadSalas.' + tipoReporte
-        const url = window.URL.createObjectURL(file);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = fileName
-        a.click()
-        a.remove();
-      } ,
-      (error: HttpErrorResponse) => {
-        this.alertaService.mostrar(TipoAlerta.Error,'Error en la descarga del documento.\n' +
-          'Intenta nuevamente.\n', );
-      }
+    this.descargaArchivosService.descargarArchivo(this.reservarSalasService.generarReporte(busqueda), configuracionArchivo).pipe(
+        finalize( () => this.loaderService.desactivar())
+    ).subscribe(
+      (respuesta) => {
+        console.log(respuesta)
+      },
+      (error) => {
+        console.log(error)
+      },
     )
   }
 

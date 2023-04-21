@@ -61,7 +61,7 @@ export class ReservarSalasService extends  BaseService<HttpRespuesta<any>, any> 
       {idVelatorio:filtroArchivo.idVelatorio,indTipoSala:filtroArchivo.indTipoSala,
         mes:filtroArchivo.mes,anio:filtroArchivo.anio,rutaNombreReporte:filtroArchivo.rutaNombreReporte,
         tipoReporte:filtroArchivo.tipoReporte},
-      { headers,responseType: 'blob' as any});
+      { responseType: 'blob' as any});
   }
 }
 
