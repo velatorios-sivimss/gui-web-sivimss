@@ -9,6 +9,12 @@
 
 # dependencies
 /node_modules
+*package-lock.json
+*package.json
+.vscode/launch.json
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
 
 # profiling files
 chrome-profiler-events*.json
