@@ -81,6 +81,11 @@ export class CapillaReservacionService extends BaseService<HttpRespuesta<any>, a
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/disponibilidad`, parametros, { headers });
   }
 
+  consultaMes(mes: number,anio: number, idVelatorio: number): Observable<HttpRespuesta<any>> {
+    const headers = new HttpHeaders({Authorization: `Bearer ${this.auth_tokenCap}`, 'Content-Type': 'application/json'});
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar-filtros/veri-consulta-mes`,
+      {"mes":mes,"anio":anio,"idVelatorio":idVelatorio}, { headers});
+  }
 
   // obtenerCatalogoTiposMateriales(): Observable<HttpRespuesta<any>> {
   //   const headers = new HttpHeaders({ Authorization: `Bearer ${this.auth_tokenCap}`, 'Content-Type': 'application/json' });

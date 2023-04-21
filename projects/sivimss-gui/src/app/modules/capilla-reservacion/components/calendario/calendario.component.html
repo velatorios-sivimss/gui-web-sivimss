@@ -26,39 +26,21 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-3">
-              <span class="circle" style="background-color:#217A6B;"></span>
-              <b class="texto-base" style="color:#217A6B;"> Ignacio Allende</b>
-            </div>
-            <div class="col-md-3">
-              <span class="circle" style="background-color:#5E217A;"></span>
-              <b class="texto-base" style="color:#5E217A;"> Miguel Hidalgo</b>
-            </div>
-            <div class="col-md-3">
-              <span class="circle" style="background-color:#E18F2D;"></span>
-              <b class="texto-base" style=" color:#E18F2D;"> Sor Juana Inés</b>
+            <div class="flex justify-content-end">
+              <div class="flex col-md-6 justify-content-around col-absolute" *ngIf="tituloCapillas != []">
+
+                <ng-container  *ngFor="let titulo of tituloCapillas">
+                  <div>
+                    <span class="circle" [style.background-color]="titulo.borderColor"></span>
+                    <b class="texto-base" [style.color]="titulo.textColor"> {{titulo.title}}</b>
+                  </div>
+                </ng-container>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <ng-container  *ngFor="let titulo of tituloCapillas">
-        <div>
-          <span class="circle" [style.background-color]="titulo.borderColor"></span>
-          <b class="texto-base" [style.color]="titulo.textColor"> {{titulo.title}}</b>
-        </div>
-      </ng-container>
-
-        <div class="flex justify-content-end">
-          <div class="flex col-md-6 justify-content-around col-absolute" *ngIf="tituloCapillas != []">
-            <ng-container  *ngFor="let titulo of tituloCapillas">
-              <div>
-                <span class="circle" [style.background-color]="titulo.borderColor"></span>
-                <b class="texto-base" [style.color]="titulo.textColor"> {{titulo.title}}</b>
-              </div>
-            </ng-container>
-          </div>
-        </div>
         <full-calendar #calendarioCapillas [options]="calendarOptions"></full-calendar>
         <ng-template pTemplate="paginatorright">
           <div class="flex justify-content-end paginator-template">
@@ -72,7 +54,7 @@
             </div>
           </div>
         </ng-template>
-</div>
+        </div>
 
 
   </div>
@@ -88,34 +70,3 @@
 
 
 
-
-
-<!-- <div class="border-panel">
-  <div class="flex justify-content-end mb-3">
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-12">
-          <span>Capillas</span>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3">
-          <span class="circle" style="background-color:#217A6B;"></span>
-          <b class="texto-base" style="color:#217A6B;"> Ignacio Allende</b>
-        </div>
-        <div class="col-md-3">
-          <span class="circle" style="background-color:#5E217A;"></span>
-          <b class="texto-base" style="color:#5E217A;"> Miguel Hidalgo</b>
-        </div>
-        <div class="col-md-3">
-          <span class="circle" style="background-color:#E18F2D;"></span>
-          <b class="texto-base" style=" color:#E18F2D;"> Sor Juana Inés</b>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <p-fullCalendar #calendar [options]="calendarOptions"></p-fullCalendar>
-
-</div> -->

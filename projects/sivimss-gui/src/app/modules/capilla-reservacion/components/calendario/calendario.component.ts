@@ -14,9 +14,12 @@ import { finalize } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import { CalendarioCapillas } from '../../models/capilla-reservacion.interface';
-import { MENU_SALAS } from '../../../reservar-salas/constants/menu-salas';
+// import { MENU_SALAS } from '../../../reservar-salas/constants/menu-salas';
 import { mapearArregloTipoDropdown } from 'projects/sivimss-gui/src/app/utils/funciones';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as moment from 'moment';
+
+import {Moment} from 'moment';
 
 @Component({
   selector: 'app-calendario',
@@ -27,9 +30,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
 export class CalendarioComponent implements OnInit {
 
-  @ViewChild('calendarioCapillas')
-  calendarComponent!: FullCalendarComponent;
-  menu: string[] = MENU_SALAS;
+  @ViewChild('calendarioCapillas')calendarioCapillas!: FullCalendarComponent;
 
   calendarOptions!: CalendarOptions;
 
@@ -50,7 +51,10 @@ export class CalendarioComponent implements OnInit {
     currentEvents: EventApi[] = [];
 
 
-  // currentEvents: EventApi[] = [];
+
+
+  fechaCalendario!: Moment;
+
   constructor(
     public dialogService: DialogService,
     private readonly loaderService: LoaderService,
@@ -58,13 +62,11 @@ export class CalendarioComponent implements OnInit {
     private route: ActivatedRoute,
     private capillaReservacionService: CapillaReservacionService,
     private formBuilder: FormBuilder,
-    // public calendarioConsulta: FullCalendarComponent
   ) { }
 
   ngOnInit(): void {
     this.inicializarCalendario();
     this.inicializarCalendarioForm();
-    // this.registroCalendario = this.inicializarRegistros();
 
     let respuesta = this.route.snapshot.data['respuesta']
     this.velatorios = mapearArregloTipoDropdown(
@@ -81,20 +83,83 @@ export class CalendarioComponent implements OnInit {
     })
   }
 
+
   inicializarCalendario(): void {
+    console.log('se está inicializando el calendar ')
     this.calendarOptions = {
-    headerToolbar: { end: "", start: "prev,next" },
+      headerToolbar: { end: "next", center: "title", start: "prev" },
+
       initialView: 'dayGridMonth',
-      plugins: [interactionPlugin, dayGridPlugin],
-      initialEvents: this.calendarApi,
+      plugins: [dayGridPlugin,interactionPlugin],
+      initialEvents: "",
       defaultAllDay: true,
-      select: this.mostrarModal.bind(this),
+      editable:false,
+
       locale: 'es-MX',
       selectable: true,
-      editable: false,
       dayHeaders:false,
       eventClick: this.mostrarEvento.bind(this),
+      eventsSet: this.handleEvents.bind(this),
       dayMaxEventRows:3,
+      titleFormat: { year: 'numeric', month: 'long' },
+      datesSet: event => {
+
+        let mesInicio = +moment(event.start).format("MM");
+        let mesFinal =  +moment(event.end).format("MM");
+        if(mesFinal - mesInicio == 2){
+          this.fechaCalendario = moment(event.start).add(1,'month');
+        }else{
+          this.fechaCalendario = moment(event.start);
+        }
+
+        if(this.velatorio) {this.cambiarMes("cambio mes")}
+      },
+    };
+  }
+
+
+  cambiarMes(origen:string): void {
+    this.capillasDetalle = [];
+    this.tituloCapillas = [];
+    let anio = moment(this.fechaCalendario).format('YYYY').toString();
+    let mes = moment(this.fechaCalendario).format('MM').toString();
+      this.calendarApi = this.calendarioCapillas.getApi()
+      this.calendarApi.removeAllEvents();
+    if(this.velatorio) {
+      this.capillaReservacionService.consultaMes(+mes,+anio,this.velatorio).pipe(
+      ).subscribe(
+        (respuesta: HttpRespuesta<any>) => {
+          this.loaderService.desactivar();
+          this.calendarApi = this.calendarioCapillas.getApi();
+          respuesta.datos.forEach((capilla: any) => {
+            let bandera: boolean = false;
+            this.calendarApi.getApi().addEvent(
+              {id: capilla.idCapilla, title: capilla.nomCapilla, start: capilla.fechaEntrada, color:capilla.color}
+          )
+            this.tituloCapillas.forEach((tituloCapillas : any) => {
+              if(tituloCapillas.id == capilla.idCapilla){
+                bandera = true;
+                return;
+              }
+            });
+            if(!bandera){
+              this.tituloCapillas.push(
+                {
+                  borderColor: capilla.color,
+                  textColor: capilla.color,
+                  title: capilla.nomCapilla,
+                  id:capilla.idCapilla
+                }
+              )
+            }
+          })
+          this.tituloCapillas = [...this.tituloCapillas]
+        },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+        }
+      )
     }
   }
 
@@ -123,38 +188,48 @@ export class CalendarioComponent implements OnInit {
   }
 
   consultarCapillas(): void {
-
     let parametros = {
       anio: "2023",
       mes: "Abril",
       idVelatorio:  this.filtroCalendarForm.get('velatorio')?.value
     }
 
-    debugger
     this.loaderService.activar();
     this.capillaReservacionService.consultarCapillas(parametros).pipe(
       finalize(() => this.loaderService.desactivar())
-    ).subscribe(
-      (respuesta: HttpRespuesta<any>) => {
-
-        this.loaderService.desactivar();
-          this.calendarApi = this.calendarComponent.getApi();
+      ).subscribe(
+        (respuesta: HttpRespuesta<any>) => {
           respuesta.datos.forEach((capilla: any) => {
-            this.calendarApi.getApi().addEvent(
-              {id: capilla.idCapilla, title: capilla.nomCapilla, start: capilla.fechaEntrada, color:capilla.color}
-          )
+            let bandera: boolean = false;
+            this.calendarioCapillas.getApi().addEvent(
+              {id: capilla.idCapilla, title: capilla.nomCapilla, start: capilla.fechaEntrada, color:capilla.color})
+
+              this.tituloCapillas.forEach((tituloCapillas : any) => {
+                if(tituloCapillas.id == capilla.idCapilla){
+                  bandera = true;
+                  return;
+                }
           });
+          if(!bandera){
+            this.tituloCapillas.push(
+              {
+                borderColor: capilla.color,
+                textColor: capilla.color,
+                title: capilla.nomCapilla,
+                id:capilla.idCapilla
+              }
+            )
+          }
+       }
+          );
       },
+
       (error:HttpErrorResponse) => {
         console.error(error);
         this.alertaService.mostrar(TipoAlerta.Error, error.message);
       }
     );
   }
-
-
-
-
 }
 
 
