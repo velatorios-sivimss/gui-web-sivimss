@@ -23,6 +23,7 @@ import {LazyLoadEvent} from "primeng-lts/api";
 import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
 import {CambioEstatusUsuarioComponent} from "../cambio-estatus-usuario/cambio-estatus-usuario.component";
+import {DescargaArchivosService} from "../../../../services/descarga-archivos.service";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -31,7 +32,7 @@ const MAX_WIDTH: string = "920px";
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService, DescargaArchivosService]
 })
 export class UsuariosComponent implements OnInit, OnDestroy {
 
@@ -70,7 +71,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private alertaService: AlertaService,
     private breadcrumbService: BreadcrumbService,
     public dialogService: DialogService,
-    private cargadorService: LoaderService
+    private cargadorService: LoaderService,
+    private descargaArchivosService: DescargaArchivosService
   ) {
   }
 
@@ -241,6 +243,16 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
   }
 
+  guardarPDF() {
+    this.descargaArchivosService.descargarPDF(this.usuarioService.descargarListado()).subscribe(
+      (respuesta) => {
+        console.log(respuesta)
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }
 
   get f() {
     return this.filtroForm.controls;
