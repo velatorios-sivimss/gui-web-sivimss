@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Observable, of} from "rxjs";
 import {HttpRespuesta} from "../../../models/http-respuesta.interface";
@@ -49,8 +49,18 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
   }
 
   obtenerVelatorios(delegacion: string | null = null): Observable<HttpRespuesta<any>> {
-    const body = { idDelegacion: delegacion }
+    const body = {idDelegacion: delegacion}
     return this._http.post<HttpRespuesta<any>>(`http://localhost:8079/mssivimss-oauth/velatorio/consulta`, body);
+  }
+
+  descargarListado(): Observable<Blob> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    });
+    const body = {idNota: 1, idOrden: 1, tipoReporte: "pdf"}
+    return this._http.post<any>(this._base + `${this._funcionalidad}/imprimir-usuarios/generarDocumento/pdf`
+      , body, {headers, responseType: 'blob' as 'json'});
   }
 
 }

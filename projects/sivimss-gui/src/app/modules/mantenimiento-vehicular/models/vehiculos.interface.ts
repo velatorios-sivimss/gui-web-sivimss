@@ -28,11 +28,9 @@ export interface Vehiculos {
   modalidadNumber?: number;
   fechaRegistro?: string;
   tipoMantenimientoNumber?: number;
+}
 
-
-  }
-
-  export interface ConfirmacionServicio {
-    estatus?: boolean;
-    origen?: string;
-  }
+export interface ConfirmacionServicio {
+  estatus?: boolean;
+  origen?: string;
+}

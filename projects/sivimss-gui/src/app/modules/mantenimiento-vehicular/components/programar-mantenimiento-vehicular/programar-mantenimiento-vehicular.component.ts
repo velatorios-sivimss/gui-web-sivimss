@@ -207,13 +207,4 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   }
 
 
-  abrirReporteEncargado(): void {
-    this.router.navigate(['reporte-encargado'], {relativeTo: this.activatedRoute});
-  }
-
-  abrirMantenimientoPredictivo(): void {
-    this.router.navigate(['mantenimiento-predictivo'], {relativeTo: this.activatedRoute});
-  }
-
-
 }
