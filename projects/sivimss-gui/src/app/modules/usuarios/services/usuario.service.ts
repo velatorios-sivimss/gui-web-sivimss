@@ -62,4 +62,6 @@ export class UsuarioService extends BaseService<HttpRespuesta<any>, any> {
     return this._http.post<any>(this._base + `${this._funcionalidad}/imprimir-usuarios/generarDocumento/pdf`
       , body, {headers, responseType: 'blob' as 'json'});
   }
+
+
 }

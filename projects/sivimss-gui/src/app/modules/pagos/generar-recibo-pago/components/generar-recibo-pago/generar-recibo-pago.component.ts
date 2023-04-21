@@ -16,6 +16,7 @@ import {FiltrosReciboPago} from "../../models/filtrosReciboPago.interface";
 import {finalize} from "rxjs/operators";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoaderService} from "../../../../../shared/loader/services/loader.service";
+import {DescargaArchivosService} from "../../../../../services/descarga-archivos.service";
 
 type ListadoRecibo = Required<ReciboPago> & { idPagoBit: string }
 
@@ -23,7 +24,7 @@ type ListadoRecibo = Required<ReciboPago> & { idPagoBit: string }
   selector: 'app-generar-recibo-pago',
   templateUrl: './generar-recibo-pago.component.html',
   styleUrls: ['./generar-recibo-pago.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService, DescargaArchivosService]
 })
 export class GenerarReciboPagoComponent implements OnInit {
 
@@ -59,7 +60,8 @@ export class GenerarReciboPagoComponent implements OnInit {
     private generarReciboService: GenerarReciboService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private cargadorService: LoaderService
+    private cargadorService: LoaderService,
+    private descargaArchivosService: DescargaArchivosService
   ) {
   }
 
@@ -165,4 +167,19 @@ export class GenerarReciboPagoComponent implements OnInit {
   get f() {
     return this.filtroForm?.controls;
   }
+
+  guardarPDF() {
+    this.cargadorService.activar();
+    this.descargaArchivosService.descargarPDF(this.generarReciboService.descargarListado()).pipe(
+      finalize(() => this.cargadorService.desactivar())
+    ).subscribe(
+      (respuesta) => {
+        console.log(respuesta)
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }
+
 }

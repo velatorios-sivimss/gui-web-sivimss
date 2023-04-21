@@ -26,7 +26,7 @@ interface RecPago {
 @Component({
   selector: 'app-recibo-pago-tramites',
   templateUrl: './recibo-pago-tramites.component.html',
-  styleUrls: ['./recibo-pago-tramites.component.scss']
+  styleUrls: ['./recibo-pago-tramites.component.scss'],
 })
 export class ReciboPagoTramitesComponent implements OnInit {
 
@@ -35,7 +35,7 @@ export class ReciboPagoTramitesComponent implements OnInit {
   constructor(
     private router: Router,
     private generarReciboService: GenerarReciboService,
-    private cargadorService: LoaderService
+    private cargadorService: LoaderService,
   ) {
     const idBitacora: string = this.router.getCurrentNavigation()?.extractedUrl.queryParams?.idBitacora;
     this.obtenerValoresRec(+idBitacora);
@@ -77,7 +77,8 @@ export class ReciboPagoTramitesComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         console.error(error)
       }
-    })
+    });
   }
+
 
 }

@@ -44,6 +44,19 @@ export class GenerarReciboService extends BaseService<HttpRespuesta<any>, any> {
     });
 
     return this._http.post<any>(this._base + `${this._funcionalidad}/plantilla-rec-pagos/generarDocumento/pdf`, body,
-      { headers, responseType: 'blob' as 'json' })
+      {headers, responseType: 'blob' as 'json'})
+  }
+
+  descargarListado(): Observable<Blob> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    });
+    const body = {
+      rutaNombreReporte: "reportes/generales/ReporteFiltrosRecPagos.jrxml",
+      tipoReporte: "pdf"
+    }
+    return this._http.post<any>(this._base + `${this._funcionalidad}/generar-rec-pagos/generarDocumento/pdf`
+      , body, {headers, responseType: 'blob' as 'json'});
   }
 }
