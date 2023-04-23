@@ -24,6 +24,7 @@ import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
 import {CambioEstatusUsuarioComponent} from "../cambio-estatus-usuario/cambio-estatus-usuario.component";
 import {DescargaArchivosService} from "../../../../services/descarga-archivos.service";
+import {OpcionesArchivos} from "../../../../models/opciones-archivos.interface";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -242,9 +243,28 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.abrirModalModificarUsuario();
     }
   }
+  
+  guardarPDF(): void {
+    this.cargadorService.activar();
+    this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListado()).pipe(
+      finalize(() => this.cargadorService.desactivar())
+    ).subscribe(
+      (respuesta) => {
+        console.log(respuesta)
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }
 
-  guardarPDF() {
-    this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListado()).subscribe(
+  guardarExcel(): void {
+    this.cargadorService.activar();
+    const configuracionArchivo: OpcionesArchivos = {nombreArchivo: "reporte", ext: "xlsx"}
+    this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListadoExcel(),
+      configuracionArchivo).pipe(
+      finalize(() => this.cargadorService.desactivar())
+    ).subscribe(
       (respuesta) => {
         console.log(respuesta)
       },
