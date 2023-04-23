@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ReservarSalasComponent} from './components/reservar-salas/reservar-salas.component';
 import {ListadoSalasComponent} from './components/listado-salas/listado-salas.component';
 import {CalendarioSalasComponent} from './components/calendario-salas/calendario-salas.component';
+import {ReservarSalasResolver} from "./services/reservar-salas.resolver";
 
 const routes: Routes = [
   {
@@ -12,12 +13,18 @@ const routes: Routes = [
       {
         path: 'calendario',
         component: CalendarioSalasComponent,
-        outlet: 'salas'
+        outlet: 'salas',
+        resolve: {
+          respuesta: ReservarSalasResolver
+        }
       },
       {
         path: 'salas',
         component: ListadoSalasComponent,
-        outlet: 'salas'
+        outlet: 'salas',
+        resolve: {
+          respuesta: ReservarSalasResolver
+        }
       },
     ],
   },
@@ -25,7 +32,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [ReservarSalasResolver]
 })
 export class ReservarSalasRoutingModule {
 }

@@ -6,12 +6,12 @@ export interface SelectButtonOptions {
 
 export const OpcionesReservarSalas: SelectButtonOptions[] = [
     {
-        icon: 'pi pi-align-left',
+        icon: 'fs fs-barras-horizontales',
         justify: 'Center',
-        route: 'salas'
+        route: 'salas',
     },
     {
-        icon: 'pi pi-align-justify',
+        icon: 'fs fs-calendario',
         justify: 'Center',
         route: 'calendario'
     },

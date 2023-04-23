@@ -243,7 +243,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.abrirModalModificarUsuario();
     }
   }
-
+  
   guardarPDF(): void {
     this.cargadorService.activar();
     this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListado()).pipe(
