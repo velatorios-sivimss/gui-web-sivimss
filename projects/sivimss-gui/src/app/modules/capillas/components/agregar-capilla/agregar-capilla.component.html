@@ -11,8 +11,8 @@
       </div>
       <div class="row mb-3">
         <div class="col-md-12">
-          <label id="nombre" class="control-label" for="nombre">Nombre<span class="req">*</span>:</label>
-          <input id="nombre" class="form-control" formControlName="nombre"
+          <label class="control-label" for="nombreCapilla">Nombre<span class="req">*</span>:</label>
+          <input id="nombreCapilla" class="form-control" formControlName="nombre"
                  placeholder="Ingresa el nombre de la capilla ">
           <span class="campo-obligatorio"
                 *ngIf="fac.nombre?.errors?.required && (fac.nombre?.dirty || fac.nombre?.touched)">Campo obligatorio</span>
@@ -39,21 +39,21 @@
       <div class="row mb-3">
         <div class="col-md-4">
           <label class="control-label" for="largo">Largo<span class="req">*</span>:</label>
-          <input id="largo" class="form-control" formControlName="largo"  type="number"
+          <input id="largo" class="form-control" formControlName="largo" type="number"
                  placeholder="Ingresa el largo">
           <span class="campo-obligatorio"
                 *ngIf="fac.largo?.errors?.required && (fac.largo?.dirty || fac.largo?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
           <label class="control-label" for="alto">Alto<span class="req">*</span>:</label>
-          <input id="alto" class="form-control" formControlName="alto"  type="number"
+          <input id="alto" class="form-control" formControlName="alto" type="number"
                  placeholder="Ingresa el alto">
           <span class="campo-obligatorio"
                 *ngIf="fac.alto?.errors?.required && (fac.alto?.dirty || fac.alto?.touched)">Campo obligatorio</span>
         </div>
         <div class="col-md-4">
           <label class="control-label" for="areaTotal">Área total<span class="req">*</span>:</label>
-          <input id="areaTotal" class="form-control" formControlName="areaTotal"  type="number"
+          <input id="areaTotal" class="form-control" formControlName="areaTotal" type="number"
                  placeholder="Ingresa el área">
           <span class="campo-obligatorio"
                 *ngIf="fac.areaTotal?.errors?.required && (fac.areaTotal?.dirty || fac.areaTotal?.touched)">Campo obligatorio</span>
@@ -63,9 +63,7 @@
       <div>
         <label class="control-label">Estatus<span class="req"> *:</span></label>
         <div class="contenedor-inputswitch">
-          <p-inputSwitch formControlName="estatus" (onClick)="modificarEstatusGuardar()"></p-inputSwitch>
-          <!-- <span class="activo" *ngIf="fac.estatus?.value">Activo</span>
-          <span class="inactivo" *ngIf="!fac.estatus?.value">Inactivo</span> -->
+          <p-inputSwitch formControlName="estatus" (click)="modificarEstatusGuardar()"></p-inputSwitch>
           <span class="activo" *ngIf="estatusGuardar">Activo</span>
           <span class="inactivo" *ngIf="!estatusGuardar">Inactivo</span>
         </div>
@@ -77,17 +75,15 @@
         </div>
       </div>
     </form>
-  <div class="flex justify-content-end">
-    <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="abrirModalDetalleCapilla()">
-    <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="crearNuevaCapillaParaDetalle()"> -->
-      Agregar
-    </button>
-  </div>
-</ng>
+    <div class="flex justify-content-end">
+      <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
+      <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid"
+              (click)="abrirModalDetalleCapilla()">
+        Agregar
+      </button>
+    </div>
+  </ng>
 </ng-container>
-
-
 
 
 <ng-container *ngIf="ventanaConfirmacion == true">
@@ -101,13 +97,13 @@
     </ng-template>
     <ng-template appCustomTemplate="right-header">
       <div class="table-panel-header-column">
-          <div class="flex flex-column">
-            <span>Estatus</span>
-            <div>
-              <span class="activo" *ngIf="capillas?.estatus">Activo</span>
-              <span class="inactivo" *ngIf="!capillas?.estatus">Inactivo</span>
-            </div>
+        <div class="flex flex-column">
+          <span>Estatus</span>
+          <div>
+            <span class="activo" *ngIf="capillas?.estatus">Activo</span>
+            <span class="inactivo" *ngIf="!capillas?.estatus">Inactivo</span>
           </div>
+        </div>
 
       </div>
     </ng-template>
@@ -164,11 +160,10 @@
       ¿Estás seguro que deseas agregar esta capilla?
     </div>
   </div>
-<div class="flex justify-content-end separardor">
-  <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-  <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="agregarCapilla()">
-  <!-- <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="crearNuevaCapillaParaDetalle()"> -->
-    Agregar
-  </button>
-</div>
+  <div class="flex justify-content-end separardor">
+    <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
+    <button class="ml-4 btn btn-primary btn-md" [disabled]="agregarCapillaForm.invalid" (click)="agregarCapilla()">
+      Agregar
+    </button>
+  </div>
 </ng-container>

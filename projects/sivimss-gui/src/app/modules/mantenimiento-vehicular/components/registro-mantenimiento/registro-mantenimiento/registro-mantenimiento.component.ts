@@ -1,12 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ConfirmacionServicio, Vehiculos } from '../../../models/vehiculos.interface';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { CATALOGOS_DUMMIES } from '../../../../inventario-vehicular/constants/dummies';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TipoDropdown } from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
-import { AlertaService } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import { ActivatedRoute } from '@angular/router';
-import { BreadcrumbService } from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ConfirmacionServicio, Vehiculos} from '../../../models/vehiculos.interface';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {CATALOGOS_DUMMIES} from '../../../../inventario-vehicular/constants/dummies';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {TipoDropdown} from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
+import {AlertaService} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import {ActivatedRoute} from '@angular/router';
+import {BreadcrumbService} from 'projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service';
 
 @Component({
   selector: 'app-registro-mantenimiento',
@@ -35,14 +35,15 @@ export class RegistroMantenimientoComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     private alertaService: AlertaService,
     private route: ActivatedRoute,
-  ) {this.vehiculoSeleccionado = this.config.data;}
+  ) {
+    this.vehiculoSeleccionado = this.config.data;
+  }
 
   ngOnInit(): void {
     if (this.config?.data) {
       this.origen = this.config.data.origen;
-        this.vehiculoSeleccionado = this.config.data.vehiculo;
+      this.vehiculoSeleccionado = this.config.data.vehiculo;
     }
-    this.vehiculoSeleccionado
     this.vehiculoSeleccionado.velatorio
     this.inicializarAgregarCapillaForm(this.vehiculoSeleccionado);
   }
@@ -76,16 +77,16 @@ export class RegistroMantenimientoComponent implements OnInit {
     return this.solicitudMantenimientoForm.controls;
   }
 
-  agregar():void{
+  agregar(): void {
     this.ventanaConfirmacion = true;
   }
 
-  regresar(): void{
+  regresar(): void {
     this.ventanaConfirmacion = false;
   }
 
   cerrar(): void {
     this.ref.close()
-    }
+  }
 
 }

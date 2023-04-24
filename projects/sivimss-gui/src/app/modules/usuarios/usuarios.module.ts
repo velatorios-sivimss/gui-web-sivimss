@@ -19,6 +19,7 @@ import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import { AgregarUsuarioComponent } from './components/agregar-usuario/agregar-usuario.component';
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { VerDetalleUsuarioComponent } from './components/ver-detalle-usuario/ver-detalle-usuario.component';
+import { CambioEstatusUsuarioComponent } from './components/cambio-estatus-usuario/cambio-estatus-usuario.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { VerDetalleUsuarioComponent } from './components/ver-detalle-usuario/ver
     UsuariosComponent,
     AgregarUsuarioComponent,
     ModificarUsuarioComponent,
-    VerDetalleUsuarioComponent
+    VerDetalleUsuarioComponent,
+    CambioEstatusUsuarioComponent
   ],
   imports: [
     CommonModule,

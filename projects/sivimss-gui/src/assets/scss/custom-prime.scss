@@ -904,23 +904,20 @@ p-table .border-padding-top .p-datatable-wrapper {
 
 .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
   color: #000;
-  border: 1px solid #dee2e6;
+  border: 1px solid #000;
   background: #fff;
   min-width: 5rem;
   height: 5rem;
   line-height: 2rem;
-  font-size: 1.143rem;
+  font-size: 15px;
   z-index: 1;
   border-radius: 50%;
-  border-color: #000;
-  font-size: 15px;
   font-weight: 100;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .p-steps .p-steps-item.p-highlight .p-steps-number {
-  border: 3px solid #dee2e6;
-  border-color: #9D2449;
+  border: 3px solid #9D2449;
   font-weight: 600;
   color: #9D2449;
 }
@@ -942,22 +939,21 @@ p-table .border-padding-top .p-datatable-wrapper {
   color: #9D2449;
   font-size: 15px;
 
-  font-family: "icomoon" !important;
+  font-family: "font-sivimss", serif !important;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
   line-height: 1;
   letter-spacing: 0;
-  -ms-font-feature-settings: "liga" 1;
-  font-feature-settings: "liga", normal, "dlig";
+  font-feature-settings: "liga", "normal", "dlig";
   font-variant-ligatures: discretionary-ligatures;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   &:before {
     color: #fff;
-    content: "\f053";
+    content: "\f00c";
     position: absolute;
     top: 0;
     left: 0;
@@ -1011,19 +1007,19 @@ p-table .border-padding-top .p-datatable-wrapper {
 .p-selectbutton .p-button {
   width: 52px;
   height: 38px;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   background: #F5F5F5;
   border: 1px solid #9D2449;
   color: #9D2449;
 }
 
 .p-selectbutton .p-button:first-child {
-  border-radius: 4px 0px 0px 4px;
+  border-radius: 4px 0 0 4px;
 }
 
 .p-selectbutton .p-button:last-child {
-  border-radius: 0px 4px 4px 0px;
+  border-radius: 0 4px 4px 0;
 }
 
 .p-selectbutton .p-button:not(.p-disabled):not(.p-highlight):hover,

@@ -1,11 +1,11 @@
-import { CapillaService } from './../../services/capilla.service';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import { ConfirmacionServicio } from '../../../servicios/models/servicio.interface';
-import { Capilla } from '../../models/capilla.interface';
-import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import {CapillaService} from '../../services/capilla.service';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {OverlayPanel} from 'primeng-lts/overlaypanel';
+import {ConfirmacionServicio} from '../../../servicios/models/servicio.interface';
+import {Capilla} from '../../models/capilla.interface';
+import {AlertaService, TipoAlerta} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-detalle-capilla',
@@ -23,17 +23,17 @@ export class DetalleCapillaComponent implements OnInit {
   overlayPanel: OverlayPanel | undefined;
 
   abrirModificar: boolean = false;
-  mostrarModalAgregarCapilla: boolean = false;
   areaTotal: any;
   alt: any;
   anch: any;
 
   constructor(public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
-    public dialogService: DialogService,
-    private alertaService: AlertaService,
-    private capillaService: CapillaService,
-  ) { }
+              public config: DynamicDialogConfig,
+              public dialogService: DialogService,
+              private alertaService: AlertaService,
+              private capillaService: CapillaService,
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -49,7 +49,7 @@ export class DetalleCapillaComponent implements OnInit {
   }
 
   regresar(): void {
-    this.confirmacionAceptar.emit({ estatus: true, origen: "regresar" });
+    this.confirmacionAceptar.emit({estatus: true, origen: "regresar"});
   }
 
   cerrar(): void {
@@ -66,7 +66,7 @@ export class DetalleCapillaComponent implements OnInit {
       this.ref.close();
     }
     if (this.origen == "agregar" || this.origen == "modificar") {
-      this.confirmacionAceptar.emit({ estatus: true, origen: this.origen });
+      this.confirmacionAceptar.emit({estatus: true, origen: this.origen});
     }
     if (this.origen == "estatus") {
       this.cambiarEstatus();
@@ -74,7 +74,7 @@ export class DetalleCapillaComponent implements OnInit {
   }
 
   cambiarEstatus() {
-    this.capillaService.cambiarEstatus({ idCapilla: this.capillaSeleccionada.idCapilla }).subscribe(
+    this.capillaService.cambiarEstatus({idCapilla: this.capillaSeleccionada.idCapilla}).subscribe(
       (respuesta) => {
         if (respuesta.codigo === 200) {
           if (this.capillaSeleccionada.estatus) {
@@ -91,7 +91,6 @@ export class DetalleCapillaComponent implements OnInit {
       }
     );
   }
-
 
 
 }

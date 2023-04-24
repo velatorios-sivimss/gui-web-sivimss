@@ -1,23 +1,23 @@
-import { HttpClient } from '@angular/common/http';
-import { EnumValue } from "@angular/compiler-cli/src/ngtsc/partial_evaluator";
-import { Inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { BnNgIdleService } from 'bn-ng-idle';
-import { HttpRespuesta } from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
-import { Payload } from "projects/sivimss-gui/src/app/models/payload.interface";
-import { UsuarioEnSesion } from "projects/sivimss-gui/src/app/models/usuario-en-sesion.interface";
-import { BreadcrumbService } from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
-import { LoaderService } from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
-import { MenuSidebarService } from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
-import { SIVIMSS_TOKEN } from "projects/sivimss-gui/src/app/utils/constantes";
-import { existeMensajeEnEnum } from "projects/sivimss-gui/src/app/utils/funciones";
-import { MensajesRespuestaAutenticacion } from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-autenticacion.enum";
-import { MensajesRespuestaCodigo } from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-codigo.enum";
-import { dummyMenuResponse } from "projects/sivimss-gui/src/app/utils/menu-dummy";
-import { TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION } from "projects/sivimss-gui/src/app/utils/tokens";
-import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
-import { concatMap, delay, first, map } from "rxjs/operators";
-import { JwtHelperService } from "@auth0/angular-jwt";
+import {HttpClient} from '@angular/common/http';
+import {EnumValue} from "@angular/compiler-cli/src/ngtsc/partial_evaluator";
+import {Inject, Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {BnNgIdleService} from 'bn-ng-idle';
+import {HttpRespuesta} from "projects/sivimss-gui/src/app/models/http-respuesta.interface";
+import {Payload} from "projects/sivimss-gui/src/app/models/payload.interface";
+import {UsuarioEnSesion} from "projects/sivimss-gui/src/app/models/usuario-en-sesion.interface";
+import {BreadcrumbService} from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
+import {LoaderService} from "projects/sivimss-gui/src/app/shared/loader/services/loader.service";
+import {MenuSidebarService} from "projects/sivimss-gui/src/app/shared/sidebar/services/menu-sidebar.service";
+import {SIVIMSS_TOKEN} from "projects/sivimss-gui/src/app/utils/constantes";
+import {existeMensajeEnEnum} from "projects/sivimss-gui/src/app/utils/funciones";
+import {MensajesRespuestaAutenticacion} from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-autenticacion.enum";
+import {MensajesRespuestaCodigo} from "projects/sivimss-gui/src/app/utils/mensajes-respuesta-codigo.enum";
+import {dummyMenuResponse} from "projects/sivimss-gui/src/app/utils/menu-dummy";
+import {TIEMPO_MAXIMO_INACTIVIDAD_PARA_CERRAR_SESION} from "projects/sivimss-gui/src/app/utils/tokens";
+import {BehaviorSubject, Observable, of, Subscription, throwError} from 'rxjs';
+import {concatMap, delay, first, map} from "rxjs/operators";
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 export interface Modulo {
   idModuloPadre: string | null;
@@ -50,7 +50,7 @@ const respuestaInicioSesionCorrecto = {
   mensaje: "INICIO_SESION_CORRECTO",
   datos: {
     "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTc0NjI2NSwiZXhwIjoxNjgyMzUxMDY1fQ.3L9_1iiGWy7NEqFOEpf5g2LwpcJ7j1QlOTIdtNq5KBo"
-  }
+    }
 };
 
 const respuestaContraseniaProxVencer = {
@@ -58,7 +58,7 @@ const respuestaContraseniaProxVencer = {
   codigo: 200,
   mensaje: "CONTRASENIA_PROXIMA_VENCER",
   datos: {
-    "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTc0NjI2NSwiZXhwIjoxNjgyMzUxMDY1fQ.3L9_1iiGWy7NEqFOEpf5g2LwpcJ7j1QlOTIdtNq5KBo"
+    "token": "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTE2NTMyNCwiZXhwIjoxNjgxNzcwMTI0fQ.krsXJqvtKlgKlxTvWt2P0cLlGhZDGb9G7vWcNKnD0MU"
   }
 };
 
@@ -194,6 +194,193 @@ const respuestaPermisosUsuario = {
   }
 };
 
+const respuestaCatalogos = {
+  "error": false,
+  "codigo": 200,
+  "mensaje": "Exito",
+  "datos": {
+    "catalogos": {
+      "delegaciones": [
+        {
+          "id": 1,
+          "desc": "AGUASCALIENTES"
+        },
+        {
+          "id": 2,
+          "desc": "BAJA CALIFORNIA"
+        },
+        {
+          "id": 3,
+          "desc": "BAJA CALIFORNIA SUR"
+        },
+        {
+          "id": 4,
+          "desc": "CAMPECHE"
+        },
+        {
+          "id": 5,
+          "desc": "COAHUILA"
+        },
+        {
+          "id": 6,
+          "desc": "COLIMA"
+        },
+        {
+          "id": 7,
+          "desc": "CHIAPAS"
+        },
+        {
+          "id": 8,
+          "desc": "CHIHUAHUA"
+        },
+        {
+          "id": 9,
+          "desc": "OFICINAS CENTRALES"
+        },
+        {
+          "id": 10,
+          "desc": "DURANGO"
+        },
+        {
+          "id": 11,
+          "desc": "GUANAJUATO"
+        },
+        {
+          "id": 12,
+          "desc": "GUERRERO"
+        },
+        {
+          "id": 13,
+          "desc": "HIDALGO"
+        },
+        {
+          "id": 14,
+          "desc": "JALISCO"
+        },
+        {
+          "id": 15,
+          "desc": "EDO DE MEX ORIENTE"
+        },
+        {
+          "id": 16,
+          "desc": "EDO DE MEX PONIENTE"
+        },
+        {
+          "id": 17,
+          "desc": "MICHOACAN"
+        },
+        {
+          "id": 18,
+          "desc": "MORELOS"
+        },
+        {
+          "id": 19,
+          "desc": "NAYARIT"
+        },
+        {
+          "id": 20,
+          "desc": "NUEVO LEON"
+        },
+        {
+          "id": 21,
+          "desc": "OAXACA"
+        },
+        {
+          "id": 22,
+          "desc": "PUEBLA"
+        },
+        {
+          "id": 23,
+          "desc": "QUERETARO"
+        },
+        {
+          "id": 24,
+          "desc": "QUINTANA ROO"
+        },
+        {
+          "id": 25,
+          "desc": "SAN LUIS POTOSI"
+        },
+        {
+          "id": 26,
+          "desc": "SINALOA"
+        },
+        {
+          "id": 27,
+          "desc": "SONORA"
+        },
+        {
+          "id": 28,
+          "desc": "TABASCO"
+        },
+        {
+          "id": 29,
+          "desc": "TAMAULIPAS"
+        },
+        {
+          "id": 30,
+          "desc": "TLAXCALA"
+        },
+        {
+          "id": 31,
+          "desc": "VERACRUZ NORTE"
+        },
+        {
+          "id": 32,
+          "desc": "VERACRUZ SUR"
+        },
+        {
+          "id": 33,
+          "desc": "YUCATAN"
+        },
+        {
+          "id": 34,
+          "desc": "ZACATECAS"
+        },
+        {
+          "id": 35,
+          "desc": "1 NOROESTE D.F."
+        },
+        {
+          "id": 36,
+          "desc": "2 NORESTE D.F."
+        },
+        {
+          "id": 37,
+          "desc": "3 SUROESTE D.F."
+        },
+        {
+          "id": 38,
+          "desc": "4 SURESTE D.F."
+        },
+        {
+          "id": 39,
+          "desc": "NOMINA DE MANDO"
+        }
+      ],
+      "nivelOficina": [
+        {
+          "id": 1,
+          "desc": "CENTRAL"
+        },
+        {
+          "id": 2,
+          "desc": "DELEGACIONAL"
+        },
+        {
+          "id": 3,
+          "desc": "VELATORIOS"
+        }
+      ],
+      "parentesco": [],
+      "paises": [],
+      "estados": [],
+      "tipoPension": [],
+      "unidadesMedicas": []
+    }
+  }
+};
+
 const respCodigoRestablecerContrasenia = {
   "error": false,
   "codigo": 200,
@@ -303,6 +490,7 @@ export class AutenticacionService {
     this.usuarioEnSesionSubject.next(usuario);
     this.permisosUsuarioSubject.next(permisosUsuario);
     localStorage.setItem(SIVIMSS_TOKEN, token);
+    this.obtenerCatalogos();
     this.iniciarTemporizadorSesion();
   }
 
@@ -321,6 +509,7 @@ export class AutenticacionService {
     this.usuarioEnSesionSubject.next(null);
     this.permisosUsuarioSubject.next(null);
     localStorage.removeItem(SIVIMSS_TOKEN);
+    localStorage.clear();
     this.router.navigate(['/inicio-sesion']);
     this.detenerTemporizadorSesion();
   }
@@ -388,6 +577,32 @@ export class AutenticacionService {
   generarCodigoRestablecerContrasenia(usuario: string): Observable<HttpRespuesta<any>> {
     //return this.http.post<HttpRespuesta>(`http://localhost:8080/mssivimss-oauth/contrasenia/genera-codigo`, {usuario})
     return of<HttpRespuesta<any>>(respCodigoRestablecerContrasenia);
+  }
+
+  obtenerCatalogos(): void {
+    // this.httpClient.post<HttpRespuesta<any>>('http://localhost:8079/mssivimss-oauth/catalogos/consulta', {})
+    of<HttpRespuesta<any>>(respuestaCatalogos)
+      .subscribe({
+        next: (respuesta) => {
+          const {datos} = respuesta;
+          const {catalogos} = datos ?? {};
+          this.guardarCatalogosEnLocalStorage(catalogos)
+        },
+        error: (error) => {
+          console.log(error)
+        }
+      })
+  }
+
+  guardarCatalogosEnLocalStorage<T extends { [key: string]: T }>(obj: T): void {
+    Object.keys(obj).forEach(propiedad => {
+      localStorage.setItem(`catalogo_${propiedad}`, JSON.stringify(obj[propiedad]));
+    });
+  }
+
+  obtenerCatalogoDeLocalStorage<T>(propiedad: string): any {
+    const catalogo = JSON.parse(localStorage.getItem(propiedad) as string);
+    return catalogo ?? [];
   }
 
 

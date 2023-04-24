@@ -1,14 +1,14 @@
-import { CapillaService } from './../../services/capilla.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng-lts/dynamicdialog';
-import { AlertaService, TipoAlerta } from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import { Capilla } from '../../models/capilla.interface';
-import { RespuestaModalcapilla } from '../../models/respuesta-modal-capilla.interface';
-import { OverlayPanel } from 'primeng-lts/overlaypanel';
-import { ConfirmacionServicio } from '../../../servicios/models/servicio.interface';
+import {CapillaService} from '../../services/capilla.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute} from '@angular/router';
+import {DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
+import {AlertaService, TipoAlerta} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import {Capilla} from '../../models/capilla.interface';
+import {RespuestaModalcapilla} from '../../models/respuesta-modal-capilla.interface';
+import {OverlayPanel} from 'primeng-lts/overlaypanel';
+import {ConfirmacionServicio} from '../../../servicios/models/servicio.interface';
 
 type capillaModificada = Omit<Capilla, "id">
 
@@ -30,7 +30,6 @@ export class ModificarCapillaComponent implements OnInit {
   ventanaConfirmacion: boolean = false;
 
   modificarcapillaForm!: FormGroup;
-  capillaParaModificar!: Capilla;
   areaTotal: any;
   alt: any;
   anch: any;
@@ -56,7 +55,6 @@ export class ModificarCapillaComponent implements OnInit {
   capillas: Capilla = {};
 
 
-
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
@@ -64,7 +62,6 @@ export class ModificarCapillaComponent implements OnInit {
     private alertaService: AlertaService,
     public config: DynamicDialogConfig,
     public ref: DynamicDialogRef,
-
   ) {
   }
 
@@ -78,7 +75,7 @@ export class ModificarCapillaComponent implements OnInit {
     this.alt = this.capillaSeleccionada.alto
     this.anch = this.capillaSeleccionada.largo
     this.areaTotal = this.alt * this.anch
-    this.inicializarAgregarCapillaForm(this.capillaSeleccionada );
+    this.inicializarAgregarCapillaForm(this.capillaSeleccionada);
 
   }
 
@@ -99,42 +96,42 @@ export class ModificarCapillaComponent implements OnInit {
 
   crearCapillaModificada(): capillaModificada {
     return {
-       idCapilla: this.modificarcapillaForm.get("idCapilla")?.value,
-       nombre: this.modificarcapillaForm.get('nombre')?.value,
-       capacidad: parseInt(this.modificarcapillaForm.get("capacidad")?.value),
-       idVelatorio: parseInt(this.modificarcapillaForm.get("idVelatorio")?.value),
-       largo: parseInt(this.modificarcapillaForm.get("largo")?.value),
-       alto: parseInt(this.modificarcapillaForm.get("alto")?.value),
+      idCapilla: this.modificarcapillaForm.get("idCapilla")?.value,
+      nombre: this.modificarcapillaForm.get('nombre')?.value,
+      capacidad: parseInt(this.modificarcapillaForm.get("capacidad")?.value),
+      idVelatorio: parseInt(this.modificarcapillaForm.get("idVelatorio")?.value),
+      largo: parseInt(this.modificarcapillaForm.get("largo")?.value),
+      alto: parseInt(this.modificarcapillaForm.get("alto")?.value),
       //  ancho: parseInt(this.modificarcapillaForm.get("ancho")?.value),
-       areaTotal: this.modificarcapillaForm.get("areaTotal")?.value,
-   }
+      areaTotal: this.modificarcapillaForm.get("areaTotal")?.value,
+    }
   }
 
-  crearCapillaParaDetalle(): void{
+  crearCapillaParaDetalle(): void {
     this.capillas = {
       // idCapilla: this.agregarCapillaForm.get("id")?.value,
-       nombre: this.modificarcapillaForm.get('nombre')?.value,
-       capacidad: parseInt(this.modificarcapillaForm.get("capacidad")?.value),
-       idVelatorio: parseInt(this.modificarcapillaForm.get("idVelatorio")?.value),
-       largo: parseInt(this.modificarcapillaForm.get("largo")?.value),
-       alto: parseInt(this.modificarcapillaForm.get("alto")?.value),
-       ancho: parseInt(this.modificarcapillaForm.get("ancho")?.value),
-       areaTotal: this.modificarcapillaForm.get("areaTotal")?.value,
-       velatorio: this.modificarcapillaForm.get('areaTotal')?.value,
+      nombre: this.modificarcapillaForm.get('nombre')?.value,
+      capacidad: parseInt(this.modificarcapillaForm.get("capacidad")?.value),
+      idVelatorio: parseInt(this.modificarcapillaForm.get("idVelatorio")?.value),
+      largo: parseInt(this.modificarcapillaForm.get("largo")?.value),
+      alto: parseInt(this.modificarcapillaForm.get("alto")?.value),
+      ancho: parseInt(this.modificarcapillaForm.get("ancho")?.value),
+      areaTotal: this.modificarcapillaForm.get("areaTotal")?.value,
+      velatorio: this.modificarcapillaForm.get('areaTotal')?.value,
+    }
   }
-   }
 
 
-   abrirModalDetalleCapilla() {
+  abrirModalDetalleCapilla() {
     this.ventanaConfirmacion = true
     this.crearCapillaParaDetalle();
-   }
+  }
 
 
   modificarCapilla(): void {
     const respuesta: RespuestaModalcapilla = {mensaje: "Actualización satisfactoria", actualizar: true}
     const solicitudCapilla = JSON.stringify(this.crearCapillaModificada());
-    console.log('capilla para modificar__:'+  solicitudCapilla)
+    console.log('capilla para modificar__:' + solicitudCapilla)
     this.capillaService.actualizar2(solicitudCapilla).subscribe(
       () => {
         this.ref.close(respuesta)
@@ -146,7 +143,7 @@ export class ModificarCapillaComponent implements OnInit {
     );
   }
 
-  cerrar(){
+  cerrar() {
     this.ref.close();
   }
 
@@ -154,7 +151,6 @@ export class ModificarCapillaComponent implements OnInit {
   get fmc() {
     return this.modificarcapillaForm.controls;
   }
-
 
 
 }
