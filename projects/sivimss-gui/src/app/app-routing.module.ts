@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes, UrlSerializer} from '@angular/router';
-import {PaginaNoEncontradaComponent} from './components/pagina-no-encontrada/pagina-no-encontrada.component';
-import {BloqueaUsuarioLogueadoGuard} from 'projects/sivimss-gui/src/app/guards/bloquea-usuario-logueado.guard';
-import {PermiteUsuarioLogueadoGuard} from 'projects/sivimss-gui/src/app/guards/permite-usuario-logueado.guard';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes, UrlSerializer } from '@angular/router';
+import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
+import { BloqueaUsuarioLogueadoGuard } from 'projects/sivimss-gui/src/app/guards/bloquea-usuario-logueado.guard';
+import { PermiteUsuarioLogueadoGuard } from 'projects/sivimss-gui/src/app/guards/permite-usuario-logueado.guard';
 
 const routes: Routes = [
   {
@@ -172,8 +172,12 @@ const routes: Routes = [
     canActivate: [PermiteUsuarioLogueadoGuard]
   },
   {
-    path: 'programar-mantenimiento-vehicular',
-    loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
+    path: 'generar-nota-remision',
+    loadChildren: () => import('./modules/generar-nota-remision/generar-nota-remision.module').then(m => m.GenerarNotaRemisionModule)
+  },
+  {
+  path: 'programar-mantenimiento-vehicular',
+  loadChildren: () => import('./modules/mantenimiento-vehicular/mantenimiento-vehicular.module').then(m => m.MantenimientoVehicularModule),
   },
   {
     path: '**',

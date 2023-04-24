@@ -1,38 +1,45 @@
 <div class="row mb-3">
   <div class="col-md-6">
+    <label class="control-label" for="velatorio">Delegación:</label>
+    <p-dropdown id="delegacion" [(ngModel)]="delegacion" class="form-control" [options]="delegaciones" placeholder="Selecciona la delegación">
+    </p-dropdown>
+  </div>
+  <div class="col-md-6">
     <label class="control-label" for="velatorio">Velatorios:</label>
-    <p-dropdown id="velatorio" class="form-control" [options]="velatorios" placeholder="Selecciona velatorio">
+    <p-dropdown id="velatorio" [(ngModel)]="velatorio" class="form-control" [options]="velatorios" placeholder="Selecciona velatorio"
+    (onChange)="consultaSalasCremacion()">
     </p-dropdown>
   </div>
 </div>
 <div class="row mb-3">
   <div class="col-md-12">
-    <p-tabView>
+    <p-tabView (onChange)="cambiarPestania($event)">
       <p-tabPanel [header]="menu[0]">
         <div class="row mb-3">
           <div class="col-md-12">
             <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="salasCremacion"
-                     [paginator]="salasCremacion.length > 0" [rows]="cantElementosPorPagina" [lazy]="true"
+                     [rows]="cantElementosPorPagina" [lazy]="true"
                      [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual">
-              <!-- (onLazyLoad)="paginar($event)" -->
               <ng-template pTemplate="header">
                 <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Estatus</th>
-                  <th>Hora de Entrada</th>
-                  <th></th>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col"></th>
                 </tr>
               </ng-template>
-              <ng-template pTemplate="body" let-sala>
+              <ng-template pTemplate="body" let-salasCremacion>
                 <tr>
-                  <td>{{sala.id}}</td>
-                  <td>{{sala.nombre}}</td>
-                  <td>{{sala.estatus}}</td>
-                  <td>{{sala.hora_entrada}}</td>
+                  <td>{{salasCremacion.idSala}}</td>
+                  <td>{{salasCremacion.nombreSala}}</td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
-                      Registrar {{ sala.hora_entrada ? 'Salida' : 'Entrada'}}
+                    <span class="circle" [ngStyle]="{'background-color': retornarColor(salasCremacion.estadoSala)}" ></span>
+                    {{salasCremacion.estadoSala}}
+                  </td>
+                  <td>
+<!--                    <button type="button" *appValidaRol="['SALAS_RESERVACION','ALTA']" class="btn btn-primary btn-md" (click)="registrarActividad(salasCremacion)">-->
+                    <button type="button"  class="btn btn-primary btn-md" (click)="registrarActividad(salasCremacion)">
+                      Registrar {{ salasCremacion.estadoSala != 'DISPONIBLE' ? 'salida' : 'entrada'}}
                     </button>
                   </td>
                 </tr>
@@ -50,27 +57,28 @@
       </p-tabPanel>
       <p-tabPanel [header]="menu[1]">
         <p-table styleClass="mt-5 mb-8 last-sticky-column" [value]="salasEmbalsamamiento"
-                 [paginator]="salasCremacion.length > 0" [rows]="cantElementosPorPagina" [lazy]="true"
+                  [rows]="cantElementosPorPagina" [lazy]="true"
                  [totalRecords]="totalElementos" [pageLinks]="3" [(first)]="numPaginaActual">
-          <!-- (onLazyLoad)="paginar($event)" -->
           <ng-template pTemplate="header">
             <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Estatus</th>
-              <th>Hora de Entrada</th>
-              <th></th>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Estado</th>
+              <th scope="col"></th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-sala>
             <tr>
-              <td>{{sala.id}}</td>
-              <td>{{sala.nombre}}</td>
-              <td>{{sala.estatus}}</td>
-              <td>{{sala.hora_entrada}}</td>
+              <td>{{sala.idSala}}</td>
+              <td>{{sala.nombreSala}}</td>
               <td>
+                <span class="circle" [ngStyle]="{'background-color': retornarColor(sala.estadoSala)}" ></span>
+                {{sala.estadoSala}}
+              </td>
+              <td>
+<!--                <button type="button" *appValidaRol="['SALAS_RESERVACION','MODIFICAR']" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">-->
                 <button type="button" class="btn btn-primary btn-md" (click)="registrarActividad(sala)">
-                  Registrar {{ sala.hora_entrada ? 'Salida' : 'Entrada'}}
+                  Registrar {{ sala.estadoSala != 'DISPONIBLE' ? 'salida' : 'entrada'}}
                 </button>
               </td>
             </tr>

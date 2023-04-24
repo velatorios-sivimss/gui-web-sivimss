@@ -17,8 +17,12 @@ import {RegistrarEntradaComponent} from './components/registrar-entrada/registra
 import {TablePanelModule} from "../../shared/table-panel/table-panel.module";
 import {CalendarModule} from "primeng-lts/calendar";
 import { RegistrarSalidaComponent } from './components/registrar-salida/registrar-salida.component';
-import { FullCalendarModule } from 'primeng-lts/fullcalendar';
+import {FullCalendarModule} from "@fullcalendar/angular";
 import {AccordionModule} from "primeng-lts/accordion";
+import {ReservarSalasService} from "./services/reservar-salas.service";
+import {UtileriaModule} from "../../shared/utileria/utileria.module";
+import {InputNumberModule} from "primeng-lts/inputnumber";
+import {ValidaRolModule} from "../../shared/valida-rol/valida-rol.module";
 
 @NgModule({
   declarations: [
@@ -27,7 +31,7 @@ import {AccordionModule} from "primeng-lts/accordion";
     CalendarioSalasComponent,
     VerActividadSalasComponent,
     RegistrarEntradaComponent,
-    RegistrarSalidaComponent
+    RegistrarSalidaComponent,
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,14 @@ import {AccordionModule} from "primeng-lts/accordion";
     CalendarModule,
     FullCalendarModule,
     AccordionModule,
+    UtileriaModule,
+    InputNumberModule,
+    ValidaRolModule
+  ],
+  providers: [
+    ReservarSalasService
   ]
+
 })
 export class ReservarSalasModule {
 }

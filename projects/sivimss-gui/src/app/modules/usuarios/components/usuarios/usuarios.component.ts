@@ -24,6 +24,7 @@ import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {finalize} from "rxjs/operators";
 import {CambioEstatusUsuarioComponent} from "../cambio-estatus-usuario/cambio-estatus-usuario.component";
 import {DescargaArchivosService} from "../../../../services/descarga-archivos.service";
+import {OpcionesArchivos} from "../../../../models/opciones-archivos.interface";
 
 type SolicitudEstatus = Pick<Usuario, "id">;
 const MAX_WIDTH: string = "920px";
@@ -59,10 +60,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   modificacionRef!: DynamicDialogRef;
   cambioEstatusRef!: DynamicDialogRef;
 
-  readonly POSICION_CATALOGOS_ROLES: number = 0;
-  readonly POSICION_CATALOGOS_NIVELES: number = 1;
-  readonly POSICION_CATALOGOS_DELEGACIONES: number = 2;
-  readonly POSICION_CATALOGOS_VELATORIOS: number = 3;
+  readonly POSICION_ROLES: number = 0;
+  readonly POSICION_NIVELES: number = 1;
+  readonly POSICION_DELEGACIONES: number = 2;
+  readonly POSICION_VELATORIOS: number = 3;
 
   constructor(
     private route: ActivatedRoute,
@@ -84,11 +85,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   cargarCatalogos(): void {
     const respuesta = this.route.snapshot.data["respuesta"];
-    const roles = respuesta[this.POSICION_CATALOGOS_ROLES].datos;
-    const velatorios = respuesta[this.POSICION_CATALOGOS_VELATORIOS].datos;
+    const roles = respuesta[this.POSICION_ROLES].datos;
+    const velatorios = respuesta[this.POSICION_VELATORIOS].datos;
     this.catalogoRoles = mapearArregloTipoDropdown(roles, "nombre", "id");
-    this.catalogoNiveles = respuesta[this.POSICION_CATALOGOS_NIVELES];
-    this.catalogoDelegaciones = respuesta[this.POSICION_CATALOGOS_DELEGACIONES];
+    this.catalogoNiveles = respuesta[this.POSICION_NIVELES];
+    this.catalogoDelegaciones = respuesta[this.POSICION_DELEGACIONES];
     this.catalogoVelatorios = mapearArregloTipoDropdown(velatorios, "desc", "id");
   }
 
@@ -242,9 +243,28 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.abrirModalModificarUsuario();
     }
   }
+  
+  guardarPDF(): void {
+    this.cargadorService.activar();
+    this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListado()).pipe(
+      finalize(() => this.cargadorService.desactivar())
+    ).subscribe(
+      (respuesta) => {
+        console.log(respuesta)
+      },
+      (error) => {
+        console.log(error)
+      },
+    )
+  }
 
-  guardarPDF() {
-    this.descargaArchivosService.descargarPDF(this.usuarioService.descargarListado()).subscribe(
+  guardarExcel(): void {
+    this.cargadorService.activar();
+    const configuracionArchivo: OpcionesArchivos = {nombreArchivo: "reporte", ext: "xlsx"}
+    this.descargaArchivosService.descargarArchivo(this.usuarioService.descargarListadoExcel(),
+      configuracionArchivo).pipe(
+      finalize(() => this.cargadorService.desactivar())
+    ).subscribe(
       (respuesta) => {
         console.log(respuesta)
       },

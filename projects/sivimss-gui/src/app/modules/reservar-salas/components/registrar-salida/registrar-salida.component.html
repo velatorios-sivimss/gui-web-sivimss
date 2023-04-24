@@ -3,7 +3,7 @@
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column contenedor-inputswitch">
         <span class="activo font-bold mr-2">ID</span>
-        <span></span>
+        <span>{{salaSeleccionada.idSala}}</span>
       </div>
     </ng-template>
     <ng-template appCustomTemplate="right-header">
@@ -12,7 +12,7 @@
       <div class="col-md-4">
         <div class="table-panel-column">
         <span>
-        Sor Juana Ines de la Cruz
+        {{salaSeleccionada.nombreSala}}
         </span>
         </div>
       </div>
@@ -27,7 +27,7 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="fecha">Fecha <span class="req">*</span>:</label>
-        <p-calendar id="fecha" styleClass="form-control" formControlName="fecha" [showIcon]="true"></p-calendar>
+        <p-calendar appendTo="body" id="fecha" styleClass="form-control" formControlName="fecha" [showIcon]="true"></p-calendar>
         <span class="campo-obligatorio"
               *ngIf="salidaF.fecha?.errors?.required && (salidaF.fecha?.dirty || salidaF.fecha?.touched)">
                     Campo obligatorio</span>
@@ -36,25 +36,21 @@
         <label class="control-label" for="hora">Hora <span class="req">*</span>:</label>
         <div class="row">
           <div class="col-md-6">
-            <p-calendar id="hora" styleClass="form-control" formControlName="hora" [timeOnly]="true"
+            <p-calendar appendTo="body" id="hora" styleClass="form-control" formControlName="hora" [timeOnly]="true"
             ></p-calendar>
             <span class="campo-obligatorio"
                   *ngIf="salidaF.hora?.errors?.required && (salidaF.hora?.dirty || salidaF.hora?.touched)">
-                    Campo obligatorio</span>
-          </div>
-          <div class="col-md-6">
-            <p-calendar id="minutos" styleClass="form-control" formControlName="minutos" [timeOnly]="true"></p-calendar>
-            <span class="campo-obligatorio"
-                  *ngIf="salidaF.minutos?.errors?.required && (salidaF.minutos?.dirty || salidaF.minutos?.touched)">
                     Campo obligatorio</span>
           </div>
         </div>
       </div>
     </div>
     <div class="row mb-3">
-      <div class="col-md-6 mb-3">
+      <div class="col-md-6 mb-3" *ngIf="!tipoSala && estadoSala != 'MANTENIMIENTO'">
+
         <label class="control-label" for="nivelGas">Nivel de gas <span class="req">*</span>:</label>
-        <input id="nivelGas" class="form-control" formControlName="nivelGas">
+        <p-inputNumber [useGrouping]="false" mode="decimal" currency="USD" locale="en-US" [minFractionDigits]="2" [maxFractionDigits]="2" suffix="L"
+                       id="nivelGas" class="form-control" formControlName="nivelGas" [maxlength]="11"></p-inputNumber>
         <span class="campo-obligatorio"
               *ngIf="salidaF.nivelGas?.errors?.required && (salidaF.nivelGas?.dirty || salidaF.nivelGas?.touched)">
                     Campo obligatorio</span>
@@ -81,7 +77,7 @@
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column contenedor-inputswitch">
         <span class="activo font-bold mr-2">ID</span>
-        <span></span>
+        <span>{{salaSeleccionada.idSala}}</span>
       </div>
     </ng-template>
     <ng-template appCustomTemplate="right-header">
@@ -90,22 +86,24 @@
       <div class="col-md-4">
         <div class="table-panel-column">
         <span>
-        Sor Juana Ines de la Cruz
+          <h2 class="subtitulo">
+            {{salaSeleccionada.nombreSala}}
+          </h2>
         </span>
         </div>
       </div>
     </div>
     <div class="row table-panel-row">
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="!tipoSala && estadoSala != 'MANTENIMIENTO'">
         <div class="table-panel-column">
           <label>Nivel del gas</label>
-          <span></span>
+          <span> {{salidaF.nivelGas.value}} L</span>
         </div>
       </div>
       <div class="col-md-4">
         <div class="table-panel-column">
           <label>Registro de salida</label>
-          <span></span>
+          <span> {{salidaF.fecha.value | date: 'dd/MM/yyyy'}} - {{salidaF.hora.value | date: 'shortTime'}}</span>
         </div>
       </div>
     </div>

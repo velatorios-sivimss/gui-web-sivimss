@@ -5,7 +5,8 @@ export const funcionalidades: { [valor: string]: string } = {
   'CAPILLAS': '5',
   'ARTICULOS': '6',
   'SERVICIOS': '7',
-  'VELATORIOS': '8'//Agregar los que falten.
+  'VELATORIOS': '8',
+  'SALAS_RESERVACION': '9'//Agregar los que falten.
 }
 export const permisos: { [valor: string]: string } = {
   'ALTA': '1',
