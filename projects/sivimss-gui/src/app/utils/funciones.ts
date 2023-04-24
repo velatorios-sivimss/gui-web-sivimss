@@ -6,10 +6,7 @@ export function diferenciaUTC(fecha: string): number {
 }
 
 export function validarAlMenosUnCampoConValor(values: object) {
-  if (!Object.values(values).find(value => value !== '' && value !== null)) {
-    return false;
-  }
-  return true;
+  return Object.values(values).find(value => value !== '' && value !== null);
 }
 
 export function mapearArregloTipoDropdown(arr: [] = [], label: string, value: string): TipoDropdown[] {

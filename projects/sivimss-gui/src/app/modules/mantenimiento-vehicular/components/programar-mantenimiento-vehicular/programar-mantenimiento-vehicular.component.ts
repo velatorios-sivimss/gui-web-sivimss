@@ -110,7 +110,7 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
 
   paginar(): void {
     this.cargadorService.activar();
-    this.mantenimientoVehicularService.buscarPorPagina(this.numPaginaActual, this.cantElementosPorPagina)
+    this.mantenimientoVehicularService.buscarPorFiltros(this.numPaginaActual, this.cantElementosPorPagina)
       .pipe(finalize(() => this.cargadorService.desactivar()))
       .subscribe(
         (respuesta) => {
