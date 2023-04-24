@@ -15,6 +15,7 @@ export class DonacionesResolver implements Resolve<any> {
          //const catalogoDelegaciones$ = this.donaionesService.obtenerCatalogoDelegaciones();
         const catalogoVelatorios$ = this.donaionesService.obtenerCatalogoVelatorios();
         const catalogoNiveles$ = this.donaionesService.obtenerCatalogoNiveles();
+        const catalogoDelegaciones$ = this.donaionesService.obtenerCatalogoNiveles();
         // const catalogoTamanios$ = this.donaionesService.obtenerCatalogoTamanios();
         // const catalogoClasificacionProductos$ = this.donaionesService.obtenerCatalogoClasificacionProductos();
         // const catalogoPartidasPresupuestales$ = this.donaionesService.obtenerCatalogoPartidasPresupuestales();
@@ -24,6 +25,7 @@ export class DonacionesResolver implements Resolve<any> {
           // catalogoDelegaciones$,
           catalogoVelatorios$,
           catalogoNiveles$,
+          catalogoDelegaciones$,
             // catalogoTamanios$,
             // catalogoClasificacionProductos$,
             // catalogoPartidasPresupuestales$,

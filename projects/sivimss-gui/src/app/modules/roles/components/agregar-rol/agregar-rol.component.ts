@@ -10,6 +10,8 @@ import {CATALOGOS} from '../../../usuarios/constants/catalogos_dummies';
 import {RolService} from '../../services/rol.service';
 import {Rol} from "../../models/rol.interface";
 import {USUARIOS_BREADCRUMB} from '../../../usuarios/constants/breadcrumb';
+import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
+import { ActivatedRoute } from '@angular/router';
 
 type NuevoRol = Omit<Rol, "idRol" >;
 
@@ -23,7 +25,7 @@ export class AgregarRolComponent implements OnInit {
   @ViewChild(OverlayPanel)
   overlayPanel!: OverlayPanel;
 
-  opciones: TipoDropdown[] = CATALOGOS;
+
   catRol: TipoDropdown[] = [];
   agregarRolForm!: FormGroup;
 
@@ -35,17 +37,24 @@ export class AgregarRolComponent implements OnInit {
 
   contadorFuncionalidades = 1;
 
+  niveles: Catalogo[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private breadcrumbService: BreadcrumbService,
     private rolService: RolService,
-    private alertaService: AlertaService
+    private alertaService: AlertaService,
+    private route: ActivatedRoute,
   ) {
   }
 
   ngOnInit(): void {
     this.breadcrumbService.actualizar(USUARIOS_BREADCRUMB);
     this.inicializarAgregarRolForm();
+
+    const respuesta = this.route.snapshot.data["respuesta"];
+    this.niveles = respuesta[0]!.map((rol: Catalogo) => (
+      {label: rol.label, value: rol.value} )) || [];
   }
 
   inicializarAgregarRolForm(): void {
@@ -63,7 +72,6 @@ export class AgregarRolComponent implements OnInit {
   }
 
   agregarRol(): void {
-   // utils respuesta: RespuestaModalrol = {mensaje: "Alta satisfactoria", actualizar: true}
     const rolBo: NuevoRol = this.crearNuevoRol();
     const solicitudRol: string = JSON.stringify(rolBo);
     this.rolService.guardar(solicitudRol).subscribe(

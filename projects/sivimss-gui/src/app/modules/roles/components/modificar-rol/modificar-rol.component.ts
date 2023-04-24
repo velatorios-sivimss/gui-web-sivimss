@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {TipoDropdown} from "../../../../models/tipo-dropdown";
-import {CATALOGOS} from "../../../usuarios/constants/catalogos_dummies";
-import {AlertaService, TipoAlerta} from "../../../../shared/alerta/services/alerta.service";
-import {DynamicDialogConfig, DynamicDialogRef} from "primeng-lts/dynamicdialog";
-import {HttpErrorResponse} from "@angular/common/http";
-import {RolService} from "../../services/rol.service";
-import {Rol} from '../../models/rol.interface';
-import {RespuestaModalRol} from "../../models/respuestaModal.interface";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { TipoDropdown } from "../../../../models/tipo-dropdown";
+import { CATALOGOS } from "../../../usuarios/constants/catalogos_dummies";
+import { AlertaService, TipoAlerta } from "../../../../shared/alerta/services/alerta.service";
+import { DynamicDialogConfig, DynamicDialogRef } from "primeng-lts/dynamicdialog";
+import { HttpErrorResponse } from "@angular/common/http";
+import { RolService } from "../../services/rol.service";
+import { Rol } from '../../models/rol.interface';
+import { RespuestaModalRol } from "../../models/respuestaModal.interface";
+import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 type RolModificado = Omit<Rol, "password">
 
@@ -22,7 +23,7 @@ export class ModificarRolComponent implements OnInit {
   rolModificado!: RolModificado;
   opciones: TipoDropdown[] = CATALOGOS;
   indice: number = 0;
-
+  niveles: Catalogo[] = [];
   constructor(
     private alertaService: AlertaService,
     public config: DynamicDialogConfig,
@@ -32,16 +33,29 @@ export class ModificarRolComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const rol =  this.config.data;
+    const rol = this.config.data;
     this.inicializarModificarRolForm(rol);
+    this.obtenerCatNiveles();
   }
 
-  inicializarModificarRolForm(rol:Rol): void {
+  obtenerCatNiveles() {
+
+    this.rolService.obtenerCatalogoNivelOficina().subscribe(
+      (respuesta: any) => {
+        this.niveles = respuesta!.map((rol: Catalogo) => (
+          { label: rol.label, value: rol.value })) || [];
+      }
+    )
+  }
+
+
+
+  inicializarModificarRolForm(rol: Rol): void {
     this.modificarRolForm = this.formBuilder.group({
-      id: [{value: rol.idRol, disabled: true}, [Validators.required]],
-      nombre: [{value: rol.desRol, disabled: false}, [Validators.required, Validators.maxLength(100)]],
-      nivel: [{value: rol.nivelOficina, disabled: false}, [Validators.required]],
-      estatus : [{value: rol.estatusRol, disabled: false}],
+      id: [{ value: rol.idRol, disabled: true }, [Validators.required]],
+      nombre: [{ value: rol.desRol, disabled: false }, [Validators.required, Validators.maxLength(100)]],
+      nivel: [{ value: rol.nivelOficina, disabled: false }, [Validators.required]],
+      estatus: [{ value: rol.estatusRol, disabled: false }],
     });
   }
 
@@ -55,7 +69,7 @@ export class ModificarRolComponent implements OnInit {
   }
 
   modificarRol(): void {
-    const respuesta: RespuestaModalRol = {mensaje: "Actualización satisfactoria", actualizar: true}
+    const respuesta: RespuestaModalRol = { mensaje: "Actualización satisfactoria", actualizar: true }
     const solicitudUsuario = JSON.stringify(this.rolModificado);
     this.rolService.actualizar(solicitudUsuario).subscribe(
       () => {
@@ -88,6 +102,9 @@ export class ModificarRolComponent implements OnInit {
       this.modificarRol();
       return;
     }
+  }
 
+  cerrarModalDetalle() {
+    this.ref.close();
   }
 }

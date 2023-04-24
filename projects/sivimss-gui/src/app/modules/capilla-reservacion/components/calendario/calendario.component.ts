@@ -205,6 +205,10 @@ export class CalendarioComponent implements OnInit {
             start: moment(capilla.fechaEntrada, "DD-MM-YYYY").format("YYYY-MM-DD"),
             color: capilla.color,
           });
+
+          if(respuesta.datos = []){
+
+          }
         
           this.tituloCapillas.forEach((tituloCapillas: any) => {
             if (tituloCapillas.id == capilla.idCapilla) {

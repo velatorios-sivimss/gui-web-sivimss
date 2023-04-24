@@ -6,6 +6,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {RolService} from "../../services/rol.service";
 import {RespuestaModalRol} from "../../models/respuestaModal.interface";
 import {ModificarRolComponent} from "../modificar-rol/modificar-rol.component";
+import { Catalogo } from 'projects/sivimss-gui/src/app/models/catalogos.interface';
 
 const MAX_WIDTH: string = "876px";
 
@@ -19,6 +20,7 @@ export class VerDetalleRolComponent implements OnInit {
   rolSeleccionado!: Rol;
   detalleRef!: DynamicDialogRef;
   modificacionRef!: DynamicDialogRef;
+  niveles: Catalogo[] = [];
 
   constructor(
     private alertaService: AlertaService,
@@ -31,7 +33,21 @@ export class VerDetalleRolComponent implements OnInit {
 
   ngOnInit(): void {
     this.rolSeleccionado = this.config.data;
+    this.obtenerCatNiveles();
+
    // this.obtenerRol(this.rolSeleccionado);
+
+   
+  }
+
+  obtenerCatNiveles(){
+
+    this.rolService.obtenerCatalogoNivelOficina().subscribe(
+      (respuesta: any)=>{
+        this.niveles = respuesta!.map((rol: Catalogo) => (
+          {label: rol.label, value: rol.value} )) || [];
+      }
+    )
   }
 
   cambiarEstatus(rol: Rol): void {

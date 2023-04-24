@@ -3,11 +3,14 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import { environment } from "projects/sivimss-gui/src/environments/environment";
 import { BaseService } from "../../../utils/base-service";
 import { HttpRespuesta } from "../../../models/http-respuesta.interface";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
+import { TipoDropdown } from "../../../models/tipo-dropdown";
+import { mapearArregloTipoDropdown } from "../../../utils/funciones";
 
 @Injectable()
 export class ConsultaDonacionesService extends BaseService<HttpRespuesta<any>, any> {
   private auth_token2: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTE2NTMyNCwiZXhwIjoxNjgxNzcwMTI0fQ.krsXJqvtKlgKlxTvWt2P0cLlGhZDGb9G7vWcNKnD0MU";
+  authService: any;
 
 
   constructor(protected _http: HttpClient) {
@@ -55,6 +58,10 @@ export class ConsultaDonacionesService extends BaseService<HttpRespuesta<any>, a
     return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/`, { headers, params });
   }
 
+  obtenerCatalogoDelegaciones(): Observable<TipoDropdown[]> {
+    const delegaciones = this.authService.obtenerCatalogoDeLocalStorage(('catalogo_nivelOficina'));
+    return of(mapearArregloTipoDropdown(delegaciones, "desc", "id"));
+    }
 
 
 

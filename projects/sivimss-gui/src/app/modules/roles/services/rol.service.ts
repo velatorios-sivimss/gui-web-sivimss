@@ -1,9 +1,12 @@
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { HttpRespuesta } from "../../../models/http-respuesta.interface";
 import { BaseService } from "../../../utils/base-service";
 import { environment } from '../../../../environments/environment';
+import { AutenticacionService } from "../../../services/autenticacion.service";
+import { mapearArregloTipoDropdown } from "../../../utils/funciones";
+import { TipoDropdown } from "../../../models/tipo-dropdown";
 
 @Injectable()
 export class RolService extends BaseService<HttpRespuesta<any>, any> {
@@ -12,9 +15,10 @@ export class RolService extends BaseService<HttpRespuesta<any>, any> {
 
   private auth_token3: string = "eyJzaXN0ZW1hIjoic2l2aW1zcyIsImFsZyI6IkhTMjU2In0.eyJzdWIiOiJ7XCJpZFZlbGF0b3Jpb1wiOlwiMVwiLFwiaWRSb2xcIjpcIjFcIixcImRlc1JvbFwiOlwiQ09PUkRJTkFET1IgREUgQ0VOVFJcIixcImlkRGVsZWdhY2lvblwiOlwiMVwiLFwiaWRPZmljaW5hXCI6XCIxXCIsXCJpZFVzdWFyaW9cIjpcIjFcIixcImN2ZVVzdWFyaW9cIjpcIjFcIixcImN2ZU1hdHJpY3VsYVwiOlwiMVwiLFwibm9tYnJlXCI6XCIxIDEgMVwiLFwiY3VycFwiOlwiMVwifSIsImlhdCI6MTY4MTE2NTMyNCwiZXhwIjoxNjgxNzcwMTI0fQ.krsXJqvtKlgKlxTvWt2P0cLlGhZDGb9G7vWcNKnD0MU";
 
-  constructor(protected _http: HttpClient) {
+  constructor(protected _http: HttpClient, private authService: AutenticacionService) {
     super(_http, `${environment.api.mssivimss}`, "agregar-rol", "actualizar-rol",
       4, "consultar-roles", "detalle-rol", "cambiar-estatus-rol" );
+
   }
 
   buscarPorFiltros(filtros: any, pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
@@ -48,5 +52,10 @@ export class RolService extends BaseService<HttpRespuesta<any>, any> {
     const params = new HttpParams().append("servicio", "generarDocumento")
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/rol-generarDocumento`, tipoArchivo, { headers, params });
   }
+
+  obtenerCatalogoNivelOficina(): Observable<TipoDropdown[]> {
+    const delegaciones = this.authService.obtenerCatalogoDeLocalStorage(('catalogo_nivelOficina'));
+    return of(mapearArregloTipoDropdown(delegaciones, "desc", "id"));
+    }
 
 }

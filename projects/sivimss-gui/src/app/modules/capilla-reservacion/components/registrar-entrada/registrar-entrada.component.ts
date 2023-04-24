@@ -55,7 +55,7 @@ export class RegistrarEntradaComponent implements OnInit {
     { value: 5, label: 'Registro 5' },
   ];
 
-  registros2: any[]=[];
+  registros2: any[] = [];
 
   // selectedRegistro: Registro;
 
@@ -78,7 +78,7 @@ export class RegistrarEntradaComponent implements OnInit {
   ngOnInit(): void {
     this.actualizarBreadcrumb();
     this.inicializarRegistrarEntradaForm(this.entradaRegistrada);
-    this. obtenerCapillaPorIdVelatorio();
+    this.obtenerCapillaPorIdVelatorio();
   }
 
   actualizarBreadcrumb(): void { }
@@ -86,9 +86,9 @@ export class RegistrarEntradaComponent implements OnInit {
     this.registrarEntradaForm = this.formBuilder.group({
       capilla: [{ value: null, disabled: false }, [Validators.required]],
       folioODS: [{ value: null, disabled: false }, [Validators.required]],
-      nombreContratante: [{ value: null, disabled: false },[Validators.required]],
+      nombreContratante: [{ value: null, disabled: false }, [Validators.required]],
       nombreFinado: [{ value: null, disabled: false }, [Validators.required]],
-      registroEntrada: [{ value: null, disabled: false },[Validators.required]],
+      registroEntrada: [{ value: null, disabled: false }, [Validators.required]],
       fechaEntrada: [{ value: datosEntrada.fechaEntrada, disabled: false }],
       horaEntrada: [{ value: datosEntrada.horaEntrada, disabled: false }],
       idVelatorio: [{ value: datosEntrada.idVelatorio, disabled: false }],
@@ -97,21 +97,21 @@ export class RegistrarEntradaComponent implements OnInit {
 
 
 
-  obtenerCapillaPorIdVelatorio(){
-   let idVelatorio = this.registrarEntradaForm.get('idVelatorio')?.value
-   this.capillaReservacionService.buscarPorIdVelatorio(idVelatorio).subscribe(
-    (respuesta) => {
-      if (respuesta.datos) {
-      this.registros2 = respuesta!.datos.map((capilla: any) => {
-        return { label: capilla.nomCapilla, value: capilla.idCapilla };
-      });
-    }
-    },
-     (error: HttpErrorResponse) => {
-       console.error(error);
-       this.alertaService.mostrar(TipoAlerta.Error, error.message);
-     }
-   );
+  obtenerCapillaPorIdVelatorio() {
+    let idVelatorio = this.registrarEntradaForm.get('idVelatorio')?.value
+    this.capillaReservacionService.buscarPorIdVelatorio(idVelatorio).subscribe(
+      (respuesta) => {
+        if (respuesta.datos) {
+          this.registros2 = respuesta!.datos.map((capilla: any) => {
+            return { label: capilla.nomCapilla, value: capilla.idCapilla };
+          });
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.error(error);
+        this.alertaService.mostrar(TipoAlerta.Error, error.message);
+      }
+    );
   }
 
 
