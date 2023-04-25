@@ -37,17 +37,17 @@
         <div class="flex">
           <div class="flex align-items-center mx-2">
             <p-radioButton id="modalidadSemestral" name="modalidad" value="0" formControlName="modalidad"
-                           inputId="bajo"></p-radioButton>
+                           inputId="semestral"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'modalidad'">Semestral</label>
           </div>
           <div class="flex align-items-center mx-2">
             <p-radioButton id="modalidadAnual" name="modalidad" value="1" formControlName="modalidad"
-                           inputId="medio"></p-radioButton>
+                           inputId="anual"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'modalidad'">Anual</label>
           </div>
           <div class="flex align-items-center mx-2">
             <p-radioButton id="modalidadFrecuente" name="modalidad" value="2" formControlName="modalidad"
-                           inputId="correcto"></p-radioButton>
+                           inputId="frecuente"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'modalidad'">Frecuente</label>
           </div>
         </div>
@@ -76,7 +76,7 @@
       <div class="col-md-6" *ngIf="solicitudMantenimientoForm.get('tipoMantenimiento')?.value == 2">
         <label class="control-label" for="matPreventivo">Mantenimiento preventivo<span class="req">*:</span></label>
         <p-dropdown appendTo="body" id="matPreventivo" class="form-control" formControlName="matPreventivo"
-                    [options]="tiposProveedor"
+                    [options]="mantenimientosPrev"
                     placeholder="Selecciona el tamaño">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -101,7 +101,9 @@
   </form>
   <div class="flex justify-content-end">
     <button class="btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" (click)="agregar()">Agregar</button>
+    <button class="ml-4 btn btn-primary btn-md" (click)="agregar()" [disabled]="solicitudMantenimientoForm.invalid">
+      Agregar
+    </button>
   </div>
 </ng-container>
 
@@ -110,7 +112,7 @@
   <app-table-panel>
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column">
-        <!--               <span class="font-bold">ID {{vehiculoSeleccionado.id}}</span>-->
+        <span class="font-bold">ID {{vehiculoSeleccionado.ID_VEHICULO}}</span>
       </div>
     </ng-template>
     <ng-template>
@@ -128,13 +130,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Placas</label>
-          <!--                 <span> {{vehiculoSeleccionado.placas}} </span>-->
+          <span> {{vehiculoSeleccionado.DES_PLACAS}} </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Marca</label>
-          <!--                 <span> {{vehiculoSeleccionado.marca}} </span>-->
+          <span> {{vehiculoSeleccionado.DES_MARCA}} </span>
         </div>
       </div>
     </div>
@@ -143,13 +145,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Kilometraje</label>
-          <!--                 <span> {{vehiculoSeleccionado.kilometraje}} </span>-->
+          <span> {{resumenAsignacion.kilometraje}} km </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Año</label>
-          <!--                 <span> {{vehiculoSeleccionado.anio}} </span>-->
+          <span> {{vehiculoSeleccionado.DES_MODELO}} </span>
         </div>
       </div>
     </div>
@@ -158,13 +160,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Modalidad</label>
-          <!--                 <span> {{vehiculoSeleccionado.vehiculo}} </span>-->
+          <span> {{resumenAsignacion.modalidad}}  </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Fecha registro</label>
-          <!--                 <span> {{vehiculoSeleccionado.placas}} </span>-->
+          <span> {{resumenAsignacion.fechaRegistro | date: 'dd/MM/yyyy' }}  </span>
         </div>
       </div>
     </div>
@@ -173,23 +175,29 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Tipo de mantenimiento</label>
-          <!--                 <span> {{vehiculoSeleccionado.vehiculo}} </span>-->
+          <span> {{resumenAsignacion.tipoMantenimiento | titlecase}}  </span>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" *ngIf="solicitudMantenimientoForm.get('tipoMantenimiento')?.value == 2">
         <div class="table-panel-column">
           <label>Mantenimiento preventido</label>
-          <!--                 <span> {{vehiculoSeleccionado.placas}} </span>-->
+          <span> {{resumenAsignacion.mantenimientoPreventivo}}  </span>
+        </div>
+      </div>
+    </div>
+    <div class="row table-panel-row">
+      <div class="col-md-12">
+        <div class="table-panel-column">
+          <label>Notas</label>
+          <span> {{resumenAsignacion.notas}}  </span>
         </div>
       </div>
     </div>
   </app-table-panel>
 
   <ng-container>
-    <div class="flex justify-content-center">
-      <div class="mt-4 col-md-7">
-        ¿Estás seguro que deseas registrar este mantenimiento vehícular?
-      </div>
+    <div class="mt-4 mb-4 col-12 text-center">
+      ¿Estás seguro que deseas registrar este mantenimiento vehícular?
     </div>
   </ng-container>
   <div class="flex justify-content-end">
