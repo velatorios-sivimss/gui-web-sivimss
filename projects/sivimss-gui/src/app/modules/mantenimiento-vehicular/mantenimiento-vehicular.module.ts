@@ -30,6 +30,7 @@ import { MantenimientoPredictivoComponent } from './components/mantenimiento-pre
 import { ReporteEncargadoComponent } from './components/reporte-encargado/reporte-encargado.component';
 import { CheckboxModule } from 'primeng-lts/checkbox';
 import { RadioButtonModule } from 'primeng-lts/radiobutton';
+import {UtileriaModule} from "../../shared/utileria/utileria.module";
 
 //as
 @NgModule({
@@ -44,26 +45,27 @@ import { RadioButtonModule } from 'primeng-lts/radiobutton';
     MantenimientoPredictivoComponent,
     ReporteEncargadoComponent,
   ],
-  imports: [
-    CalendarModule,
-    CommonModule,
-    DialogModule,
-    DropdownModule,
-    DynamicDialogModule,
-    FormsModule,
-    InputSwitchModule,
-    MantenimientoVehicularRoutingModule,
-    OverlayPanelModule,
-    OverlayPanelOpcionesModule,
-    ReactiveFormsModule,
-    TableModule,
-    TablePanelModule,
-    TituloPrincipalModule,
-    StepsModule,
-    AccordionModule,
-    CheckboxModule,
-    RadioButtonModule,
-  ],
+    imports: [
+        CalendarModule,
+        CommonModule,
+        DialogModule,
+        DropdownModule,
+        DynamicDialogModule,
+        FormsModule,
+        InputSwitchModule,
+        MantenimientoVehicularRoutingModule,
+        OverlayPanelModule,
+        OverlayPanelOpcionesModule,
+        ReactiveFormsModule,
+        TableModule,
+        TablePanelModule,
+        TituloPrincipalModule,
+        StepsModule,
+        AccordionModule,
+        CheckboxModule,
+        RadioButtonModule,
+        UtileriaModule,
+    ],
   providers: [MantenimientoVehicularService]
 })
 export class MantenimientoVehicularModule { }

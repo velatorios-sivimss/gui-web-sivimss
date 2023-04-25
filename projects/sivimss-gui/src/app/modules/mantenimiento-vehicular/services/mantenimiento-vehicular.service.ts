@@ -12,7 +12,7 @@ import {environment} from "../../../../environments/environment";
 export class MantenimientoVehicularService extends BaseService<HttpRespuesta<any>, any> {
 
   constructor(protected _http: HttpClient, private authService: AutenticacionService) {
-    super(_http, `${environment.api.mssivimss}`, "", "",
+    super(_http, `${environment.api.mssivimss}`, "mtto-vehicular-agregar", "",
       40, "busqueda-vehiculos-mtto", "", "");
   }
 
@@ -32,5 +32,9 @@ export class MantenimientoVehicularService extends BaseService<HttpRespuesta<any
       .append("tamanio", tamanio);
     return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/buscar/busqueda-vehiculos-mtto`, {},
       {params});
+  }
+
+  guardarNuevaVerificacion(t: any): Observable<HttpRespuesta<any>> {
+    return this._http.post<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/mtto-vehicular-agregar`, t);
   }
 }
