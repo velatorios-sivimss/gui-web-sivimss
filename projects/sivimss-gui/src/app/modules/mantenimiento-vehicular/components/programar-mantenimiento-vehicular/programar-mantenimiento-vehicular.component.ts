@@ -26,6 +26,7 @@ import {LoaderService} from "../../../../shared/loader/services/loader.service";
 import {MantenimientoVehicularService} from "../../services/mantenimiento-vehicular.service";
 import {MANTENIMIENTO_VEHICULAR_BREADCRUMB} from "../../constants/breadcrumb";
 import {FiltrosMantenimientoVehicular} from "../../models/filtrosMantenimientoVehicular.interface";
+import {VehiculoTemp} from "../../models/vehiculo-temp.interface";
 
 @Component({
   selector: 'app-programar-mantenimiento-vehicular',
@@ -42,7 +43,7 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   totalElementos: number = 0
 
   vehiculos: Vehiculos[] = []
-  vehiculoSeleccionado: Vehiculos = {}
+  vehiculoSeleccionado!: VehiculoTemp;
 
   filtroForm!: FormGroup
 
@@ -59,6 +60,8 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   partidaPresupuestal: TipoDropdown[] = CATALOGOS_DUMMIES
   cuentaContable: TipoDropdown[] = CATALOGOS_DUMMIES
   velatorios: TipoDropdown[] = CATALOGOS_DUMMIES
+
+  modificarModal: boolean = false;
 
   readonly POSICION_CATALOGOS_NIVELES: number = 0;
   readonly POSICION_CATALOGOS_DELEGACIONES: number = 1;
@@ -175,7 +178,7 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   }
 
   abrirModalModificar(): void {
-
+    this.modificarModal = true;
   }
 
   abrirModalExportarPDF(): void {
@@ -187,7 +190,7 @@ export class ProgramarMantenimientoVehicularComponent implements OnInit {
   abrirModalDetalleArticulo(articulo: Vehiculos) {
   }
 
-  abrirPanel(event: MouseEvent, vehiculoSeleccionado: Vehiculos): void {
+  abrirPanel(event: MouseEvent, vehiculoSeleccionado: VehiculoTemp): void {
     this.vehiculoSeleccionado = vehiculoSeleccionado;
     this.overlayPanel.toggle(event);
   }

@@ -46,6 +46,7 @@ export class GenerarReciboPagoComponent implements OnInit {
   catatalogoDelegaciones: TipoDropdown[] = [];
   opciones: TipoDropdown[] = CATALOGOS_DUMMIES;
 
+
   paginacionConFiltrado: boolean = false;
 
   readonly POSICION_CATALOGO_NIVELES: number = 0;

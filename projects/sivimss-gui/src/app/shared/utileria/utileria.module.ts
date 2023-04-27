@@ -16,7 +16,7 @@ import {TextColorDirective} from "./directives/text-color.directive";
     AlphanumericDirective,
     TrimmerDirective,
     TextDirective,
-    TextColorDirective
+    TextColorDirective,
   ],
   imports: [
     CommonModule
@@ -28,7 +28,7 @@ import {TextColorDirective} from "./directives/text-color.directive";
     AlphanumericDirective,
     TrimmerDirective,
     TextDirective,
-    TextColorDirective
+    TextColorDirective,
   ]
 })
 export class UtileriaModule { }

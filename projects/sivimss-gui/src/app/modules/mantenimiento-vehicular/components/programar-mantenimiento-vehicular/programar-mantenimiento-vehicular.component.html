@@ -133,4 +133,29 @@
     </app-overlay-panel-opciones>
   </ng-template>
 </p-overlayPanel>
+<p-dialog header="Modificar" [(visible)]="modificarModal">
+  <div class="border-panel mb-4 w-440 bg-g">
+    <div class="row flex justify-content-center ">
 
+      {{vehiculoSeleccionado?.ID_VEHICULO}}
+      -{{vehiculoSeleccionado?.DES_MARCA | uppercase }} {{vehiculoSeleccionado?.DES_SUBMARCA | uppercase}} {{vehiculoSeleccionado?.DES_MODELO | uppercase}}
+    </div>
+  </div>
+  <div class="border-panel w-440">
+    <div class="row flex justify-content-center mb-4 ">
+      <button type="button" class="btn btn-primary btn-lg btn-md w-400">
+        Modificar verificación al inicio
+      </button>
+    </div>
+    <div class="row flex justify-content-center mb-4 ">
+      <button type="button" class="btn btn-primary btn-lg btn-md w-400">
+        Modificar solicitud de mantenimiento
+      </button>
+    </div>
+    <div class="row flex justify-content-center ">
+      <button type="button" class="btn btn-primary btn-lg btn-md w-400">
+        Modificar registro de mantenimiento
+      </button>
+    </div>
+  </div>
+</p-dialog>
