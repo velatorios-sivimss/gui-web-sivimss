@@ -155,7 +155,13 @@ export class NuevaVerificacionComponent implements OnInit {
 
   abrirRegistroMantenimiento(): void {
     this.ref.close();
-    this.router.navigate(['detalle-verificacion'], {relativeTo: this.route});
+    this.router.navigate(['detalle-verificacion'], {
+      relativeTo: this.route,
+      queryParams: {
+        vehiculo: JSON.stringify(this.vehiculoSeleccionado),
+        solicitud: JSON.stringify(this.nuevaVerificacion)
+      }
+    });
   }
 
   get nvf() {
