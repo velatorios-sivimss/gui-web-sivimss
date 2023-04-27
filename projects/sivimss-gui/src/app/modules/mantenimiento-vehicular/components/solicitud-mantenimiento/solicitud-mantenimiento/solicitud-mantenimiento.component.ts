@@ -15,15 +15,7 @@ import {RegistroVerificacionInterface} from "../../../models/registro-verificaci
 import {HttpErrorResponse} from "@angular/common/http";
 import {MantenimientoVehicularService} from "../../../services/mantenimiento-vehicular.service";
 import {DatePipe} from "@angular/common";
-
-interface ResumenAsignacion {
-  kilometraje: string,
-  modalidad: string,
-  fechaRegistro: string,
-  tipoMantenimiento: string,
-  mantenimientoPreventivo: string,
-  notas: string
-}
+import {ResumenAsignacion} from "../../../models/resumenAsignacion.interface";
 
 @Component({
   selector: 'app-solicitud-mantenimiento',
@@ -154,7 +146,13 @@ export class SolicitudMantenimientoComponent implements OnInit {
         if (!respuesta.datos) return
         this.alertaService.mostrar(TipoAlerta.Exito, 'Solicitud agregada correctamente');
         this.ref.close();
-        this.router.navigate(['detalle-verificacion'], {relativeTo: this.route});
+        this.router.navigate(['detalle-verificacion'], {
+            relativeTo: this.route, queryParams: {
+              vehiculo: JSON.stringify(this.vehiculoSeleccionado),
+              solicitud: JSON.stringify(this.resumenAsignacion)
+            }
+          }
+        );
       },
       (error: HttpErrorResponse) => {
         console.log(error)
