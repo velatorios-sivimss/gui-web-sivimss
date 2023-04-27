@@ -9,7 +9,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/
 import {Vehiculos} from '../../../models/vehiculos.interface';
 import {AlertaService, TipoAlerta} from "projects/sivimss-gui/src/app/shared/alerta/services/alerta.service";
 import {BreadcrumbService} from "projects/sivimss-gui/src/app/shared/breadcrumb/services/breadcrumb.service";
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import {VehiculoTemp} from "../../../models/vehiculo-temp.interface";
 import {obtenerFechaActual, obtenerHoraActual} from "../../../../../utils/funciones-fechas";
 import {VerificacionInicio} from "../../../models/verificacion-inicio.interface";
@@ -60,6 +60,15 @@ export class NuevaVerificacionComponent implements OnInit {
   ngOnInit(): void {
     this.vehiculoSeleccionado = this.config.data.vehiculo;
     this.inicializarVerificacionForm();
+    this.revisarRuta();
+  }
+
+  revisarRuta(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.ref.close();
+      }
+    });
   }
 
   inicializarVerificacionForm(): void {
@@ -167,5 +176,7 @@ export class NuevaVerificacionComponent implements OnInit {
   get nvf() {
     return this.nuevaVerificacionForm.controls;
   }
+
+
 
 }
