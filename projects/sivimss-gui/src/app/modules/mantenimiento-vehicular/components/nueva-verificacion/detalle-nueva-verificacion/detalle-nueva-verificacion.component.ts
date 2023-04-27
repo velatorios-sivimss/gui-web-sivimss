@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {tablaRin} from "../../../constants/tabla-rines";
 
 @Component({
   selector: 'app-detalle-nueva-verificacion',
@@ -7,12 +8,13 @@ import {Component, OnInit} from '@angular/core';
 })
 export class DetalleNuevaVerificacionComponent implements OnInit {
 
-  data = [{rin: 38, precision: 38}, {rin: 38, precision: 38}, {rin: 38, precision: 38}, {rin: 38, precision: 38}];
+  data = tablaRin;
 
   constructor() {
   }
 
   ngOnInit(): void {
+
   }
 
 }
