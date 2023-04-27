@@ -18,10 +18,10 @@ export const CATALOGOS_DUMMIES: TipoDropdown[] = [
 export const CATALOGOS_TTIPO_MANTENIMIENTO: TipoDropdown[] = [
     {
         value: '1',
-        label: 'CORRECTIVO'
+        label: 'Correctivo'
     },
     {
         value: '2',
-        label: 'PREVENTIVO'
+        label: 'Preventivo'
     },
 ]

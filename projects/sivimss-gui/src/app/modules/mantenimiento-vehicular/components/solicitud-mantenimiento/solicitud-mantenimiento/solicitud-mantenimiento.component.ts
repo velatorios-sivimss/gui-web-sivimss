@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from 'primeng-lts/dynamicdialog';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AlertaService} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
-import {ActivatedRoute} from '@angular/router';
+import {AlertaService, TipoAlerta} from 'projects/sivimss-gui/src/app/shared/alerta/services/alerta.service';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TipoDropdown} from 'projects/sivimss-gui/src/app/models/tipo-dropdown';
 import {VehiculoTemp} from "../../../models/vehiculo-temp.interface";
 import {
@@ -11,6 +11,10 @@ import {
   CATALOGOS_PREV_SEMESTRALES
 } from "../../../constants/catalogos-preventivo";
 import {CATALOGOS_TTIPO_MANTENIMIENTO} from "../../../../inventario-vehicular/constants/dummies";
+import {RegistroVerificacionInterface} from "../../../models/registro-verificacion.interface";
+import {HttpErrorResponse} from "@angular/common/http";
+import {MantenimientoVehicularService} from "../../../services/mantenimiento-vehicular.service";
+import {DatePipe} from "@angular/common";
 
 interface ResumenAsignacion {
   kilometraje: string,
@@ -25,7 +29,7 @@ interface ResumenAsignacion {
   selector: 'app-solicitud-mantenimiento',
   templateUrl: './solicitud-mantenimiento.component.html',
   styleUrls: ['./solicitud-mantenimiento.component.scss'],
-  providers: [DialogService]
+  providers: [DialogService, DatePipe]
 })
 export class SolicitudMantenimientoComponent implements OnInit {
   ventanaConfirmacion: boolean = false;
@@ -35,8 +39,8 @@ export class SolicitudMantenimientoComponent implements OnInit {
 
   solicitudMantenimientoForm!: FormGroup;
   mantenimientosPrev: TipoDropdown[] = [];
-  tipoMantenimiento: TipoDropdown[] = CATALOGOS_TTIPO_MANTENIMIENTO;
-  modalidades: string[] = ['Semestral', 'Anual', 'Frecuente']
+  tiposMantenimiento: TipoDropdown[] = CATALOGOS_TTIPO_MANTENIMIENTO;
+  modalidades: string[] = ['', 'Semestral', 'Anual', 'Frecuente']
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,16 +49,19 @@ export class SolicitudMantenimientoComponent implements OnInit {
     public dialogService: DialogService,
     private alertaService: AlertaService,
     private route: ActivatedRoute,
+    private router: Router,
+    private datePipe: DatePipe,
+    private mantenimientoVehicularService: MantenimientoVehicularService
   ) {
     this.vehiculoSeleccionado = this.config.data;
   }
 
   ngOnInit(): void {
     this.vehiculoSeleccionado = this.config.data.vehiculo;
-    this.inicializarAgregarCapillaForm(this.vehiculoSeleccionado);
+    this.inicializarSolicitudForm(this.vehiculoSeleccionado);
   }
 
-  inicializarAgregarCapillaForm(vehiculoSeleccionado: VehiculoTemp) {
+  inicializarSolicitudForm(vehiculoSeleccionado: VehiculoTemp) {
     this.solicitudMantenimientoForm = this.formBuilder.group({
       placas: [{value: vehiculoSeleccionado.DES_PLACAS, disabled: true}],
       marca: [{value: vehiculoSeleccionado.DES_MARCA, disabled: true}],
@@ -90,12 +97,12 @@ export class SolicitudMantenimientoComponent implements OnInit {
 
   asignarOpcionesMantenimiento(): void {
     const modalidad: number = +this.solicitudMantenimientoForm.get("modalidad")?.value;
-    if (![0, 1, 2].includes(modalidad)) return;
-    if (modalidad === 0) {
+    if (![1, 2, 3].includes(modalidad)) return;
+    if (modalidad === 1) {
       this.mantenimientosPrev = CATALOGOS_PREV_SEMESTRALES;
       return;
     }
-    if (modalidad === 1) {
+    if (modalidad === 2) {
       this.mantenimientosPrev = CATALOGOS_PREV_ANUALES;
       return;
     }
@@ -104,7 +111,7 @@ export class SolicitudMantenimientoComponent implements OnInit {
 
   crearResumenAsignacion(): ResumenAsignacion {
     const tipoMantenimiento = this.solicitudMantenimientoForm.get("tipoMantenimiento")?.value;
-    const tipoMantenimientoValor = this.tipoMantenimiento.find(m => m.value === tipoMantenimiento)?.label;
+    const tipoMantenimientoValor = this.tiposMantenimiento.find(m => m.value === tipoMantenimiento)?.label;
     const modalidad = this.solicitudMantenimientoForm.get("modalidad")?.value;
     const modalidadValor = this.modalidades[modalidad] || "";
     return {
@@ -115,5 +122,43 @@ export class SolicitudMantenimientoComponent implements OnInit {
       mantenimientoPreventivo: this.solicitudMantenimientoForm.get("matPreventivo")?.value,
       notas: this.solicitudMantenimientoForm.get("notas")?.value
     }
+  }
+
+  crearSolicitudMantenimiento() {
+    return {
+      idMttoVehicular: null,
+      idMttoestado: 1,
+      idVehiculo: this.vehiculoSeleccionado.ID_VEHICULO,
+      idDelegacion: 1,
+      idVelatorio: 1,
+      idEstatus: 1,
+      verificacionInicio: null,
+      solicitud: {
+        idMttoSolicitud: null,
+        idMttoVehicular: null,
+        idMttoTipo: this.solicitudMantenimientoForm.get("tipoMantenimiento")?.value,
+        idMttoModalidad: this.solicitudMantenimientoForm.get("modalidad")?.value,
+        fecRegistro: this.datePipe.transform(this.solicitudMantenimientoForm.get("fechaRegistro")?.value, 'YYYY-MM-dd'),
+        desMttoCorrectivo: this.solicitudMantenimientoForm.get("matPreventivo")?.value,
+        idMttoModalidadDet: 1,
+        idEstatus: 1
+      },
+      registro: null
+    }
+  }
+
+  aceptarSolicitud(): void {
+    const verificacion = this.crearSolicitudMantenimiento();
+    this.mantenimientoVehicularService.guardar(verificacion).subscribe(
+      (respuesta) => {
+        if (!respuesta.datos) return
+        this.alertaService.mostrar(TipoAlerta.Exito, 'Solicitud agregada correctamente');
+        this.ref.close();
+        this.router.navigate(['detalle-verificacion'], {relativeTo: this.route});
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error)
+      }
+    )
   }
 }

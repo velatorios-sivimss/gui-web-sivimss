@@ -15,5 +15,8 @@ export interface VehiculoTemp {
   IMPORTE_PRIMA: number,
   IND_ESTATUS: boolean,
   NOM_VELATORIO: string,
-  TOTAL: number
-};
+  TOTAL: number,
+  DES_MTTOESTADO: string,
+  DES_MTTO_TIPO: string,
+  DES_MODALIDAD: string
+}

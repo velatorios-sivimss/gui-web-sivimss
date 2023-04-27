@@ -75,15 +75,9 @@
         <td> {{vehiculo.DES_MARCA}}  {{vehiculo.DES_SUBMARCA}} {{vehiculo.DES_MODELO}}</td>
         <td> {{vehiculo.DES_PLACAS}} </td>
         <td> {{vehiculo.kilometraje}} </td>
-        <td> {{vehiculo.tipoMantenimiento}} </td>
-        <td> {{vehiculo.fechaMantenimiento}} </td>
-        <td>
-          <span class="enTiempo" *ngIf="vehiculo.estatusNumber==1">{{vehiculo.estatusText}}</span>
-          <span class="cercano" *ngIf="vehiculo.estatusNumber==2">{{vehiculo.estatusText}}</span>
-          <span class="finalizado" *ngIf="vehiculo.estatusNumber==3">{{vehiculo.estatusText}}</span>
-          <span class="venceHoy" *ngIf="vehiculo.estatusNumber==4">{{vehiculo.estatusText}}</span>
-          <span class="activo" *ngIf="vehiculo.estatusNumber==5">{{vehiculo.estatusText}}</span>
-        </td>
+        <td> {{vehiculo.DES_MTTO_TIPO}} </td>
+        <td> {{vehiculo.DES_MODALIDAD}} </td>
+        <td [appTextColor]="vehiculo.DES_MTTOESTADO">{{vehiculo.DES_MTTOESTADO}}</td>
         <td>
           <div class="contenedor-celda-iconos">
             <a (click)="abrirModalDetalleArticulo(vehiculo)">

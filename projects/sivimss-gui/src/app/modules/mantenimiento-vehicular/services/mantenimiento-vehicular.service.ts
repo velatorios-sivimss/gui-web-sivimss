@@ -26,6 +26,10 @@ export class MantenimientoVehicularService extends BaseService<HttpRespuesta<any
     return of(mapearArregloTipoDropdown(delegaciones, "desc", "id"));
   }
 
+  obtenerCatalogoProvedores(): Observable<HttpRespuesta<any>> {
+    return this._http.get<HttpRespuesta<any>>(this._base + `${this._funcionalidad}/?servicio=cat-mtto-proveedores`);
+  }
+
   buscarPorFiltros(pagina: number, tamanio: number): Observable<HttpRespuesta<any>> {
     const params = new HttpParams()
       .append("pagina", pagina)

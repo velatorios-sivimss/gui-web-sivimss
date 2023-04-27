@@ -15,7 +15,8 @@ export class MantenimientoVehicularResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const niveles$ = this.mantenimientoVehicularService.obtenerCatalogoNiveles();
     const delegaciones$ = this.mantenimientoVehicularService.obtenerCatalogoDelegaciones();
+    const proveedores$ = this.mantenimientoVehicularService.obtenerCatalogoProvedores();
 
-    return forkJoin([niveles$, delegaciones$])
+    return forkJoin([niveles$, delegaciones$, proveedores$])
   }
 }

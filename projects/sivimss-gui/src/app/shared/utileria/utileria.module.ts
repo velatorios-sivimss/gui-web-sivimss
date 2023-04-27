@@ -6,6 +6,7 @@ import { LettersDirective } from './directives/only-letters.directive';
 import { AlphanumericDirective } from './directives/only-alphanumeric.directive';
 import { TrimmerDirective } from './directives/trimmer.directive';
 import { TextDirective } from './directives/only-text.directive';
+import {TextColorDirective} from "./directives/text-color.directive";
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { TextDirective } from './directives/only-text.directive';
     AlphanumericDirective,
     TrimmerDirective,
     TextDirective,
+    TextColorDirective
   ],
   imports: [
     CommonModule
@@ -26,6 +28,7 @@ import { TextDirective } from './directives/only-text.directive';
     AlphanumericDirective,
     TrimmerDirective,
     TextDirective,
+    TextColorDirective
   ]
 })
 export class UtileriaModule { }

@@ -36,17 +36,17 @@
         <label class="control-label">Modalidad:</label>
         <div class="flex">
           <div class="flex align-items-center mx-2">
-            <p-radioButton id="modalidadSemestral" name="modalidad" value="0" formControlName="modalidad"
+            <p-radioButton id="modalidadSemestral" name="modalidad" value="1" formControlName="modalidad"
                            inputId="semestral"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'modalidad'">Semestral</label>
           </div>
           <div class="flex align-items-center mx-2">
-            <p-radioButton id="modalidadAnual" name="modalidad" value="1" formControlName="modalidad"
+            <p-radioButton id="modalidadAnual" name="modalidad" value="2" formControlName="modalidad"
                            inputId="anual"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'modalidad'">Anual</label>
           </div>
           <div class="flex align-items-center mx-2">
-            <p-radioButton id="modalidadFrecuente" name="modalidad" value="2" formControlName="modalidad"
+            <p-radioButton id="modalidadFrecuente" name="modalidad" value="3" formControlName="modalidad"
                            inputId="frecuente"></p-radioButton>
             <label class="control-label m-0 mx-3" [for]="'modalidad'">Frecuente</label>
           </div>
@@ -67,7 +67,7 @@
       <div class="col-md-6">
         <label class="control-label" for="tipoMantenimiento">Tipo de mantenimiento<span class="req">*:</span></label>
         <p-dropdown appendTo="body" id="tipoMantenimiento" class="form-control" formControlName="tipoMantenimiento"
-                    [options]="tipoMantenimiento"
+                    [options]="tiposMantenimiento"
                     placeholder="Selecciona el tamaño">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -203,7 +203,7 @@
   <div class="flex justify-content-end">
     <button class="ml-4 btn btn-default btn-md" (click)="regresar()">Regresar</button>
     <button class="ml-4  btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" routerLink="detalle-solicitud-mantenimiento" (click)="cerrar()">
+    <button class="ml-4 btn btn-primary btn-md" routerLink="detalle-solicitud-mantenimiento" (click)="aceptarSolicitud()">
       Aceptar
     </button>
   </div>

@@ -32,7 +32,7 @@
       <div class="col-md-6">
         <label class="control-label" for="tipoMantenimiento">Tipo de mantenimiento<span class="req">*</span>:</label>
         <p-dropdown appendTo="body" id="tipoMantenimiento" class="form-control" formControlName="tipoMantenimiento"
-                    [options]="tiposProveedor"
+                    [options]="tiposMantenimiento"
                     placeholder="Selecciona el tamaño">
         </p-dropdown>
         <span class="campo-obligatorio"
@@ -59,8 +59,10 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="control-label" for="nombreProveedor">Nombre del proveedor<span class="req">*</span>:</label>
-        <input id="nombreProveedor" class="form-control" formControlName="nombreProveedor"
-               placeholder="Ingresa el nombre del proveedor">
+        <p-dropdown appendTo="body" id="nombreProveedor" class="form-control" formControlName="nombreProveedor"
+                    [options]="catalogoProveedores"
+                    placeholder="Ingresa el nombre del proveedor">
+        </p-dropdown>
         <span class="campo-obligatorio"
               *ngIf="smf.placas?.errors?.required && (smf.placas?.dirty || smf.placas?.touched)">Campo obligatorio</span>
       </div>
@@ -95,7 +97,9 @@
   </form>
   <div class="flex justify-content-end">
     <button class="btn btn-default btn-md">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" (click)="agregar()">Agregar</button>
+    <button class="ml-4 btn btn-primary btn-md" (click)="agregar()" [disabled]="solicitudMantenimientoForm.invalid">
+      Agregar
+    </button>
   </div>
 </ng-container>
 
@@ -103,7 +107,7 @@
   <app-table-panel>
     <ng-template appCustomTemplate="left-header">
       <div class="table-panel-header-column">
-        <span class="font-bold">ID {{vehiculoSeleccionado.id}}</span>
+        <span class="font-bold">ID {{vehiculoSeleccionado.ID_VEHICULO}}</span>
       </div>
     </ng-template>
     <ng-template>
@@ -120,13 +124,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Placas</label>
-          <span> {{vehiculoSeleccionado.placas}} </span>
+          <span> {{vehiculoSeleccionado.DES_PLACAS}} </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Marca</label>
-          <span> {{vehiculoSeleccionado.marca}} </span>
+          <span> {{vehiculoSeleccionado.DES_MARCA}} </span>
         </div>
       </div>
     </div>
@@ -134,13 +138,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Kilometraje</label>
-          <span> {{vehiculoSeleccionado.kilometraje}} </span>
+          <span> {{resumenRegistro.kilometraje}} </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Año</label>
-          <span> {{vehiculoSeleccionado.anio}} </span>
+          <span> {{vehiculoSeleccionado.DES_MODELO}} </span>
         </div>
       </div>
     </div>
@@ -148,13 +152,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Tipo de mantenimiento</label>
-          <span> {{vehiculoSeleccionado.vehiculo}} </span>
+          <span> {{resumenRegistro.tipoMantenimiento}} </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>Fecha de mantenimiento</label>
-          <span> {{vehiculoSeleccionado.placas}} </span>
+          <span> {{resumenRegistro.fechaMantenimiento | date:'dd/MM/YYYY'}} </span>
         </div>
       </div>
     </div>
@@ -162,7 +166,7 @@
       <div class="col-md-12">
         <div class="table-panel-column">
           <label>Notas</label>
-          <span> {{vehiculoSeleccionado.vehiculo}} </span>
+          <span> {{resumenRegistro.notas}} </span>
         </div>
       </div>
     </div>
@@ -170,13 +174,13 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>nombre de proveedor</label>
-          <span> {{vehiculoSeleccionado.vehiculo}} </span>
+          <span> {{resumenRegistro.nombreProveedor}} </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>numero de contrato</label>
-          <span> {{vehiculoSeleccionado.placas}} </span>
+          <span> {{resumenRegistro.numeroContrato}} </span>
         </div>
       </div>
     </div>
@@ -184,28 +188,26 @@
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>taller</label>
-          <span> {{vehiculoSeleccionado.vehiculo}} </span>
+          <span> {{resumenRegistro.taller}} </span>
         </div>
       </div>
       <div class="col-md-6">
         <div class="table-panel-column">
           <label>costo de mantenimiento</label>
-          <span> {{vehiculoSeleccionado.placas}} </span>
+          <span> {{resumenRegistro.costo}} </span>
         </div>
       </div>
     </div>
   </app-table-panel>
   <ng-container>
-    <div class="flex justify-content-center">
-      <div class="mt-4 col-md-7">
-        ¿Estás seguro que deseas registrar este mantenimiento vehícular?
-      </div>
+    <div class="mt-4 mb-4 col-12 text-center">
+      ¿Estás seguro que deseas registrar este mantenimiento vehícular?
     </div>
   </ng-container>
   <div class="flex justify-content-end">
     <button class="ml-4 btn btn-default btn-md" (click)="regresar()">Regresar</button>
     <button class="ml-4  btn btn-default btn-md" (click)="cerrar()">Cancelar</button>
-    <button class="ml-4 btn btn-primary btn-md" routerLink="detalle-registro-mantenimiento" (click)="cerrar()">Aceptar
+    <button class="ml-4 btn btn-primary btn-md" (click)="aceptarSolicitud()">Aceptar
     </button>
   </div>
 </ng-container>

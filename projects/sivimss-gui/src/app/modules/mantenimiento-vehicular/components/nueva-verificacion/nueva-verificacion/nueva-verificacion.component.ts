@@ -122,7 +122,7 @@ export class NuevaVerificacionComponent implements OnInit {
       idVelatorio: 1,
       idEstatus: 1,
       verificacionInicio: {
-        idMttoVerifInicio: 1,
+        idMttoVerifInicio: null,
         idMttoVehicular: null,
         idCalNeuDelanteros: this.nuevaVerificacionForm.get("calibracionNeumaticosDelanteros")?.value,
         idCalNeuTraseros: this.nuevaVerificacionForm.get("calibracionNeumaticosTraseros")?.value,
@@ -141,8 +141,9 @@ export class NuevaVerificacionComponent implements OnInit {
 
   guardarNuevaVerificacion(): void {
     const verificacion: RegistroVerificacionInterface = this.crearNuevaVerificacion();
-    this.mantenimientoVehicularService.guardarNuevaVerificacion(verificacion).subscribe(
+    this.mantenimientoVehicularService.guardar(verificacion).subscribe(
       (respuesta) => {
+        if (!respuesta.datos) return
         this.alertaService.mostrar(TipoAlerta.Exito, 'Verificacion agregada correctamente');
         this.abrirRegistroMantenimiento();
       },
