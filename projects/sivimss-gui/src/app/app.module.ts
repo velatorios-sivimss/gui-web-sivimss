@@ -22,6 +22,9 @@ import { LoaderModule } from './shared/loader/loader.module';
 import { AlertaModule } from './shared/alerta/alerta.module';
 import { SubHeaderPrivadoComponent } from './components/sub-header-privado/sub-header-privado.component';
 import { BreadcrumbModule } from "./shared/breadcrumb/breadcrumb.module";
+import { PopoverComponent } from './shared/popover/popover.component';
+import {UtileriaModule} from "./shared/utileria/utileria.module";
+
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json')
 }
@@ -31,7 +34,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AppComponent,
     PaginaNoEncontradaComponent,
     HeaderImssPublicoComponent,
-    SubHeaderPrivadoComponent
+    SubHeaderPrivadoComponent,
+    PopoverComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +58,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     BreadcrumbModule,
     LoaderModule,
     AlertaModule,
+    UtileriaModule,
   ],
   providers: [
     AutenticacionService,

@@ -4,8 +4,17 @@
   </div>
   <span class="titulo-app">SIVIMSS</span>
   <div class="datos-usuario">
-    <div class="contenedor-imagen-usuario">
-      <img src="../../../assets/images/imagen-icono-usuario.svg" alt="imagen usuario" class="imagen-usuario">
+    <div class="contenedor-imagen-usuario" [ngClass]="{'notificacion': existeNotificacion }">
+      <button class="button-user-img" appPopover (click)="notificaciones.toggle($event)">
+        <img src="../../../assets/images/imagen-icono-usuario.svg" alt="imagen usuario" class="imagen-usuario">
+      </button>
+      <app-popover #notificaciones>
+        <ul>
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+        </ul>
+      </app-popover>
     </div>
     <div class="contenedor-curp">
       <span>CURP {{usuarioEnSesion?.curp}}</span>
@@ -16,3 +25,4 @@
                                                              src="../../../assets/images/imagen-icono-cerrar-sesion.svg"
                                                              alt="icono cerrar sesion">Cerrar sesión</a>
 </div>
+

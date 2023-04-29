@@ -7,6 +7,7 @@ import { AlphanumericDirective } from './directives/only-alphanumeric.directive'
 import { TrimmerDirective } from './directives/trimmer.directive';
 import { TextDirective } from './directives/only-text.directive';
 import {TextColorDirective} from "./directives/text-color.directive";
+import {PopoverDirective} from "./directives/popover-directive";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {TextColorDirective} from "./directives/text-color.directive";
     TrimmerDirective,
     TextDirective,
     TextColorDirective,
+    PopoverDirective
   ],
   imports: [
     CommonModule
@@ -29,6 +31,7 @@ import {TextColorDirective} from "./directives/text-color.directive";
     TrimmerDirective,
     TextDirective,
     TextColorDirective,
+    PopoverDirective
   ]
 })
 export class UtileriaModule { }
