@@ -17,11 +17,12 @@ export class SubHeaderPrivadoComponent implements OnInit, OnDestroy {
   usuarioEnSesion!: UsuarioEnSesion | null;
   subs!: Subscription;
   existeNotificacion: boolean;
-  verNotificaciones: boolean = false;
+  notificaciones: string[] = [];
 
   constructor(private readonly autenticacionService: AutenticacionService,
               private readonly notificacionService: NotificacionService) {
     this.existeNotificacion = notificacionService.existenNotificaciones();
+    this.notificaciones = notificacionService.consultarNotificaciones();
   }
 
   ngOnInit(): void {

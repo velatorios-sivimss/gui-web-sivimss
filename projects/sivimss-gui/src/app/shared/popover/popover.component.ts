@@ -47,8 +47,8 @@ import {Component, Input, Output, EventEmitter, HostListener, ElementRef} from '
 export class PopoverComponent {
   @Input() title!: string;
   @Input() zIndex: number = 10;
-  @Output() closed = new EventEmitter<void>();
-  visible = false;
+  @Output() closed: EventEmitter<void> = new EventEmitter<void>();
+  visible: boolean = false;
 
   constructor(private elementRef: ElementRef) {
   }
@@ -58,13 +58,13 @@ export class PopoverComponent {
     this.visible = !this.visible;
   }
 
-  close() {
+  close(): void {
     this.visible = false;
     this.closed.emit();
   }
 
   @HostListener('document:click', ['$event.target'])
-  onClick(target: HTMLElement) {
+  onClick(target: HTMLElement): void {
     if (!this.visible || this.elementRef.nativeElement.contains(target)) {
       return;
     }

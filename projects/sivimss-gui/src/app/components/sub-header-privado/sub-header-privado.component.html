@@ -5,15 +5,11 @@
   <span class="titulo-app">SIVIMSS</span>
   <div class="datos-usuario">
     <div class="contenedor-imagen-usuario" [ngClass]="{'notificacion': existeNotificacion }">
-      <button class="button-user-img" appPopover (click)="notificaciones.toggle($event)">
+      <button class="button-user-img" appPopover (click)="notificacionesPopOver.toggle($event)">
         <img src="../../../assets/images/imagen-icono-usuario.svg" alt="imagen usuario" class="imagen-usuario">
       </button>
-      <app-popover #notificaciones>
-        <ul>
-          <li>Item 1</li>
-          <li>Item 2</li>
-          <li>Item 3</li>
-        </ul>
+      <app-popover #notificacionesPopOver>
+        <ng-container *ngTemplateOutlet="notificacionesTemplate"></ng-container>
       </app-popover>
     </div>
     <div class="contenedor-curp">
@@ -26,3 +22,8 @@
                                                              alt="icono cerrar sesion">Cerrar sesión</a>
 </div>
 
+<ng-template #notificacionesTemplate>
+  <ul>
+    <li *ngFor="let notificacion of notificaciones">{{ notificacion }}</li>
+  </ul>
+</ng-template>
